@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
-using UnityEngine.SceneManagement;
 
-public class StartMenu : MonoBehaviour {
+public class SceneHandler : MonoBehaviour {
+
+    //TODO implement changing scenes, changeScene(from, to)
 
 	// Use this for initialization
 	void Start () {
@@ -12,9 +13,5 @@ public class StartMenu : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	
-	}
-
-	public void NewGameButtonEvent() {
-		SceneManager.LoadScene("city_centralisland");
 	}
 }
