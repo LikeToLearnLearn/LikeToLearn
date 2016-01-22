@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine.SceneManagement;
 
-public class boatportal : MonoBehaviour {
+public class boatportal2 : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
@@ -21,7 +21,7 @@ public class boatportal : MonoBehaviour {
         {
 
             Debug.Log("collision det with player");
-            SceneManager.LoadScene("goldisland");
+            SceneManager.LoadScene("racingisland");
         }
 
     }
