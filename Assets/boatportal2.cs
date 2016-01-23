@@ -21,7 +21,7 @@ public class boatportal2 : MonoBehaviour {
         {
 
             Debug.Log("collision det with player");
-            SceneManager.LoadScene("racingisland");
+            SceneManager.LoadScene("game_racingisland");
         }
 
     }
