@@ -4,11 +4,17 @@ using UnityEngine.SceneManagement;
 
 public class TransitionAreaTrigger : MonoBehaviour {
 
+    GameObject sco;
+    SceneHandler sc;
+
     string leadsTo;
 
 	// Use this for initialization
-	void Start () {
-        
+	void Start ()
+    {
+        sco = GameObject.Find("SceneHandlerO");
+        sc = sco.GetComponent<SceneHandler>();
+
         //The name of the object this script is attached to is expected to have the to-scene (leadsTo) seperated by space.
         //Like so: "[anything] [mapname]". E.g: "SceneTransitionArea build_constructionisland".
         string[] splits = this.gameObject.name.Split(' ');
@@ -26,7 +32,9 @@ public class TransitionAreaTrigger : MonoBehaviour {
         if (c.tag.Equals("Player"))
         {
             //Debug.Log("collision det with player");
-            SceneManager.LoadScene(leadsTo);
+
+            //Call SceneHandler to change scene, pass on current scene and target scene.
+            sc.changeScene(SceneManager.GetActiveScene().name, leadsTo);
         }
 
     }
