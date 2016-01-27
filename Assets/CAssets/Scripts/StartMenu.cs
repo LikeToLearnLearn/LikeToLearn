@@ -4,8 +4,16 @@ using UnityEngine.SceneManagement;
 
 public class StartMenu : MonoBehaviour {
 
+    GameObject sco, iho, sho;
+    SceneHandler sc;
+
 	// Use this for initialization
 	void Start () {
+        sco = GameObject.Find("SceneHandlerO");
+        sc = sco.GetComponent<SceneHandler>();
+        iho = GameObject.Find("InventoryHandlerO");
+        
+        sho = GameObject.Find("SaveHandlerO");
 	
 	}
 	
@@ -15,6 +23,13 @@ public class StartMenu : MonoBehaviour {
 	}
 
 	public void NewGameButtonEvent() {
-		SceneManager.LoadScene("city_centralisland");
+        sc.changeScene("new","city_centralisland");
 	}
+
+    public void LoadGameButtonEvent()
+    {
+        //sc.changeScene("new", "city_centralisland");
+        //SceneManager.LoadScene("city_centralisland");
+    }
+
 }
