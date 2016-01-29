@@ -105,6 +105,24 @@ ModelImporter:
     4300030: Leg1.002
     4300032: Plank8.001
     4300034: Plank8.002
+    6400000: Cylinder
+    6400002: Cylinder.001
+    6400004: Cylinder.002
+    6400006: Cylinder.003
+    6400008: Leg1
+    6400010: Leg1.001
+    6400012: Leg1.002
+    6400014: Leg2
+    6400016: Plank1
+    6400018: Plank2
+    6400020: Plank3
+    6400022: Plank4
+    6400024: Plank5
+    6400026: Plank6
+    6400028: Plank7
+    6400030: Plank8
+    6400032: Plank8.001
+    6400034: Plank8.002
   materials:
     importMaterials: 1
     materialName: 0
@@ -131,10 +149,10 @@ ModelImporter:
     lODScreenPercentages: []
     globalScale: 1
     meshCompression: 0
-    addColliders: 0
+    addColliders: 1
     importBlendShapes: 1
     swapUVChannels: 0
-    generateSecondaryUV: 0
+    generateSecondaryUV: 1
     useFileUnits: 1
     optimizeMeshForGPU: 1
     keepQuads: 0
