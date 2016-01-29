@@ -46,12 +46,6 @@ public class TransportTrigger : MonoBehaviour
         }
     }
 
-    // To open the dialogue from outside of the script.
-    public void Open()
-    {
-        show = true;
-    }
-
     void OnTriggerEnter(Collider c)
     {
         Debug.Log("collision det");
