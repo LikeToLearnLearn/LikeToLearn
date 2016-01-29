@@ -33,7 +33,7 @@ public class SceneHandler : MonoBehaviour {
             //Do stuff on starting a new game.
             //GameObject.Instantiate("FPSController",new Vector3(0f,0f,0f),Quaternion.identity);
 
-            
+
         }
 
         //Scene-specific should go here...
@@ -51,8 +51,18 @@ public class SceneHandler : MonoBehaviour {
         {
             //Put this in for now for all scenes. Should probably not be here later.
             SceneManager.LoadScene(to);
+        }
+    }
 
+        public void OnLevelWasLoaded()
+        {
+            player = GameObject.Find("PlayerController");
+            GameObject spawnpoint = GameObject.FindGameObjectWithTag("SpawnPoint");
+
+            player.transform.position = spawnpoint.transform.position;
+            player.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            player.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+            player.GetComponent<Rigidbody>().Sleep();
         }
 
-    }
 }
