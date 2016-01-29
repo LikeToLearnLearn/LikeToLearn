@@ -6,7 +6,7 @@ using System.Collections.Generic;
 public class Inventory : MonoBehaviour {
     public enum Item { Fish, Brick, OneCoin, TenCoin, HundredBill, ThousandBill };
     private Dictionary<Item, int> acquiredItems;
-    public Dictionary<Item, int> itemValue = new Dictionary<Item, int>() {
+    public static Dictionary<Item, int> itemValue = new Dictionary<Item, int>() {
         { Item.OneCoin, 1 },
         { Item.TenCoin, 10 },
         { Item.HundredBill, 100 },
