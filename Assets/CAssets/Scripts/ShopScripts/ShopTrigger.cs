@@ -4,7 +4,6 @@ using System.Collections;
 public class ShopTrigger : MonoBehaviour {
 
 	bool toggleShopGUI;
-	public Rect windowRect = new Rect(20, 20, 120, 50);
 	public Canvas shopGUI;
 
 	// Use this for initialization
