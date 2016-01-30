@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class ShopController : MonoBehaviour {
 
@@ -14,11 +15,28 @@ public class ShopController : MonoBehaviour {
 	int currentPage;
 	int itemsPerPage;
 
+	//Temporary until inventory is implemented
+	enum Item { Brick1, Fish };
+	static Dictionary<Item, int> itemValue = new Dictionary<Item, int>() {
+		{ Item.Brick1, 3 },
+		{ Item.Fish, 15 }
+	};
+
+
+	List<string> inStock = new List<string>();
+	Dictionary<string, int> shopItemList = new Dictionary<string, int>();
+
 	// Use this for initialization
 	void Start () {
 		currentPage = 0;
 		itemsPerPage = 4;
-	
+
+		foreach (KeyValuePair<Item, int> item in itemValue) {
+			inStock.Add (item.Key.ToString());
+			shopItemList.Add (item.Key.ToString(), item.Value);
+
+		}
+			
 	}
 	
 	// Update is called once per frame
@@ -35,21 +53,26 @@ public class ShopController : MonoBehaviour {
 		}
 
 		//Set up the right number of buttons (currently 4 per page)
-		int start = currentPage * 4;
+		/*int start = currentPage * 4;
 		for (int i = start; (i <= start + 3) && i < shopItems.Length; i++) {
 			string s = shopItems [i];
 			Transform clone = (Transform)Instantiate (newButton, new Vector3 (0, 0, 0), Quaternion.identity);
 			clone.parent = transform.FindChild("Panel").FindChild("ButtonPanel").FindChild("ItemButtons");
 			Text t = clone.FindChild ("Text").GetComponent<Text>();
 			t.text = s;
-		}
-		/*foreach(string s in shopItems){
+		}*/
 
+		//Set up the right number of buttons (currently 4 per page)
+		int start = currentPage * 4;
+		for (int i = start; (i <= start + 3) && i < inStock.Count; i++) {
+
+			string s = inStock [i];
 			Transform clone = (Transform)Instantiate (newButton, new Vector3 (0, 0, 0), Quaternion.identity);
 			clone.parent = transform.FindChild("Panel").FindChild("ButtonPanel").FindChild("ItemButtons");
 			Text t = clone.FindChild ("Text").GetComponent<Text>();
 			t.text = s;
-		}*/
+		}
+
 
 		setScrollButtons ();
 
@@ -83,4 +106,10 @@ public class ShopController : MonoBehaviour {
 		currentPage = currentPage + change;
 		setUpShop ();
 	}
+
+	public void selectItem(UnityEngine.EventSystems.BaseEventData baseEvent){
+		Debug.Log(baseEvent.selectedObject.name + " triggered an event!");
+		
+	}
+
 }
