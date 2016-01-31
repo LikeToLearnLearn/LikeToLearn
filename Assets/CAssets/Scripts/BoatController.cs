@@ -28,7 +28,7 @@ public class BoatController : MonoBehaviour {
         
         if (v > 0)
         {
-            rb.AddForce( transform.forward * v * forwardSpeed * Time.deltaTime, ForceMode.Force);
+            rb.AddForce( transform.forward * v * forwardSpeed * Time.deltaTime / rb.mass, ForceMode.Acceleration);
         }
         else if (v < 0) 
         {
@@ -58,7 +58,7 @@ public class BoatController : MonoBehaviour {
         
         //Keep rotation close to 0. TODO 
         Quaternion q = new Quaternion(0f, 0f, 0f, 0f);
-        this.gameObject.transform.rotation = Quaternion.LerpUnclamped(rb.rotation, q, Time.deltaTime * 10f);
+        this.gameObject.transform.rotation = Quaternion.LerpUnclamped(rb.rotation, q, Time.deltaTime * 1000f);
 
         Quaternion nq = this.gameObject.transform.rotation;
         if (nq.x > 10 || nq.z > 10)
