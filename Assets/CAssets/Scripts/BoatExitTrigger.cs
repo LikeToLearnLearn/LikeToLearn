@@ -3,6 +3,7 @@ using System.Collections;
 
 public class BoatExitTrigger : MonoBehaviour
 {
+    public GameObject enter, exit;
 
     // Use this for initialization
     void Start()
@@ -18,12 +19,11 @@ public class BoatExitTrigger : MonoBehaviour
 
     void OnTriggerEnter(Collider c)
     {
-        print(c.tag);
         if (c.tag.Equals("PlayerBoat"))
         {
             //GameObject.FindGameObjectWithTag("PlayerBoat").GetComponent<BoatEnterTrigger>().enabled = false;
             GameObject boat = GameObject.Find("Speedboat");
-            boat.GetComponent<BoatController>().enabled = false;
+            boat.GetComponent<BoatController>().StopBoat();
             Rigidbody boatrb = boat.GetComponent<Rigidbody>();
             boatrb.constraints = RigidbodyConstraints.FreezeAll;
 
@@ -33,11 +33,17 @@ public class BoatExitTrigger : MonoBehaviour
             {
                 comp.enabled = true;
             }
+
             p.GetComponentInChildren<Camera>().enabled = true;
+            p.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            p.GetComponent<Rigidbody>().Sleep();
             p.transform.position = GameObject.FindGameObjectWithTag("SpawnPoint").transform.position;
             //p.SetActive(true);
             //p.transform.position = new Vector3(289.1f, 92.29f, 345.53f);
             //p.GetComponent<Rigidbody>.c
+
+
+
         }
     }
 }

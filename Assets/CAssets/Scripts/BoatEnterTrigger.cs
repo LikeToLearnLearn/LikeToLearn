@@ -5,10 +5,9 @@ public class BoatEnterTrigger : MonoBehaviour {
 
     public GameObject boatCamera;
     public GameObject boat;
-    
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
 	}
 	
 	// Update is called once per frame
@@ -29,10 +28,9 @@ public class BoatEnterTrigger : MonoBehaviour {
             Camera pcam = player.GetComponentInChildren<Camera>();
             pcam.enabled = false;
 
-
             GameObject boat = GameObject.Find("Speedboat");
-            boat.SetActive(true);
-            boat.GetComponent<BoatController>().enabled = true;
+            //boat.SetActive(true);
+            boat.GetComponent<BoatController>().StartBoat();
             Rigidbody boatrb = boat.GetComponent<Rigidbody>();
             boatrb.constraints = RigidbodyConstraints.FreezePositionY | 
                 RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ; 
