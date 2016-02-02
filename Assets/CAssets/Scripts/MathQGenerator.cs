@@ -32,4 +32,21 @@ public class MathQGenerator : ScriptableObject {
 
         return question;
     }
+
+    public static int[] Generate4RandomOperationsQ(int min, int max)
+    {
+        int operations = 4;
+        int i = 0;
+        int[] question = new int[1 + 2 * operations];
+        question[i] = Random.Range(min, max + 1);
+
+        while (i < question.Length - 1)
+        {
+            question[++i] = Random.Range(0,2); // See enum for operation numbers.
+            question[++i] = Random.Range(min, max + 1);
+        }
+
+        return question;
+    }
+
 }

@@ -48,18 +48,18 @@ public class BoatController : MonoBehaviour {
             ps.startSpeed = h*10;
             if (v > 0)
             {
-                rb.AddForce(transform.forward * v * forwardSpeed * Time.deltaTime / rb.mass, ForceMode.Acceleration);
+                rb.AddForce(transform.forward * v * forwardSpeed * Time.fixedDeltaTime / rb.mass, ForceMode.Acceleration);
             }
             else if (v < 0)
             {
-                rb.AddForce(transform.forward * v * 0.6f * forwardSpeed * Time.deltaTime); // Moving in reverse is slower
+                rb.AddForce(transform.forward * v * 0.6f * forwardSpeed * Time.fixedDeltaTime); // Moving in reverse is slower
             }
 
             //Limit torque. Conditions attempt to simulate reality a little
             if (!(h == 0f || rb.angularVelocity.y > maxTurnTorque))
             {
                 //Add "horizontal" torque
-                rb.AddRelativeTorque(0f, h * turnSpeed * Time.deltaTime, 0f);
+                rb.AddTorque(0f, h * turnSpeed * Time.fixedDeltaTime, 0f);
             }
 
             /* An attempt at keeping boat upright
@@ -71,22 +71,22 @@ public class BoatController : MonoBehaviour {
             if (angleYDiff > 30f)
             {
                 print("yup");
-                rb.MoveRotation(vert * Time.deltaTime);
+                rb.MoveRotation(vert * Time.fixedDeltaTime);
             }
             */
 
 
             //Keep rotation close to 0. TODO 
-            Quaternion q = new Quaternion(0f, 0f, 0f, 0f);
-            this.gameObject.transform.rotation = Quaternion.LerpUnclamped(rb.rotation, q, Time.deltaTime * 1000f);
+            //Quaternion q = new Quaternion(0f, 0f, 0f, 0f);
+            //this.gameObject.transform.rotation = Quaternion.LerpUnclamped(rb.rotation, q, Time.fixedDeltaTime * 1000f);
 
-            Quaternion nq = this.gameObject.transform.rotation;
-            if (nq.x > 10 || nq.z > 10)
-            {
+            //Quaternion nq = this.gameObject.transform.rotation;
+            //if (nq.x > 10 || nq.z > 10)
+            //{
                 //Never comes in here atm
-                print("x:" + rb.transform.rotation.x + "  z:" + rb.transform.rotation.z);
-                rb.transform.rotation = new Quaternion(1f, rb.transform.rotation.y, 1f, 0f);
-            }
+            //    print("x:" + rb.transform.rotation.x + "  z:" + rb.transform.rotation.z);
+            //    rb.transform.rotation = new Quaternion(1f, rb.transform.rotation.y, 1f, 0f);
+            //}
 
         }
     }
