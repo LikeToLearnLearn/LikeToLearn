@@ -8,6 +8,8 @@ public class StartRaceTrigger : MonoBehaviour {
     public GameObject player;
     public Transform prefabWrong;
     public Transform prefabRight;
+    public bool passed;
+
 
     private RacingLogic racingLogic;
 
@@ -22,6 +24,7 @@ public class StartRaceTrigger : MonoBehaviour {
         {
             Debug.Log("Cannot find 'RacingLogic' script");
         }
+        passed = false;
 
        
 	}
@@ -34,12 +37,19 @@ public class StartRaceTrigger : MonoBehaviour {
     void OnTriggerEnter(Collider c)
     {
       
-        if (c.tag.Equals("Player"))
+        if ((c.tag.Equals("Player")|| c.tag.Equals( "PlayerTest")) && passed == false)
         {
+            passed = true;
             racingLogic.CreatePickups(prefabWrong, prefabRight, 285, 120, 335 );
             car.SetActive(true);
-            player.SetActive(false);
-            Debug.Log("collision player");
+            c.gameObject.SetActive(false);
+            //Debug.Log("Found object: " + GetComponentInParent("PlayerController").name);
+            Debug.Log("StartTrigger: " + c. name);
+        }
+
+        if (c.tag.Equals("Player")) {
+            Debug.Log("Found object: " + GetComponent("PlayerController").name);
+            
         }
         
     }

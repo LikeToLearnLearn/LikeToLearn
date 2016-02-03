@@ -36,6 +36,7 @@ public class MuliplicationTrigger : MonoBehaviour {
        
         if (c.tag.Equals("PlayerCar") && passed == false)
         {
+            Debug.Log("MultiplicationTrigger collision det with" + c.name);
             passed = true;
             racingLogic.CreatePickups(prefabWrong, prefabRight, 280, 120, 354);
             racingLogic.CreateMultiplication(6, text);
