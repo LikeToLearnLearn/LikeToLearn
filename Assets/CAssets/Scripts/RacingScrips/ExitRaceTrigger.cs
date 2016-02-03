@@ -20,7 +20,7 @@ public class ExitRaceTrigger : MonoBehaviour {
     void OnTriggerEnter(Collider c)
     {
         car = GameObject.Find("Car");
-        Debug.Log("collision det with" + c.tag);
+        Debug.Log("collision det with" + c.name);
         if (c.tag.Equals("PlayerCar"))
         //if (c.Equals(GameObject.Find("Car")))
         {

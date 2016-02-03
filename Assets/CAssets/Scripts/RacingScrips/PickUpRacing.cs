@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 
 public class PickUpRacing : MonoBehaviour {
-    private GameObject text;
+    public GameObject text;
     private RacingLogic racingLogic;
 
     private float points;
@@ -47,7 +47,7 @@ public class PickUpRacing : MonoBehaviour {
 
             gameObject.SetActive(false);
 
-            //racingLogic.AddScore(f);
+            racingLogic.AddScore(-2);
 
             points = points + f;
             //Debug.Log(points);
