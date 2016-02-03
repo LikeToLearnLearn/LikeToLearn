@@ -24,7 +24,7 @@ public class PickUpRightAnswere : MonoBehaviour {
             Debug.Log("Cannot find 'RacingLogic' script");
         }
 
-        racingLogic.CreateMultiplication(4);
+        racingLogic.CreateMultiplication(4, null);
         Debug.Log("Right answere :" + racingLogic.
             GetMultiplicationAnswere());
 
@@ -49,7 +49,7 @@ public class PickUpRightAnswere : MonoBehaviour {
 
             gameObject.SetActive(false);
 
-            racingLogic.AddScore(10);
+            racingLogic.AddScore(5);
 
             points = points + f;
             //Debug.Log(points);

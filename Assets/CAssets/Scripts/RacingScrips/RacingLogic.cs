@@ -41,6 +41,14 @@ public class RacingLogic : MonoBehaviour
 
     }
 
+    float SetPickUpPosition(float i)
+    {
+
+        return Mathf.Floor(Random.value * i) + 5;
+
+
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -65,18 +73,31 @@ public class RacingLogic : MonoBehaviour
         text.GetComponent<TextMesh>().text = "Score: " + points;
     }
 
-    public void CreateMultiplication(float n)
+    public void CreateMultiplication(float n, GameObject t  )
     {
+        if (t == null) t = text;
         float a = n;
         float b = SetValue(10);
         SetMultiplicationAnswere(a * b);
-        text.GetComponent<TextMesh>().text = a + " * " + b;
+        t.GetComponent<TextMesh>().text = a + " * " + b;
         
     }
 
-   
+    public void CreatePickups(Transform prefabWrong, Transform prefabRigth, float x, float y, float z)
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            Debug.Log("CreatePickUps");
+            Instantiate(prefabWrong, new Vector3((SetPickUpPosition(5))+ i + x, y, (SetPickUpPosition(10))- i + z), Quaternion.identity);
 
-   
+        }
+
+        Debug.Log("Create rigth pickUp");
+        Instantiate(prefabRigth, new Vector3((SetValue(5)) + 2 + x, y, (SetValue(10)) - 2 + z), Quaternion.identity);
+    }
+
+
+
 }
 
 

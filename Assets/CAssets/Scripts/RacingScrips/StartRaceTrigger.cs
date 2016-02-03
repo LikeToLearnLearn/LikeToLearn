@@ -7,7 +7,7 @@ public class StartRaceTrigger : MonoBehaviour {
     public GameObject car;
     public GameObject player;
     public Transform prefabWrong;
-    public Transform prefabRigtht;
+    public Transform prefabRight;
 
     private RacingLogic racingLogic;
 
@@ -23,7 +23,7 @@ public class StartRaceTrigger : MonoBehaviour {
             Debug.Log("Cannot find 'RacingLogic' script");
         }
 
-        CreatePickups();
+       
 	}
 	
 	// Update is called once per frame
@@ -36,11 +36,12 @@ public class StartRaceTrigger : MonoBehaviour {
       
         if (c.tag.Equals("Player"))
         {
+            racingLogic.CreatePickups(prefabWrong, prefabRight, 285, 120, 335 );
             car.SetActive(true);
             player.SetActive(false);
             Debug.Log("collision player");
         }
-
+        
     }
 
     float SetValue(float i)
@@ -50,20 +51,5 @@ public class StartRaceTrigger : MonoBehaviour {
        
 
     }
-
-    void CreatePickups()
-    {
-        for (int i = 0; i < 3; i++)
-        {
-            Debug.Log("CreatePickUps");
-            Instantiate(prefabWrong, new Vector3((SetValue(5)) + 294F,  120, (SetValue(10)) + 324), Quaternion.identity);
-                        
-        }
-
-       Debug.Log("Create rigth pickUp");
-            Instantiate(prefabRigtht, new Vector3((SetValue(5)) + 294F, 120, (SetValue(10)) + 324), Quaternion.identity);
-    }
-
-    
- 
+        
 }
