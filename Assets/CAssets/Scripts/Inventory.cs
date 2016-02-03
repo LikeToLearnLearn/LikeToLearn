@@ -15,6 +15,26 @@ public class Inventory : MonoBehaviour {
         { Item.Brick, 50 },
         { Item.Fish, 12 }
     };
+		
+	public static Dictionary<string, Item> itemStringToEnum = new Dictionary<string, Item>() {
+		{ "OneCoin", Item.OneCoin },
+		{ "TenCoin", Item.TenCoin },
+		{ "HundredBill", Item.HundredBill },
+		{ "ThousandBill", Item.ThousandBill },
+		{ "Brick", Item.Brick },
+		{ "Fish", Item.Fish }
+	};
+
+	//Something like this if the item images are 2d pictures
+	//Some other solution if they are "2d" versions of the items  models
+	public static Dictionary<string, Item> itemPictureToEnum = new Dictionary<string, Item>() {
+		{ "filename1.png", Item.OneCoin },
+		{ "filename2.png", Item.TenCoin },
+		{ "filename3.png", Item.HundredBill },
+		{ "filename4.png", Item.ThousandBill },
+		{ "filename5.png", Item.Brick },
+		{ "filename6.png", Item.Fish }
+	};
     
     public GameObject inventoryCanvas;
     public GameObject dynamicPanel; 

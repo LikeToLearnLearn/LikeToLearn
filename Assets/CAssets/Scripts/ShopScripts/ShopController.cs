@@ -3,39 +3,35 @@ using System.Collections;
 using UnityEngine.UI;
 using System.Collections.Generic;
 
+
+
 public class ShopController : MonoBehaviour {
 
-	//Sets up and controls the shop its linked to
+	//Sets up and controls the shop it's linked to
 
-	//Further development:
-	//Every shop takes in a list of id's?
-	//And uses the id's to read in name, picture etc?
-	public string[] shopItems;
 	public Transform newButton;
+	Dictionary<Inventory.Item, int> items;
+	Inventory.Item chosenItem;
+
 	int currentPage;
 	int itemsPerPage;
 
-	//Temporary until inventory is implemented
-	enum Item { Brick1, Fish };
-	static Dictionary<Item, int> itemValue = new Dictionary<Item, int>() {
-		{ Item.Brick1, 3 },
-		{ Item.Fish, 15 }
-	};
-
 
 	List<string> inStock = new List<string>();
-	Dictionary<string, int> shopItemList = new Dictionary<string, int>();
 
 	// Use this for initialization
 	void Start () {
 		currentPage = 0;
 		itemsPerPage = 4;
 
-		foreach (KeyValuePair<Item, int> item in itemValue) {
+
+		/*foreach (KeyValuePair<Item, int> item in itemValue) {
 			inStock.Add (item.Key.ToString());
 			shopItemList.Add (item.Key.ToString(), item.Value);
 
-		}
+		}*/
+
+
 			
 	}
 	
@@ -44,8 +40,19 @@ public class ShopController : MonoBehaviour {
 	
 	}
 
-	public void setUpShop(){
+	public void setUpShop(Dictionary<Inventory.Item, int> itemDictionary){
+		items = itemDictionary;
 
+
+
+
+		foreach (KeyValuePair<Inventory.Item, int> item in items) {
+			inStock.Add (item.Key.ToString());
+		}
+
+		updateShop ();
+
+		/*
 		//Clear the button panel
 		Transform itemButtons = transform.FindChild("Panel").FindChild("ButtonPanel").FindChild("ItemButtons");
 		foreach (Transform button in itemButtons.transform) {
@@ -53,19 +60,32 @@ public class ShopController : MonoBehaviour {
 		}
 
 		//Set up the right number of buttons (currently 4 per page)
-		/*int start = currentPage * 4;
-		for (int i = start; (i <= start + 3) && i < shopItems.Length; i++) {
-			string s = shopItems [i];
+		int start = currentPage * 4;
+
+		for (int i = start; (i <= start + 3) && i < inStock.Count; i++) {
+			string s = inStock [i];
 			Transform clone = (Transform)Instantiate (newButton, new Vector3 (0, 0, 0), Quaternion.identity);
 			clone.parent = transform.FindChild("Panel").FindChild("ButtonPanel").FindChild("ItemButtons");
 			Text t = clone.FindChild ("Text").GetComponent<Text>();
 			t.text = s;
-		}*/
+		}
+			
+		setScrollButtons ();*/
+
+	}
+
+	public void updateShop(){
+
+		//Clear the button panel
+		Transform itemButtons = transform.FindChild("Panel").FindChild("ButtonPanel").FindChild("ItemButtons");
+		foreach (Transform button in itemButtons.transform) {
+			GameObject.Destroy (button.gameObject);
+		}
+			
 
 		//Set up the right number of buttons (currently 4 per page)
 		int start = currentPage * 4;
 		for (int i = start; (i <= start + 3) && i < inStock.Count; i++) {
-
 			string s = inStock [i];
 			Transform clone = (Transform)Instantiate (newButton, new Vector3 (0, 0, 0), Quaternion.identity);
 			clone.parent = transform.FindChild("Panel").FindChild("ButtonPanel").FindChild("ItemButtons");
@@ -77,6 +97,7 @@ public class ShopController : MonoBehaviour {
 		setScrollButtons ();
 
 	}
+
 
 	public void setScrollButtons(){
 		Button prevButton = 
@@ -91,10 +112,11 @@ public class ShopController : MonoBehaviour {
 		}
 		//If the last item on page is lower than last existing item
 		int lastItem = (currentPage * itemsPerPage) + 3;
-		//lastitem = 0*4 + 3 = 3
-		//lastitem = 1*4 + 3 = 7
-		//if 4 < 4
-		if (lastItem + 1 < shopItems.Length) {
+		//Debug.Log("lastItem = " + lastItem);
+		//Debug.Log("lastItem + 1  = " + (lastItem + 1));
+
+		if (lastItem + 1 < inStock.Count) {
+			//Debug.Log("ENTERED IF!");
 			nextButton.interactable = true;
 		}
 		else {
@@ -104,11 +126,31 @@ public class ShopController : MonoBehaviour {
 
 	public void changePage(int change){
 		currentPage = currentPage + change;
-		setUpShop ();
+		updateShop ();
 	}
 
 	public void selectItem(UnityEngine.EventSystems.BaseEventData baseEvent){
 		Debug.Log(baseEvent.selectedObject.name + " triggered an event!");
+		
+	}
+
+
+	public void clickButton(string s){
+		Debug.Log("BUTTON CLICK! " + s);
+		//Debug.Log("object: " + transform.FindChild("Panel").FindChild("BuyOptions").FindChild("ItemText").name);
+
+		chosenItem = Inventory.itemStringToEnum [s];
+
+		int p = items [chosenItem];
+		string itemText = s;
+		string itemPrice = "" + p + " kr";
+		transform.FindChild ("Panel").FindChild ("BuyOptions").FindChild ("ItemText").GetComponent<Text> ().text = itemText;
+		transform.FindChild ("Panel").FindChild ("BuyOptions").FindChild ("ItemPrice").GetComponent<Text> ().text = itemPrice;
+
+
+	}
+
+	public void buyItem(){
 		
 	}
 
