@@ -2,13 +2,11 @@
 using System.Collections;
 
 public class FishScript : MonoBehaviour {
-    private Animator animator;
-    private Vector3 pointB;
+    public Vector3 pointB;
 
     // Use this for initialization
     IEnumerator Start()
     {
-        animator = GetComponent<Animator>();
         var pointA = transform.position;
         pointB = new Vector3(1.89f, -0.049f, -9.02f);
         while (true)
@@ -20,8 +18,8 @@ public class FishScript : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-	
-	}
+        //Animation.Play();
+    }
 
     IEnumerator MoveObject(Transform thisTransform, Vector3 startPos, Vector3 endPos, float time)
     {
