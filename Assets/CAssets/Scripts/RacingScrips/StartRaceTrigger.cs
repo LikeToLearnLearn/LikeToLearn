@@ -56,12 +56,12 @@ public class StartRaceTrigger : MonoBehaviour {
         for (int i = 0; i < 3; i++)
         {
             Debug.Log("CreatePickUps");
-            Instantiate(prefabWrong, new Vector3((SetValue(5)) + 294F,  121, (SetValue(10)) + 324), Quaternion.identity);
+            Instantiate(prefabWrong, new Vector3((SetValue(5)) + 294F,  120, (SetValue(10)) + 324), Quaternion.identity);
                         
         }
 
        Debug.Log("Create rigth pickUp");
-            Instantiate(prefabRigtht, new Vector3((SetValue(5)) + 294F, 121, (SetValue(10)) + 324), Quaternion.identity);
+            Instantiate(prefabRigtht, new Vector3((SetValue(5)) + 294F, 120, (SetValue(10)) + 324), Quaternion.identity);
     }
 
     

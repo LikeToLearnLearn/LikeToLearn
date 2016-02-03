@@ -44,7 +44,7 @@ public class PickUpRightAnswere : MonoBehaviour {
 
     void OnTriggerEnter(Collider c)
     {
-        if (c.gameObject.CompareTag("Player"))
+        if (c.gameObject.CompareTag("PlayerCar"))
         {
 
             gameObject.SetActive(false);

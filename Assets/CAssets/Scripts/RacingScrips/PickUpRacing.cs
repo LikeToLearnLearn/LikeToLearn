@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 
 public class PickUpRacing : MonoBehaviour {
-    public GameObject text;
+    private GameObject text;
     private RacingLogic racingLogic;
 
     private float points;
@@ -13,6 +13,7 @@ public class PickUpRacing : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
+
 
         GameObject racingLogicObject = GameObject.FindWithTag("RacingController");
         if (racingLogicObject != null)
@@ -41,7 +42,7 @@ public class PickUpRacing : MonoBehaviour {
 
     void OnTriggerEnter(Collider c)
     {
-        if (c.gameObject.CompareTag("Player"))
+        if (c.gameObject.CompareTag("PlayerCar"))
         {
 
             gameObject.SetActive(false);
