@@ -122,7 +122,7 @@ public class ShopController : MonoBehaviour {
 
 
 	public void clickButton(string s){
-		Debug.Log("BUTTON CLICK! " + s);
+		//Debug.Log("BUTTON CLICK! " + s);
 		//Debug.Log("object: " + transform.FindChild("Panel").FindChild("BuyOptions").FindChild("ItemText").name);
 
 		chosenItem = Inventory.itemStringToEnum [s];

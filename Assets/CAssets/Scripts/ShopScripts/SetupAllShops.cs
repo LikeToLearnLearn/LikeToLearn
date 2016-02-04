@@ -12,7 +12,7 @@ public class SetupAllShops : MonoBehaviour {
 
 	public static Dictionary<Inventory.Item, int> itemValues;
 
-	static Dictionary<Inventory.Item, int> miscShop = new Dictionary<Inventory.Item, int>() {
+	static Dictionary<Inventory.Item, int> allshop = new Dictionary<Inventory.Item, int>() {
 		{ Inventory.Item.OneCoin, 1 },
 		{ Inventory.Item.TenCoin, 10 },
 		{ Inventory.Item.HundredBill, 100 },
@@ -21,7 +21,12 @@ public class SetupAllShops : MonoBehaviour {
 		{ Inventory.Item.Fish, 12 }
 	};
 
-	static Dictionary<Inventory.Item, int> buildShop = new Dictionary<Inventory.Item, int>() {
+	static Dictionary<Inventory.Item, int> smallshop = new Dictionary<Inventory.Item, int>() {
+		{ Inventory.Item.Brick, 5 },
+		{ Inventory.Item.Fish, 12 }
+	};
+
+	static Dictionary<Inventory.Item, int> buildshop = new Dictionary<Inventory.Item, int>() {
 		{ Inventory.Item.OneCoin, 1 },
 		{ Inventory.Item.TenCoin, 10 },
 		{ Inventory.Item.HundredBill, 100 },
@@ -39,10 +44,13 @@ public class SetupAllShops : MonoBehaviour {
 
 
 		foreach (Transform shop in cityShops) {
-			if (shop.name.Equals ("miscshop")) {
-				itemValues = miscShop;
-			} else {
-				itemValues = buildShop;
+			if (shop.name.Equals ("allshop")) {
+				itemValues = allshop;
+			} 
+			else if(shop.name.Equals("smallshop")){
+				itemValues = smallshop;
+			}else {
+				itemValues = allshop;
 			}
 	
 			Transform shopGUI = shop.FindChild("ShopGUI");
