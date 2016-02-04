@@ -9,6 +9,7 @@ public class StartRaceTrigger : MonoBehaviour {
     public Transform prefabWrong;
     public Transform prefabRight;
     public bool passed;
+    private GameObject sign;
 
 
     private RacingLogic racingLogic;
@@ -25,9 +26,15 @@ public class StartRaceTrigger : MonoBehaviour {
             Debug.Log("Cannot find 'RacingLogic' script");
         }
         passed = false;
+        sign = racingLogic.GetSign();
+        
 
-       
-	}
+        racingLogic.CreateMultiplication(4, null);
+        Debug.Log("Right answere :" + racingLogic.
+            GetMultiplicationAnswere());
+
+
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -42,14 +49,10 @@ public class StartRaceTrigger : MonoBehaviour {
             passed = true;
             racingLogic.CreatePickups(prefabWrong, prefabRight, 285, 120, 335 );
             car.SetActive(true);
+            sign.SetActive(true);
             c.gameObject.SetActive(false);
             //Debug.Log("Found object: " + GetComponentInParent("PlayerController").name);
             Debug.Log("StartTrigger: " + c. name);
-        }
-
-        if (c.tag.Equals("Player")) {
-            Debug.Log("Found object: " + GetComponent("PlayerController").name);
-            
         }
         
     }

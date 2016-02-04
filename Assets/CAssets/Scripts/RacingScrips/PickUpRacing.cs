@@ -7,36 +7,54 @@ using UnityEngine.SceneManagement;
 public class PickUpRacing : MonoBehaviour {
     public GameObject text;
     private RacingLogic racingLogic;
+    public Vector3 pointB, pointC;
 
     private float points;
     private float f;
+    private GameObject player;
+   
 
     // Use this for initialization
-    void Start() {
-
+    IEnumerator
+    //void 
+        Start()
+    {
+        var pointA = transform.position;
+        
 
         GameObject racingLogicObject = GameObject.FindWithTag("RacingController");
         if (racingLogicObject != null)
         {
             racingLogic = racingLogicObject.GetComponent<RacingLogic>();
         }
-        if(racingLogic == null)
+        if (racingLogic == null)
         {
             Debug.Log("Cannot find 'RacingLogic' script");
         }
-       
-        points = 0;
 
+        points = 0;
+        player = racingLogic.GetPlayer();
         SetValue();
-       
+
+
+        pointB = new Vector3(pointA.x + racingLogic.SetPickUpPosition(5), pointA.y, pointA.z - racingLogic.SetPickUpPosition(5));
+        pointC = new Vector3(pointB.x + racingLogic.SetPickUpPosition(5), pointB.y + racingLogic.SetPickUpPosition(2), pointB.z - racingLogic.SetPickUpPosition(5));
+        while (true)
+        {
+            yield return StartCoroutine(racingLogic.MoveObject(transform, pointC, pointB, racingLogic.SetValue(5)));
+            yield return StartCoroutine(racingLogic.MoveObject(transform, pointB, pointA, racingLogic.SetValue(5)));
+            //turn fish
+            transform.Rotate(Vector3.right * Time.deltaTime);
+            yield return StartCoroutine(racingLogic.MoveObject(transform, pointC, pointA, racingLogic.SetValue(5)));
+            
+        }
 
     }
 
     // Update is called once per frame
     void Update()
     {
-
-        
+        transform.position = transform.position + player.transform.position;       
 
     }
 
@@ -63,8 +81,6 @@ public class PickUpRacing : MonoBehaviour {
         text.GetComponent<TextMesh>().text = "" + f;
 
     }
-   
 
-   
 }
   
