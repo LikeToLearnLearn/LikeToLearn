@@ -7,6 +7,7 @@ public class FishScript : MonoBehaviour {
     // Use this for initialization
     IEnumerator Start()
     {
+
         var pointA = transform.position;
         pointB = new Vector3(pointA.x + SetValue(5), pointA.y, pointA.z - SetValue(5));
         pointC = new Vector3(pointB.x + SetValue(5), pointB.y - SetValue(2), pointB.z - SetValue(5));

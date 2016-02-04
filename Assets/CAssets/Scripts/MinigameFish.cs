@@ -13,12 +13,10 @@ public class MinigameFish : MonoBehaviour {
 
     Ray ray;
     RaycastHit hit;
-    RigidbodyFirstPersonController player;
 
     // Use this for initialization
     void Start () {
         GameObject racingLogicObject = GameObject.FindWithTag("RacingController");
-        player = GetComponent<RigidbodyFirstPersonController>();
         if (racingLogicObject != null)
         {
             racingLogic = racingLogicObject.GetComponent<RacingLogic>();
@@ -36,8 +34,19 @@ public class MinigameFish : MonoBehaviour {
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out hit))
         {
-            //den som kamera kolliderar med
-            print(hit.collider.name);
+            if(hit.collider.name == "Cruscarp_right(Clone)")
+            {
+                //player hit the right fish
+                print("you hit the right fish");
+                GameObject rightFish = hit.transform.gameObject;
+                rightFish.GetComponent<PickUpRightAnswereFish>().enabledText = true;
+
+            }
+            if(hit.collider.name == "Cruscarp_wrong(Clone)")
+            {
+                //player hit the wrong fish
+                print("you hit the wrong fish");
+            }
         }
     }
 
@@ -52,7 +61,9 @@ public class MinigameFish : MonoBehaviour {
             // sätta crosshair
             play = true;
 
-            player.enabled = false;
+            //GameObject.Find("Player").GetComponent<RigidbodyFirstPersonController>().enabled = false;
+            //GameObject.Find("Player").GetComponent<RigidbodyFirstPersonController>().enabled = false;
+            //print("Stop player movement");
 
         }
 
