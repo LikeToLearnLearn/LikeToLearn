@@ -8,6 +8,7 @@ public class PickUpRacing : MonoBehaviour {
     public GameObject text;
     private RacingLogic racingLogic;
     public Vector3 pointB, pointC;
+    public GameObject me;
 
     private float points;
     private float f;
@@ -19,7 +20,7 @@ public class PickUpRacing : MonoBehaviour {
     //void 
         Start()
     {
-        var pointA = transform.position;
+        var pointA = new Vector3(transform.position.x + 5, transform.position.y, transform.position.z - 5);
         
 
         GameObject racingLogicObject = GameObject.FindWithTag("RacingController");
@@ -36,25 +37,28 @@ public class PickUpRacing : MonoBehaviour {
         player = racingLogic.GetPlayer();
         SetValue();
 
+        racingLogic.AddPickUp(me);
 
         pointB = new Vector3(pointA.x + racingLogic.SetPickUpPosition(5), pointA.y, pointA.z - racingLogic.SetPickUpPosition(5));
-        pointC = new Vector3(pointB.x + racingLogic.SetPickUpPosition(5), pointB.y + racingLogic.SetPickUpPosition(2), pointB.z - racingLogic.SetPickUpPosition(5));
+        pointC = new Vector3(pointB.x + racingLogic.SetPickUpPosition(10), pointB.y/* + racingLogic.SetPickUpPosition(1)*/, pointB.z - racingLogic.SetPickUpPosition(10));
         while (true)
         {
             yield return StartCoroutine(racingLogic.MoveObject(transform, pointC, pointB, racingLogic.SetValue(5)));
             yield return StartCoroutine(racingLogic.MoveObject(transform, pointB, pointA, racingLogic.SetValue(5)));
-            //turn fish
+            //turn object
             transform.Rotate(Vector3.right * Time.deltaTime);
             yield return StartCoroutine(racingLogic.MoveObject(transform, pointC, pointA, racingLogic.SetValue(5)));
             
         }
+
+       
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.position = transform.position + player.transform.position;       
+        //transform.position = transform.position + player.transform.position;       
 
     }
 

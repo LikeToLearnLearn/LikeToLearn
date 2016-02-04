@@ -74,6 +74,7 @@ public class PickUpRightAnswere : MonoBehaviour {
             points = points + f;
             //Debug.Log(points);
             racingLogic.DestroyAllPickUps();
+            racingLogic.DeactivateSign();
 
 
         }

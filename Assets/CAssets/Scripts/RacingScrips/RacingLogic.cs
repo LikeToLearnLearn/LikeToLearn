@@ -14,6 +14,8 @@ public class RacingLogic : MonoBehaviour
     private GameObject sign;
     private GameObject player;
     private ArrayList pickUps;
+    private int TimeRemaining;
+
 
     // Use this for initialization
     void Start()
@@ -22,6 +24,7 @@ public class RacingLogic : MonoBehaviour
         sign = null;
         player = null;
         pickUps = new ArrayList();
+        
         //UpdateScore();
     }
     
@@ -30,22 +33,8 @@ public class RacingLogic : MonoBehaviour
     {
 
     }
-
-    public void AddPickUp(Object p)
-    {
-        pickUps.Add(p);
-       
-    }
-
-    public void DestroyAllPickUps()
-    {
-        foreach (Object o in pickUps)
-        {
-            Destroy(o, 0);
-
-        }
-    }
-
+  
+    
     void SetMultiplicationAnswere(float i)
     {
         answere = i;
@@ -64,6 +53,13 @@ public class RacingLogic : MonoBehaviour
 
     }
 
+    public void DeactivateSign()
+    {
+        sign.SetActive(false);
+
+
+    }
+
     public GameObject GetSign()
     {
         if (sign == null) sign = text;
@@ -79,8 +75,6 @@ public class RacingLogic : MonoBehaviour
     {
         return Mathf.Floor(Random.value * i) + 5;
     }
-
-   
 
     public void SetPlayer(GameObject P)
     {
@@ -123,20 +117,47 @@ public class RacingLogic : MonoBehaviour
         t.GetComponent<TextMesh>().text = a + " * " + b;
 
     }
+     public void AddPickUp(GameObject p)
+        {
+            pickUps.Add(p);
+            Debug.Log("Addeded: " + p);
+    }
 
+        public void DestroyAllPickUps()
+        {
+            foreach (GameObject o in pickUps)
+            {
+                Debug.Log("Destroyed: " + o);
+                Destroy(o, 0);
+                
+
+
+            }
+        }
     public void CreatePickups(Transform prefabWrong, Transform prefabRigth, float x, float y, float z)
     {
         for (int i = 0; i < 3; i++)
         {
             Debug.Log("CreatePickUps");
-            AddPickUp(Instantiate(prefabWrong, new Vector3((SetPickUpPosition(5)) + i + x, y, (SetPickUpPosition(10)) - i + z), Quaternion.identity));
-            
-
+            Instantiate(prefabWrong, new Vector3((SetPickUpPosition(5)) + i + x, y, (SetPickUpPosition(10)) - i + z), Quaternion.identity);
+            StartCoroutine(Example());
         }
         //MoveObject(prefabWrong, new Vector3((SetPickUpPosition(5)) + 2 + x, y, (SetPickUpPosition(10)) - 2 + z), new Vector3((SetPickUpPosition(5)) + 2 + x, y, (SetPickUpPosition(10)) - 2 + z), 1);
 
         Debug.Log("Create rigth pickUp");
-        AddPickUp(Instantiate(prefabRigth, new Vector3((SetPickUpPosition(5)) + x, y, (SetPickUpPosition(10)) + z), Quaternion.identity));
+        Instantiate(prefabRigth, new Vector3((SetPickUpPosition(5)) + x, y, (SetPickUpPosition(10)) + z), Quaternion.identity);
+    }
+
+    
+    
+       
+    
+
+    IEnumerator Example()
+    {
+        print(Time.time);
+        yield return new WaitForSeconds(5);
+        print(Time.time);
     }
 
     public IEnumerator MoveObject(Transform thisTransform, Vector3 startPos, Vector3 endPos, float time)
