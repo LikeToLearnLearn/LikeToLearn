@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using UnityEditor;
 
 
 
@@ -10,6 +11,7 @@ public class ShopController : MonoBehaviour {
 	//Sets up and controls the shop it's linked to
 
 	public Transform newButton;
+	public Transform image;
 	Dictionary<Inventory.Item, int> items;
 	Inventory.Item chosenItem;
 
@@ -23,14 +25,6 @@ public class ShopController : MonoBehaviour {
 	void Start () {
 		currentPage = 0;
 		itemsPerPage = 4;
-
-
-		/*foreach (KeyValuePair<Item, int> item in itemValue) {
-			inStock.Add (item.Key.ToString());
-			shopItemList.Add (item.Key.ToString(), item.Value);
-
-		}*/
-
 
 			
 	}
@@ -52,25 +46,6 @@ public class ShopController : MonoBehaviour {
 
 		updateShop ();
 
-		/*
-		//Clear the button panel
-		Transform itemButtons = transform.FindChild("Panel").FindChild("ButtonPanel").FindChild("ItemButtons");
-		foreach (Transform button in itemButtons.transform) {
-			GameObject.Destroy (button.gameObject);
-		}
-
-		//Set up the right number of buttons (currently 4 per page)
-		int start = currentPage * 4;
-
-		for (int i = start; (i <= start + 3) && i < inStock.Count; i++) {
-			string s = inStock [i];
-			Transform clone = (Transform)Instantiate (newButton, new Vector3 (0, 0, 0), Quaternion.identity);
-			clone.parent = transform.FindChild("Panel").FindChild("ButtonPanel").FindChild("ItemButtons");
-			Text t = clone.FindChild ("Text").GetComponent<Text>();
-			t.text = s;
-		}
-			
-		setScrollButtons ();*/
 
 	}
 
@@ -83,14 +58,25 @@ public class ShopController : MonoBehaviour {
 		}
 			
 
+
 		//Set up the right number of buttons (currently 4 per page)
 		int start = currentPage * 4;
 		for (int i = start; (i <= start + 3) && i < inStock.Count; i++) {
 			string s = inStock [i];
+
 			Transform clone = (Transform)Instantiate (newButton, new Vector3 (0, 0, 0), Quaternion.identity);
 			clone.parent = transform.FindChild("Panel").FindChild("ButtonPanel").FindChild("ItemButtons");
+	
 			Text t = clone.FindChild ("Text").GetComponent<Text>();
 			t.text = s;
+			t.color = Color.clear;	//To hide the text
+
+			Texture tex = Resources.Load(s) as Texture;
+			RawImage im = clone.gameObject.GetComponent<RawImage>();
+			im.texture = tex;
+			
+
+
 		}
 
 

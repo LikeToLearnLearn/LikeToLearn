@@ -1,12 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 
 public class SetupAllShops : MonoBehaviour {
 
 	public string[] shopItems;
-	public Transform newButton;
+	//public Transform newButton;
 	public Transform[] cityShops;
+
 
 	public static Dictionary<Inventory.Item, int> itemValues;
 
@@ -33,6 +35,8 @@ public class SetupAllShops : MonoBehaviour {
 	//Sets up all shops in the city.
 	//Drag the shops into the ShopHandlers shop-list to add more
 	void Start () {
+
+
 
 		foreach (Transform shop in cityShops) {
 			if (shop.name.Equals ("miscshop")) {
