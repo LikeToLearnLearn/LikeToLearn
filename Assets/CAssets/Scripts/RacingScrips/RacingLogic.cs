@@ -11,10 +11,13 @@ public class RacingLogic : MonoBehaviour
 
     public GUIText scoreText;
     public GameObject text;
+
     private GameObject sign;
     private GameObject player;
     private ArrayList pickUps;
     private int TimeRemaining;
+    private Vector3 pointB, pointC;
+
 
 
     // Use this for initialization
@@ -33,8 +36,32 @@ public class RacingLogic : MonoBehaviour
     {
 
     }
-  
-    
+
+    public void SetPointB(Vector3 b)
+    {
+        pointB  = b;
+
+    }
+
+    public void SetPointC(Vector3 c)
+    {
+        pointC = c;
+
+    }
+
+    public Vector3 GetPointB()
+    {
+        return pointB;
+
+    }
+
+    public Vector3 GetPointC()
+    {
+        return pointC;
+
+    }
+
+
     void SetMultiplicationAnswere(float i)
     {
         answere = i;

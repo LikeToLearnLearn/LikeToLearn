@@ -37,15 +37,16 @@ public class PickUpRightAnswere : MonoBehaviour {
         points = 0;
         SetValue();
 
-        pointB = new Vector3(pointA.x + racingLogic.SetPickUpPosition(5), pointA.y, pointA.z - racingLogic.SetPickUpPosition(5));
-        pointC = new Vector3(pointB.x + racingLogic.SetPickUpPosition(5), pointB.y - racingLogic.SetPickUpPosition(2), pointB.z - racingLogic.SetPickUpPosition(5));
+        pointB = racingLogic.GetPointB();
+        if (pointB == null) pointB = new Vector3(pointA.x + racingLogic.SetPickUpPosition(5), pointA.y, pointA.z - racingLogic.SetPickUpPosition(5));
+        pointC = new Vector3(pointB.x + racingLogic.SetPickUpPosition(5), pointB.y /*- racingLogic.SetPickUpPosition(1)*/, pointB.z - racingLogic.SetPickUpPosition(5));
         while (true)
         {
             yield return StartCoroutine(racingLogic.MoveObject(transform, pointC, pointB, racingLogic.SetValue(5)));
             yield return StartCoroutine(racingLogic.MoveObject(transform, pointB, pointA, racingLogic.SetValue(5)));
             //turn fish
             transform.Rotate(Vector3.right* Time.deltaTime);
-        yield return StartCoroutine(racingLogic.MoveObject(transform, pointC, pointA, 3.0f));
+        yield return StartCoroutine(racingLogic.MoveObject(transform, pointC, pointA, 2.0f));
 
 
 
