@@ -3,7 +3,7 @@ using System.Collections;
 using UnityStandardAssets.Characters.FirstPerson;
 
 public class MinigameFish : MonoBehaviour {
-    private RacingLogic racingLogic;
+    private FishingLogic fishingLogic;
 
     public Transform prefabWrong;
     public Transform prefabRight;
@@ -19,14 +19,15 @@ public class MinigameFish : MonoBehaviour {
         GameObject racingLogicObject = GameObject.FindWithTag("RacingController");
         if (racingLogicObject != null)
         {
-            racingLogic = racingLogicObject.GetComponent<RacingLogic>();
+            fishingLogic = racingLogicObject.GetComponent<FishingLogic>();
         }
-        if (racingLogic == null)
+        if (fishingLogic == null)
         {
             Debug.Log("Cannot find 'RacingLogic' script");
         }
 
         CreatePickups();
+        
     }
 	
 	// Update is called once per frame
@@ -39,7 +40,7 @@ public class MinigameFish : MonoBehaviour {
                 //player hit the right fish
                 print("you hit the right fish");
                 GameObject rightFish = hit.transform.gameObject;
-                rightFish.GetComponent<PickUpRightAnswereFish>().enabledText = true;
+                //rightFish.GetComponent<PickUpRightAnswereFish>().enabledText = true;
 
             }
             if(hit.collider.name == "Cruscarp_wrong(Clone)")
@@ -64,7 +65,7 @@ public class MinigameFish : MonoBehaviour {
             //GameObject.Find("Player").GetComponent<RigidbodyFirstPersonController>().enabled = false;
             //GameObject.Find("Player").GetComponent<RigidbodyFirstPersonController>().enabled = false;
             //print("Stop player movement");
-
+            fishingLogic.CreateMultiplication(4, null);
         }
 
     }
