@@ -9,6 +9,7 @@ public class StartMenu : MonoBehaviour {
 
 	public GameObject cam;
 	public GameObject newGame, loadGame, options, credits;
+	public GameObject creditsText;
 
 	// Use this for initialization
 	void Start () {
@@ -19,6 +20,7 @@ public class StartMenu : MonoBehaviour {
 	}
 
 	float zoom = 0.0f;
+	bool rollCredits = false;
 
 	// Update is called once per frame
 	void Update () {
@@ -30,6 +32,9 @@ public class StartMenu : MonoBehaviour {
 			float move = Mathf.Log(-zoom);
 			cam.transform.Translate(new Vector3(0.0f, 0.0f, -move));
 			zoom += move;
+		}
+		if (rollCredits) {
+			creditsText.transform.Translate(new Vector3(0.0f, 0.09f, 0.0f));
 		}
 	}
 
@@ -54,11 +59,13 @@ public class StartMenu : MonoBehaviour {
 	public void CreditsButtonEvent()
 	{
 		zoom = 240.0f;
+		rollCredits = true;
 		credits.SetActive(true);
 	}
 
 	public void BackToMainMenu() {
 		zoom = -240.0f;
+		rollCredits = false;
 		newGame.SetActive(false);
 		loadGame.SetActive(false);
 		options.SetActive(false);
@@ -66,8 +73,12 @@ public class StartMenu : MonoBehaviour {
 	}
 
 	public void StartGame() {
+		GameController.control.name = "TestName";
 		sc.changeScene("new", "city_centralisland");
 		SceneManager.LoadScene("city_centralisland");
 	}
 
+	public void LoadGame() {
+		
+	}
 }
