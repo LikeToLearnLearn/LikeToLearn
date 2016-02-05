@@ -9,6 +9,7 @@ public class StartRaceTrigger : MonoBehaviour {
     public Transform prefabWrong;
     public Transform prefabRight;
     public bool passed;
+    public GameObject light;
     private GameObject sign;
 
 

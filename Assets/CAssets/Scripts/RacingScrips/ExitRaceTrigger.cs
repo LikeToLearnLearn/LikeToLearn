@@ -26,6 +26,7 @@ public class ExitRaceTrigger : MonoBehaviour {
         {
             car.SetActive(false);
             player.SetActive(true);
+           
             //Debug.Log("collision det with player");
             //SceneManager.LoadScene("game_racingisland");
         }

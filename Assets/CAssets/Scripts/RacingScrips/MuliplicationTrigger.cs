@@ -11,7 +11,7 @@ public class MuliplicationTrigger : MonoBehaviour {
 
     private bool passed;
     private Vector3 offset;
-    private 
+   
 
     // Use this for initialization
     void Start () {
@@ -26,9 +26,11 @@ public class MuliplicationTrigger : MonoBehaviour {
             Debug.Log("Cannot find 'RacingLogic' script");
         }
         passed = false;
+
        
 
     }
+
     
 
     void LateUpdate()
@@ -46,7 +48,6 @@ public class MuliplicationTrigger : MonoBehaviour {
        
         if (c.tag.Equals("PlayerCar") && passed == false)
         {
-            
             Debug.Log("MultiplicationTrigger collision det with" + c.name);
             passed = true;
             racingLogic.SetSign(text);
