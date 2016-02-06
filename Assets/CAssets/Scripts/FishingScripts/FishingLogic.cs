@@ -5,27 +5,25 @@ using UnityEngine.SceneManagement;
 
 public class FishingLogic : MonoBehaviour
 {
-    private float points;
+    private float points = 0;
     private float f;
     private float answere;
 
-    public GUIText scoreText;
+    //public GUIText scoreText;
     public GameObject text;
-    private GameObject sign;
+    public GameObject score;
     private GameObject player;
-    private ArrayList pickUps;
     private int TimeRemaining;
+    private bool answered;
 
 
     // Use this for initialization
     void Start()
     {
-        points = 0;
-        sign = null;
+        answered = false;
         player = null;
-        pickUps = new ArrayList();
-
-        //UpdateScore();
+        
+        
     }
 
     // Update is called once per frame
@@ -34,11 +32,14 @@ public class FishingLogic : MonoBehaviour
 
     }
 
-
-    void SetMultiplicationAnswere(float i)
+    public bool GetAnswered()
     {
-        answere = i;
+        return answered;
+    }
 
+    public void SetAnswered(bool s)
+    {
+        answered = s;
     }
 
     public float GetMultiplicationAnswere()
@@ -49,21 +50,28 @@ public class FishingLogic : MonoBehaviour
 
     public void SetSign(GameObject t)
     {
-        sign = t;
+        score = t;
 
+    }
+
+    public void ActiveQuestion()
+    {
+        text.SetActive(true);
+    }
+
+    public void ActivateSign()
+    {
+        score.SetActive(true);
     }
 
     public void DeactivateSign()
     {
-        sign.SetActive(false);
-
-
+        score.SetActive(false);
     }
 
-    public GameObject GetSign()
+    public void DeactivateQuestion()
     {
-        if (sign == null) sign = text;
-        return sign;
+        text.SetActive(false);
     }
 
     public float SetValue(float i)
@@ -95,17 +103,14 @@ public class FishingLogic : MonoBehaviour
 
     public void AddScore(float newScoreValue)
     {
-        if (sign == null) sign = text;
         points += newScoreValue;
         UpdateScore();
         Debug.Log("Present points: " + points);
     }
 
-    void UpdateScore()
+    public void UpdateScore()
     {
-        if (sign == null) sign = text;
-        //scoreText.text = "Score: " + points;
-        sign.GetComponent<TextMesh>().text = "Score: " + points;
+        score.GetComponent<TextMesh>().text = "Score: " + points;
     }
 
     public void CreateMultiplication(float n, GameObject t)
@@ -113,26 +118,12 @@ public class FishingLogic : MonoBehaviour
         if (t == null) t = text;
         float a = n;
         float b = SetValue(10);
-        SetMultiplicationAnswere(a * b);
+        answere = a*b;
         t.GetComponent<TextMesh>().text = a + " * " + b;
-
     }
-    public void AddPickUp(GameObject p)
+
+    public void cleanPoints()
     {
-        pickUps.Add(p);
-        Debug.Log("Addeded: " + p);
+        points = 0;
     }
-
-    public void DestroyAllPickUps()
-    {
-        foreach (GameObject o in pickUps)
-        {
-            Debug.Log("Destroyed: " + o);
-            Destroy(o, 0);
-
-
-
-        }
-    }
-
 }

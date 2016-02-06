@@ -36,9 +36,9 @@ public class SetupAllShops : MonoBehaviour {
 
 
 
-	// Use this for initialization
 	//Sets up all shops in the city.
-	//Drag the shops into the ShopHandlers shop-list to add more
+	//Name the gameObjects different things for different shop items.
+	//Drag the shops into the ShopHandlers shop-list to add them.
 	void Start () {
 
 
@@ -54,7 +54,8 @@ public class SetupAllShops : MonoBehaviour {
 			}
 	
 			Transform shopGUI = shop.FindChild("ShopGUI");
-			shopGUI.GetComponent<ShopController> ().setUpShop(itemValues);
+			//shopGUI.GetComponent<ShopController> ().setUpShop(itemValues);
+			shopGUI.GetComponent<ShopGUIScript> ().setUpShop(itemValues);
 			shopGUI.gameObject.SetActive (false);
 		
 		}
