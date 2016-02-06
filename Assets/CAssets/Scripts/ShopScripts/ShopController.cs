@@ -18,6 +18,11 @@ public class ShopController : MonoBehaviour {
 	int currentPage;
 	int itemsPerPage;
 
+	Button buyButton;
+
+	//Temporary until inventory is done
+	Inventory inv;
+
 
 	List<string> inStock = new List<string>();
 
@@ -26,7 +31,11 @@ public class ShopController : MonoBehaviour {
 		currentPage = 0;
 		itemsPerPage = 4;
 
-			
+		buyButton = 
+			transform.FindChild ("Panel").FindChild ("BuyOptions").FindChild ("BuyButton").GetComponent<Button>();
+
+		//temporary until invenotry is done
+		inv = new Inventory();
 	}
 	
 	// Update is called once per frame
@@ -137,7 +146,8 @@ public class ShopController : MonoBehaviour {
 	}
 
 	public void buyItem(){
-		
+		inv.AddItem (chosenItem);
+		Debug.Log("BOUGHT ITEM " + chosenItem.ToString());
 	}
 
 }
