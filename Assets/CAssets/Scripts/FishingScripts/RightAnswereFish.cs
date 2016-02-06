@@ -9,24 +9,26 @@ public class RightAnswereFish : MonoBehaviour
     public GameObject text;
     private FishingLogic fishingLogic;
 
-    private float points;
+    //Point to right fish
+    private static float point = 5;
+
     private float f;
+    public bool displayValue = false;
 
     // Use this for initialization
     void Start()
     {
 
-        GameObject racingLogicObject = GameObject.FindWithTag("RacingController");
-        if (racingLogicObject != null)
+        GameObject fishingLogicObject = GameObject.FindWithTag("FishingController");
+        if (fishingLogicObject != null)
         {
-            fishingLogic = racingLogicObject.GetComponent<FishingLogic>();
+            fishingLogic = fishingLogicObject.GetComponent<FishingLogic>();
         }
         if (fishingLogic == null)
         {
             Debug.Log("Cannot find 'RacingLogic' script");
         }
-
-        points = 0;
+        
         SetValue();
 
     }
@@ -34,33 +36,28 @@ public class RightAnswereFish : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-
-
-    }
-
-    void OnTriggerEnter(Collider c)
-    {
-        if (c.gameObject.CompareTag("PlayerCar"))
+        if (!displayValue)
         {
-            gameObject.SetActive(false);
-
-            fishingLogic.AddScore(5);
-
-            points = points + f;
-            //Debug.Log(points);
-
+            text.SetActive(false);
         }
+        if (displayValue)
+        {
+            text.SetActive(true);
+        }
+        displayValue = false;
     }
 
-
-    void SetValue()
+    public void SetValue()
     {
         f = fishingLogic.GetMultiplicationAnswere();
         text.GetComponent<TextMesh>().text = "" + f;
-
     }
 
-
+    void OnMouseDown()
+    {
+        fishingLogic.AddScore(point);
+        fishingLogic.SetAnswered(true);
+        Destroy(gameObject);
+    }
 
 }
