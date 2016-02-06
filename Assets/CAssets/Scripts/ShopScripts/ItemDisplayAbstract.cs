@@ -20,8 +20,8 @@ public abstract class ItemDisplayAbstract : MonoBehaviour {
 
 	//Needs the following GUI elements in the following hierarchy, but their appearance can be different:
 	//GameObject (can be named anything)
+	//	EventSystem
 	//	Canvas (can be named anything)
-	//		EventSystem
 	//		Panel (a panel with some layout)
 	//			ButtonPanel (a panel with some layout)
 	//				PrevButton (a button)
@@ -91,12 +91,16 @@ public abstract class ItemDisplayAbstract : MonoBehaviour {
 
 
 		//Set up the right number of buttons (currently 4 per page)
+		//Debug.Log ("nr of items: " + items.Count);
 		int start = currentPage * itemsPerPage;
 		for (int i = start; (i <= start + (itemsPerPage - 1)) && i < inStock.Count; i++) {
+			
 			string s = inStock [i];
+
 
 			Transform clone = (Transform)Instantiate (newButton, new Vector3 (0, 0, 0), Quaternion.identity);
 			clone.parent = transform.FindChild("Panel").FindChild("ButtonPanel").FindChild("ItemButtons");
+			Debug.Log ("clone parent: " + clone.parent);
 
 			Text t = clone.FindChild ("Text").GetComponent<Text>();
 			t.text = s;

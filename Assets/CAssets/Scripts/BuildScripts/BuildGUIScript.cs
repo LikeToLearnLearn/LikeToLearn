@@ -22,7 +22,7 @@ public class BuildGUIScript : ItemDisplayAbstract {
 	// Use this for initialization
 	void Start () {
 		base.Start (5);	
-		Debug.Log ("extended");
+//		Debug.Log ("extended");
 		setUpShop (tempInv);
 	}
 	

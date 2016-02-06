@@ -5,8 +5,10 @@ using System.Collections;
 public class GUIMenuControl : MonoBehaviour {
 
 	public Transform menuPanel;
-	public Transform closeMenu;
-	public Transform openMenu;
+	public Transform buildHandler;
+	public Transform closeMenuButton;
+	public Transform openMenuButton;
+	public Transform inventoryPanel;
 
 	// Use this for initialization
 	void Start () {
@@ -18,17 +20,32 @@ public class GUIMenuControl : MonoBehaviour {
 
 	}
 
-	public void OpenMenu()
+	public void openMenu()
 	{
 		menuPanel.gameObject.SetActive (true);
-		openMenu.gameObject.SetActive (false);
-		closeMenu.gameObject.SetActive (true);
+		openMenuButton.gameObject.SetActive (false);
+		closeMenuButton.gameObject.SetActive (true);
 	}
 
-	public void CloseMenu()
+	public void closeMenu()
 	{
 		menuPanel.gameObject.SetActive (false);
-		openMenu.gameObject.SetActive (true);
-		closeMenu.gameObject.SetActive (false);
+		openMenuButton.gameObject.SetActive (true);
+		closeMenuButton.gameObject.SetActive (false);
 	}
+
+	public void openInventory(){
+		closeMenu ();
+		inventoryPanel.gameObject.SetActive (true);
+		openMenuButton.gameObject.SetActive (false);
+		closeMenuButton.gameObject.SetActive (false);
+		buildHandler.gameObject.SetActive (false);
+	}
+
+	public void closeInventory(){
+		inventoryPanel.gameObject.SetActive (false);
+		openMenuButton.gameObject.SetActive (true);
+		buildHandler.gameObject.SetActive (true);
+	}
+
 }
