@@ -6,19 +6,38 @@ using UnityEditor;
 
 
 
-public class ShopController : MonoBehaviour {
+public abstract class ItemDisplayAbstract : MonoBehaviour {
 
-	//Sets up and controls the shop it's linked to
 
-	public Transform newButton;
-	public Transform image;
-	Dictionary<Inventory.Item, int> items;
+	//Used to display items. For shops, inventory, building, or other.
+	//Takes a Dictionary of Items and int, where int is:
+	//For shops: the item's price
+	//For inventory & build: how many of the items the player has
+
+	//Overwrite the actionButtonPush() method to give it different results.
+	//For example adding the item to inventory for shops,
+	//or placing it for build
+
+	//Needs the following GUI elements in the following hierarchy, but their appearance can be different:
+	//GameObject (can be named anything)
+	//	Canvas (can be named anything)
+	//		EventSystem
+	//		Panel (a panel with some layout)
+	//			ButtonPanel (a panel with some layout)
+	//				PrevButton (a button)
+	//				ItemButtons (a Panel with some layout)
+	//				NextButton	(a button)
+	//			Options (a panel with some layout)
+	//				ActionButton (a button)
+
+
+	public Transform newButton;	//The button to be used for the items
+
+	Dictionary<Inventory.Item, int> items;	
 	Inventory.Item chosenItem;
-
 	int currentPage;
 	int itemsPerPage;
-
-	Button buyButton;
+	Button actionButton;
 
 	//Temporary until inventory is done
 	Inventory inv;
@@ -26,28 +45,29 @@ public class ShopController : MonoBehaviour {
 
 	List<string> inStock = new List<string>();
 
-	// Use this for initialization
-	void Start () {
+	//Call setUpShop() in Start() if GUI is to be displayed immediately on start
+	//Call setUpShop() in some other script if the GUI should be displayed on for example a trigger
+	public void Start (int perPage) {
+		
 		currentPage = 0;
-		itemsPerPage = 4;
+		itemsPerPage = perPage;
 
-		buyButton = 
-			transform.FindChild ("Panel").FindChild ("BuyOptions").FindChild ("BuyButton").GetComponent<Button>();
+		actionButton = 
+			transform.FindChild ("Panel").FindChild ("Options").FindChild ("ActionButton").GetComponent<Button>();
 
 		//temporary until invenotry is done
 		inv = new Inventory();
+
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
-	
+
 	}
 
 	public void setUpShop(Dictionary<Inventory.Item, int> itemDictionary){
+		Debug.Log ("original setupshop");
 		items = itemDictionary;
-
-
-
 
 		foreach (KeyValuePair<Inventory.Item, int> item in items) {
 			inStock.Add (item.Key.ToString());
@@ -59,23 +79,23 @@ public class ShopController : MonoBehaviour {
 	}
 
 	public void updateShop(){
-
+		Debug.Log ("original updateshop");
 		//Clear the button panel
 		Transform itemButtons = transform.FindChild("Panel").FindChild("ButtonPanel").FindChild("ItemButtons");
 		foreach (Transform button in itemButtons.transform) {
 			GameObject.Destroy (button.gameObject);
 		}
-			
+
 
 
 		//Set up the right number of buttons (currently 4 per page)
-		int start = currentPage * 4;
-		for (int i = start; (i <= start + 3) && i < inStock.Count; i++) {
+		int start = currentPage * itemsPerPage;
+		for (int i = start; (i <= start + (itemsPerPage - 1)) && i < inStock.Count; i++) {
 			string s = inStock [i];
 
 			Transform clone = (Transform)Instantiate (newButton, new Vector3 (0, 0, 0), Quaternion.identity);
 			clone.parent = transform.FindChild("Panel").FindChild("ButtonPanel").FindChild("ItemButtons");
-	
+
 			Text t = clone.FindChild ("Text").GetComponent<Text>();
 			t.text = s;
 			t.color = Color.clear;	//To hide the text
@@ -83,18 +103,16 @@ public class ShopController : MonoBehaviour {
 			Texture tex = Resources.Load(s) as Texture;
 			RawImage im = clone.gameObject.GetComponent<RawImage>();
 			im.texture = tex;
-			
-
 
 		}
-
-
+			
 		setScrollButtons ();
 
 	}
 
 
 	public void setScrollButtons(){
+		Debug.Log ("original setscrollbuttons");
 		Button prevButton = 
 			transform.FindChild ("Panel").FindChild ("ButtonPanel").FindChild ("PrevButton").GetComponent<Button>();
 		Button nextButton = 
@@ -106,12 +124,9 @@ public class ShopController : MonoBehaviour {
 			prevButton.interactable = true;
 		}
 		//If the last item on page is lower than last existing item
-		int lastItem = (currentPage * itemsPerPage) + 3;
-		//Debug.Log("lastItem = " + lastItem);
-		//Debug.Log("lastItem + 1  = " + (lastItem + 1));
+		int lastItem = (currentPage * itemsPerPage) + (itemsPerPage - 1);
 
 		if (lastItem + 1 < inStock.Count) {
-			//Debug.Log("ENTERED IF!");
 			nextButton.interactable = true;
 		}
 		else {
@@ -120,34 +135,33 @@ public class ShopController : MonoBehaviour {
 	}
 
 	public void changePage(int change){
+		Debug.Log ("original changepage");
 		currentPage = currentPage + change;
 		updateShop ();
 	}
-
-	public void selectItem(UnityEngine.EventSystems.BaseEventData baseEvent){
-		Debug.Log(baseEvent.selectedObject.name + " triggered an event!");
 		
-	}
-
 
 	public void selectItem(string s){
-		//Debug.Log("BUTTON CLICK! " + s);
-		//Debug.Log("object: " + transform.FindChild("Panel").FindChild("BuyOptions").FindChild("ItemText").name);
+		Debug.Log ("original clickbutton");
 
 		chosenItem = Inventory.itemStringToEnum [s];
 
-		int p = items [chosenItem];
+		int nr = items [chosenItem];
 		string itemText = s;
-		string itemPrice = "" + p + " kr";
-		transform.FindChild ("Panel").FindChild ("BuyOptions").FindChild ("ItemText").GetComponent<Text> ().text = itemText;
-		transform.FindChild ("Panel").FindChild ("BuyOptions").FindChild ("ItemPrice").GetComponent<Text> ().text = itemPrice;
+		string itemPrice = "" + nr;
+		//transform.FindChild ("Panel").FindChild ("BuyOptions").FindChild ("ItemText").GetComponent<Text> ().text = itemText;
+		//transform.FindChild ("Panel").FindChild ("BuyOptions").FindChild ("ItemPrice").GetComponent<Text> ().text = itemPrice;
 
 
 	}
 
-	public void buyItem(){
+	public void actionButtonPush(){
+		Debug.Log("ACTION BUTTON PUSHED ON " + chosenItem.ToString());
+	}
+
+	/*public void buyItem(){
 		inv.AddItem (chosenItem);
 		Debug.Log("BOUGHT ITEM " + chosenItem.ToString());
-	}
+	}*/
 
 }

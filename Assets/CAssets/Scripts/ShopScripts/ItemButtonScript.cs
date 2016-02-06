@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class ItemButtonScript : MonoBehaviour {
 
+
 	// Use this for initialization
 	void Start () {
 
@@ -19,7 +20,8 @@ public class ItemButtonScript : MonoBehaviour {
 		Text t = gameObject.GetComponentInChildren<Text>();
 		string s = t.text;
 		//Debug.Log("parent object: " + transform.parent.parent.parent.parent.name + " button name: " + s);
-		transform.parent.parent.parent.parent.GetComponent<ShopController> ().clickButton (s);
+		transform.parent.parent.parent.parent.SendMessage("selectItem", s);
+		//transform.parent.parent.parent.parent.GetComponent<ShopController> ().clickButton (s);
 		//transform.FindChild("Panel").FindChild("ButtonPanel").FindChild("ItemButtons");
 	}
 }
