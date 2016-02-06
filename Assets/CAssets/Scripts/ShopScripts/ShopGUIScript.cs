@@ -41,14 +41,11 @@ public class ShopGUIScript : ItemDisplayAbstract {
 		transform.FindChild ("Panel").FindChild ("Options").FindChild ("ItemPrice").GetComponent<Text> ().text = itemPrice;
 
 	}
+		
 
 	public void actionButtonPush(){
-		base.actionButtonPush ();
-	}
-
-	/*public void buyItem(){
-		inv.AddItem (chosenItem);
+		base.inv.AddItem (chosenItem);
 		Debug.Log("BOUGHT ITEM " + chosenItem.ToString());
-	}*/
+	}
 
 }

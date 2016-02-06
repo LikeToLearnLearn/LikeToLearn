@@ -35,7 +35,7 @@ public abstract class ItemDisplayAbstract : MonoBehaviour {
 	//Temporary until inventory is done
 	//ADD THE REAL INVENTORY LATER!
 	//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	Inventory inv;
+	public Inventory inv;
 
 	public Transform newButton;	//The button to be used for the items
 
