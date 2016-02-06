@@ -8,10 +8,13 @@ public class MuliplicationTrigger : MonoBehaviour {
     private RacingLogic racingLogic;
     public Transform prefabWrong;
     public Transform prefabRight;
+    public GameObject throwingPoint;
 
     private bool passed;
     private Vector3 offset;
-   
+
+    private Vector3 pointB;
+    //private Vector3 pointC;
 
     // Use this for initialization
     void Start () {
@@ -27,7 +30,10 @@ public class MuliplicationTrigger : MonoBehaviour {
         }
         passed = false;
 
-       
+      
+        //racingLogic.SetPointC(pointC);
+
+
 
     }
 
@@ -54,9 +60,14 @@ public class MuliplicationTrigger : MonoBehaviour {
             racingLogic.SetPlayer(PlayerCar);
             text.SetActive(true);
             racingLogic.CreateMultiplication(6, text);
+           
             Debug.Log("Right answere :" + racingLogic.GetMultiplicationAnswere());
             racingLogic.CreatePickups(prefabWrong, prefabRight, transform.position.x-33, transform.position.y-1, transform.position.z - 5);
+
             offset = PlayerCar.transform.position - text.transform.position;
+
+            pointB = throwingPoint.transform.position;
+            racingLogic.SetPointB(pointB);
            
 
         }

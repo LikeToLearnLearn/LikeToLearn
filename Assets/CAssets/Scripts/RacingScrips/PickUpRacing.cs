@@ -20,7 +20,7 @@ public class PickUpRacing : MonoBehaviour {
     //void 
         Start()
     {
-        var pointA = new Vector3(transform.position.x + 5, transform.position.y, transform.position.z - 5);
+        var pointA = transform.position; //new Vector3(transform.position.x, transform.position.y, transform.position.z);
         
 
         GameObject racingLogicObject = GameObject.FindWithTag("RacingController");
@@ -39,15 +39,16 @@ public class PickUpRacing : MonoBehaviour {
 
         racingLogic.AddPickUp(me);
 
-        pointB = new Vector3(pointA.x + racingLogic.SetPickUpPosition(5), pointA.y, pointA.z - racingLogic.SetPickUpPosition(5));
-        pointC = new Vector3(pointB.x + racingLogic.SetPickUpPosition(10), pointB.y/* + racingLogic.SetPickUpPosition(1)*/, pointB.z - racingLogic.SetPickUpPosition(10));
+        pointB = racingLogic.GetPointB();
+        if(pointB == null) pointB = new Vector3(pointA.x + racingLogic.SetPickUpPosition(5), pointA.y, pointA.z - racingLogic.SetPickUpPosition(5));
+        //pointC = new Vector3(pointB.x + racingLogic.SetPickUpPosition(10), pointB.y/* + racingLogic.SetPickUpPosition(1)*/, pointB.z - racingLogic.SetPickUpPosition(10));
         while (true)
         {
-            yield return StartCoroutine(racingLogic.MoveObject(transform, pointC, pointB, racingLogic.SetValue(5)));
+            yield return StartCoroutine(racingLogic.MoveObject(transform, pointB, pointC, racingLogic.SetValue(5)));
             yield return StartCoroutine(racingLogic.MoveObject(transform, pointB, pointA, racingLogic.SetValue(5)));
             //turn object
             transform.Rotate(Vector3.right * Time.deltaTime);
-            yield return StartCoroutine(racingLogic.MoveObject(transform, pointC, pointA, racingLogic.SetValue(5)));
+            yield return StartCoroutine(racingLogic.MoveObject(transform, pointC, pointA, 2.0f));
             
         }
 

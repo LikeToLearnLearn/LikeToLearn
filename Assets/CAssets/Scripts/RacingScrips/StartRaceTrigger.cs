@@ -29,7 +29,6 @@ public class StartRaceTrigger : MonoBehaviour {
         passed = false;
         sign = racingLogic.GetSign();
         
-
         racingLogic.CreateMultiplication(4, null);
         Debug.Log("Right answere :" + racingLogic.
             GetMultiplicationAnswere());
