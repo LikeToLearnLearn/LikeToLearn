@@ -17,7 +17,7 @@ public class BuildGUIScript : ItemDisplayAbstract {
 		{ Inventory.Item.Fish, 12 }
 	};
 
-	Dictionary<Inventory.Item, int> items;
+	//Dictionary<Inventory.Item, int> items;
 
 	// Use this for initialization
 	void Start () {

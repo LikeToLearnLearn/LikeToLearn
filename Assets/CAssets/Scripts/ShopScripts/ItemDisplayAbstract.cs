@@ -31,17 +31,19 @@ public abstract class ItemDisplayAbstract : MonoBehaviour {
 	//				ActionButton (a button)
 
 
+	//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	//Temporary until inventory is done
+	//ADD THE REAL INVENTORY LATER!
+	//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	Inventory inv;
+
 	public Transform newButton;	//The button to be used for the items
 
-	Dictionary<Inventory.Item, int> items;	
-	Inventory.Item chosenItem;
+	public Dictionary<Inventory.Item, int> items;	
+	public Inventory.Item chosenItem;
 	int currentPage;
 	int itemsPerPage;
 	Button actionButton;
-
-	//Temporary until inventory is done
-	Inventory inv;
-
 
 	List<string> inStock = new List<string>();
 
@@ -55,7 +57,7 @@ public abstract class ItemDisplayAbstract : MonoBehaviour {
 		actionButton = 
 			transform.FindChild ("Panel").FindChild ("Options").FindChild ("ActionButton").GetComponent<Button>();
 
-		//temporary until invenotry is done
+		//temporary until inventory is done
 		inv = new Inventory();
 
 	}
@@ -66,7 +68,7 @@ public abstract class ItemDisplayAbstract : MonoBehaviour {
 	}
 
 	public void setUpShop(Dictionary<Inventory.Item, int> itemDictionary){
-		Debug.Log ("original setupshop");
+//		Debug.Log ("original setupshop");
 		items = itemDictionary;
 
 		foreach (KeyValuePair<Inventory.Item, int> item in items) {
@@ -79,7 +81,7 @@ public abstract class ItemDisplayAbstract : MonoBehaviour {
 	}
 
 	public void updateShop(){
-		Debug.Log ("original updateshop");
+//		Debug.Log ("original updateshop");
 		//Clear the button panel
 		Transform itemButtons = transform.FindChild("Panel").FindChild("ButtonPanel").FindChild("ItemButtons");
 		foreach (Transform button in itemButtons.transform) {
@@ -112,7 +114,7 @@ public abstract class ItemDisplayAbstract : MonoBehaviour {
 
 
 	public void setScrollButtons(){
-		Debug.Log ("original setscrollbuttons");
+//		Debug.Log ("original setscrollbuttons");
 		Button prevButton = 
 			transform.FindChild ("Panel").FindChild ("ButtonPanel").FindChild ("PrevButton").GetComponent<Button>();
 		Button nextButton = 
@@ -135,22 +137,18 @@ public abstract class ItemDisplayAbstract : MonoBehaviour {
 	}
 
 	public void changePage(int change){
-		Debug.Log ("original changepage");
+//		Debug.Log ("original changepage");
 		currentPage = currentPage + change;
 		updateShop ();
 	}
 		
 
 	public void selectItem(string s){
-		Debug.Log ("original clickbutton");
+//		Debug.Log ("original clickbutton");
 
 		chosenItem = Inventory.itemStringToEnum [s];
 
-		int nr = items [chosenItem];
-		string itemText = s;
-		string itemPrice = "" + nr;
-		//transform.FindChild ("Panel").FindChild ("BuyOptions").FindChild ("ItemText").GetComponent<Text> ().text = itemText;
-		//transform.FindChild ("Panel").FindChild ("BuyOptions").FindChild ("ItemPrice").GetComponent<Text> ().text = itemPrice;
+
 
 
 	}
@@ -159,9 +157,6 @@ public abstract class ItemDisplayAbstract : MonoBehaviour {
 		Debug.Log("ACTION BUTTON PUSHED ON " + chosenItem.ToString());
 	}
 
-	/*public void buyItem(){
-		inv.AddItem (chosenItem);
-		Debug.Log("BOUGHT ITEM " + chosenItem.ToString());
-	}*/
+
 
 }
