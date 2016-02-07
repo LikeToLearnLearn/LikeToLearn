@@ -58,27 +58,17 @@ public class BoatController : MonoBehaviour {
             //Limit torque. Conditions attempt to simulate reality a little
             if (!(h == 0f || rb.angularVelocity.y > maxTurnTorque))
             {
-                //Add "horizontal" torque
+                //Add "horizontal" torque   
                 rb.AddTorque(0f, h * turnSpeed * Time.fixedDeltaTime, 0f);
             }
 
-            /* An attempt at keeping boat upright
-            Quaternion localrot = rb.transform.localRotation;
-            Vector3 localup = new Vector3(0f, localrot.y, 0f);
-            Quaternion vert = Quaternion.FromToRotation(localup,Vector3.up);
 
-            float angleYDiff = Quaternion.Angle(rb.rotation, vert);
-            if (angleYDiff > 30f)
-            {
-                print("yup");
-                rb.MoveRotation(vert * Time.fixedDeltaTime);
-            }
-            */
-
-
-            //Keep rotation close to 0. TODO 
-            //Quaternion q = new Quaternion(0f, 0f, 0f, 0f);
-            //this.gameObject.transform.rotation = Quaternion.LerpUnclamped(rb.rotation, q, Time.fixedDeltaTime * 1000f);
+            //Keep boat upright
+            Quaternion q = Quaternion.FromToRotation(transform.up, Vector3.up);
+            float buoyantTorque = 50f;
+            rb.AddTorque(q.x * buoyantTorque * 1, q.y * buoyantTorque * 10, q.z * buoyantTorque * 10);
+           // Quaternion q = new Quaternion(0f, 0f, 0f, 0f);
+           // this.gameObject.transform.rotation = Quaternion.LerpUnclamped(rb.rotation, q, Time.fixedDeltaTime * 1000f);
 
             //Quaternion nq = this.gameObject.transform.rotation;
             //if (nq.x > 10 || nq.z > 10)

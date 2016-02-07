@@ -5,9 +5,12 @@ public class BoatEnterTrigger : MonoBehaviour {
 
     public GameObject boatCamera;
     public GameObject boat;
+    public GameObject exit;
+    private BoatExitTrigger exitTrigger;
 
     // Use this for initialization
     void Start () {
+        exitTrigger = exit.GetComponent<BoatExitTrigger>();
 	}
 	
 	// Update is called once per frame
@@ -29,14 +32,14 @@ public class BoatEnterTrigger : MonoBehaviour {
             pcam.enabled = false;
 
             GameObject boat = GameObject.Find("Speedboat");
-            //boat.SetActive(true);
             boat.GetComponent<BoatController>().StartBoat();
             Rigidbody boatrb = boat.GetComponent<Rigidbody>();
-            boatrb.constraints = RigidbodyConstraints.FreezePositionY | 
-                RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ; 
+            boatrb.constraints = RigidbodyConstraints.FreezePositionY; // | 
+                //RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ; 
 
             //boatCamera = GameObject.Find("BoatDrivingCamera");
             boatCamera.SetActive(true);
+            exitTrigger.StartTimer();
 
 
         }

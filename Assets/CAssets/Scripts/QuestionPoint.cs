@@ -33,38 +33,8 @@ public class QuestionPoint : MonoBehaviour {
     
     void Update ()
     {
-        /*timeSinceAnswer += Time.deltaTime;
-        foreach (AnswerPoint ap in aps)
-        {
-            if (ap.GetTriggered() == true)
-            {
-                answered = true;
-                print("ANSWERED");
+        //timeSinceAnswer += Time.deltaTime;
 
-
-                if (ap.GetCurrentAnswer() == correctAnswer && !rewarded)
-                {
-                    // reward PLAYER
-                    //FIX This can run twice on one question NEEDS DELAY
-
-                    
-                    print("REWARD");
-
-                    rewarded = true;
-                }
-                else if (ap.GetCurrentAnswer() != correctAnswer)
-                {
-                    print("WRONG");
-                    UpdateQuestion();
-                }
-
-                if (rewarded)
-                {
-                    UpdateQuestion();
-                }
-
-            }
-        }*/
 	}
 
     public bool AnswerQuestion(float guess)
@@ -72,7 +42,6 @@ public class QuestionPoint : MonoBehaviour {
         bool correct = false;
 
         answered = true;
-        print("ANSWERED");
 
         if (guess == correctAnswer)
         {
