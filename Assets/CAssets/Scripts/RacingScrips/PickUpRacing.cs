@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class PickUpRacing : MonoBehaviour {
     public GameObject text;
     private RacingLogic racingLogic;
-    public Vector3 pointB, pointC;
+    public Vector3 pointA, pointB, pointC;
     public GameObject me;
 
     private float points;
@@ -15,12 +15,14 @@ public class PickUpRacing : MonoBehaviour {
     private GameObject player;
    
 
+
     // Use this for initialization
     IEnumerator
     //void 
         Start()
     {
-        var pointA = transform.position; //new Vector3(transform.position.x, transform.position.y, transform.position.z);
+
+        //var pointA = transform.position; //new Vector3(transform.position.x, transform.position.y, transform.position.z);
         
 
         GameObject racingLogicObject = GameObject.FindWithTag("RacingController");
@@ -39,16 +41,19 @@ public class PickUpRacing : MonoBehaviour {
 
         racingLogic.AddPickUp(me);
 
+        pointA = transform.position ; // racingLogic.GetPointA();
         pointB = racingLogic.GetPointB();
-        if(pointB == null) pointB = new Vector3(pointA.x + racingLogic.SetPickUpPosition(5), pointA.y, pointA.z - racingLogic.SetPickUpPosition(5));
-        //pointC = new Vector3(pointB.x + racingLogic.SetPickUpPosition(10), pointB.y/* + racingLogic.SetPickUpPosition(1)*/, pointB.z - racingLogic.SetPickUpPosition(10));
+        pointC = racingLogic.GetPointC();
+        if (pointA == null) pointA = transform.position;
+        if (pointB == null) pointB = new Vector3(pointA.x + racingLogic.SetPickUpPosition(5), pointA.y, pointA.z - racingLogic.SetPickUpPosition(5));
+        if (pointC == null) pointC = new Vector3(pointB.x + racingLogic.SetPickUpPosition(10), pointB.y/* + racingLogic.SetPickUpPosition(1)*/, pointB.z - racingLogic.SetPickUpPosition(10));
         while (true)
         {
-            yield return StartCoroutine(racingLogic.MoveObject(transform, pointB, pointC, racingLogic.SetValue(5)));
-            yield return StartCoroutine(racingLogic.MoveObject(transform, pointB, pointA, racingLogic.SetValue(5)));
+            yield return StartCoroutine(racingLogic.MoveObject(transform, pointB, pointC, 8.0f/*racingLogic.SetValue(5)*/));
+            //ield return StartCoroutine(racingLogic.MoveObject(transform, pointC, pointA, 3.0f/*racingLogic.SetValue(5)*/));
             //turn object
             transform.Rotate(Vector3.right * Time.deltaTime);
-            yield return StartCoroutine(racingLogic.MoveObject(transform, pointC, pointA, 2.0f));
+            //yield return StartCoroutine(racingLogic.MoveObject(transform, pointB, pointC, 2.0f));
             
         }
 
@@ -83,6 +88,7 @@ public class PickUpRacing : MonoBehaviour {
     void SetValue()
     {
         f = Mathf.Floor(Random.value * 100f);
+        if (racingLogic.GetDirection() == 2) text.transform.Rotate(0, 180, 0);
         text.GetComponent<TextMesh>().text = "" + f;
 
     }

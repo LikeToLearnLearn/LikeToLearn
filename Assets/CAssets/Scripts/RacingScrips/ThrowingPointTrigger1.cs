@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 
 
-public class ThrowingPointTrigger : MonoBehaviour
+public class ThrowingPointTrigger1 : MonoBehaviour
 {
     private RacingLogic racingLogic;
 
@@ -31,16 +31,14 @@ public class ThrowingPointTrigger : MonoBehaviour
     {
         if (c.gameObject.CompareTag("PlayerCar"))
         {
-            //gameObject.SetActive(false);
-
-            //Debug.Log(points);
-            if (racingLogic.GetDirection() == 1)
+            if (racingLogic.GetDirection() == 2)
             {
                 racingLogic.DestroyAllPickUps();
                 racingLogic.DeactivateSign();
             }
 
-            racingLogic.SetDirection(2);
+            racingLogic.SetDirection(1);
+
 
         }
     }

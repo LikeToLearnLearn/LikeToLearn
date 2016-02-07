@@ -4,16 +4,22 @@ using System.Collections;
 public class MuliplicationTrigger : MonoBehaviour {
 
     public GameObject text;
+    public GameObject text2;
     public GameObject PlayerCar;
     private RacingLogic racingLogic;
     public Transform prefabWrong;
     public Transform prefabRight;
+    public GameObject firstThrowingPoint;
     public GameObject throwingPoint;
+    public GameObject secondThrowingPoint;
 
-    private bool passed;
-    private Vector3 offset;
+    // private bool passed;
+    //private Vector3 offset;
+    private bool turned;
 
+    private Vector3 pointA;
     private Vector3 pointB;
+    private Vector3 pointC;
     //private Vector3 pointC;
 
     // Use this for initialization
@@ -28,7 +34,7 @@ public class MuliplicationTrigger : MonoBehaviour {
         {
             Debug.Log("Cannot find 'RacingLogic' script");
         }
-        passed = false;
+        turned = false;
 
       
         //racingLogic.SetPointC(pointC);
@@ -41,7 +47,8 @@ public class MuliplicationTrigger : MonoBehaviour {
 
     void LateUpdate()
     {
-        text.transform.position = new Vector3(PlayerCar.transform.position.x -3, PlayerCar.transform.position.y + 2, PlayerCar.transform.position.z + 4) ;
+        if(racingLogic.GetDirection() == 1) text.transform.position = new Vector3(PlayerCar.transform.position.x -4, PlayerCar.transform.position.y + 4, PlayerCar.transform.position.z + 4) ;
+        else text.transform.position = new Vector3(PlayerCar.transform.position.x + 4, PlayerCar.transform.position.y + 4, PlayerCar.transform.position.z - 4);
     }
 
     // Update is called once per frame
@@ -52,26 +59,66 @@ public class MuliplicationTrigger : MonoBehaviour {
     void OnTriggerEnter(Collider c)
     {
        
-        if (c.tag.Equals("PlayerCar") && passed == false)
+        if (c.tag.Equals("PlayerCar") && racingLogic.GetDirection()== 1)
         {
             Debug.Log("MultiplicationTrigger collision det with" + c.name);
-            passed = true;
+            //passed = true;
+            
             racingLogic.SetSign(text);
             racingLogic.SetPlayer(PlayerCar);
             text.SetActive(true);
+            if (turned)
+            {
+                text.transform.Rotate(0, 180, 0);
+                turned = false;
+            }
             racingLogic.CreateMultiplication(6, text);
            
             Debug.Log("Right answere :" + racingLogic.GetMultiplicationAnswere());
             racingLogic.CreatePickups(prefabWrong, prefabRight, transform.position.x-33, transform.position.y-1, transform.position.z - 5);
 
-            offset = PlayerCar.transform.position - text.transform.position;
+            //offset = PlayerCar.transform.position - text.transform.position;
 
+            pointA = firstThrowingPoint.transform.position;
             pointB = throwingPoint.transform.position;
+            pointC = secondThrowingPoint.transform.position;
+            racingLogic.SetPointA(pointA);
             racingLogic.SetPointB(pointB);
-           
+            racingLogic.SetPointC(pointC);
+
 
         }
-         
+
+        if (c.tag.Equals("PlayerCar") && racingLogic.GetDirection() == 2)
+        {
+            Debug.Log("MultiplicationTrigger collision det with" + c.name);
+            //passed = true;
+          
+            racingLogic.SetSign(text);
+            racingLogic.SetPlayer(PlayerCar);
+            if (!turned)
+            {
+                text.transform.Rotate(0, 180, 0);
+                turned = true;
+            }
+            text.SetActive(true);
+            racingLogic.CreateMultiplication(5, text);
+
+            Debug.Log("Right answere :" + racingLogic.GetMultiplicationAnswere());
+            racingLogic.CreatePickups(prefabWrong, prefabRight, transform.position.x - 33, transform.position.y - 1, transform.position.z - 5);
+
+            //offset = PlayerCar.transform.position - text.transform.position;
+
+            pointA = firstThrowingPoint.transform.position;
+            pointB = throwingPoint.transform.position;
+            pointC = secondThrowingPoint.transform.position;
+            racingLogic.SetPointA(pointA);
+            racingLogic.SetPointB(pointC);
+            racingLogic.SetPointC(pointB);
+
+
+        }
+
 
     }
 

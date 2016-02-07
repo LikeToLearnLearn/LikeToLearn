@@ -29,9 +29,9 @@ public class StartRaceTrigger : MonoBehaviour {
         passed = false;
         sign = racingLogic.GetSign();
         
-        racingLogic.CreateMultiplication(4, null);
-        Debug.Log("Right answere :" + racingLogic.
-            GetMultiplicationAnswere());
+        //racingLogic.CreateMultiplication(4, null);
+        //Debug.Log("Right answere :" + racingLogic.
+            //GetMultiplicationAnswere());
 
 
     }
@@ -47,12 +47,12 @@ public class StartRaceTrigger : MonoBehaviour {
         if ((c.tag.Equals("Player")|| c.tag.Equals( "PlayerTest")) && passed == false)
         {
             passed = true;
-            racingLogic.CreatePickups(prefabWrong, prefabRight, 285, 120, 335 );
+            //racingLogic.CreatePickups(prefabWrong, prefabRight, 285, 120, 335 );
             car.SetActive(true);
-            sign.SetActive(true);
+           // sign.SetActive(true);
             c.gameObject.SetActive(false);
             //Debug.Log("Found object: " + GetComponentInParent("PlayerController").name);
-            Debug.Log("StartTrigger: " + c. name);
+            //Debug.Log("StartTrigger: " + c. name);
         }
         
     }

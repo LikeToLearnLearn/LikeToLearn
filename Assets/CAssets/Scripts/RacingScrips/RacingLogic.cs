@@ -15,11 +15,20 @@ public class RacingLogic : MonoBehaviour
     private GameObject sign;
     private GameObject player;
     private ArrayList pickUps;
-    private int TimeRemaining;
-    private Vector3 pointB, pointC;
+    //private int TimeRemaining;
 
-
-
+    private Vector3 pointA, pointB, pointC;
+    private float timeLeft;
+    private int numbersLeft;
+    private Transform prefabWrong;
+    private Transform prefabRight;
+    private float x, y, z;
+    private float right;
+    private bool update;
+    private string multiplication;
+    private float direction;
+    
+        
     // Use this for initialization
     void Start()
     {
@@ -27,14 +36,45 @@ public class RacingLogic : MonoBehaviour
         sign = null;
         player = null;
         pickUps = new ArrayList();
-        
+        numbersLeft = 0;
+        timeLeft = 2.0f;
+        update = false;
+
+
         //UpdateScore();
     }
     
     // Update is called once per frame
     void Update()
     {
+        timeLeft -= Time.deltaTime;
+        if (numbersLeft > 0 && timeLeft<0)
+        {
+            print("Putting");
+            if(numbersLeft == right) Instantiate(prefabRight, new Vector3((SetPickUpPosition(5)) + x, y, (SetPickUpPosition(10)) + z), Quaternion.identity);
+            else Instantiate(prefabWrong, new Vector3((SetPickUpPosition(5)) + 2 + x, y, (SetPickUpPosition(10)) - 2 + z), Quaternion.identity);
+            numbersLeft--;
+            timeLeft = 2.0f;
 
+        }
+        if (update == true && timeLeft > 0)
+            sign.GetComponent<TextMesh>().text = "Score: " + points;
+        else if (update == true) { 
+            sign.GetComponent<TextMesh>().text = GetMultiplication();
+            update = false;
+        }
+    }
+
+    public void SetDirection(float d)
+    {
+        direction = d;
+
+    }
+
+    public float GetDirection()
+    {
+
+        return direction;
     }
 
     public void SetPointB(Vector3 b)
@@ -46,6 +86,18 @@ public class RacingLogic : MonoBehaviour
     public void SetPointC(Vector3 c)
     {
         pointC = c;
+
+    }
+
+    public void SetPointA(Vector3 a)
+    {
+        pointA = a;
+
+    }
+
+    public Vector3 GetPointA()
+    {
+        return pointA;
 
     }
 
@@ -132,7 +184,8 @@ public class RacingLogic : MonoBehaviour
     {
         if (sign == null) sign = text;
         //scoreText.text = "Score: " + points;
-        sign.GetComponent<TextMesh>().text = "Score: " + points;
+        update = true;
+        //sign.GetComponent<TextMesh>().text = "Score: " + points;
     }
 
     public void CreateMultiplication(float n, GameObject t)
@@ -141,9 +194,17 @@ public class RacingLogic : MonoBehaviour
         float a = n;
         float b = SetValue(10);
         SetMultiplicationAnswere(a * b);
+        multiplication = "" + a + " * " + b;
         t.GetComponent<TextMesh>().text = a + " * " + b;
 
     }
+
+    public string GetMultiplication()
+    {
+        return multiplication;
+
+    }
+
      public void AddPickUp(GameObject p)
         {
             pickUps.Add(p);
@@ -161,18 +222,27 @@ public class RacingLogic : MonoBehaviour
 
             }
         }
-    public void CreatePickups(Transform prefabWrong, Transform prefabRigth, float x, float y, float z)
+    public void CreatePickups(Transform pbWrong, Transform pbRigth, float x, float y, float z)
     {
-        for (int i = 0; i < 3; i++)
-        {
-            Debug.Log("CreatePickUps");
-            Instantiate(prefabWrong, new Vector3((SetPickUpPosition(5)) + i + x, y, (SetPickUpPosition(10)) - i + z), Quaternion.identity);
-            StartCoroutine(Example());
-        }
+        numbersLeft = 4;
+        timeLeft = 2.0f;
+        prefabWrong = pbWrong;
+        prefabRight = pbRigth;
+        this.x = x;
+        this.y = y;
+        this.z = z;
+        right = SetValue(3) + 1;
+
+        //for (int i = 0; i < 3; i++)
+        //{
+                       // Debug.Log("CreatePickUps");
+           // Instantiate(prefabWrong, new Vector3((SetPickUpPosition(5)) + i + x, y, (SetPickUpPosition(10)) - i + z), Quaternion.identity);
+            //StartCoroutine(Example());
+        //}
         //MoveObject(prefabWrong, new Vector3((SetPickUpPosition(5)) + 2 + x, y, (SetPickUpPosition(10)) - 2 + z), new Vector3((SetPickUpPosition(5)) + 2 + x, y, (SetPickUpPosition(10)) - 2 + z), 1);
 
-        Debug.Log("Create rigth pickUp");
-        Instantiate(prefabRigth, new Vector3((SetPickUpPosition(5)) + x, y, (SetPickUpPosition(10)) + z), Quaternion.identity);
+        //Debug.Log("Create rigth pickUp");
+        //Instantiate(prefabRigth, new Vector3((SetPickUpPosition(5)) + x, y, (SetPickUpPosition(10)) + z), Quaternion.identity);
     }
 
     
