@@ -2,7 +2,7 @@
 
 public class MinigameFish : MonoBehaviour {
     private FishingLogic fishingLogic;
-    private static int wrongfish = 10;
+    private static int wrongfish = 14;
 
     public Transform prefabWrong;
     public Transform prefabRight;
@@ -79,7 +79,7 @@ public class MinigameFish : MonoBehaviour {
                     wrongAnswere = i.GetComponent<PickUpWrongAnswereFish>();
                     wrongAnswere.SetValue();
                 }
-                Instantiate(prefabRight, new Vector3(SetValue(5) - 5, -0.85f, SetValue(5) - 10), Quaternion.Euler(0, 90, 0));
+                Instantiate(prefabRight, new Vector3(SetValue(5) - 5, -0.95f, SetValue(5) - 10), Quaternion.Euler(0, 90, 0));
                 fishingLogic.CreateMultiplication(4, null);
             }
             fishingLogic.SetAnswered(false);

@@ -59,6 +59,8 @@ public class PickUpWrongAnswereFish : MonoBehaviour
     public void SetValue()
     {
         f = Mathf.Floor(Random.value * 100f);
+        while(f == fishingLogic.GetMultiplicationAnswere())
+            f = Mathf.Floor(Random.value * 100f);
         Debug.Log("New wrong answer: " + f);
         text.GetComponent<TextMesh>().text = "" + f;
     }
