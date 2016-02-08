@@ -25,12 +25,18 @@ public class Building : MonoBehaviour {
         currentItem = GameObject.Find("Brick");
         currentItemMarker = GameObject.Find("TransparentBrick");
 
-        Instantiate(currentItem, new Vector3(), Quaternion.identity); //TODO On chosen item, make a transparent version of it to show!
+        //Instantiate(currentItem, new Vector3(), Quaternion.identity); //TODO On chosen item, make a transparent version of it to show!
+    }
+
+    public void SetCurrentItem()
+    {
+
     }
 
     // Update is called once per frame
     void Update()
     {
+
         if(currentItem != null)
         {
             // Move transparent version of current chosen item to where camera is pointing
@@ -41,7 +47,7 @@ public class Building : MonoBehaviour {
             {
                 return;
             }
-            else if (dist < 5 && !hit.collider.name.Contains("Clone"))
+            else if (dist < 5)
             {
                 currentItemMarker.transform.position = hit.point;
             }   
@@ -69,7 +75,8 @@ public class Building : MonoBehaviour {
             }
             else if(CrossPlatformInputManager.GetButtonDown("Fire1") && snapMode)
             {
-
+                //TODO some sort of hold and drag mode that will automatically align several items within origin and another point...
+                // will need some sort of ITEM SIZE, and count multiples of this size that fit in the box...
             }
 
 

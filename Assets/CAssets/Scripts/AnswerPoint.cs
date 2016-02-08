@@ -6,11 +6,12 @@ public class AnswerPoint : MonoBehaviour
 
     private float currentAnswer;
     private bool triggered;
+    private QuestionPoint qp;
 
     // Use this for initialization
     void Start()
     {
-
+        qp = this.gameObject.GetComponentInParent<QuestionPoint>();
     }
 
     // Update is called once per frame
@@ -24,13 +25,12 @@ public class AnswerPoint : MonoBehaviour
 
         if (c.tag.Equals("PlayerBoat") && !triggered)
         {
-            print("HERE'S A TRIGGER!");
             SetTriggered(true);
-            StartCoroutine(DelayAnswer());
+            StartCoroutine(AnswerAndDelay());
         }
     }
 
-    private IEnumerator DelayAnswer()
+    private IEnumerator AnswerAndDelay()
     {
         Color oldcolor = GetComponentInChildren<TextMesh>().color;
 
@@ -41,7 +41,8 @@ public class AnswerPoint : MonoBehaviour
         GetComponentInChildren<MeshRenderer>().enabled = false;
         yield return new WaitForSeconds(0.2f);
         GetComponentInChildren<MeshRenderer>().enabled = true;
-        if (currentAnswer == this.gameObject.GetComponentInParent<QuestionPoint>().GetCorrectAnswer())
+        bool ans = qp.AnswerQuestion(currentAnswer);
+        if (ans)
         {
             Color c = new Color(0, 255, 0);
             GetComponentInChildren<TextMesh>().color = c;
@@ -53,9 +54,8 @@ public class AnswerPoint : MonoBehaviour
             GetComponentInChildren<TextMesh>().color = c;
         }
 
-        yield return new WaitForSeconds(8f);
-        bool ans = this.gameObject.GetComponentInParent<QuestionPoint>().AnswerQuestion(currentAnswer);
-        
+        yield return new WaitForSeconds(8f); // 8 second delay
+        qp.UpdateQuestion();
         GetComponentInChildren<TextMesh>().color = oldcolor;
         SetTriggered(false);
     }

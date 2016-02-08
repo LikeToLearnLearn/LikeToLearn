@@ -22,6 +22,9 @@ public class BoatEnterTrigger : MonoBehaviour {
     {
         if (c.tag.Equals("Player"))
         {
+            GameObject.Find("BoatGame").GetComponent<BoatGame>().StartGame(); // start game in boatgame script
+
+            // Disable player components and camera
             GameObject player = GameObject.FindGameObjectWithTag("Player");
             Component[] components = player.GetComponents<MonoBehaviour>();
             foreach ( MonoBehaviour comp in components)
@@ -31,15 +34,13 @@ public class BoatEnterTrigger : MonoBehaviour {
             Camera pcam = player.GetComponentInChildren<Camera>();
             pcam.enabled = false;
 
+            // Activate boat and camera
             GameObject boat = GameObject.Find("Speedboat");
             boat.GetComponent<BoatController>().StartBoat();
             Rigidbody boatrb = boat.GetComponent<Rigidbody>();
-            boatrb.constraints = RigidbodyConstraints.FreezePositionY; // | 
-                //RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ; 
-
-            //boatCamera = GameObject.Find("BoatDrivingCamera");
+            boatrb.constraints = RigidbodyConstraints.FreezePositionY;
             boatCamera.SetActive(true);
-            exitTrigger.StartTimer();
+            exitTrigger.StartTimer(); // timer for minimum time before exiting (prevents boat stuck in exit trigger)
 
 
         }

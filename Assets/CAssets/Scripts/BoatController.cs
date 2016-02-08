@@ -62,21 +62,10 @@ public class BoatController : MonoBehaviour {
                 rb.AddTorque(0f, h * turnSpeed * Time.fixedDeltaTime, 0f);
             }
 
-
             //Keep boat upright
             Quaternion q = Quaternion.FromToRotation(transform.up, Vector3.up);
             float buoyantTorque = 50f;
             rb.AddTorque(q.x * buoyantTorque * 1, q.y * buoyantTorque * 10, q.z * buoyantTorque * 10);
-           // Quaternion q = new Quaternion(0f, 0f, 0f, 0f);
-           // this.gameObject.transform.rotation = Quaternion.LerpUnclamped(rb.rotation, q, Time.fixedDeltaTime * 1000f);
-
-            //Quaternion nq = this.gameObject.transform.rotation;
-            //if (nq.x > 10 || nq.z > 10)
-            //{
-                //Never comes in here atm
-            //    print("x:" + rb.transform.rotation.x + "  z:" + rb.transform.rotation.z);
-            //    rb.transform.rotation = new Quaternion(1f, rb.transform.rotation.y, 1f, 0f);
-            //}
 
         }
     }

@@ -7,6 +7,7 @@ public class QuestionPoint : MonoBehaviour {
 
     private float timeSinceAnswer;
 
+    private BoatGame boatgame;
     private AnswerPoint[] aps;
 
     private bool rewarded;
@@ -14,10 +15,12 @@ public class QuestionPoint : MonoBehaviour {
     private float correctAnswer;
     private float playersAnswer;
     private string difficulty;
+    private int difficultyAsInt;
 
     // Use this for initialization
     void Start ()
     {
+        boatgame = GameObject.Find("BoatGame").GetComponent<BoatGame>();
         aps = GetComponentsInChildren<AnswerPoint>();
         timeBetweenAnsweredQ = 5f;
 
@@ -25,6 +28,18 @@ public class QuestionPoint : MonoBehaviour {
         //Like so: "[anything] [difficulty]". E.g: "QuestionPoint Medium".
         string[] splits = this.gameObject.name.Split(' ');
         difficulty = splits[1];
+        if (difficulty.Equals("Easy"))
+        {
+            difficultyAsInt = 1;
+        }
+        else if (difficulty.Equals("Medium"))
+        {
+            difficultyAsInt = 2;
+        }
+        else if (difficulty.Equals("Hard"))
+        {
+            difficultyAsInt = 3;
+        }
 
         UpdateQuestion();
     }
@@ -33,34 +48,37 @@ public class QuestionPoint : MonoBehaviour {
     
     void Update ()
     {
-        //timeSinceAnswer += Time.deltaTime;
+
 
 	}
 
     public bool AnswerQuestion(float guess)
     {
-        bool correct = false;
+        bool correct = false; // bool returned; true if correct guess, false if wrong guess
 
-        answered = true;
-
-        if (guess == correctAnswer)
+        if (!answered) 
         {
-            // reward PLAYER
-            print("RIGHT! REWARD");
-            rewarded = true;
-            correct = true;
-        }
-        else
-        {
-            print("WRONG");
+            answered = true; // flag to only allow answering once per question
+
+            if (guess == correctAnswer)
+            {
+                boatgame.AddScore(Random.Range(0, 5) + difficultyAsInt * 5);
+                boatgame.AddTime(10 * difficultyAsInt);
+
+                rewarded = true;
+                correct = true;
+            }
+            else
+            {
+                boatgame.AddScore(-(Random.Range(0, 5) + difficultyAsInt * 1));
+            }
         }
 
-        UpdateQuestion();
         return correct;
     }
 
 
-    private void UpdateQuestion()
+    public void UpdateQuestion()
     {
         if (difficulty.Equals("Easy"))
         {
@@ -80,8 +98,8 @@ public class QuestionPoint : MonoBehaviour {
 
         }
 
-
-        int correctPosition = Random.Range(0, aps.Length);
+        // Randomize answers
+        int correctPosition = Random.Range(0, aps.Length); // randomize which index will get correct answer
         for (int i = 0; i < aps.Length; i++)
         {
             if (i == correctPosition)
@@ -90,6 +108,7 @@ public class QuestionPoint : MonoBehaviour {
             }
             else
             {
+                // Randomize false answer
                 while (aps[i].GetCurrentAnswer() == correctAnswer || aps[i].GetCurrentAnswer() == 0)
                 {
                     aps[i].SetCurrentAnswer(correctAnswer + (int)Random.Range(-correctAnswer * 1f, correctAnswer * 1f));
@@ -102,11 +121,11 @@ public class QuestionPoint : MonoBehaviour {
             //aps[i].SetTriggered(false);
             aps[i].GetComponentInChildren<TextMesh>().text = aps[i].GetCurrentAnswer().ToString();
 
-            //timeSinceAnswer = 0f;
-            rewarded = false;
-            answered = false;
-            
         }
+        //timeSinceAnswer = 0f;
+        rewarded = false;
+        answered = false;
+            
     }
 
     public float GetCorrectAnswer() {
