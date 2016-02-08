@@ -5,21 +5,15 @@ using UnityEngine.UI;
 
 public class InventoryGUIScript : ItemDisplayAbstract {
 
-	static Dictionary<Inventory.Item, int> tempInv = new Dictionary<Inventory.Item, int>() {
-		{ Inventory.Item.OneCoin, 1 },
-		{ Inventory.Item.TenCoin, 10 },
-		{ Inventory.Item.HundredBill, 2 },
-		{ Inventory.Item.ThousandBill, 2 },
-		{ Inventory.Item.Brick, 50 },
-		{ Inventory.Item.Fish, 12 }
-	};
 
 	public Transform guiMenuControl;
 
 	// Use this for initialization
 	void Start () {
 		base.Start (10);	
-		setUpShop (tempInv);
+		Dictionary<string, int> oldDictionary = base.inventory.getInventoryAsDictionary ();
+		Dictionary<string, int> newDictionary = base.hideEmptyItems (oldDictionary);
+		setUpShop (newDictionary);
 	}
 
 	// Update is called once per frame
@@ -27,7 +21,9 @@ public class InventoryGUIScript : ItemDisplayAbstract {
 
 	}
 
-	public void setUpShop(Dictionary<Inventory.Item, int> itemDictionary){
+
+
+	public void setUpShop(Dictionary<string, int> itemDictionary){
 		base.setUpShop (itemDictionary);
 
 	}

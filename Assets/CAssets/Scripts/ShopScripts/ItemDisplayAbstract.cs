@@ -31,16 +31,12 @@ public abstract class ItemDisplayAbstract : MonoBehaviour {
 	//				ActionButton (a button)
 
 
-	//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	//Temporary until inventory is done
-	//ADD THE REAL INVENTORY LATER!
-	//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	public Inventory inv;
 
 	public Transform newButton;	//The button to be used for the items
+	public PlayerInventory inventory;
 
-	public Dictionary<Inventory.Item, int> items;	
-	public Inventory.Item chosenItem;
+	public Dictionary<string, int> items;	
+	public string chosenItem;
 	int currentPage;
 	int itemsPerPage;
 	Button actionButton;
@@ -57,9 +53,7 @@ public abstract class ItemDisplayAbstract : MonoBehaviour {
 		actionButton = 
 			transform.FindChild ("Panel").FindChild ("Options").FindChild ("ActionButton").GetComponent<Button>();
 
-		//temporary until inventory is done
-		inv = new Inventory();
-
+		inventory = GameObject.Find ("GameController").transform.FindChild ("InventoryHandlerO").GetComponent<PlayerInventory>();
 	}
 
 	// Update is called once per frame
@@ -67,11 +61,11 @@ public abstract class ItemDisplayAbstract : MonoBehaviour {
 
 	}
 
-	public void setUpShop(Dictionary<Inventory.Item, int> itemDictionary){
+	public void setUpShop(Dictionary<string, int> itemDictionary){
 //		Debug.Log ("original setupshop");
 		items = itemDictionary;
 
-		foreach (KeyValuePair<Inventory.Item, int> item in items) {
+		foreach (KeyValuePair<string, int> item in items) {
 			inStock.Add (item.Key.ToString());
 		}
 
@@ -100,7 +94,7 @@ public abstract class ItemDisplayAbstract : MonoBehaviour {
 
 			Transform clone = (Transform)Instantiate (newButton, new Vector3 (0, 0, 0), Quaternion.identity);
 			clone.parent = transform.FindChild("Panel").FindChild("ButtonPanel").FindChild("ItemButtons");
-			Debug.Log ("clone parent: " + clone.parent);
+			//Debug.Log ("clone parent: " + clone.parent);
 
 			Text t = clone.FindChild ("Text").GetComponent<Text>();
 			t.text = s;
@@ -150,8 +144,8 @@ public abstract class ItemDisplayAbstract : MonoBehaviour {
 	public void selectItem(string s){
 //		Debug.Log ("original clickbutton");
 
-		chosenItem = Inventory.itemStringToEnum [s];
-
+		//chosenItem = Inventory.itemStringToEnum [s];
+		chosenItem = s;
 
 
 
@@ -159,6 +153,16 @@ public abstract class ItemDisplayAbstract : MonoBehaviour {
 
 	public void actionButtonPush(){
 		Debug.Log("ACTION BUTTON PUSHED ON " + chosenItem.ToString());
+	}
+
+	public Dictionary<string, int> hideEmptyItems(Dictionary<string, int> itemDictionary){
+		Dictionary<string, int> newDictionary = new Dictionary<string, int> ();
+		foreach(string item in itemDictionary.Keys){
+			if (itemDictionary[item] > 0) {
+				newDictionary.Add (item, itemDictionary[item]);
+			}
+		}
+		return newDictionary;
 	}
 
 

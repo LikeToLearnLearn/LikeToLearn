@@ -10,29 +10,22 @@ public class SetupAllShops : MonoBehaviour {
 	public Transform[] cityShops;
 
 
-	public static Dictionary<Inventory.Item, int> itemValues;
+	public static Dictionary<string, int> itemValues;
 
-	static Dictionary<Inventory.Item, int> allshop = new Dictionary<Inventory.Item, int>() {
-		{ Inventory.Item.OneCoin, 1 },
-		{ Inventory.Item.TenCoin, 10 },
-		{ Inventory.Item.HundredBill, 100 },
-		{ Inventory.Item.ThousandBill, 1000 },
-		{ Inventory.Item.Brick, 5 },
-		{ Inventory.Item.Fish, 12 }
+	static Dictionary<string, int> allshop = new Dictionary<string, int>() {
+		{ "OneCoin", 1 },
+		{ "TenCoin", 10 },
+		{ "HundredBill", 100 },
+		{ "ThousandBill", 1000 },
+		{ "Brick", 5 },
+		{ "Fish", 12 }
 	};
 
-	static Dictionary<Inventory.Item, int> smallshop = new Dictionary<Inventory.Item, int>() {
-		{ Inventory.Item.Brick, 5 },
-		{ Inventory.Item.Fish, 12 }
+	static Dictionary<string, int> smallshop = new Dictionary<string, int>() {
+		{ "Brick", 5 },
+		{ "Fish", 12 }
 	};
-
-	static Dictionary<Inventory.Item, int> buildshop = new Dictionary<Inventory.Item, int>() {
-		{ Inventory.Item.OneCoin, 1 },
-		{ Inventory.Item.TenCoin, 10 },
-		{ Inventory.Item.HundredBill, 100 },
-		{ Inventory.Item.Brick, 10 },
-		{ Inventory.Item.Fish, 12 }
-	};
+		
 
 
 

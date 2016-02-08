@@ -19,7 +19,7 @@ public class ShopGUIScript : ItemDisplayAbstract {
 	
 	}
 
-	public void setUpShop(Dictionary<Inventory.Item, int> itemDictionary){
+	public void setUpShop(Dictionary<string, int> itemDictionary){
 		base.setUpShop (itemDictionary);
 
 	}
@@ -44,7 +44,7 @@ public class ShopGUIScript : ItemDisplayAbstract {
 		
 
 	public void actionButtonPush(){
-		base.inv.AddItem (chosenItem);
+		base.inventory.addItem (chosenItem);
 		Debug.Log("BOUGHT ITEM " + chosenItem.ToString());
 	}
 
