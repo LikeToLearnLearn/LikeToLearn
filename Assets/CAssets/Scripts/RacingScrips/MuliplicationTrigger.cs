@@ -4,7 +4,7 @@ using System.Collections;
 public class MuliplicationTrigger : MonoBehaviour {
 
     public GameObject text;
-    public GameObject text2;
+   // public GameObject text2;
     public GameObject PlayerCar;
     private RacingLogic racingLogic;
     public Transform prefabWrong;

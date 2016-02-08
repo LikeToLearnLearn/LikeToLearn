@@ -35,11 +35,12 @@ public class PickUpRacing : MonoBehaviour {
             Debug.Log("Cannot find 'RacingLogic' script");
         }
 
-        points = 0;
+        //points = 0;
         player = racingLogic.GetPlayer();
         SetValue();
 
         racingLogic.AddPickUp(me);
+        Debug.Log("Added" + me);
 
         pointA = transform.position ; // racingLogic.GetPointA();
         pointB = racingLogic.GetPointB();
@@ -47,6 +48,7 @@ public class PickUpRacing : MonoBehaviour {
         if (pointA == null) pointA = transform.position;
         if (pointB == null) pointB = new Vector3(pointA.x + racingLogic.SetPickUpPosition(5), pointA.y, pointA.z - racingLogic.SetPickUpPosition(5));
         if (pointC == null) pointC = new Vector3(pointB.x + racingLogic.SetPickUpPosition(10), pointB.y/* + racingLogic.SetPickUpPosition(1)*/, pointB.z - racingLogic.SetPickUpPosition(10));
+        
         while (true)
         {
             yield return StartCoroutine(racingLogic.MoveObject(transform, pointB, pointC, 8.0f/*racingLogic.SetValue(5)*/));
@@ -65,7 +67,7 @@ public class PickUpRacing : MonoBehaviour {
     void Update()
     {
         //transform.position = transform.position + player.transform.position;       
-
+        transform.Rotate(0, 20 * Time.deltaTime, 0);
     }
 
     void OnTriggerEnter(Collider c)
@@ -88,6 +90,7 @@ public class PickUpRacing : MonoBehaviour {
     void SetValue()
     {
         f = Mathf.Floor(Random.value * 100f);
+        while(f== racingLogic.GetMultiplicationAnswere()) f = Mathf.Floor(Random.value * 100f);
         if (racingLogic.GetDirection() == 2) text.transform.Rotate(0, 180, 0);
         text.GetComponent<TextMesh>().text = "" + f;
 
