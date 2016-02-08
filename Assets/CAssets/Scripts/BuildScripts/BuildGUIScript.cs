@@ -25,7 +25,7 @@ public class BuildGUIScript : ItemDisplayAbstract {
 //		Debug.Log ("extended");
 		Dictionary<string, int> oldDictionary = base.inventory.getInventoryAsDictionary ();
 		Dictionary<string, int> newDictionary = base.hideEmptyItems (oldDictionary);
-		setUpShop (newDictionary);
+		setUpItems (newDictionary);
 	}
 	
 	// Update is called once per frame

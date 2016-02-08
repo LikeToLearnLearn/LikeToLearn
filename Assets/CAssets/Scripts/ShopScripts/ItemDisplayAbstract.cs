@@ -43,8 +43,8 @@ public abstract class ItemDisplayAbstract : MonoBehaviour {
 
 	List<string> inStock = new List<string>();
 
-	//Call setUpShop() in Start() if GUI is to be displayed immediately on start
-	//Call setUpShop() in some other script if the GUI should be displayed on for example a trigger
+	//Call setUpItems() in Start() if GUI is to be displayed immediately on start
+	//Call setUpItems() in some other script if the GUI should be displayed on for example a trigger
 	public void Start (int perPage) {
 		
 		currentPage = 0;
@@ -61,21 +61,19 @@ public abstract class ItemDisplayAbstract : MonoBehaviour {
 
 	}
 
-	public void setUpShop(Dictionary<string, int> itemDictionary){
-//		Debug.Log ("original setupshop");
+	public void setUpItems(Dictionary<string, int> itemDictionary){
 		items = itemDictionary;
 
 		foreach (KeyValuePair<string, int> item in items) {
 			inStock.Add (item.Key.ToString());
 		}
 
-		updateShop ();
+		updateItems ();
 
 
 	}
 
-	public void updateShop(){
-//		Debug.Log ("original updateshop");
+	public void updateItems(){
 		//Clear the button panel
 		Transform itemButtons = transform.FindChild("Panel").FindChild("ButtonPanel").FindChild("ItemButtons");
 		foreach (Transform button in itemButtons.transform) {
@@ -137,7 +135,7 @@ public abstract class ItemDisplayAbstract : MonoBehaviour {
 	public void changePage(int change){
 //		Debug.Log ("original changepage");
 		currentPage = currentPage + change;
-		updateShop ();
+		updateItems ();
 	}
 		
 

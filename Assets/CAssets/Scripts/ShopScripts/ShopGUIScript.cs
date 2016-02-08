@@ -20,7 +20,7 @@ public class ShopGUIScript : ItemDisplayAbstract {
 	}
 
 	public void setUpShop(Dictionary<string, int> itemDictionary){
-		base.setUpShop (itemDictionary);
+		base.setUpItems (itemDictionary);
 
 	}
 

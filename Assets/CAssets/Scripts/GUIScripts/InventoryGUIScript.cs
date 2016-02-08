@@ -13,7 +13,7 @@ public class InventoryGUIScript : ItemDisplayAbstract {
 		base.Start (10);	
 		Dictionary<string, int> oldDictionary = base.inventory.getInventoryAsDictionary ();
 		Dictionary<string, int> newDictionary = base.hideEmptyItems (oldDictionary);
-		setUpShop (newDictionary);
+		setUpItems (newDictionary);
 	}
 
 	// Update is called once per frame
@@ -23,8 +23,8 @@ public class InventoryGUIScript : ItemDisplayAbstract {
 
 
 
-	public void setUpShop(Dictionary<string, int> itemDictionary){
-		base.setUpShop (itemDictionary);
+	public void setUpItems(Dictionary<string, int> itemDictionary){
+		base.setUpItems (itemDictionary);
 
 	}
 

@@ -48,7 +48,7 @@ public class SetupAllShops : MonoBehaviour {
 	
 			Transform shopGUI = shop.FindChild("ShopGUI");
 			//shopGUI.GetComponent<ShopController> ().setUpShop(itemValues);
-			shopGUI.GetComponent<ShopGUIScript> ().setUpShop(itemValues);
+			shopGUI.GetComponent<ShopGUIScript> ().setUpItems(itemValues);
 			shopGUI.gameObject.SetActive (false);
 		
 		}
