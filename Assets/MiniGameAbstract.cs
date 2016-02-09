@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class BoatGame : MiniGameAbstract
+public abstract class MiniGameAbstract : MonoBehaviour
 {
 
     private bool playing;
@@ -11,24 +11,26 @@ public class BoatGame : MiniGameAbstract
     private int currentScore;
 
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start()
+    {
         playing = false;
         remainingTime = 90f;
-	}
-	
-	// Update is called once per frame
-	void Update () {
-        if(playing)
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (playing)
         {
             remainingTime -= Time.deltaTime;
             print("playing:" + remainingTime + " score: " + currentScore);
-            if(remainingTime < 0)
+            if (remainingTime < 0)
             {
                 StopGame();
             }
         }
-	}
+    }
 
     public void StartGame()
     {

@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 
 public class MinigameFish : MonoBehaviour {
+    //ärva minigameabstract
+
     private FishingLogic fishingLogic;
     private static int wrongfish = 14;
 
