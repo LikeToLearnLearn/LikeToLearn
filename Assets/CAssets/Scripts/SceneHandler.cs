@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using System;
 
+// This class is meant to deal with player moving between scenes
 public class SceneHandler : MonoBehaviour {
-
-    //TODO implement changing scenes, changeScene(from, to)
+ 
 
     GameObject gamec;
     GameObject player;
@@ -25,7 +26,7 @@ public class SceneHandler : MonoBehaviour {
 	
 	}
 
-    public void changeScene(string from, string to)
+    public void ChangeScene(string from, string to)
     {
         player.SetActive(true);
         if (from.Equals("new"))
@@ -45,7 +46,6 @@ public class SceneHandler : MonoBehaviour {
         else if (to.Equals("something"))
         {
             //....
-
         }
         else
         {
@@ -54,7 +54,9 @@ public class SceneHandler : MonoBehaviour {
         }
     }
 
-        public void OnLevelWasLoaded()
+    
+
+    public void OnLevelWasLoaded()
         {
             player = GameObject.Find("PlayerController");
             GameObject spawnpoint = GameObject.FindGameObjectWithTag("SpawnPoint");
