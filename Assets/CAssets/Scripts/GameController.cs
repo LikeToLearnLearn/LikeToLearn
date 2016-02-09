@@ -5,6 +5,7 @@ using System;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using System.Runtime.Serialization;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour {
 
@@ -17,7 +18,7 @@ public class GameController : MonoBehaviour {
 		public string currentGame = "";
 		public Language lang = Language.English;
 		public int gameCount = 0;
-		public Dictionary<String, int> games = new Dictionary<String, int>();
+		public Dictionary<string, int> games = new Dictionary<string, int>();
 	}
 
 	// data associated with a given game instance
@@ -25,6 +26,7 @@ public class GameController : MonoBehaviour {
 	class GameData {
 		public Dictionary<Item, int> inventory = new Dictionary<Item, int>();
 		public int questionMode = 3;
+		public string currentScene;
 	}
 
 	public static GameController control;
@@ -45,6 +47,10 @@ public class GameController : MonoBehaviour {
 	public Dictionary<Item, int> inventory {
 		get { return data.inventory; }
 		set { data.inventory = value; }
+	}
+
+	public string lastScene {
+		get { return data.currentScene; }
 	}
 
 	public bool GotSavedGames()
@@ -95,7 +101,7 @@ public class GameController : MonoBehaviour {
 			|| global.currentGame.Length < 1;
 	}
 
-	private String SaveFileName()
+	private string SaveFileName()
 	{
 		return Application.persistentDataPath
 			+ "/game_"
@@ -103,7 +109,7 @@ public class GameController : MonoBehaviour {
 			+ ".dat";
 	}
 
-	private void WriteFile(String filePath, object o)
+	private void WriteFile(string filePath, object o)
 	{
 		var file = File.Create(filePath);
 		var bf = new BinaryFormatter();
@@ -113,6 +119,7 @@ public class GameController : MonoBehaviour {
 
 	private void SaveGame()
 	{
+		data.currentScene = SceneManager.GetActiveScene().name;
 		WriteFile(SaveFileName(), data);
 	}
 
@@ -121,7 +128,7 @@ public class GameController : MonoBehaviour {
 		WriteFile(Application.persistentDataPath + "/global.dat", global);
 	}
 
-	private object ReadFile(String filePath)
+	private object ReadFile(string filePath)
 	{
 		object o = null;
 		var bf = new BinaryFormatter();

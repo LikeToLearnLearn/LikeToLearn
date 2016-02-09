@@ -135,7 +135,6 @@ public class StartMenu : MonoBehaviour {
 	public void LoadGame() {
 		GameController.control.name = names[nameIndex];
 		GameController.control.LoadGame();
-		// todo: save last location and reload it?
-		sceneHandler.changeScene("new", "city_centralisland");
+		sceneHandler.changeScene("new", GameController.control.lastScene);
 	}
 }
