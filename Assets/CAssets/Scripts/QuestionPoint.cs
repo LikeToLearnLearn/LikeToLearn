@@ -62,15 +62,14 @@ public class QuestionPoint : MonoBehaviour {
 
             if (guess == correctAnswer)
             {
-                boatgame.AddScore(Random.Range(0, 5) + difficultyAsInt * 5);
-                boatgame.AddTime(10 * difficultyAsInt);
+                boatgame.AnsweredCorrect(difficultyAsInt);
 
                 rewarded = true;
                 correct = true;
             }
             else
             {
-                boatgame.AddScore(-(Random.Range(0, 5) + difficultyAsInt * 1));
+                boatgame.AnsweredFalse(difficultyAsInt);
             }
         }
 
@@ -118,11 +117,10 @@ public class QuestionPoint : MonoBehaviour {
                     }
                 }
             }
-            //aps[i].SetTriggered(false);
+            // Update text with an answer
             aps[i].GetComponentInChildren<TextMesh>().text = aps[i].GetCurrentAnswer().ToString();
 
         }
-        //timeSinceAnswer = 0f;
         rewarded = false;
         answered = false;
             

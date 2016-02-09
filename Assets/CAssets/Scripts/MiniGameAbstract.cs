@@ -12,14 +12,14 @@ public abstract class MiniGameAbstract : MonoBehaviour
 
 
     // Use this for initialization
-    void Start()
+    public virtual void Start()
     {
         playing = false;
-        remainingTime = 90f;
+        remainingTime = 90f; // 90s default remaining time
     }
 
     // Update is called once per frame
-    void Update()
+    public virtual void Update()
     {
         if (playing)
         {
@@ -32,26 +32,31 @@ public abstract class MiniGameAbstract : MonoBehaviour
         }
     }
 
-    public void StartGame()
+    public virtual void StartGame()
     {
         startTime = Time.timeSinceLevelLoad;
         playing = true;
 
     }
 
-    public void StopGame()
+    public virtual void StopGame()
     {
         //TODO save highscore and whatnot
         //convert score to prize
         playing = false;
     }
 
-    public void AddScore(int score)
+    public virtual float GetPlayTime()
+    {
+        return Time.timeSinceLevelLoad - startTime;
+    }
+
+    public virtual void AddScore(int score)
     {
         currentScore += score;
     }
 
-    public void AddTime(float time)
+    public virtual void AddTime(float time)
     {
         remainingTime += time;
     }
