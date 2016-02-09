@@ -67,7 +67,7 @@ public class PickUpRacing : MonoBehaviour {
     void Update()
     {
         //transform.position = transform.position + player.transform.position;       
-        transform.Rotate(0, 20 * Time.deltaTime, 0);
+        transform.Rotate(0, 80 * Time.deltaTime, 0);
     }
 
     void OnTriggerEnter(Collider c)
