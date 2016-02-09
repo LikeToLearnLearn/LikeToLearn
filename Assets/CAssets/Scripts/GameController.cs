@@ -26,18 +26,14 @@ public class GameController : MonoBehaviour {
 	class GameData {
 		public Dictionary<Item, int> inventory = new Dictionary<Item, int>();
 		public int questionMode = 3;
-		public string currentScene;
+		public string currentScene = "city_centralisland";
 	}
 
 	public static GameController control;
 
-	private GameData data = null;
-	private GlobalData global = null;
-
-	public string name {
-		get { return global.currentGame; }
-		set { global.currentGame = value.Trim(); }
-	}
+	GameData data;
+	GlobalData global;
+	SceneHandler sceneHandler;
 
 	public int questionMode {
 		get { return data.questionMode; }
@@ -47,10 +43,6 @@ public class GameController : MonoBehaviour {
 	public Dictionary<Item, int> inventory {
 		get { return data.inventory; }
 		set { data.inventory = value; }
-	}
-
-	public string lastScene {
-		get { return data.currentScene; }
 	}
 
 	public bool GotSavedGames()
@@ -69,6 +61,12 @@ public class GameController : MonoBehaviour {
 		}
 	}
 
+	void Start()
+	{
+		GameObject sco = GameObject.Find("SceneHandlerO");
+		sceneHandler = sco.GetComponent<SceneHandler>();
+	}
+
 	void OnEnable()
 	{
 		LoadGlobal();
@@ -76,36 +74,38 @@ public class GameController : MonoBehaviour {
 
 	void OnDisable()
 	{
-		SaveGlobal();
+		if (global != null) SaveGlobal();
 		if (data != null) SaveGame();
 	}
 
-	public void NewGame()
+	public void NewGame(string name)
 	{
-		if (NameTaken() || NameInvalid()) return;
+		name = name.Trim();
+		if (NameTaken(name) || NameInvalid(name)) return;
+		global.currentGame = name;
 		data = new GameData();
 		global.games[global.currentGame] = global.gameCount++;
 		SaveGame();
-		LoadGame();
+		LoadGame(name);
 	}
 	
-	public bool NameTaken()
+	public bool NameTaken(string name)
 	{
-		return global.games.ContainsKey(global.currentGame);
+		return global.games.ContainsKey(name);
 	}
 
-	public bool NameInvalid()
+	public bool NameInvalid(string name)
 	{
-		return global.currentGame == null
-			|| global.currentGame != global.currentGame.Trim()
-			|| global.currentGame.Length < 1;
+		return name == null
+			|| name != name.Trim()
+			|| name.Length < 1;
 	}
 
-	private string SaveFileName()
+	private string SaveFileName(string name)
 	{
 		return Application.persistentDataPath
 			+ "/game_"
-			+ global.games[global.currentGame]
+			+ global.games[name]
 			+ ".dat";
 	}
 
@@ -119,8 +119,9 @@ public class GameController : MonoBehaviour {
 
 	private void SaveGame()
 	{
-		data.currentScene = SceneManager.GetActiveScene().name;
-		WriteFile(SaveFileName(), data);
+		var scene = SceneManager.GetActiveScene().name;
+		if (scene != "startmenu") data.currentScene = scene;
+		WriteFile(SaveFileName(global.currentGame), data);
 	}
 
 	private void SaveGlobal()
@@ -142,23 +143,26 @@ public class GameController : MonoBehaviour {
 		return o;
 	}
 
-	public void LoadGame()
+	public void LoadGame(string name)
 	{
-		var filePath = SaveFileName();
-		var g = File.Exists(filePath) ?
+		global.currentGame = name;
+		var filePath = SaveFileName(name);
+		var content = File.Exists(filePath) ?
 			(GameData) ReadFile(filePath) :
 			new GameData();
-		if (g == null) {
+		if (content == null) {
 			print("Failed to load game save");
-			g = new GameData();
+			content = new GameData();
 		}
-		data = g;
+		data = content;
+		sceneHandler.ChangeScene("new", data.currentScene);
 	}
 
 	public List<string> GetNames()
 	{
 		var names = new List<String>(global.games.Keys);
 		names.Remove(global.currentGame);
+		names.Sort();
 		names.Insert(0, global.currentGame);
 		return names;
 	}

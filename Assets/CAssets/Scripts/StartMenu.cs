@@ -23,13 +23,10 @@ public class StartMenu : MonoBehaviour {
 	bool rollCredits = false;
 	bool isZoomed = false;
 	int nameIndex = 0;
-	SceneHandler sceneHandler;
 	List<string> names;
 	Text nameToLoad;
 
 	void Start () {
-        GameObject sco = GameObject.Find("SceneHandlerO");
-        sceneHandler = sco.GetComponent<SceneHandler>();
 		loadPannelButton.SetActive(GameController.control.GotSavedGames());
 		names = GameController.control.GetNames();
 		nameToLoad = nameText.GetComponent<Text>();
@@ -119,22 +116,21 @@ public class StartMenu : MonoBehaviour {
 
 	public void StartGame() {
 		var input = nameInput.GetComponent<InputField>();
-		GameController.control.name = input.text;
-		if (GameController.control.NameTaken()) {
+		string name = input.text;
+		if (GameController.control.NameTaken(name)) {
 			takenNameText.SetActive(true);
-		} else if (GameController.control.NameInvalid()) {
+			invalidNameText.SetActive(false);
+		} else if (GameController.control.NameInvalid(name)) {
 			invalidNameText.SetActive(true);
+			takenNameText.SetActive(false);
 		} else {
 			takenNameText.SetActive(false);
 			invalidNameText.SetActive(false);
-			GameController.control.NewGame();
-			sceneHandler.ChangeScene("new", "city_centralisland");
+			GameController.control.NewGame(name);
 		}
 	}
 
 	public void LoadGame() {
-		GameController.control.name = names[nameIndex];
-		GameController.control.LoadGame();
-		sceneHandler.ChangeScene("new", GameController.control.lastScene);
+		GameController.control.LoadGame(names[nameIndex]);
 	}
 }
