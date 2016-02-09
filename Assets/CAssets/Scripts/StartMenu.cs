@@ -128,13 +128,13 @@ public class StartMenu : MonoBehaviour {
 			takenNameText.SetActive(false);
 			invalidNameText.SetActive(false);
 			GameController.control.NewGame();
-			sceneHandler.changeScene("new", "city_centralisland");
+			sceneHandler.ChangeScene("new", "city_centralisland");
 		}
 	}
 
 	public void LoadGame() {
 		GameController.control.name = names[nameIndex];
 		GameController.control.LoadGame();
-		sceneHandler.changeScene("new", GameController.control.lastScene);
+		sceneHandler.ChangeScene("new", GameController.control.lastScene);
 	}
 }
