@@ -16,27 +16,40 @@ public class GameController : MonoBehaviour {
 	class GlobalData {
 		public string currentGame = "";
 		public Language lang = Language.English;
-		public LinkedList<String> games = new LinkedList<String>();
+		public int gameCount = 0;
+		public Dictionary<String, int> games = new Dictionary<String, int>();
 	}
 
 	// data associated with a given game instance
 	[Serializable]
 	class GameData {
 		public Dictionary<Item, int> inventory = new Dictionary<Item, int>();
+		public int questionMode = 3;
 	}
 
 	public static GameController control;
-	private GameData data;
-	private GlobalData global;
+
+	private GameData data = null;
+	private GlobalData global = null;
 
 	public string name {
 		get { return global.currentGame; }
-		set { global.currentGame = value; }
+		set { global.currentGame = value.Trim(); }
+	}
+
+	public int questionMode {
+		get { return data.questionMode; }
+		set { data.questionMode = value; }			
 	}
 
 	public Dictionary<Item, int> inventory {
 		get { return data.inventory; }
 		set { data.inventory = value; }
+	}
+
+	public bool GotSavedGames()
+	{
+		return global.games.Count > 0;
 	}
 
 	void Awake()
@@ -52,99 +65,114 @@ public class GameController : MonoBehaviour {
 
 	void OnEnable()
 	{
-		Load();
+		LoadGlobal();
 	}
 
 	void OnDisable()
 	{
-		Save();
-	}
-
-	public void Save()
-	{
 		SaveGlobal();
-		SaveGame();
+		if (data != null) SaveGame();
 	}
 
 	public void NewGame()
 	{
-		//if (NameTaken())
-		//	print(" Should not happen..");
-		global.games.AddFirst(global.currentGame);
+		if (NameTaken() || NameInvalid()) return;
 		data = new GameData();
+		global.games[global.currentGame] = global.gameCount++;
+		SaveGame();
+		LoadGame();
+	}
+	
+	public bool NameTaken()
+	{
+		return global.games.ContainsKey(global.currentGame);
 	}
 
-	public bool NameTaken() {
-		return global.games.Contains(global.currentGame);
+	public bool NameInvalid()
+	{
+		return global.currentGame == null
+			|| global.currentGame != global.currentGame.Trim()
+			|| global.currentGame.Length < 1;
+	}
+
+	private String SaveFileName()
+	{
+		return Application.persistentDataPath
+			+ "/game_"
+			+ global.games[global.currentGame]
+			+ ".dat";
+	}
+
+	private void WriteFile(String filePath, object o)
+	{
+		var file = File.Create(filePath);
+		var bf = new BinaryFormatter();
+		bf.Serialize(file, o);
+		file.Close();
 	}
 
 	private void SaveGame()
 	{
-		var filePath = Application.persistentDataPath
-			+ "/game_" + global.currentGame.GetHashCode() + ".dat";
-		var file = File.Create(filePath);
-		var bf = new BinaryFormatter();
-		bf.Serialize(file, data);
-		file.Close();
+		WriteFile(SaveFileName(), data);
 	}
 
 	private void SaveGlobal()
 	{
-		var filePath = Application.persistentDataPath + "/global.dat";
-		var file = File.Create(filePath);
+		WriteFile(Application.persistentDataPath + "/global.dat", global);
+	}
+
+	private object ReadFile(String filePath)
+	{
+		object o = null;
 		var bf = new BinaryFormatter();
-		bf.Serialize(file, global);
-		file.Close();
-	}
-
-	public void Load()
-	{
-		LoadGlobal();
-		LoadGame();
-	}
-
-	private void LoadGame()
-	{
-		var filePath = Application.persistentDataPath
-			+ "/game_" + global.currentGame.GetHashCode() + ".dat";
-		if (File.Exists(filePath)) {
-			var bf = new BinaryFormatter();
-			var file = File.Open(filePath, FileMode.Open);
-			try {
-				data = (GameData) bf.Deserialize(file);
-			} catch (SerializationException e) {
-				print("Failed to load game save, probably old format");
-				data = new GameData();
-			}
-			file.Close();
-		} else {
-			data = new GameData();
+		var file = File.Open(filePath, FileMode.Open);
+		try {
+			o = bf.Deserialize(file);
+		} catch (SerializationException e) {
+			// class definition probably changed, discard this save
 		}
+		file.Close();
+		return o;
+	}
+
+	public void LoadGame()
+	{
+		var filePath = SaveFileName();
+		var g = File.Exists(filePath) ?
+			(GameData) ReadFile(filePath) :
+			new GameData();
+		if (g == null) {
+			print("Failed to load game save");
+			g = new GameData();
+		}
+		data = g;
+	}
+
+	public List<string> GetNames()
+	{
+		var names = new List<String>(global.games.Keys);
+		names.Remove(global.currentGame);
+		names.Insert(0, global.currentGame);
+		return names;
 	}
 
 	private void LoadGlobal()
 	{
 		var filePath = Application.persistentDataPath + "/global.dat";
-		if (File.Exists(filePath)) {
-			var bf = new BinaryFormatter();
-			var file = File.Open(filePath, FileMode.Open);
-			try {
-				global = (GlobalData) bf.Deserialize(file);
-			} catch (SerializationException e) {
-				print("Failed to load global save, probably old format");
-				global = new GlobalData();
-			}
-			file.Close();
-		} else {
-			global = new GlobalData();
+		var g = File.Exists(filePath) ?
+			(GlobalData) ReadFile(filePath) :
+			new GlobalData();
+		if (g == null) {
+			print("Failed to load global save");
+			g = new GlobalData();
 		}
+		global = g;
 	}
 
 	public int GetAmount(Item item)
 	{
-		if (data.inventory.ContainsKey(item))
-			return data.inventory[item];
-		return 0;
+		return data.inventory.ContainsKey(item) ?
+			data.inventory[item] : 0;
 	}
 
 	public void AddItems(Item item, int count)
@@ -156,7 +184,6 @@ public class GameController : MonoBehaviour {
 	{
 		AddItems(item, 1);
 	}
-
 
 	public int RemoveItems(Item item, int count) 
 	{
@@ -177,6 +204,14 @@ public class GameController : MonoBehaviour {
 			+ GetAmount(Item.TenCoin) * 10
 			+ GetAmount(Item.HundredBill) * 100
 			+ GetAmount(Item.ThousandBill) * 1000;
+	}
+
+	public void AddBalance(int n)
+	{
+		AddItems(Item.ThousandBill, n / 1000);
+		AddItems(Item.HundredBill, (n % 1000) / 100);
+		AddItems(Item.TenCoin, (n % 100) / 10);
+		AddItems(Item.OneCoin, n % 10);
 	}
 
 }
