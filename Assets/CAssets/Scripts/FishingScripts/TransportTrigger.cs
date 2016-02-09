@@ -40,18 +40,18 @@ public class TransportTrigger : MonoBehaviour
 
         if (GUI.Button(new Rect(5, y + 20, windowRect.width - 10, 20), "Centralisland"))
         {
-            sh.changeScene("game_fishingscene", "city_centralisland");
+            sh.ChangeScene("game_fishingscene", "city_centralisland");
             show = false;
         }
 
         if (GUI.Button(new Rect(5, y+40, windowRect.width - 10, 20), "Racingisland"))
         {
-            sh.changeScene("game_fishingscene", "game_racingisland");
+            sh.ChangeScene("game_fishingscene", "game_racingisland");
             show = false;
         }
         if (GUI.Button(new Rect(5, y+60, windowRect.width - 10, 20), "Goldisland"))
         {
-            sh.changeScene("game_fishingscene", "game_goldisland");
+            sh.ChangeScene("game_fishingscene", "game_goldisland");
             show = false;
         }
     }
