@@ -11,6 +11,7 @@ public abstract class MiniGameAbstract : MonoBehaviour
     private int currentScore;
 
 
+
     // Use this for initialization
     public virtual void Start()
     {
@@ -24,13 +25,16 @@ public abstract class MiniGameAbstract : MonoBehaviour
         if (playing)
         {
             remainingTime -= Time.deltaTime;
-            print("playing:" + remainingTime + " score: " + currentScore);
+            print("playing:" + remainingTime + " score: " + currentScore);    
+
             if (remainingTime < 0)
             {
                 StopGame();
             }
         }
     }
+
+
 
     public virtual void StartGame()
     {
@@ -46,10 +50,23 @@ public abstract class MiniGameAbstract : MonoBehaviour
         playing = false;
     }
 
-    public virtual float GetPlayTime()
+    public virtual float GetPlayedTime()
     {
         return Time.timeSinceLevelLoad - startTime;
     }
+    public virtual bool GetPlaying()
+    {
+        return playing;
+    }
+    public virtual int GetCurrentScore()
+    {
+        return currentScore;
+    }
+    public virtual float GetRemainingTime()
+    {
+        return remainingTime;
+    }
+
 
     public virtual void AddScore(int score)
     {
