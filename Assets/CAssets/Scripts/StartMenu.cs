@@ -1,29 +1,37 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class StartMenu : MonoBehaviour {
-
-    GameObject sco, iho, sho;
-    SceneHandler sc;
-
 	public GameObject cam;
-	public GameObject newGame, loadGame, options, credits;
-	public GameObject creditsText;
 
-	// Use this for initialization
-	void Start () {
-        sco = GameObject.Find("SceneHandlerO");
-        sc = sco.GetComponent<SceneHandler>();
-        iho = GameObject.Find("InventoryHandlerO");
-        sho = GameObject.Find("SaveHandlerO");
-	}
+	// pseudo pannels
+	public GameObject newGame, loadGame, options, credits;
+
+	// new game
+	public GameObject takenNameText, invalidNameText, nameInput;
+
+	// load game
+	public GameObject loadPannelButton, nextButton, prevButton, nameText;
+
+	// credits
+	public GameObject creditsText;
 
 	float zoom = 0.0f;
 	bool rollCredits = false;
 	bool isZoomed = false;
+	int nameIndex = 0;
+	List<string> names;
+	Text nameToLoad;
 
-	// Update is called once per frame
+	void Start () {
+		loadPannelButton.SetActive(GameController.control.GotSavedGames());
+		names = GameController.control.GetNames();
+		nameToLoad = nameText.GetComponent<Text>();
+	}
+
 	void Update () {
 		if (isZoomed) {
 			if (zoom > 0.0f) {
@@ -49,6 +57,8 @@ public class StartMenu : MonoBehaviour {
 
 	public void NewGameButtonEvent()
 	{
+		takenNameText.SetActive(false);
+		invalidNameText.SetActive(false);
 		if (isZoomed) return;
 		zoom += 240.0f;
 		isZoomed = true;
@@ -60,8 +70,21 @@ public class StartMenu : MonoBehaviour {
 		if (isZoomed) return;
 		zoom += 240.0f;
 		isZoomed = true;
+		nameToLoad.text = names[nameIndex];
 		loadGame.SetActive(true);
     }
+
+	public void NextNameButton()
+	{
+		nameIndex = (nameIndex + 1) % names.Count;
+		nameToLoad.text = names[nameIndex];
+	}
+
+	public void PrevNameButton()
+	{
+		nameIndex = (nameIndex < 1 ? names.Count : nameIndex) - 1;
+		nameToLoad.text = names[nameIndex];
+	}
 
 	public void OptionsButtonEvent()
 	{
@@ -92,12 +115,22 @@ public class StartMenu : MonoBehaviour {
 	}
 
 	public void StartGame() {
-		GameController.control.name = "TestName";
-		sc.changeScene("new", "city_centralisland");
-		SceneManager.LoadScene("city_centralisland");
+		var input = nameInput.GetComponent<InputField>();
+		string name = input.text;
+		if (GameController.control.NameTaken(name)) {
+			takenNameText.SetActive(true);
+			invalidNameText.SetActive(false);
+		} else if (GameController.control.NameInvalid(name)) {
+			invalidNameText.SetActive(true);
+			takenNameText.SetActive(false);
+		} else {
+			takenNameText.SetActive(false);
+			invalidNameText.SetActive(false);
+			GameController.control.NewGame(name);
+		}
 	}
 
 	public void LoadGame() {
-		
+		GameController.control.LoadGame(names[nameIndex]);
 	}
 }

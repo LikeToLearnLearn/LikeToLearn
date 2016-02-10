@@ -8,7 +8,7 @@ public class Building : MonoBehaviour {
     public GameObject currentItem;
     public GameObject currentItemMarker;
     public GameObject player;
-    private Camera camera;
+    private GameObject camera;
 
     private Ray ray;
     private RaycastHit hit;
@@ -18,7 +18,7 @@ public class Building : MonoBehaviour {
     // Use this for initialization
     void Start () {
         player = GameObject.FindGameObjectWithTag("Player");
-        camera = Camera.main;
+        camera = GameObject.FindGameObjectWithTag("MainCamera");
         buildgui = GameObject.Find("BuildGUI").GetComponent<BuildGUIScript>();
 
         //TODO Get item counts and current item properly!
