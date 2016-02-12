@@ -30,7 +30,7 @@ public abstract class Course {
 					return level;
 			}
 		}
-		return levels[levels.Count];
+		return levels[levels.Count - 1];
 	}
 
 	public virtual void SetTestMode(int level)
