@@ -10,23 +10,30 @@ using UnityEngine.SceneManagement;
 public class GameController : MonoBehaviour {
 
 	public enum Language {	English, Swedish };
-	public enum Item { Fish, Brick, OneCoin, TenCoin, HundredBill, ThousandBill };
+	public enum Item {
+		Fish, Brick, OneCoin, TenCoin, HundredBill, ThousandBill,
+		RedBalloon, YellowBalloon, BlueBalloon, GreenBalloon
+	};
 
 	// global configuration data that all instances use
 	[Serializable]
 	class GlobalData {
-		public string currentGame = "";
+		public string currentGame = null;
 		public Language lang = Language.English;
-		public int gameCount = 0;
+		public int gameCount = 0; // serial number
 		public Dictionary<string, int> games = new Dictionary<string, int>();
 	}
-
 	// data associated with a given game instance
 	[Serializable]
 	class GameData {
 		public Dictionary<Item, int> inventory = new Dictionary<Item, int>();
-		public int questionMode = 3;
+		//public int questionMode = 3;
+		//public string questionType = "math";
 		public string currentScene = "city_centralisland";
+		public List<Course> coruses = new List<Course>();
+		public List<Question> questions = new List<Question>();
+		public Course currentCourse = null;
+		public int experiencePoints = 0;
 	}
 
 	public static GameController control;
@@ -34,20 +41,38 @@ public class GameController : MonoBehaviour {
 	GameData data;
 	GlobalData global;
 	SceneHandler sceneHandler;
-
+	/*
 	public int questionMode {
 		get { return data.questionMode; }
 		set { data.questionMode = value; }			
 	}
 
+	public int questionType {
+		get { return data.questionType; }
+		set { data.questionType = value; }			
+	}
+	*/
+
+	public int UnlockWorldLevel {  // not tested
+		get { return (int) Math.Log10(data.experiencePoints);	}
+	}
+
 	public Dictionary<Item, int> inventory {
 		get { return data.inventory; }
-		set { data.inventory = value; }
+	}
+
+	public Dictionary<string, int> stringInventory {
+		get {
+			var inv = new Dictionary<string, int>();
+			foreach (var entry in data.inventory)
+				inv[entry.Key.ToString()] = entry.Value;
+			return inv;
+		}
 	}
 
 	public bool GotSavedGames()
 	{
-		return global.games.Count > 0;
+		return global.games != null && global.games.Count > 0;
 	}
 
 	void Awake()
@@ -74,8 +99,11 @@ public class GameController : MonoBehaviour {
 
 	void OnDisable()
 	{
-		if (global != null) SaveGlobal();
-		if (data != null) SaveGame();
+		if (global != null) {
+			SaveGlobal();
+			if (data != null)
+				SaveGame();
+		}
 	}
 
 	public void NewGame(string name)
@@ -85,13 +113,29 @@ public class GameController : MonoBehaviour {
 		global.currentGame = name;
 		data = new GameData();
 		global.games[global.currentGame] = global.gameCount++;
+
+		// add player to math course for now
+		Course m = new MultiplicationCoruse();
+		data.coruses.Add(m);
+		data.currentCourse = m;
+
+		// one less variation to test if we save and load every time
 		SaveGame();
 		LoadGame(name);
+	}
+
+	public Item TranslateItem(string name)
+	{
+		return (Item) Enum.Parse(typeof(Item), name, true);
 	}
 	
 	public bool NameTaken(string name)
 	{
-		return global.games.ContainsKey(name);
+		var cand = name.Trim().ToLower();
+		foreach (var key in global.games.Keys)
+			if (cand == key.ToLower())
+				return true;
+		return false;
 	}
 
 	public bool NameInvalid(string name)
@@ -120,8 +164,10 @@ public class GameController : MonoBehaviour {
 	private void SaveGame()
 	{
 		var scene = SceneManager.GetActiveScene().name;
-		if (scene != "startmenu") data.currentScene = scene;
-		WriteFile(SaveFileName(global.currentGame), data);
+		if (scene != "startmenu")
+			data.currentScene = scene;
+		if (global.currentGame != null)
+			WriteFile(SaveFileName(global.currentGame), data);
 	}
 
 	private void SaveGlobal()
@@ -158,26 +204,38 @@ public class GameController : MonoBehaviour {
 		sceneHandler.ChangeScene("new", data.currentScene);
 	}
 
+	public void DeleteGame(string name) // not tested
+	{
+		var s = name.Trim();
+		var filePath = SaveFileName(name);
+		global.games.Remove(name);
+		File.Delete(filePath);
+		if (global.currentGame == s)
+			global.currentGame = null;
+	}
+
 	public List<string> GetNames()
 	{
 		var names = new List<String>(global.games.Keys);
-		names.Remove(global.currentGame);
 		names.Sort();
-		names.Insert(0, global.currentGame);
+		if (global.currentGame != null) {
+			names.Remove(global.currentGame);
+			names.Insert(0, global.currentGame);
+		}
 		return names;
 	}
 
 	private void LoadGlobal()
 	{
 		var filePath = Application.persistentDataPath + "/global.dat";
-		var g = File.Exists(filePath) ?
+		var blob = File.Exists(filePath) ?
 			(GlobalData) ReadFile(filePath) :
 			new GlobalData();
-		if (g == null) {
+		if (blob == null) {
 			print("Failed to load global save");
-			g = new GlobalData();
+			blob = new GlobalData();
 		}
-		global = g;
+		global = blob;
 	}
 
 	public int GetAmount(Item item)
@@ -196,6 +254,17 @@ public class GameController : MonoBehaviour {
 		AddItems(item, 1);
 	}
 
+
+	public void AddItems(string name, int count)
+	{
+		AddItems(TranslateItem(name), count);
+	}
+
+	public void AddItem(string name)
+	{
+		AddItem(TranslateItem(name));
+	}
+
 	public int RemoveItems(Item item, int count) 
 	{
 		int have = GetAmount(item);
@@ -207,6 +276,16 @@ public class GameController : MonoBehaviour {
 	public int RemoveItem(Item item) 
 	{
 		return RemoveItems(item, 1);
+	}
+
+	public int RemoveItems(string name, int count)
+	{
+		return RemoveItems(TranslateItem(name), count);
+	}
+
+	public int RemoveItem(string name)
+	{
+		return RemoveItem(TranslateItem(name));
 	}
 
 	public int GetBalance()
@@ -225,4 +304,13 @@ public class GameController : MonoBehaviour {
 		AddItems(Item.OneCoin, n % 10);
 	}
 
+	public Question GetQuestion(int alternatives)
+	{
+		return data.currentCourse.GetQuestion(alternatives);
+	}
+
+	public void AddExp(int gainedExp)
+	{
+		data.experiencePoints += gainedExp;
+	}
 }
