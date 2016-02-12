@@ -33,7 +33,7 @@ public abstract class ItemDisplayAbstract : MonoBehaviour {
 
 
 	public Transform newButton;	//The button to be used for the items
-	public PlayerInventory inventory;
+	Dictionary<string, int> inventory;
 
 	public Dictionary<string, int> items;	
 	public string chosenItem;
@@ -53,7 +53,8 @@ public abstract class ItemDisplayAbstract : MonoBehaviour {
 		actionButton = 
 			transform.FindChild ("Panel").FindChild ("Options").FindChild ("ActionButton").GetComponent<Button>();
 
-		inventory = GameObject.Find ("GameController").transform.FindChild ("InventoryHandlerO").GetComponent<PlayerInventory>();
+		//inventory = GameObject.Find ("GameController").transform.FindChild ("InventoryHandlerO").GetComponent<PlayerInventory>();
+		inventory = GameController.control.stringInventory;
 	}
 
 	// Update is called once per frame
@@ -61,7 +62,7 @@ public abstract class ItemDisplayAbstract : MonoBehaviour {
 
 	}
 
-	public void setUpItems(Dictionary<string, int> itemDictionary){
+	public virtual void setUpItems(Dictionary<string, int> itemDictionary){
 		items = itemDictionary;
 
 		foreach (KeyValuePair<string, int> item in items) {
@@ -73,7 +74,7 @@ public abstract class ItemDisplayAbstract : MonoBehaviour {
 
 	}
 
-	public void updateItems(){
+	public virtual void updateItems(){
 		//Clear the button panel
 		Transform itemButtons = transform.FindChild("Panel").FindChild("ButtonPanel").FindChild("ItemButtons");
 		foreach (Transform button in itemButtons.transform) {
@@ -91,7 +92,8 @@ public abstract class ItemDisplayAbstract : MonoBehaviour {
 
 
 			Transform clone = (Transform)Instantiate (newButton, new Vector3 (0, 0, 0), Quaternion.identity);
-			clone.parent = transform.FindChild("Panel").FindChild("ButtonPanel").FindChild("ItemButtons");
+			//clone.parent = transform.FindChild("Panel").FindChild("ButtonPanel").FindChild("ItemButtons");
+			clone.SetParent(transform.FindChild("Panel").FindChild("ButtonPanel").FindChild("ItemButtons"));
 			//Debug.Log ("clone parent: " + clone.parent);
 
 			Text t = clone.FindChild ("Text").GetComponent<Text>();
@@ -109,7 +111,7 @@ public abstract class ItemDisplayAbstract : MonoBehaviour {
 	}
 
 
-	public void setScrollButtons(){
+	public virtual void setScrollButtons(){
 //		Debug.Log ("original setscrollbuttons");
 		Button prevButton = 
 			transform.FindChild ("Panel").FindChild ("ButtonPanel").FindChild ("PrevButton").GetComponent<Button>();
@@ -132,14 +134,14 @@ public abstract class ItemDisplayAbstract : MonoBehaviour {
 		}
 	}
 
-	public void changePage(int change){
+	public virtual void changePage(int change){
 //		Debug.Log ("original changepage");
 		currentPage = currentPage + change;
 		updateItems ();
 	}
 		
 
-	public void selectItem(string s){
+	public virtual void selectItem(string s){
 //		Debug.Log ("original clickbutton");
 
 		//chosenItem = Inventory.itemStringToEnum [s];
@@ -149,11 +151,11 @@ public abstract class ItemDisplayAbstract : MonoBehaviour {
 
 	}
 
-	public void actionButtonPush(){
+	public virtual void actionButtonPush(){
 		Debug.Log("ACTION BUTTON PUSHED ON " + chosenItem.ToString());
 	}
 
-	public Dictionary<string, int> hideEmptyItems(Dictionary<string, int> itemDictionary){
+	public virtual Dictionary<string, int> hideEmptyItems(Dictionary<string, int> itemDictionary){
 		Dictionary<string, int> newDictionary = new Dictionary<string, int> ();
 		foreach(string item in itemDictionary.Keys){
 			if (itemDictionary[item] > 0) {

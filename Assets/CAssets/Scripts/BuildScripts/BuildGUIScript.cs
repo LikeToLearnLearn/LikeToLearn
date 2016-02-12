@@ -23,7 +23,8 @@ public class BuildGUIScript : ItemDisplayAbstract {
 	void Start () {
 		base.Start (5);	
 //		Debug.Log ("extended");
-		Dictionary<string, int> oldDictionary = base.inventory.getInventoryAsDictionary ();
+		//Dictionary<string, int> oldDictionary = base.inventory.getInventoryAsDictionary ();
+		Dictionary<string, int> oldDictionary = GameController.control.stringInventory;
 		Dictionary<string, int> newDictionary = base.hideEmptyItems (oldDictionary);
 		setUpItems (newDictionary);
 	}
@@ -33,7 +34,7 @@ public class BuildGUIScript : ItemDisplayAbstract {
 	
 	}
 
-	public void changePage(int change){
+	/*public void changePage(int change){
 		base.changePage (change);
 	}
 
@@ -44,7 +45,7 @@ public class BuildGUIScript : ItemDisplayAbstract {
 
 	public void actionButtonPush(){
 		base.actionButtonPush ();
-	}
+	}*/
 
 
 

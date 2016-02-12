@@ -19,9 +19,7 @@ public class ItemButtonScript : MonoBehaviour {
 	public void pushed(){
 		Text t = gameObject.GetComponentInChildren<Text>();
 		string s = t.text;
-		//Debug.Log("parent object: " + transform.parent.parent.parent.parent.name + " button name: " + s);
+		//Call selectItem(s) in ItemDisplayAbstract (or actually one of its instantiated subclasses)
 		transform.parent.parent.parent.parent.SendMessage("selectItem", s);
-		//transform.parent.parent.parent.parent.GetComponent<ShopController> ().clickButton (s);
-		//transform.FindChild("Panel").FindChild("ButtonPanel").FindChild("ItemButtons");
 	}
 }

@@ -11,7 +11,8 @@ public class InventoryGUIScript : ItemDisplayAbstract {
 	// Use this for initialization
 	void Start () {
 		base.Start (10);	
-		Dictionary<string, int> oldDictionary = base.inventory.getInventoryAsDictionary ();
+		//Dictionary<string, int> oldDictionary = base.inventory.getInventoryAsDictionary ();
+		Dictionary<string, int> oldDictionary = GameController.control.stringInventory;
 		Dictionary<string, int> newDictionary = base.hideEmptyItems (oldDictionary);
 		setUpItems (newDictionary);
 	}
@@ -23,7 +24,7 @@ public class InventoryGUIScript : ItemDisplayAbstract {
 
 
 
-	public void setUpItems(Dictionary<string, int> itemDictionary){
+	/*public void setUpItems(Dictionary<string, int> itemDictionary){
 		base.setUpItems (itemDictionary);
 
 	}
@@ -31,10 +32,10 @@ public class InventoryGUIScript : ItemDisplayAbstract {
 
 	public void changePage(int change){
 		base.changePage (change);
-	}
+	}*/
 
 
-	public void selectItem(string s){
+	public override void selectItem(string s){
 		base.selectItem (s);
 
 
@@ -47,7 +48,7 @@ public class InventoryGUIScript : ItemDisplayAbstract {
 	}
 
 
-	public void actionButtonPush(){
+	/*public void actionButtonPush(){
 		//close inventory
-	}
+	}*/
 }

@@ -19,7 +19,7 @@ public class ShopGUIScript : ItemDisplayAbstract {
 	
 	}
 
-	public void setUpShop(Dictionary<string, int> itemDictionary){
+	/*public void setUpShop(Dictionary<string, int> itemDictionary){
 		base.setUpItems (itemDictionary);
 
 	}
@@ -27,10 +27,10 @@ public class ShopGUIScript : ItemDisplayAbstract {
 
 	public void changePage(int change){
 		base.changePage (change);
-	}
+	}*/
 
 
-	public void selectItem(string s){
+	public override void selectItem(string s){
 		base.selectItem (s);
 
 
@@ -43,8 +43,9 @@ public class ShopGUIScript : ItemDisplayAbstract {
 	}
 		
 
-	public void actionButtonPush(){
-		base.inventory.addItem (chosenItem);
+	public override void actionButtonPush(){
+		//base.inventory.addItem (chosenItem);
+		GameController.control.AddItem(chosenItem);
 		Debug.Log("BOUGHT ITEM " + chosenItem.ToString());
 	}
 
