@@ -27,7 +27,11 @@ public class StartMenu : MonoBehaviour {
 	Text nameToLoad;
 
 	void Start () {
-		loadPannelButton.SetActive(GameController.control.GotSavedGames());
+		if (!GameController.control.GotSavedGames()) {
+			Button b = loadPannelButton.GetComponent<Button>();
+			b.interactable = false;
+			// fixme: decrease load game button text alpha
+		}
 		names = GameController.control.GetNames();
 		nameToLoad = nameText.GetComponent<Text>();
 	}
