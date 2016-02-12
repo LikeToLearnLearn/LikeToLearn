@@ -10,7 +10,9 @@ using UnityEngine.SceneManagement;
 public class GameController : MonoBehaviour {
 
 	public enum Language {	English, Swedish };
-	public enum Item { Fish, Brick, OneCoin, TenCoin, HundredBill, ThousandBill };
+	public enum Item {
+		Fish, Brick, OneCoin, TenCoin, HundredBill, ThousandBill, Balloon
+	};
 
 	// global configuration data that all instances use
 	[Serializable]
