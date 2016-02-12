@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 
 
-public class RacingLogic : MonoBehaviour
+public class RacingLogic : MiniGameAbstract
 {
     private float points;
     private float f;
@@ -30,22 +30,22 @@ public class RacingLogic : MonoBehaviour
     
         
     // Use this for initialization
-    void Start()
+    public override void Start()
     {
+        base.Start();
         points = 0;
         sign = null;
         player = null;
         pickUps = new ArrayList();
         numbersLeft = 0;
-        timeLeft = 2.0f;
+        timeLeft = 3.0f;
         update = false;
-
 
         //UpdateScore();
     }
     
     // Update is called once per frame
-    void Update()
+    public override void Update()
     {
         timeLeft -= Time.deltaTime;
         if (numbersLeft > 0 && timeLeft<0)
@@ -54,7 +54,7 @@ public class RacingLogic : MonoBehaviour
             if(numbersLeft == right) Instantiate(prefabRight, new Vector3((SetPickUpPosition(5)) + x, y, (SetPickUpPosition(10)) + z), Quaternion.identity);
             else Instantiate(prefabWrong, new Vector3((SetPickUpPosition(5)) + 2 + x, y, (SetPickUpPosition(10)) - 2 + z), Quaternion.identity);
             numbersLeft--;
-            timeLeft = 2.0f;
+            timeLeft = 3.0f;
 
         }
         if (update == true && timeLeft > 0)
@@ -204,7 +204,7 @@ public class RacingLogic : MonoBehaviour
         return multiplication;
 
     }
-
+    // GameController.control.AddItem(GameController.Item.RedBalloon); 
      public void AddPickUp(GameObject p)
         {
             pickUps.Add(p);
@@ -224,14 +224,14 @@ public class RacingLogic : MonoBehaviour
         }
     public void CreatePickups(Transform pbWrong, Transform pbRigth, float x, float y, float z)
     {
-        numbersLeft = 4;
-        timeLeft = 2.0f;
+        numbersLeft = 2;
+        timeLeft = 3.0f;
         prefabWrong = pbWrong;
         prefabRight = pbRigth;
         this.x = x;
         this.y = y;
         this.z = z;
-        right = SetValue(3) + 1;
+        right = SetValue(1) + 1;
 
         //for (int i = 0; i < 3; i++)
         //{
