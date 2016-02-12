@@ -103,7 +103,8 @@ public class StartMenu : MonoBehaviour {
 		credits.SetActive(true);
 	}
 
-	public void BackToMainMenu() {
+	public void BackToMainMenu()
+	{
 		if (!isZoomed) return;
 		zoom -= 240.0f;
 		isZoomed = false;
@@ -114,7 +115,8 @@ public class StartMenu : MonoBehaviour {
 		credits.SetActive(false);
 	}
 
-	public void StartGame() {
+	public void StartGame()
+	{
 		var input = nameInput.GetComponent<InputField>();
 		string name = input.text;
 		if (GameController.control.NameTaken(name)) {
@@ -130,7 +132,8 @@ public class StartMenu : MonoBehaviour {
 		}
 	}
 
-	public void LoadGame() {
+	public void LoadGame()
+	{
 		GameController.control.LoadGame(names[nameIndex]);
 	}
 }

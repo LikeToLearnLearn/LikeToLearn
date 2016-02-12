@@ -42,7 +42,16 @@ public class GameController : MonoBehaviour {
 
 	public Dictionary<Item, int> inventory {
 		get { return data.inventory; }
-		set { data.inventory = value; }
+	}
+
+	public Dictionary<string, int> stringInventory {
+		get {
+			var inv = new Dictionary<string, int>();
+			foreach (KeyValuePair<Item, int> entry in data.inventory) {
+				inv[entry.Key.ToString()] = entry.Value;
+			}
+			return inv;
+		}
 	}
 
 	public bool GotSavedGames()
@@ -87,6 +96,11 @@ public class GameController : MonoBehaviour {
 		global.games[global.currentGame] = global.gameCount++;
 		SaveGame();
 		LoadGame(name);
+	}
+
+	public Item TranslateItem(string name)
+	{
+		return (Item) Enum.Parse(typeof(Item), name, true);
 	}
 	
 	public bool NameTaken(string name)
@@ -194,6 +208,17 @@ public class GameController : MonoBehaviour {
 	public void AddItem(Item item)
 	{
 		AddItems(item, 1);
+	}
+
+
+	public void AddItems(string name, int count)
+	{
+		AddItems(TranslateItem(name), count);
+	}
+
+	public void AddItem(string name)
+	{
+		AddItem(TranslateItem(name));
 	}
 
 	public int RemoveItems(Item item, int count) 
