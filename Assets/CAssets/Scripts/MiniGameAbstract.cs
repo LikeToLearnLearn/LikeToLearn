@@ -16,7 +16,6 @@ public abstract class MiniGameAbstract : MonoBehaviour
     public virtual void Start()
     {
         playing = false;
-        remainingTime = 90f; // 90s default remaining time
     }
 
     // Update is called once per frame
@@ -25,7 +24,7 @@ public abstract class MiniGameAbstract : MonoBehaviour
         if (playing)
         {
             remainingTime -= Time.deltaTime;
-            print("playing:" + remainingTime + " score: " + currentScore);    
+            //print("playing:" + remainingTime + " score: " + currentScore);    
 
             if (remainingTime < 0)
             {
@@ -39,6 +38,9 @@ public abstract class MiniGameAbstract : MonoBehaviour
     public virtual void StartGame()
     {
         startTime = Time.timeSinceLevelLoad;
+        remainingTime = 90f; // 90s default remaining time
+        currentScore = 0;
+
         playing = true;
 
     }

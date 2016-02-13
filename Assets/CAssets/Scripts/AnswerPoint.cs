@@ -54,7 +54,7 @@ public class AnswerPoint : MonoBehaviour
             GetComponentInChildren<TextMesh>().color = c;
         }
 
-        yield return new WaitForSeconds(8f); // 8 second delay
+        yield return new WaitForSeconds(2f); // 2 second delay
         qp.UpdateQuestion();
         GetComponentInChildren<TextMesh>().color = oldcolor;
         SetTriggered(false);

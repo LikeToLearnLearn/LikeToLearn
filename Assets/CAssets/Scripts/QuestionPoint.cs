@@ -2,30 +2,29 @@
 using System.Collections;
 
 public class QuestionPoint : MonoBehaviour {
-
-    public float timeBetweenAnsweredQ;
-
-    private float timeSinceAnswer;
-
+ 
     private BoatGame boatgame;
+    private BoatGameHUDController boatgameHUD;
     private AnswerPoint[] aps;
 
     private bool rewarded;
     private bool answered;
+
+    private string questionAsString; // Current question
     private float correctAnswer;
     private float playersAnswer;
     private string difficulty;
     private int difficultyAsInt;
 
     // Use this for initialization
-    void Start ()
+    void Start()
     {
         boatgame = GameObject.Find("BoatGame").GetComponent<BoatGame>();
+        boatgameHUD = GameObject.Find("MinigameHUDCanvas").GetComponent<BoatGameHUDController>();
         aps = GetComponentsInChildren<AnswerPoint>();
-        timeBetweenAnsweredQ = 5f;
 
-        //The name of the object this script is attached to is expected to have the difficulty seperated by space.
-        //Like so: "[anything] [difficulty]". E.g: "QuestionPoint Medium".
+        // The name of the object this script is attached to is expected to have the difficulty seperated by space.
+        // Like so: "[anything] [difficulty]". E.g: "QuestionPoint Medium".
         string[] splits = this.gameObject.name.Split(' ');
         difficulty = splits[1];
         if (difficulty.Equals("Easy"))
@@ -45,18 +44,18 @@ public class QuestionPoint : MonoBehaviour {
     }
 
     // Update is called once per frame
-    
-    void Update ()
+
+    void Update()
     {
 
 
-	}
+    }
 
     public bool AnswerQuestion(float guess)
     {
         bool correct = false; // bool returned; true if correct guess, false if wrong guess
 
-        if (!answered) 
+        if (!answered)
         {
             answered = true; // flag to only allow answering once per question
 
@@ -79,23 +78,25 @@ public class QuestionPoint : MonoBehaviour {
 
     public void UpdateQuestion()
     {
+        questionAsString = "";
         if (difficulty.Equals("Easy"))
         {
             int[] q = MathQGenerator.GenerateIntMultiplicationQ(1, 1, 9); //1 operation, numbers 1 to 9
             correctAnswer = q[0] * q[2];
-            GetComponentInChildren<TextMesh>().text = q[0] + " x " + q[2] + " = ?";
+            questionAsString = q[0] + " x " + q[2] + " = ?";
         }
         else if (difficulty.Equals("Medium")) {
             int[] q = MathQGenerator.GenerateIntMultiplicationQ(2, 1, 9); //2 operations, numbers 1 to 9
             correctAnswer = q[0] * q[2] * q[4];
-            GetComponentInChildren<TextMesh>().text = q[0] + " x " + q[2] + " x " + q[4] + " = ?";
+            questionAsString = q[0] + " x " + q[2] + " x " + q[4] + " = ?";
         }
         else if (difficulty.Equals("Hard")) {
             int[] q = MathQGenerator.GenerateIntMultiplicationQ(3, 1, 9); //3 random operations, numbers 1 to 9
             correctAnswer = q[0] * q[2] * q[4] * q[6];
-            GetComponentInChildren<TextMesh>().text = q[0] + " x " + q[2] + " x " + q[4] + " x " + q[6] + " = ?";
+            questionAsString = q[0] + " x " + q[2] + " x " + q[4] + " x " + q[6] + " = ?";
 
         }
+        GetComponentInChildren<TextMesh>().text = questionAsString;
 
         // Randomize answers
         int correctPosition = Random.Range(0, aps.Length); // randomize which index will get correct answer
@@ -123,11 +124,16 @@ public class QuestionPoint : MonoBehaviour {
         }
         rewarded = false;
         answered = false;
-            
+
     }
 
     public float GetCorrectAnswer() {
         return correctAnswer;
+    }
+
+    public string GetQuestionAsString()
+    {
+        return questionAsString;
     }
 
 

@@ -4,16 +4,21 @@ using UnityEngine.UI;
 
 public class BoatGameHUDController : MonoBehaviour {
 
-    MiniGameAbstract minigame;
-    Text timeText;
-    Text scoreText;
+    private MiniGameAbstract minigame;
+    private QuestionPoint qp;
+    private Text timeText;
+    private Text scoreText;
+    private Text questionText;
 
 	// Use this for initialization
-	void Start () {
+	void Start() {
 
         timeText = GameObject.Find("TimeText").GetComponent<Text>();
         scoreText = GameObject.Find("ScoreText").GetComponent<Text>();
+        questionText = GameObject.Find("HUDQuestionText").GetComponent<Text>();
         minigame = GameObject.Find("BoatGame").GetComponent<BoatGame>();
+        qp = GameObject.Find("QuestionPoint Easy").GetComponent<QuestionPoint>();
+        
         /*
                 if (GetComponentInParent<Transform>().gameObject.name.Equals("BoatGame"))
                 {
@@ -37,9 +42,16 @@ public class BoatGameHUDController : MonoBehaviour {
     }
 	
 	// Update is called once per frame
-	void Update () {
+	void Update() {
         timeText.text = "Time left: " + minigame.GetRemainingTime().ToString("f1");
         scoreText.text = "Score: " + minigame.GetCurrentScore().ToString();
-
+        
+        UpdateHUDQuestion();
 	}
+
+    public void UpdateHUDQuestion()
+    {
+        print(questionText.text);
+        questionText.text = qp.GetQuestionAsString();
+    }
 }

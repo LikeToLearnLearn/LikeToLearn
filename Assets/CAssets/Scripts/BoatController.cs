@@ -56,7 +56,7 @@ public class BoatController : MonoBehaviour {
             }
 
             //Limit torque. Conditions attempt to simulate reality a little
-            if (!(h == 0f || rb.angularVelocity.y > maxTurnTorque))
+            if (!(h == 0f || Mathf.Abs(rb.angularVelocity.y) > maxTurnTorque))
             {
                 //Add "horizontal" torque   
                 rb.AddTorque(0f, h * turnSpeed * Time.fixedDeltaTime, 0f);
@@ -64,8 +64,8 @@ public class BoatController : MonoBehaviour {
 
             //Keep boat upright
             Quaternion q = Quaternion.FromToRotation(transform.up, Vector3.up);
-            float buoyantTorque = 50f;
-            rb.AddTorque(q.x * buoyantTorque * 1, q.y * buoyantTorque * 10, q.z * buoyantTorque * 10);
+            float buoyantTorque = 120f;
+            rb.AddTorque(q.x * buoyantTorque * 10, q.y * buoyantTorque * 10, q.z * buoyantTorque * 10);
 
         }
     }
