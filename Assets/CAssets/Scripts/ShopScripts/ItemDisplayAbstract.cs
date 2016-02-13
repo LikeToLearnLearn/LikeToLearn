@@ -151,6 +151,11 @@ public abstract class ItemDisplayAbstract : MonoBehaviour {
 
 	}
 
+	public virtual int GetChosenItemValue(){
+		return items [chosenItem];
+			
+	}
+
 	public virtual void actionButtonPush(){
 		Debug.Log("ACTION BUTTON PUSHED ON " + chosenItem.ToString());
 	}

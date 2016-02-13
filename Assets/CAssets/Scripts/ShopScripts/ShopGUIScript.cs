@@ -44,9 +44,19 @@ public class ShopGUIScript : ItemDisplayAbstract {
 		
 
 	public override void actionButtonPush(){
-		//base.inventory.addItem (chosenItem);
-		GameController.control.AddItem(chosenItem);
-		Debug.Log("BOUGHT ITEM " + chosenItem.ToString());
+
+		//GameController.control.AddItem(chosenItem);
+		//Debug.Log("BOUGHT ITEM " + chosenItem.ToString());
+
+
+		Transform payGUI = transform.parent.parent.FindChild("PayGUI");
+
+
+		payGUI.gameObject.SetActive (true);
+		Debug.Log("PRICE: " + base.GetChosenItemValue());
+		payGUI.GetComponent<PayScript> ().SetUpPayGUI (base.GetChosenItemValue());
+		gameObject.SetActive(false);
+
 	}
 
 }
