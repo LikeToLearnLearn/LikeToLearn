@@ -53,8 +53,8 @@ public class GameController : MonoBehaviour {
 	}
 	*/
 
-	public int UnlockWorldLevel {  // not tested
-		get { return (int) Math.Log10(data.experiencePoints);	}
+	public int unlockWorldLevel {  // not tested
+		get { return (int) Math.Log10(data.experiencePoints); }
 	}
 
 	public Dictionary<Item, int> inventory {
@@ -70,9 +70,8 @@ public class GameController : MonoBehaviour {
 		}
 	}
 
-	public bool GotSavedGames()
-	{
-		return global.games != null && global.games.Count > 0;
+	public bool gotSavedGames {
+		get { return global.games != null && global.games.Count > 0; }
 	}
 
 	void Awake()
@@ -148,9 +147,7 @@ public class GameController : MonoBehaviour {
 	private string SaveFileName(string name)
 	{
 		return Application.persistentDataPath
-			+ "/game_"
-			+ global.games[name]
-			+ ".dat";
+			+ "/game_" + global.games[name] + ".dat";
 	}
 
 	private void WriteFile(string filePath, object o)
@@ -254,7 +251,6 @@ public class GameController : MonoBehaviour {
 		AddItems(item, 1);
 	}
 
-
 	public void AddItems(string name, int count)
 	{
 		AddItems(TranslateItem(name), count);
@@ -313,6 +309,6 @@ public class GameController : MonoBehaviour {
 
 	public void AddExp(int gainedExp)
 	{
-		data.experiencePoints += gainedExp;
+		data.experiencePoints += Math.Abs(gainedExp);
 	}
 }

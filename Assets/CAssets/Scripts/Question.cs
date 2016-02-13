@@ -4,13 +4,17 @@ using System;
 
 [Serializable]
 public class Question {
-	static Random rnd = new Random();
-	List<string> answers; 
-	List<string> alt;
-	Course c;
-	string q;
-	string a;
-	int i;
+	private static Random rnd = new Random();
+	private List<string> answers; 
+	private List<string> alt;
+	private Course c;
+	private string q;
+	private string a;
+	private int i;
+
+	public string question {
+		get { return q; }
+	}
 
 	public Question(Course c, string q, string a)
 	{
