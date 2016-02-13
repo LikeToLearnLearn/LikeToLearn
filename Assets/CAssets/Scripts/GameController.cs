@@ -306,7 +306,9 @@ public class GameController : MonoBehaviour {
 
 	public Question GetQuestion(int alternatives)
 	{
-		return data.currentCourse.GetQuestion(alternatives);
+		var q = data.currentCourse.GetQuestion(alternatives);
+		data.questions.Add(q);
+		return q;
 	}
 
 	public void AddExp(int gainedExp)

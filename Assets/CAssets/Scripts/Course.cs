@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System;
+using System.Linq;
 
 [Serializable]
 public abstract class Course {
@@ -17,16 +18,32 @@ public abstract class Course {
 		int level = testMode ? testLevel : CurrentLevel();
 		List<string> qs = questions[level];
 		string q = qs[rnd.Next(qs.Count)];
-		return new Question(this, q, answers[q]);
+		string a = answers[q];
+		var alts = new List<string>();
+		var res = new Question(this, q, a);
+		List<string> ans = Enumerable.ToList(answers.Values);
+		int cnt = answers.Count;
+		int i = 1;
+		while (i < alternatives) {
+			string cand = ans[rnd.Next(cnt)];
+			if (a != cand && alts.Contains(cand)) {
+				alts.Add(cand);
+				res.AddAlternative(cand);
+				i++;
+			}
+		}
+		return res;
 	}
 
 	private int CurrentLevel()
 	{
-		var levels = new List<int>(questions.Keys);
+		var levels = new List<int>();
+		foreach (var key in questions.Keys)
+			levels.Add(key);
 		levels.Sort();
 		foreach (int level in levels) {
 			foreach (string question in questions[level]) {
-				if (results[question] < 3) // number of correct answers needed
+				if (results[question] < 2) // number of correct answers needed
 					return level;
 			}
 		}
@@ -57,6 +74,8 @@ public abstract class Course {
 
 	public virtual void LogAnswerCorrect(string question)
 	{
+		if (!results.ContainsKey(question))
+			results[question] = 0;
 		results[question]++;
 		GameController.control.AddExp(1); // fixme
 	}

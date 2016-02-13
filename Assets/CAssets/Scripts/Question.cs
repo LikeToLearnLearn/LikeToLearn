@@ -17,7 +17,7 @@ public class Question {
 		this.c = c;
 		this.q = q;
 		this.a = a;
-		i = Math.Abs(rnd.Next());
+		i = rnd.Next(1000);
 		AddAlternative(a);
 	}
 
@@ -40,6 +40,7 @@ public class Question {
 
 	public string GetAlternative()
 	{
-		return alt[i++ % alt.Count];
+		i = (i + 1) % alt.Count;
+		return alt[i];
 	}
 }
