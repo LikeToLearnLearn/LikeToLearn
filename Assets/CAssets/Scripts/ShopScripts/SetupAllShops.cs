@@ -6,7 +6,6 @@ using UnityEditor;
 public class SetupAllShops : MonoBehaviour {
 
 	public string[] shopItems;
-	//public Transform newButton;
 	public Transform[] cityShops;
 
 
@@ -34,8 +33,6 @@ public class SetupAllShops : MonoBehaviour {
 	//Drag the shops into the ShopHandlers shop-list to add them.
 	void Start () {
 
-
-
 		foreach (Transform shop in cityShops) {
 			if (shop.name.Equals ("allshop")) {
 				itemValues = allshop;
@@ -47,7 +44,6 @@ public class SetupAllShops : MonoBehaviour {
 			}
 	
 			Transform shopGUI = shop.FindChild("ShopGUI");
-			//shopGUI.GetComponent<ShopController> ().setUpShop(itemValues);
 			shopGUI.GetComponent<ShopGUIScript> ().setUpItems(itemValues);
 			shopGUI.gameObject.SetActive (false);
 		

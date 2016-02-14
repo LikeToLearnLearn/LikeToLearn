@@ -37,6 +37,7 @@ public abstract class ItemDisplayAbstract : MonoBehaviour {
 
 	public Transform newButton;	//The button to be used for the items
 	Dictionary<string, int> inventory;
+	Vector3 normalScale;
 
 	public Dictionary<string, int> items;	
 	public string chosenItem;
@@ -52,12 +53,13 @@ public abstract class ItemDisplayAbstract : MonoBehaviour {
 		
 		currentPage = 0;
 		itemsPerPage = perPage;
+		normalScale = new Vector3 (1.0f, 1.0f, 1.0f);
 
 		actionButton = 
 			transform.FindChild ("Panel").FindChild ("Options").FindChild ("ActionButton").GetComponent<Button>();
 
-		//inventory = GameObject.Find ("GameController").transform.FindChild ("InventoryHandlerO").GetComponent<PlayerInventory>();
 		inventory = GameController.control.stringInventory;
+		updateItems ();
 	}
 
 	// Update is called once per frame
@@ -85,23 +87,21 @@ public abstract class ItemDisplayAbstract : MonoBehaviour {
 		}
 
 
-
 		//Set up the right number of buttons (currently 4 per page)
-		//Debug.Log ("nr of items: " + items.Count);
 		int start = currentPage * itemsPerPage;
+
 		for (int i = start; (i <= start + (itemsPerPage - 1)) && i < inStock.Count; i++) {
 			
 			string s = inStock [i];
 
-
 			Transform clone = (Transform)Instantiate (newButton, new Vector3 (0, 0, 0), Quaternion.identity);
-			//clone.parent = transform.FindChild("Panel").FindChild("ButtonPanel").FindChild("ItemButtons");
 			clone.SetParent(transform.FindChild("Panel").FindChild("ButtonPanel").FindChild("ItemButtons"));
-			//Debug.Log ("clone parent: " + clone.parent);
 
 			Text t = clone.FindChild ("Text").GetComponent<Text>();
 			t.text = s;
 			t.color = Color.clear;	//To hide the text
+
+			clone.localScale = new Vector3 (1.0f, 1.0f, 1.0f);
 
 			Texture tex = Resources.Load(s) as Texture;
 			RawImage im = clone.gameObject.GetComponent<RawImage>();
@@ -115,7 +115,6 @@ public abstract class ItemDisplayAbstract : MonoBehaviour {
 
 
 	public virtual void setScrollButtons(){
-//		Debug.Log ("original setscrollbuttons");
 		Button prevButton = 
 			transform.FindChild ("Panel").FindChild ("ButtonPanel").FindChild ("PrevButton").GetComponent<Button>();
 		Button nextButton = 
@@ -138,16 +137,13 @@ public abstract class ItemDisplayAbstract : MonoBehaviour {
 	}
 
 	public virtual void changePage(int change){
-//		Debug.Log ("original changepage");
 		currentPage = currentPage + change;
 		updateItems ();
 	}
 		
 
 	public virtual void selectItem(string s){
-//		Debug.Log ("original clickbutton");
 
-		//chosenItem = Inventory.itemStringToEnum [s];
 		chosenItem = s;
 
 
