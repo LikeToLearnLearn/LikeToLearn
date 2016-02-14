@@ -28,7 +28,7 @@ public class Question {
 	public void Answer(string a)
 	{
 		answers.Add(a);
-		if (answers.Count == 1 && Right())
+		if (answers.Count == 1 && Correct())
 			c.LogAnswerCorrect(a);
 	}
 
