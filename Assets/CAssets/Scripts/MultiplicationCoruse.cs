@@ -8,9 +8,9 @@ public class MultiplicationCoruse : Course {
 	{
 		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 10; j++) {
-				AddQuestion(i, ""+i+"X"+j, ""+(i*j));
+				AddQuestion(i, ""+i+" * "+j, ""+(i*j));
 				if (i != j)
-					AddQuestion(i, ""+j+"X"+i, ""+(i*j));
+					AddQuestion(i, ""+j+" * "+i, ""+(i*j));
 				
 			}
 		}

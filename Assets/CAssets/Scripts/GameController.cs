@@ -53,7 +53,7 @@ public class GameController : MonoBehaviour {
 	}
 	*/
 
-	public int unlockWorldLevel {  // not tested
+	public int unlockedWorldLevel {  // not tested
 		get { return (int) Math.Log10(data.experiencePoints); }
 	}
 

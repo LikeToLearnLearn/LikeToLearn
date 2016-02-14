@@ -19,17 +19,15 @@ public abstract class Course {
 		List<string> qs = questions[level];
 		string q = qs[rnd.Next(qs.Count)];
 		string a = answers[q];
-		var alts = new List<string>();
+		var added = new List<string>();
 		var res = new Question(this, q, a);
 		List<string> ans = Enumerable.ToList(answers.Values);
-		int cnt = answers.Count;
-		int i = 1;
-		while (i < alternatives) {
-			string cand = ans[rnd.Next(cnt)];
-			if (a != cand && alts.Contains(cand)) {
-				alts.Add(cand);
+		while (alternatives > 0) {
+			string cand = ans[rnd.Next(ans.Count)];
+			if (a != cand && added.IndexOf(cand) == -1) {
+				added.Add(cand);
 				res.AddAlternative(cand);
-				i++;
+				alternatives--;
 			}
 		}
 		return res;

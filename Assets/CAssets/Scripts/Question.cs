@@ -5,8 +5,8 @@ using System;
 [Serializable]
 public class Question {
 	private static Random rnd = new Random();
-	private List<string> answers; 
-	private List<string> alt;
+	private List<string> answers = new List<string>(); 
+	private List<string> alt = new List<string>();
 	private Course c;
 	private string q;
 	private string a;
@@ -21,20 +21,26 @@ public class Question {
 		this.c = c;
 		this.q = q;
 		this.a = a;
-		i = rnd.Next(1000);
+		this.i = rnd.Next(1000);
 		AddAlternative(a);
 	}
 
-	public void PutAnswer(string a)
+	public void Answer(string a)
 	{
 		answers.Add(a);
-		if (answers.Count == 1 && RightAnswer())
+		if (answers.Count == 1 && Right())
 			c.LogAnswerCorrect(a);
 	}
 
-	public bool RightAnswer()
+	public bool Right()
 	{ 
 		return answers[answers.Count - 1] == a;
+	}
+
+	public string Alternative()
+	{
+		i = (i + 1) % alt.Count;
+		return alt[i];
 	}
 
 	public void AddAlternative(string alternative)
@@ -42,9 +48,4 @@ public class Question {
 		alt.Add(alternative);
 	}
 
-	public string GetAlternative()
-	{
-		i = (i + 1) % alt.Count;
-		return alt[i];
-	}
 }
