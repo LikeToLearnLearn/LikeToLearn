@@ -12,7 +12,8 @@ public class GameController : MonoBehaviour {
 	public enum Language {	English, Swedish };
 	public enum Item {
 		Fish, Brick, OneCoin, TenCoin, HundredBill, ThousandBill,
-		RedBalloon, YellowBalloon, BlueBalloon, GreenBalloon
+		RedBalloon, YellowBalloon, BlueBalloon, GreenBalloon,
+		FiveCoin, TwentyBill
 	};
 
 	// global configuration data that all instances use
@@ -287,7 +288,9 @@ public class GameController : MonoBehaviour {
 	public int GetBalance()
 	{
 		return GetAmount(Item.OneCoin)
+			+ GetAmount(Item.FiveCoin) * 5
 			+ GetAmount(Item.TenCoin) * 10
+			+ GetAmount(Item.TwentyBill) * 20
 			+ GetAmount(Item.HundredBill) * 100
 			+ GetAmount(Item.ThousandBill) * 1000;
 	}

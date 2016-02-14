@@ -9,6 +9,7 @@ public class GUIMenuControl : MonoBehaviour {
 	public Transform closeMenuButton;
 	public Transform openMenuButton;
 	public Transform inventoryPanel;
+	public Transform shopHandler;
 
 	// Use this for initialization
 	void Start () {
@@ -39,13 +40,19 @@ public class GUIMenuControl : MonoBehaviour {
 		inventoryPanel.gameObject.SetActive (true);
 		openMenuButton.gameObject.SetActive (false);
 		closeMenuButton.gameObject.SetActive (false);
-		buildHandler.gameObject.SetActive (false);
+		if(buildHandler != null)
+			buildHandler.gameObject.SetActive (false);
+		if(shopHandler != null)
+			shopHandler.gameObject.SetActive (false);
 	}
 
 	public void closeInventory(){
 		inventoryPanel.gameObject.SetActive (false);
 		openMenuButton.gameObject.SetActive (true);
-		buildHandler.gameObject.SetActive (true);
+		if(buildHandler != null)
+			buildHandler.gameObject.SetActive (true);
+		if(shopHandler != null)
+			shopHandler.gameObject.SetActive (true);
 	}
 
 }

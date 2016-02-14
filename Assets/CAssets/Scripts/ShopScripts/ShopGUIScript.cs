@@ -54,7 +54,7 @@ public class ShopGUIScript : ItemDisplayAbstract {
 
 		payGUI.gameObject.SetActive (true);
 
-		payGUI.GetComponent<PayScript> ().SetUpPayGUI (base.GetChosenItemValue());
+		payGUI.GetComponent<PayScript> ().SetUpPayGUI (base.GetChosenItemValue(), base.chosenItem);
 		gameObject.SetActive(false);
 
 	}
