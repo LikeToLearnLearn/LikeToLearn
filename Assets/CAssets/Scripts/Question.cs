@@ -32,7 +32,7 @@ public class Question {
 			c.LogAnswerCorrect(a);
 	}
 
-	public bool Right()
+	public bool Correct()
 	{ 
 		return answers[answers.Count - 1] == a;
 	}
