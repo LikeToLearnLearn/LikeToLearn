@@ -32,6 +32,9 @@ public abstract class ItemDisplayAbstract : MonoBehaviour {
 
 
 
+
+
+
 	public Transform newButton;	//The button to be used for the items
 	Dictionary<string, int> inventory;
 

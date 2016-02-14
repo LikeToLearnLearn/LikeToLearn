@@ -53,7 +53,7 @@ public class ShopGUIScript : ItemDisplayAbstract {
 
 
 		payGUI.gameObject.SetActive (true);
-		Debug.Log("PRICE: " + base.GetChosenItemValue());
+
 		payGUI.GetComponent<PayScript> ().SetUpPayGUI (base.GetChosenItemValue());
 		gameObject.SetActive(false);
 
