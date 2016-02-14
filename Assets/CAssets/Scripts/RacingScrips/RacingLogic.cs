@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 
 
-public class RacingLogic : MiniGameAbstract
+public class RacingLogic : MonoBehaviour//MiniGameAbstract
 {
     private float points;
     private float f;
@@ -27,12 +27,15 @@ public class RacingLogic : MiniGameAbstract
     private bool update;
     private string multiplication;
     private float direction;
-    
-        
+
+    //private Question q;
+
+
     // Use this for initialization
-    public override void Start()
+    //public override 
+    void Start()
     {
-        base.Start();
+       //base.Start();
         points = 0;
         sign = null;
         player = null;
@@ -45,7 +48,8 @@ public class RacingLogic : MiniGameAbstract
     }
     
     // Update is called once per frame
-    public override void Update()
+    //public override 
+        void Update()
     {
         timeLeft -= Time.deltaTime;
         if (numbersLeft > 0 && timeLeft<0)
@@ -190,12 +194,14 @@ public class RacingLogic : MiniGameAbstract
 
     public void CreateMultiplication(float n, GameObject t)
     {
+        //Question qu = GameController.control.GetQuestion(4);
         if (t == null) t = text;
         float a = n;
         float b = SetValue(10);
         SetMultiplicationAnswere(a * b);
         multiplication = "" + a + " * " + b;
         t.GetComponent<TextMesh>().text = a + " * " + b;
+        //t.GetComponent<TextMesh>().text = qu.question + "Gris";  
 
     }
 
