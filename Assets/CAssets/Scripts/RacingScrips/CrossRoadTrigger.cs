@@ -3,11 +3,12 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 
 
-public class CrossRoadTrigger1 : MonoBehaviour
+public class CrossRoadTrigger : MonoBehaviour
 {
     public GameObject RockLeft;
     public GameObject RockRight;
     private RacingLogic racingLogic;
+    private float way;
 
     // Use this for initialiation
     void Start()
@@ -21,6 +22,8 @@ public class CrossRoadTrigger1 : MonoBehaviour
         {
             Debug.Log("Cannot find 'RacingLogic' script");
         }
+
+        way = racingLogic.SetValue(1) + 1;
     }
     
     // Update is called once per frame
@@ -28,22 +31,21 @@ public class CrossRoadTrigger1 : MonoBehaviour
     {
 
     }
-
+    
     void OnTriggerEnter(Collider c)
     {
         if (c.gameObject.CompareTag("PlayerCar"))
         {
-            if (racingLogic.GetDirection() == 2)
+            if (way == 1)
             {
-                racingLogic.DestroyAllPickUps();
-                racingLogic.DeactivateSign();
+                RockLeft.SetActive(true);
             }
 
-            racingLogic.SetDirection(1);
+            else RockRight.SetActive(true);
 
 
         }
     }
-
+    
 
 }
