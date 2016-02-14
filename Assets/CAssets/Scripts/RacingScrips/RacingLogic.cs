@@ -19,7 +19,7 @@ public class RacingLogic : MonoBehaviour//MiniGameAbstract
 
     private Vector3 pointA, pointB, pointC;
     private float timeLeft;
-    private int numbersLeft;
+    private float numbersLeft;
     private Transform prefabWrong;
     private Transform prefabRight;
     private float x, y, z;
@@ -28,7 +28,11 @@ public class RacingLogic : MonoBehaviour//MiniGameAbstract
     private string multiplication;
     private float direction;
 
-    //private Question q;
+    private Question q;
+    private bool message;
+    private string MessageString;
+    private bool GotRight;
+    private bool GameStarted;
 
 
     // Use this for initialization
@@ -43,6 +47,10 @@ public class RacingLogic : MonoBehaviour//MiniGameAbstract
         numbersLeft = 0;
         timeLeft = 3.0f;
         update = false;
+        message = false;
+        GotRight = false;
+        GameStarted = false;
+
 
         //UpdateScore();
     }
@@ -52,21 +60,67 @@ public class RacingLogic : MonoBehaviour//MiniGameAbstract
         void Update()
     {
         timeLeft -= Time.deltaTime;
-        if (numbersLeft > 0 && timeLeft<0)
+        if (numbersLeft > 0 && timeLeft < 0)
         {
-            print("Putting");
-            if(numbersLeft == right) Instantiate(prefabRight, new Vector3((SetPickUpPosition(5)) + x, y, (SetPickUpPosition(10)) + z), Quaternion.identity);
-            else Instantiate(prefabWrong, new Vector3((SetPickUpPosition(5)) + 2 + x, y, (SetPickUpPosition(10)) - 2 + z), Quaternion.identity);
-            numbersLeft--;
-            timeLeft = 3.0f;
+            if (!GotRight)
+            {
+                print("Putting");
+                // if(numbersLeft == right) Instantiate(prefabRight, new Vector3((SetPickUpPosition(5)) + x, y, (SetPickUpPosition(10)) + z), Quaternion.identity);
+                //else
+                Instantiate(prefabWrong, new Vector3((SetPickUpPosition(5)) + 2 + x, y, (SetPickUpPosition(10)) - 2 + z), Quaternion.identity);
+                numbersLeft--;
+                timeLeft = 3.0f;
+            }
+            
 
         }
+        else GotRight = false;
+
         if (update == true && timeLeft > 0)
+        {
             sign.GetComponent<TextMesh>().text = "Score: " + points;
-        else if (update == true) { 
+
+        }
+        else if (message == true) sign.GetComponent<TextMesh>().text = MessageString + " Score: " + points;
+
+        else if (update == true)
+        {
             sign.GetComponent<TextMesh>().text = GetMultiplication();
             update = false;
         }
+    }
+
+    public void SetGameStarted(bool started)
+    {
+        GameStarted = started;
+    }
+
+    public bool GetGameStarted()
+    {
+        return GameStarted;
+    }
+
+    public void SetGotRight(bool set)
+    {
+        GotRight = set;
+
+    }
+
+    public void PutMessage(string s)
+    {
+        message = true;
+        MessageString = s;
+    }
+
+    public void SetQuestion(Question qu)
+    {
+        q = qu;
+
+    }
+
+    public Question GetQuestion()
+    {
+        return q;
     }
 
     public void SetDirection(float d)
@@ -139,13 +193,14 @@ public class RacingLogic : MonoBehaviour//MiniGameAbstract
     public void DeactivateSign()
     {
         sign.SetActive(false);
+        message = false;
 
 
     }
 
     public GameObject GetSign()
     {
-        if (sign == null) sign = text;
+        //if (sign == null) sign = text;
         return sign;
     }
 
@@ -178,15 +233,20 @@ public class RacingLogic : MonoBehaviour//MiniGameAbstract
 
     public void AddScore(float newScoreValue)
     {
-        if (sign == null) sign = text;
+        //if (sign == null) sign = text;
         points += newScoreValue;
         UpdateScore();
-        Debug.Log("Present points: " + points);
+        //Debug.Log("Present points: " + points);
+    }
+
+    public float GetPoints()
+    {
+        return points;
     }
 
     void UpdateScore()
     {
-        if (sign == null) sign = text;
+       // if (sign == null) sign = text;
         //scoreText.text = "Score: " + points;
         update = true;
         //sign.GetComponent<TextMesh>().text = "Score: " + points;
@@ -194,14 +254,14 @@ public class RacingLogic : MonoBehaviour//MiniGameAbstract
 
     public void CreateMultiplication(float n, GameObject t)
     {
-        //Question qu = GameController.control.GetQuestion(4);
-        if (t == null) t = text;
-        float a = n;
-        float b = SetValue(10);
-        SetMultiplicationAnswere(a * b);
-        multiplication = "" + a + " * " + b;
-        t.GetComponent<TextMesh>().text = a + " * " + b;
-        //t.GetComponent<TextMesh>().text = qu.question + "Gris";  
+        q = GameController.control.GetQuestion(4);
+        //if (t == null) t = text;
+        //float a = n;
+        //float b = SetValue(10);
+        //SetMultiplicationAnswere(a * b);
+        multiplication = q.question; //"" + a + " * " + b;
+        //t.GetComponent<TextMesh>().text = a + " * " + b;
+        t.GetComponent<TextMesh>().text = multiplication;  
 
     }
 
@@ -230,7 +290,7 @@ public class RacingLogic : MonoBehaviour//MiniGameAbstract
         }
     public void CreatePickups(Transform pbWrong, Transform pbRigth, float x, float y, float z)
     {
-        numbersLeft = 2;
+        numbersLeft =4;
         timeLeft = 3.0f;
         prefabWrong = pbWrong;
         prefabRight = pbRigth;

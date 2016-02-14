@@ -13,7 +13,8 @@ public class PickUpRacing : MonoBehaviour {
     private float points;
     private float f;
     private GameObject player;
-   
+    private string value;
+
 
 
     // Use this for initialization
@@ -75,11 +76,25 @@ public class PickUpRacing : MonoBehaviour {
         if (c.gameObject.CompareTag("PlayerCar"))
         {
 
-            gameObject.SetActive(false);
+            gameObject.SetActive(false);     
+            //points = points + f;
+            racingLogic.GetQuestion().Answer(value);
+            if (racingLogic.GetQuestion().Correct())
+            {
+                gameObject.SetActive(false);
 
-            racingLogic.AddScore(-2);
+                racingLogic.AddScore(5);
+                racingLogic.PutMessage("Yes!!");
+                racingLogic.SetGotRight(true);
+                //Debug.Log(points);
+                racingLogic.DestroyAllPickUps();
+                GameController.control.AddItem(GameController.Item.RedBalloon);
+                //racingLogic.DeactivateSign();
+            }
+            else {
+                racingLogic.AddScore(-2);
+            }
 
-            points = points + f;
             //Debug.Log(points);
 
 
@@ -89,10 +104,14 @@ public class PickUpRacing : MonoBehaviour {
 
     void SetValue()
     {
-        f = Mathf.Floor(Random.value * 100f);
-        while(f== racingLogic.GetMultiplicationAnswere()) f = Mathf.Floor(Random.value * 100f);
-        if (racingLogic.GetDirection() == 2) text.transform.Rotate(0, 180, 0);
-        text.GetComponent<TextMesh>().text = "" + f;
+        /* f = Mathf.Floor(Random.value * 100f);
+         while(f== racingLogic.GetMultiplicationAnswere()) f = Mathf.Floor(Random.value * 100f);
+         if (racingLogic.GetDirection() == 2) text.transform.Rotate(0, 180, 0);
+         text.GetComponent<TextMesh>().text = "" + f;*/
+
+        value = racingLogic.GetQuestion().Alternative();
+
+        text.GetComponent<TextMesh>().text = value;
 
     }
 

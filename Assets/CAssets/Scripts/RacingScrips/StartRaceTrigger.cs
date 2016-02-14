@@ -8,8 +8,8 @@ public class StartRaceTrigger : MonoBehaviour {
     public GameObject player;
     public Transform prefabWrong;
     public Transform prefabRight;
-    public bool passed;
-    public GameObject light;
+    //public bool passed;
+    //public GameObject light;
     private GameObject sign;
 
 
@@ -26,8 +26,8 @@ public class StartRaceTrigger : MonoBehaviour {
         {
             Debug.Log("Cannot find 'RacingLogic' script");
         }
-        passed = false;
-        sign = racingLogic.GetSign();
+        racingLogic.SetGameStarted(false);
+        //sign = racingLogic.GetSign();
         
         //racingLogic.CreateMultiplication(4, null);
         //Debug.Log("Right answere :" + racingLogic.
@@ -44,9 +44,9 @@ public class StartRaceTrigger : MonoBehaviour {
     void OnTriggerEnter(Collider c)
     {
       
-        if ((c.tag.Equals("Player")|| c.tag.Equals( "PlayerTest")) && passed == false)
+        if ((c.tag.Equals("Player")|| c.tag.Equals( "PlayerTest")) && !racingLogic.GetGameStarted())
         {
-            passed = true;
+            racingLogic.SetGameStarted(true);
             //racingLogic.CreatePickups(prefabWrong, prefabRight, 285, 120, 335 );
             car.SetActive(true);
            // sign.SetActive(true);
