@@ -10,7 +10,9 @@ public class QuestionPoint : MonoBehaviour {
     private bool rewarded;
     private bool answered;
 
-    private string questionAsString; // Current question
+    private int[] question; // Current question as array, index 0 is a number, 1 is an operator, 2 is a number, 3 an operator etc.
+    private string questionAsString; // Current question in string format
+    private string questionWAnswer;
     private float correctAnswer;
     private float playersAnswer;
     private string difficulty;
@@ -63,6 +65,7 @@ public class QuestionPoint : MonoBehaviour {
             {
                 boatgame.AnsweredCorrect(difficultyAsInt);
 
+
                 rewarded = true;
                 correct = true;
             }
@@ -81,19 +84,21 @@ public class QuestionPoint : MonoBehaviour {
         questionAsString = "";
         if (difficulty.Equals("Easy"))
         {
-            int[] q = MathQGenerator.GenerateIntMultiplicationQ(1, 1, 9); //1 operation, numbers 1 to 9
-            correctAnswer = q[0] * q[2];
-            questionAsString = q[0] + " x " + q[2] + " = ?";
+            question = MathQGenerator.GenerateIntMultiplicationQ(1, 1, 9); //1 operation, numbers 1 to 9
+            correctAnswer = question[0] * question[2];
+            questionAsString = question[0] + " x " + question[2] + " = ?";
+
+            questionWAnswer = question[0] + " x " + question[2] + " = " + correctAnswer;
         }
         else if (difficulty.Equals("Medium")) {
-            int[] q = MathQGenerator.GenerateIntMultiplicationQ(2, 1, 9); //2 operations, numbers 1 to 9
-            correctAnswer = q[0] * q[2] * q[4];
-            questionAsString = q[0] + " x " + q[2] + " x " + q[4] + " = ?";
+            question = MathQGenerator.GenerateIntMultiplicationQ(2, 1, 9); //2 operations, numbers 1 to 9
+            correctAnswer = question[0] * question[2] * question[4];
+            questionAsString = question[0] + " x " + question[2] + " x " + question[4] + " = ?";
         }
         else if (difficulty.Equals("Hard")) {
-            int[] q = MathQGenerator.GenerateIntMultiplicationQ(3, 1, 9); //3 random operations, numbers 1 to 9
-            correctAnswer = q[0] * q[2] * q[4] * q[6];
-            questionAsString = q[0] + " x " + q[2] + " x " + q[4] + " x " + q[6] + " = ?";
+            question = MathQGenerator.GenerateIntMultiplicationQ(3, 1, 9); //3 random operations, numbers 1 to 9
+            correctAnswer = question[0] * question[2] * question[4] * question[6];
+            questionAsString = question[0] + " x " + question[2] + " x " + question[4] + " x " + question[6] + " = ?";
 
         }
         GetComponentInChildren<TextMesh>().text = questionAsString;
@@ -124,7 +129,6 @@ public class QuestionPoint : MonoBehaviour {
         }
         rewarded = false;
         answered = false;
-
     }
 
     public float GetCorrectAnswer() {
