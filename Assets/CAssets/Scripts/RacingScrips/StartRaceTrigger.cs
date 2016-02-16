@@ -49,10 +49,18 @@ public class StartRaceTrigger : MonoBehaviour {
             racingLogic.SetGameStarted(true);
             //racingLogic.CreatePickups(prefabWrong, prefabRight, 285, 120, 335 );
             car.SetActive(true);
-           // sign.SetActive(true);
+            var CarCamera = car.GetComponent<Camera>();
+            if (CarCamera == null) Debug.Log("No CarCamera found");
+            else CarCamera.enabled = true;
+
+            var PlayerCamera = car.GetComponent<Camera>();
+            if (CarCamera == null) Debug.Log("No PlayerCamera found");
+            else PlayerCamera.enabled = false;
+
             c.gameObject.SetActive(false);
             //Debug.Log("Found object: " + GetComponentInParent("PlayerController").name);
             //Debug.Log("StartTrigger: " + c. name);
+            // sign.SetActive(true);
         }
         
     }

@@ -23,7 +23,7 @@ public class CrossRoadTrigger : MonoBehaviour
             Debug.Log("Cannot find 'RacingLogic' script");
         }
 
-        way = racingLogic.SetValue(1) + 1;
+       
     }
     
     // Update is called once per frame
@@ -34,17 +34,27 @@ public class CrossRoadTrigger : MonoBehaviour
     
     void OnTriggerEnter(Collider c)
     {
+            
+
         if (c.gameObject.CompareTag("PlayerCar"))
         {
+            way = racingLogic.SetValue(1);
+            Debug.Log("way: " + way);
+          
             if (way == 1)
             {
                 RockLeft.SetActive(true);
+                RockRight.SetActive(false);
             }
 
-            else RockRight.SetActive(true);
+            else
+            {
+                RockRight.SetActive(true);
+                RockLeft.SetActive(false);
+            }
 
 
-        }
+            }
     }
     
 

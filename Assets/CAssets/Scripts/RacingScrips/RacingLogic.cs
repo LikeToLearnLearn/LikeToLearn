@@ -22,7 +22,7 @@ public class RacingLogic : MonoBehaviour//MiniGameAbstract
     private float numbersLeft;
     private Transform prefabWrong;
     private Transform prefabRight;
-    private float x, y, z;
+    //private Vector3 A, B, C, D;
     private float right;
     private bool update;
     private string multiplication;
@@ -67,7 +67,7 @@ public class RacingLogic : MonoBehaviour//MiniGameAbstract
                 print("Putting");
                 // if(numbersLeft == right) Instantiate(prefabRight, new Vector3((SetPickUpPosition(5)) + x, y, (SetPickUpPosition(10)) + z), Quaternion.identity);
                 //else
-                Instantiate(prefabWrong, new Vector3((SetPickUpPosition(5)) + 2 + x, y, (SetPickUpPosition(10)) - 2 + z), Quaternion.identity);
+                //Instantiate(prefabWrong, new Vector3((SetPickUpPosition(5)) + 2 + x, y, (SetPickUpPosition(10)) - 2 + z), Quaternion.identity);
                 numbersLeft--;
                 timeLeft = 3.0f;
             }
@@ -269,8 +269,8 @@ public class RacingLogic : MonoBehaviour//MiniGameAbstract
     {
         return multiplication;
 
-    }
-    // GameController.control.AddItem(GameController.Item.RedBalloon); 
+    } 
+
      public void AddPickUp(GameObject p)
         {
             pickUps.Add(p);
@@ -288,7 +288,36 @@ public class RacingLogic : MonoBehaviour//MiniGameAbstract
 
             }
         }
-    public void CreatePickups(Transform pbWrong, Transform pbRigth, float x, float y, float z)
+    public void CreatePickups(Transform prefab, Vector3 A, Vector3 B, Vector3 C, Vector3 D)
+    {
+        numbersLeft = 4;
+        timeLeft = 3.0f;
+        //prefabWrong = prefab;
+        Instantiate(prefab, A, Quaternion.identity);
+        Instantiate(prefab, B, Quaternion.identity);
+        Instantiate(prefab, C, Quaternion.identity);
+        Instantiate(prefab, D, Quaternion.identity);
+        //this.A = A;
+        //this.B = B;
+        //this.C = C;
+        //this.D = D;
+        right = SetValue(1) + 1;
+
+        //for (int i = 0; i < 3; i++)
+        //{
+        // Debug.Log("CreatePickUps");
+        // 
+        //StartCoroutine(Example());
+        //}
+        //MoveObject(prefabWrong, new Vector3((SetPickUpPosition(5)) + 2 + x, y, (SetPickUpPosition(10)) - 2 + z), new Vector3((SetPickUpPosition(5)) + 2 + x, y, (SetPickUpPosition(10)) - 2 + z), 1);
+
+        //Debug.Log("Create rigth pickUp");
+        //Instantiate(prefabRigth, new Vector3((SetPickUpPosition(5)) + x, y, (SetPickUpPosition(10)) + z), Quaternion.identity);
+    }
+
+
+    /*
+    public void OldCreatePickups(Transform pbWrong, Transform pbRigth, float x, float y, float z)
     {
         numbersLeft =4;
         timeLeft = 3.0f;
@@ -310,18 +339,16 @@ public class RacingLogic : MonoBehaviour//MiniGameAbstract
         //Debug.Log("Create rigth pickUp");
         //Instantiate(prefabRigth, new Vector3((SetPickUpPosition(5)) + x, y, (SetPickUpPosition(10)) + z), Quaternion.identity);
     }
-
+    */
+         
     
-    
-       
-    
-
+/*
     IEnumerator Example()
     {
         print(Time.time);
         yield return new WaitForSeconds(5);
         print(Time.time);
-    }
+    }*/
 
     public IEnumerator MoveObject(Transform thisTransform, Vector3 startPos, Vector3 endPos, float time)
     {

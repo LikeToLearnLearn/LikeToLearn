@@ -18,8 +18,8 @@ public class PickUpRacing : MonoBehaviour {
 
 
     // Use this for initialization
-    IEnumerator
-    //void 
+    //IEnumerator
+    void 
         Start()
     {
 
@@ -42,23 +42,23 @@ public class PickUpRacing : MonoBehaviour {
 
         racingLogic.AddPickUp(me);
         Debug.Log("Added" + me);
-
-        pointA = transform.position ; // racingLogic.GetPointA();
-        pointB = racingLogic.GetPointB();
-        pointC = racingLogic.GetPointC();
-        if (pointA == null) pointA = transform.position;
-        if (pointB == null) pointB = new Vector3(pointA.x + racingLogic.SetPickUpPosition(5), pointA.y, pointA.z - racingLogic.SetPickUpPosition(5));
-        if (pointC == null) pointC = new Vector3(pointB.x + racingLogic.SetPickUpPosition(10), pointB.y/* + racingLogic.SetPickUpPosition(1)*/, pointB.z - racingLogic.SetPickUpPosition(10));
         
-        while (true)
-        {
-            yield return StartCoroutine(racingLogic.MoveObject(transform, pointB, pointC, 8.0f/*racingLogic.SetValue(5)*/));
+       // pointA = transform.position ; // racingLogic.GetPointA();
+       // pointB = racingLogic.GetPointB();
+        //pointC = racingLogic.GetPointC();
+       // if (pointA == null) pointA = transform.position;
+        //if (pointB == null) pointB = new Vector3(pointA.x + racingLogic.SetPickUpPosition(5), pointA.y, pointA.z - racingLogic.SetPickUpPosition(5));
+        //if (pointC == null) pointC = new Vector3(pointB.x + racingLogic.SetPickUpPosition(10), pointB.y/* + racingLogic.SetPickUpPosition(1)*/, pointB.z - racingLogic.SetPickUpPosition(10));
+        
+       // while (true)
+        //{
+            // var kvar yield return StartCoroutine(racingLogic.MoveObject(transform, pointB, pointC, 8.0f/*racingLogic.SetValue(5)*/));
             //ield return StartCoroutine(racingLogic.MoveObject(transform, pointC, pointA, 3.0f/*racingLogic.SetValue(5)*/));
             //turn object
-            transform.Rotate(Vector3.right * Time.deltaTime);
+           // var kvar  transform.Rotate(Vector3.right * Time.deltaTime);
             //yield return StartCoroutine(racingLogic.MoveObject(transform, pointB, pointC, 2.0f));
             
-        }
+       // }
 
        
 
@@ -68,7 +68,7 @@ public class PickUpRacing : MonoBehaviour {
     void Update()
     {
         //transform.position = transform.position + player.transform.position;       
-        transform.Rotate(0, 80 * Time.deltaTime, 0);
+        transform.Rotate(0, 98 * Time.deltaTime, 0);
     }
 
     void OnTriggerEnter(Collider c)
@@ -81,7 +81,7 @@ public class PickUpRacing : MonoBehaviour {
             racingLogic.GetQuestion().Answer(value);
             if (racingLogic.GetQuestion().Correct())
             {
-                gameObject.SetActive(false);
+                //gameObject.SetActive(false);
 
                 racingLogic.AddScore(5);
                 racingLogic.PutMessage("Yes!!");

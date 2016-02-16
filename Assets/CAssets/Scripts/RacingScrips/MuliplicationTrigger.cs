@@ -13,6 +13,11 @@ public class MuliplicationTrigger : MonoBehaviour {
     public GameObject throwingPoint;
     public GameObject secondThrowingPoint;
 
+    public GameObject BalloonPointA;
+    public GameObject BalloonPointB;
+    public GameObject BalloonPointC;
+    public GameObject BalloonPointD;
+
     // private bool passed;
     //private Vector3 offset;
     private bool turned;
@@ -20,6 +25,7 @@ public class MuliplicationTrigger : MonoBehaviour {
     private Vector3 pointA;
     private Vector3 pointB;
     private Vector3 pointC;
+
     //private Vector3 pointC;
 
     // Use this for initialization
@@ -75,7 +81,7 @@ public class MuliplicationTrigger : MonoBehaviour {
             racingLogic.CreateMultiplication(6, text);
            
             Debug.Log("Right answere :" + racingLogic.GetMultiplicationAnswere());
-            racingLogic.CreatePickups(prefabWrong, prefabRight, transform.position.x-33, transform.position.y-1, transform.position.z - 5);
+            racingLogic.CreatePickups(prefabWrong, BalloonPointA.transform.position, BalloonPointB.transform.position, BalloonPointC.transform.position, BalloonPointD.transform.position);
 
             //offset = PlayerCar.transform.position - text.transform.position;
 
@@ -105,7 +111,7 @@ public class MuliplicationTrigger : MonoBehaviour {
             racingLogic.CreateMultiplication(5, text);
 
             Debug.Log("Right answere :" + racingLogic.GetMultiplicationAnswere());
-            racingLogic.CreatePickups(prefabWrong, prefabRight, transform.position.x - 33, transform.position.y - 1, transform.position.z - 5);
+            racingLogic.CreatePickups(prefabWrong, BalloonPointA.transform.position, BalloonPointB.transform.position, BalloonPointC.transform.position, BalloonPointD.transform.position);
 
             //offset = PlayerCar.transform.position - text.transform.position;
 
