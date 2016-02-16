@@ -33,8 +33,9 @@ public class Question {
 	}
 
 	public bool Correct()
-	{ 
-		return answers[answers.Count - 1] == a;
+	{
+		int n = answers.Count;
+		return n > 0 && answers[n - 1] == a;
 	}
 
 	public string Alternative()

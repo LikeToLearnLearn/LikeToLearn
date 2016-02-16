@@ -115,7 +115,7 @@ public class GameController : MonoBehaviour {
 		global.games[global.currentGame] = global.gameCount++;
 
 		// add player to math course for now
-		Course m = new MultiplicationCoruse();
+		Course m = new MultiplicationCourse();
 		data.coruses.Add(m);
 		data.currentCourse = m;
 
@@ -299,8 +299,10 @@ public class GameController : MonoBehaviour {
 	{
 		AddItems(Item.ThousandBill, n / 1000);
 		AddItems(Item.HundredBill, (n % 1000) / 100);
-		AddItems(Item.TenCoin, (n % 100) / 10);
-		AddItems(Item.OneCoin, n % 10);
+		AddItems(Item.TwentyBill, (n % 100) / 20);
+		AddItems(Item.TenCoin, (n % 20) / 10);
+		AddItems(Item.FiveCoin, (n % 10) / 5);
+		AddItems(Item.OneCoin, n % 5);
 	}
 
 	public Question GetQuestion(int alternatives)
