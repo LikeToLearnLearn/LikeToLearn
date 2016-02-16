@@ -31,6 +31,11 @@ public class BuildGUIScript : ItemDisplayAbstract {
 	
 	// Update is called once per frame
 	void Update () {
+
+		if (!inventory.Equals (GameController.control.stringInventory)) {
+			inventory = GameController.control.stringInventory;
+			setUpItems (inventory);
+		}
 	
 	}
 
@@ -44,7 +49,6 @@ public class BuildGUIScript : ItemDisplayAbstract {
 	}
 
 	public void actionButtonPush(){
-		base.actionButtonPush ();
 	}*/
 
 

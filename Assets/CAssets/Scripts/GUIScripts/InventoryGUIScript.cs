@@ -11,7 +11,6 @@ public class InventoryGUIScript : ItemDisplayAbstract {
 	// Use this for initialization
 	void Start () {
 		base.Start (10);	
-		//Dictionary<string, int> oldDictionary = base.inventory.getInventoryAsDictionary ();
 		Dictionary<string, int> oldDictionary = GameController.control.stringInventory;
 		Dictionary<string, int> newDictionary = base.hideEmptyItems (oldDictionary);
 		setUpItems (newDictionary);
@@ -19,6 +18,11 @@ public class InventoryGUIScript : ItemDisplayAbstract {
 
 	// Update is called once per frame
 	void Update () {
+
+		if (!inventory.Equals (GameController.control.stringInventory)) {
+			inventory = GameController.control.stringInventory;
+			setUpItems (inventory);
+		}
 
 	}
 

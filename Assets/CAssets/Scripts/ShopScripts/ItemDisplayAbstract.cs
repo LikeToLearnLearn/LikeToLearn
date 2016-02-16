@@ -36,7 +36,7 @@ public abstract class ItemDisplayAbstract : MonoBehaviour {
 
 
 	public Transform newButton;	//The button to be used for the items
-	Dictionary<string, int> inventory;
+	public Dictionary<string, int> inventory;
 	Vector3 normalScale;
 
 	public Dictionary<string, int> items;	
@@ -64,12 +64,14 @@ public abstract class ItemDisplayAbstract : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+		
 
 	}
 
 	public virtual void setUpItems(Dictionary<string, int> itemDictionary){
 		items = itemDictionary;
 
+		inStock.Clear ();
 		foreach (KeyValuePair<string, int> item in items) {
 			inStock.Add (item.Key.ToString());
 		}

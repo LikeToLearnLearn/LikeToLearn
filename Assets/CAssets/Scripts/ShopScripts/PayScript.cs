@@ -8,6 +8,8 @@ public class PayScript : MonoBehaviour {
 
 	Dictionary<string, int> inventory;
 	int toPay;
+	int itemPrice;
+	int itemAmount;
 	string item;
 
 	static Dictionary<string, string> CoinValues = new Dictionary<string, string>() {
@@ -48,13 +50,21 @@ public class PayScript : MonoBehaviour {
 			Text t = type.FindChild ("Text").GetComponent<Text> ();
 			t.text = "" + 0;
 		}
-
+			
+		itemAmount = 1;
 		item = chosenItem;
-		toPay = price;
-		SetItemPrice (price);
+		itemPrice = price;
+		SetItemPrice (itemPrice);
+
+		Texture tex = Resources.Load(item) as Texture;
+		RawImage im = transform.FindChild("PayPanel").FindChild("Amount").
+			FindChild("RawImage").GetComponent<RawImage>();
+		im.texture = tex;
+
 	}
 
 	public void SetItemPrice(int price){
+		toPay = price;
 		Text t = transform.FindChild ("PayPanel").FindChild ("PriceText").GetComponent<Text>();
 		t.text = "You need to pay: " + price;
 		Text t2 = transform.FindChild ("PayPanel").FindChild ("MoneyText").GetComponent<Text>();
@@ -69,6 +79,7 @@ public class PayScript : MonoBehaviour {
 			amount = amount - 1;
 			t.text = "" + amount;
 		}
+
 	}
 
 	public void AmountTextIncrease(string value){
@@ -83,6 +94,33 @@ public class PayScript : MonoBehaviour {
 			amount = amount + 1;
 			t.text = "" + amount;
 		}
+
+	}
+
+	public void ItemAmountDecrease(){
+		Text t = transform.FindChild ("PayPanel").FindChild ("Amount").
+			FindChild ("AmountText").GetComponent<Text>();
+		int amount = int.Parse (t.text);
+		if (amount > 0) {
+			amount = amount - 1;
+			t.text = "" + amount;
+			itemAmount--;
+		}
+		SetItemPrice (amount * itemPrice);
+	}
+
+	public void ItemAmountIncrease(){
+
+		Text t = transform.FindChild ("PayPanel").FindChild ("Amount").
+			FindChild ("AmountText").GetComponent<Text>();
+		Debug.Log("text is " + t.text);
+		int amount = int.Parse (t.text);
+
+		amount = amount + 1;
+		t.text = "" + amount;
+		itemAmount++;
+		SetItemPrice (amount * itemPrice);
+
 
 	}
 
@@ -119,7 +157,7 @@ public class PayScript : MonoBehaviour {
 		GameController.control.RemoveItems ("TwentyBill", amounts[3]);
 		GameController.control.RemoveItems ("HundredBill", amounts[4]);
 
-		GameController.control.AddItem (item);
+		GameController.control.AddItems (item, itemAmount);
 
 		gameObject.SetActive (false);
 
