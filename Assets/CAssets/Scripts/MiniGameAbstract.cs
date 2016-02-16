@@ -4,18 +4,16 @@ using System.Collections;
 public abstract class MiniGameAbstract : MonoBehaviour
 {
 
-    private bool playing;
+    private bool playing = false;
 
     private float startTime;
     private float remainingTime;
     private int currentScore;
 
-
-
     // Use this for initialization
     public virtual void Start()
     {
-        playing = false;
+        
     }
 
     // Update is called once per frame
@@ -79,6 +77,4 @@ public abstract class MiniGameAbstract : MonoBehaviour
     {
         remainingTime += time;
     }
-
-
 }

@@ -4,16 +4,15 @@ public class MinigameFish : MonoBehaviour {
     //ärva minigameabstract
 
     private FishingLogic fishingLogic;
-    private static int wrongfish = 14;
+    private static int answers = 10;
 
-    public Transform prefabWrong;
-    public Transform prefabRight;
+    public Transform fish;
 
     public Texture image;
     private bool play = false;
 
     private GameObject[] fishes;
-    private PickUpWrongAnswereFish wrongAnswere;
+    private Fish wrongAnswere;
 
     private float myFieldOfView;
 
@@ -44,26 +43,15 @@ public class MinigameFish : MonoBehaviour {
             if (Physics.Raycast(ray, out hit))
             {
                 GameObject fish = hit.transform.gameObject;
-                if (hit.collider.name == "Cruscarp_right(Clone)")
+                if (hit.collider.name == "cruscarp(Clone)")
                 {
-                    //player hit the right fish
-                    fish.GetComponent<RightAnswereFish>().displayValue = true;
+                    //player hit the fish
+                    fish.GetComponent<Fish>().displayValue = true;
 
                     //zoom in camera script
                     if (Camera.main.fieldOfView > 50)
                         Camera.main.fieldOfView -= 1;
                 }
-                if (hit.collider.name == "cruscarp_wrong(Clone)")
-                {
-                    //player hit the wrong fish
-                    fish.GetComponent<PickUpWrongAnswereFish>().displayValue = true;
-
-                    //zoom in camera script
-                    if (Camera.main.fieldOfView > 50)
-                        Camera.main.fieldOfView -= 1;
-                }
-
-
             }
             else
             {
@@ -78,11 +66,11 @@ public class MinigameFish : MonoBehaviour {
             {
                 foreach (GameObject i in fishes)
                 {
-                    wrongAnswere = i.GetComponent<PickUpWrongAnswereFish>();
+                    wrongAnswere = i.GetComponent<Fish>();
                     wrongAnswere.SetValue();
                 }
-                Instantiate(prefabRight, new Vector3(SetValue(5) - 5, -0.95f, SetValue(5) - 10), Quaternion.Euler(0, 90, 0));
-                fishingLogic.CreateMultiplication(4, null);
+                Instantiate(fish, new Vector3(SetValue(5) - 5, -0.95f, SetValue(5) - 10), Quaternion.Euler(0, 90, 0));
+                fishingLogic.CreateQuestion(answers, null);
             }
             fishingLogic.SetAnswered(false);
         }
@@ -105,7 +93,7 @@ public class MinigameFish : MonoBehaviour {
             fishingLogic.UpdateScore();
             
             //Create 4*n math question
-            fishingLogic.CreateMultiplication(4, null);
+            fishingLogic.CreateQuestion(answers, null);
             CreatePickups();
         }
 
@@ -119,18 +107,16 @@ public class MinigameFish : MonoBehaviour {
             fishingLogic.DeactivateQuestion();
             fishingLogic.DeactivateSign();
             DestroyAllPickups();
-            Destroy(GameObject.Find("Cruscarp_right(Clone)"));
             fishingLogic.cleanPoints();
         }
     }
 
     void CreatePickups()
     {
-        for (int i = 0; i < wrongfish; i++)
+        for (int i = 0; i < answers; i++)
         {
-            Instantiate(prefabWrong, new Vector3(SetValue(5) - 5, 0, SetValue(5) - 10), Quaternion.Euler(0, 90, 0));
+            Instantiate(fish, new Vector3(SetValue(5) - 5, 0, SetValue(5) - 10), Quaternion.Euler(0, 90, 0));
         }
-        Instantiate(prefabRight, new Vector3(SetValue(5) - 5, 0, SetValue(5) - 10), Quaternion.Euler(0, 90, 0));
 
         fishes = GameObject.FindGameObjectsWithTag("Fish");
     }

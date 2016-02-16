@@ -16,7 +16,11 @@ public class BoatGameHUDController : MonoBehaviour {
         timeText = GameObject.Find("TimeText").GetComponent<Text>();
         scoreText = GameObject.Find("ScoreText").GetComponent<Text>();
         questionText = GameObject.Find("HUDQuestionText").GetComponent<Text>();
+        
+        //Subclass to minigame
         minigame = GameObject.Find("BoatGame").GetComponent<BoatGame>();
+
+
         qp = GameObject.Find("QuestionPoint Easy").GetComponent<QuestionPoint>();
         
         /*

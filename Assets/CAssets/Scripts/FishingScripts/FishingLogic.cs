@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 
 
-public class FishingLogic : MonoBehaviour
+public class FishingLogic : MiniGameAbstract
 {
     private float points = 0;
     private float f;
@@ -15,21 +15,16 @@ public class FishingLogic : MonoBehaviour
     private GameObject player;
     private int TimeRemaining;
     private bool answered;
+    private Question q;
 
 
     // Use this for initialization
-    void Start()
+    public override void Start()
     {
         answered = false;
         player = null;
         
         
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 
     public bool GetAnswered()
@@ -113,17 +108,21 @@ public class FishingLogic : MonoBehaviour
         score.GetComponent<TextMesh>().text = "Score: " + points;
     }
 
-    public void CreateMultiplication(float n, GameObject t)
+    public void CreateQuestion(int n, GameObject t)
     {
         if (t == null) t = text;
-        float a = n;
-        float b = SetValue(10);
-        answere = a*b;
-        t.GetComponent<TextMesh>().text = a + " * " + b;
+        q = GameController.control.GetQuestion(n);
+        t.GetComponent<TextMesh>().text = q.question;
+        Debug.Log("question: " + q.question);
     }
 
     public void cleanPoints()
     {
         points = 0;
+    }
+
+    public Question GetQuestion()
+    {
+        return q;
     }
 }

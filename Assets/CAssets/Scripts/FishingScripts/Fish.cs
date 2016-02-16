@@ -1,22 +1,26 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using System;
 
-
-
-public class PickUpWrongAnswereFish : MonoBehaviour
+public class Fish : MonoBehaviour
 {
     public GameObject text;
     private FishingLogic fishingLogic;
+    private bool rightFish = false;
+    private Question q;
+    private String answer;
 
-    private float points;
+    //Point to right fish
+    private static int point = 1;
+
     private float f;
-    private GameObject player;
     public bool displayValue = false;
 
     // Use this for initialization
     void Start()
     {
+
         GameObject fishingLogicObject = GameObject.FindWithTag("FishingController");
         if (fishingLogicObject != null)
         {
@@ -27,17 +31,14 @@ public class PickUpWrongAnswereFish : MonoBehaviour
             Debug.Log("Cannot find 'RacingLogic' script");
         }
 
-        points = 0;
-        player = fishingLogic.GetPlayer();
+        q = fishingLogic.GetQuestion();
         SetValue();
-
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        //transform.position = transform.position + player.transform.position;       
         if (!displayValue)
         {
             text.SetActive(false);
@@ -47,23 +48,28 @@ public class PickUpWrongAnswereFish : MonoBehaviour
             text.SetActive(true);
         }
         displayValue = false;
-        /*
-        if (fishingLogic.GetUpdateWrongAnswere())
-        {
-            SetValue();
-        }
-        fishingLogic.SetUpdateWrongAnswere(false);*/
-        
     }
 
     public void SetValue()
     {
-        f = Mathf.Floor(Random.value * 100f);
-        while(f == fishingLogic.GetMultiplicationAnswere())
-            f = Mathf.Floor(Random.value * 100f);
-        Debug.Log("New wrong answer: " + f);
-        text.GetComponent<TextMesh>().text = "" + f;
+        //q = fishingLogic.GetQuestion();
+        answer = q.Alternative();
+        text.GetComponent<TextMesh>().text = answer;
+        Debug.Log("Generated questions: " + q.Alternative());
     }
 
-    public void empty() { }
+    void OnMouseDown()
+    {
+        q.Answer(answer);
+        if (q.Correct())
+        {
+            fishingLogic.AddScore(point);
+            fishingLogic.UpdateScore();
+            //add fish
+            GameController.control.AddItem(GameController.Item.Fish);
+            fishingLogic.SetAnswered(true);
+            Destroy(gameObject);
+        }
+    }
+
 }
