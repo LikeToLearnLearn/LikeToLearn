@@ -7,7 +7,7 @@ public class StartRaceTrigger : MonoBehaviour {
     public GameObject car;
     public GameObject player;
     public Transform prefabWrong;
-    public Transform prefabRight;
+    //public Transform prefabRight;
     //public bool passed;
     //public GameObject light;
     private GameObject sign;
@@ -49,15 +49,21 @@ public class StartRaceTrigger : MonoBehaviour {
             racingLogic.SetGameStarted(true);
             //racingLogic.CreatePickups(prefabWrong, prefabRight, 285, 120, 335 );
             car.SetActive(true);
-            var CarCamera = car.GetComponent<Camera>();
-            if (CarCamera == null) Debug.Log("No CarCamera found");
-            else CarCamera.enabled = true;
+            print("Mjaou");
+            //var CarCamera = car.GetComponent<Camera>();
+            //var CarCamera = GameObject.Find("MultipurposeCameraRig").GetComponentInChildren<Transform>().GetComponentInChildren<Transform>().gameObject.GetComponent<Camera>();
+            //if (CarCamera == null) Debug.Log("No CarCamera found");
+            //else CarCamera.enabled = true;
 
-            var PlayerCamera = car.GetComponent<Camera>();
-            if (CarCamera == null) Debug.Log("No PlayerCamera found");
-            else PlayerCamera.enabled = false;
+            //var PlayerCamera = c.gameObject.GetComponent<Camera>();
+            //if (PlayerCamera == null) Debug.Log("No PlayerCamera found");
+            //else PlayerCamera.enabled = false;
+            //racingLogic.SetPlayerCamera(PlayerCamera);
 
+            racingLogic.SetPlayer(c.gameObject);
             c.gameObject.SetActive(false);
+            c.gameObject.transform.position = new Vector3(282, 119, 318);
+            
             //Debug.Log("Found object: " + GetComponentInParent("PlayerController").name);
             //Debug.Log("StartTrigger: " + c. name);
             // sign.SetActive(true);

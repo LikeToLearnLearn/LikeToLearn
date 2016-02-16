@@ -34,27 +34,28 @@ public class CrossRoadTrigger : MonoBehaviour
     
     void OnTriggerEnter(Collider c)
     {
-            
+         
 
         if (c.gameObject.CompareTag("PlayerCar"))
         {
-            way = racingLogic.SetValue(1);
+            way = racingLogic.SetValue(100);
             Debug.Log("way: " + way);
           
-            if (way == 1)
+            if (way < 50)
             {
                 RockLeft.SetActive(true);
                 RockRight.SetActive(false);
+                Debug.Log("left " );
             }
 
             else
             {
                 RockRight.SetActive(true);
                 RockLeft.SetActive(false);
+                Debug.Log("right " );
             }
-
-
-            }
+            
+        }
     }
     
 

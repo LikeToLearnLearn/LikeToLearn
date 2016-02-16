@@ -33,6 +33,7 @@ public class RacingLogic : MonoBehaviour//MiniGameAbstract
     private string MessageString;
     private bool GotRight;
     private bool GameStarted;
+    private Camera PlayerCamera; 
 
 
     // Use this for initialization
@@ -88,6 +89,16 @@ public class RacingLogic : MonoBehaviour//MiniGameAbstract
             sign.GetComponent<TextMesh>().text = GetMultiplication();
             update = false;
         }
+    }
+
+    public void SetPlayerCamera(Camera c)
+    {
+        PlayerCamera = c;
+    }
+
+    public Camera GetPlayerCamera()
+    {
+        return PlayerCamera;
     }
 
     public void SetGameStarted(bool started)

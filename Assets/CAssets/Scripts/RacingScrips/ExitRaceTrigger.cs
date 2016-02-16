@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 public class ExitRaceTrigger : MonoBehaviour {
 
     public GameObject car;
-    public GameObject player;
+    //public GameObject player;
 
     private RacingLogic racingLogic;
 
@@ -36,12 +36,19 @@ public class ExitRaceTrigger : MonoBehaviour {
         if (c.tag.Equals("PlayerCar"))
         //if (c.Equals(GameObject.Find("Car")))
         {
+
+            GameObject Player = racingLogic.GetPlayer();
+            Player.SetActive(true);
             car.SetActive(false);
-            player.SetActive(true);
             GettingMoney(racingLogic.GetPoints());
             racingLogic.SetGameStarted(false);
             car.transform.position = new Vector3(318, 120, 318);
-                       
+            //racingLogic.GetPlayer().SetActive(true);
+
+            //var PlayerCamera = racingLogic.GetPlayerCamera();
+            //if (PlayerCamera == null) Debug.Log("No PlayerCamera found");
+            //else PlayerCamera.enabled = true;
+
             //Debug.Log("collision det with player");
             //SceneManager.LoadScene("game_racingisland");
         }
