@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class FishingLogic : MiniGameAbstract
 {
-    private float points = 0;
     private float f;
     private float answere;
 
@@ -15,16 +14,12 @@ public class FishingLogic : MiniGameAbstract
     private GameObject player;
     private int TimeRemaining;
     private bool answered;
-    private Question q;
-
 
     // Use this for initialization
     public override void Start()
     {
         answered = false;
         player = null;
-        
-        
     }
 
     public bool GetAnswered()
@@ -37,16 +32,9 @@ public class FishingLogic : MiniGameAbstract
         answered = s;
     }
 
-    public float GetMultiplicationAnswere()
-    {
-        return answere;
-
-    }
-
     public void SetSign(GameObject t)
     {
         score = t;
-
     }
 
     public void ActiveQuestion()
@@ -74,55 +62,13 @@ public class FishingLogic : MiniGameAbstract
         return Mathf.Floor(Random.value * i);
     }
 
-    public float SetPickUpPosition(float i)
-    {
-        return Mathf.Floor(Random.value * i) + 5;
-    }
-
-    public void SetPlayer(GameObject P)
-    {
-        player = P;
-
-    }
-
-    public GameObject GetPlayer()
-    {
-        return player;
-    }
-
-
-    void SetPoints(float f)
-    {
-        points = points + f;
-    }
-
-    public void AddScore(float newScoreValue)
-    {
-        points += newScoreValue;
-        UpdateScore();
-        Debug.Log("Present points: " + points);
-    }
-
     public void UpdateScore()
     {
-        score.GetComponent<TextMesh>().text = "Score: " + points;
+        score.GetComponent<TextMesh>().text = "Score: " + GetCurrentScore();
     }
 
-    public void CreateQuestion(int n, GameObject t)
+    public void SetQuestion()
     {
-        if (t == null) t = text;
-        q = GameController.control.GetQuestion(n);
-        t.GetComponent<TextMesh>().text = q.question;
-        Debug.Log("question: " + q.question);
-    }
-
-    public void cleanPoints()
-    {
-        points = 0;
-    }
-
-    public Question GetQuestion()
-    {
-        return q;
+        text.GetComponent<TextMesh>().text = GetQuestion().question;
     }
 }

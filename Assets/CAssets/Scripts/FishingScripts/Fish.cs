@@ -7,9 +7,9 @@ public class Fish : MonoBehaviour
 {
     public GameObject text;
     private FishingLogic fishingLogic;
-    private bool rightFish = false;
     private Question q;
     private String answer;
+    private bool rightFish = false;
 
     //Point to right fish
     private static int point = 1;
@@ -32,7 +32,7 @@ public class Fish : MonoBehaviour
         }
 
         q = fishingLogic.GetQuestion();
-        SetValue();
+        SetAnswer();
 
     }
 
@@ -50,12 +50,12 @@ public class Fish : MonoBehaviour
         displayValue = false;
     }
 
-    public void SetValue()
+    public void SetAnswer()
     {
-        //q = fishingLogic.GetQuestion();
+        q = fishingLogic.GetQuestion();
         answer = q.Alternative();
         text.GetComponent<TextMesh>().text = answer;
-        Debug.Log("Generated questions: " + q.Alternative());
+        Debug.Log("Generated answer: " + answer);
     }
 
     void OnMouseDown()
@@ -67,9 +67,15 @@ public class Fish : MonoBehaviour
             fishingLogic.UpdateScore();
             //add fish
             GameController.control.AddItem(GameController.Item.Fish);
+            rightFish = true;
             fishingLogic.SetAnswered(true);
             Destroy(gameObject);
         }
+    }
+
+    public bool IsRightFish()
+    {
+        return rightFish;
     }
 
 }

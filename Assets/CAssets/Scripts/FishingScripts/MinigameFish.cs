@@ -4,7 +4,7 @@ public class MinigameFish : MonoBehaviour {
     //ärva minigameabstract
 
     private FishingLogic fishingLogic;
-    private static int answers = 10;
+    private int answers = 5;
 
     public Transform fish;
 
@@ -12,7 +12,7 @@ public class MinigameFish : MonoBehaviour {
     private bool play = false;
 
     private GameObject[] fishes;
-    private Fish wrongAnswere;
+    private Fish f;
 
     private float myFieldOfView;
 
@@ -64,13 +64,16 @@ public class MinigameFish : MonoBehaviour {
             //Create a new fish with right answer
             if (fishingLogic.GetAnswered())
             {
+                fishes = GameObject.FindGameObjectsWithTag("Fish");
+                fishingLogic.CreateQuestion(answers);
+                fishingLogic.SetQuestion();
                 foreach (GameObject i in fishes)
                 {
-                    wrongAnswere = i.GetComponent<Fish>();
-                    wrongAnswere.SetValue();
+                    f = i.GetComponent<Fish>();
+                    if(!f.IsRightFish())
+                        f.SetAnswer();
                 }
                 Instantiate(fish, new Vector3(SetValue(5) - 5, -0.95f, SetValue(5) - 10), Quaternion.Euler(0, 90, 0));
-                fishingLogic.CreateQuestion(answers, null);
             }
             fishingLogic.SetAnswered(false);
         }
@@ -93,7 +96,8 @@ public class MinigameFish : MonoBehaviour {
             fishingLogic.UpdateScore();
             
             //Create 4*n math question
-            fishingLogic.CreateQuestion(answers, null);
+            fishingLogic.CreateQuestion(answers);
+            fishingLogic.SetQuestion();
             CreatePickups();
         }
 
@@ -107,7 +111,7 @@ public class MinigameFish : MonoBehaviour {
             fishingLogic.DeactivateQuestion();
             fishingLogic.DeactivateSign();
             DestroyAllPickups();
-            fishingLogic.cleanPoints();
+            fishingLogic.cleanScore();
         }
     }
 
@@ -137,9 +141,10 @@ public class MinigameFish : MonoBehaviour {
 
     void DestroyAllPickups()
     {
+        fishes = GameObject.FindGameObjectsWithTag("Fish");
         foreach (GameObject o in fishes)
         {
-            Destroy(o, 0);
+            Destroy(o);
         }
     }
     

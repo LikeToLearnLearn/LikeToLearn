@@ -9,6 +9,7 @@ public abstract class MiniGameAbstract : MonoBehaviour
     private float startTime;
     private float remainingTime;
     private int currentScore;
+    private Question q;
 
     // Use this for initialization
     public virtual void Start()
@@ -73,8 +74,24 @@ public abstract class MiniGameAbstract : MonoBehaviour
         currentScore += score;
     }
 
+    public virtual void cleanScore()
+    {
+        currentScore = 0;
+    }
+
     public virtual void AddTime(float time)
     {
         remainingTime += time;
+    }
+
+    public void CreateQuestion(int n)
+    {
+        q = GameController.control.GetQuestion(n);
+        Debug.Log("question: " + q.question);
+    }
+
+    public Question GetQuestion()
+    {
+        return q;
     }
 }
