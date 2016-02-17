@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class MinigameFish : MonoBehaviour {
     //ärva minigameabstract
@@ -119,10 +120,25 @@ public class MinigameFish : MonoBehaviour {
     {
         for (int i = 0; i < answers; i++)
         {
-            Instantiate(fish, new Vector3(SetValue(5) - 5, 0, SetValue(5) - 10), Quaternion.Euler(0, 90, 0));
+            Instantiate(fish, GeneradPosition(), Quaternion.Euler(0, 90, 0));
         }
 
         fishes = GameObject.FindGameObjectsWithTag("Fish");
+    }
+
+    Vector3 GeneradPosition()
+    {
+        Vector3 position = new Vector3(SetValue(5) - 5, -0.95f, SetValue(5) - 10);
+
+        fishes = GameObject.FindGameObjectsWithTag("Fish");
+
+        foreach (GameObject go in fishes)
+        {
+            while (position == go.transform.position)
+                position.x = SetValue(5) - 5;
+                position.z = SetValue(5) - 10;
+        }
+        return position;
     }
 
     float SetValue(float i)
