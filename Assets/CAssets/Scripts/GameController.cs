@@ -13,7 +13,8 @@ public class GameController : MonoBehaviour {
 	public enum Item {
 		Fish, Brick, OneCoin, TenCoin, HundredBill, ThousandBill,
 		RedBalloon, YellowBalloon, BlueBalloon, GreenBalloon,
-		FiveCoin, TwentyBill
+		FiveCoin, TwentyBill, BlueBrick, GreenBrick, YellowBrick,
+		GlassBlock
 	};
 
 	// global configuration data that all instances use

@@ -25,18 +25,14 @@ public class BuildGUIScript : ItemDisplayAbstract {
 //		Debug.Log ("extended");
 		//Dictionary<string, int> oldDictionary = base.inventory.getInventoryAsDictionary ();
 		Dictionary<string, int> oldDictionary = GameController.control.stringInventory;
-		Dictionary<string, int> newDictionary = base.hideEmptyItems (oldDictionary);
+		Dictionary<string, int> oldDictionary2 = base.hideMoney (oldDictionary);
+		Dictionary<string, int> newDictionary = base.hideEmptyItems (oldDictionary2);
 		setUpItems (newDictionary);
 	}
 	
 	// Update is called once per frame
 	void Update () {
-
-		if (!inventory.Equals (GameController.control.stringInventory)) {
-			inventory = GameController.control.stringInventory;
-			setUpItems (inventory);
-		}
-	
+		
 	}
 
 	/*public void changePage(int change){
@@ -47,9 +43,10 @@ public class BuildGUIScript : ItemDisplayAbstract {
 	public void selectItem(string s){
 		base.selectItem (s);
 	}
-
+*/
 	public void actionButtonPush(){
-	}*/
+
+	}
 
 
 

@@ -12,20 +12,23 @@ public class InventoryGUIScript : ItemDisplayAbstract {
 	void Start () {
 		base.Start (10);	
 		Dictionary<string, int> oldDictionary = GameController.control.stringInventory;
-		Dictionary<string, int> newDictionary = base.hideEmptyItems (oldDictionary);
+		Dictionary<string, int> oldDictionary2 = base.hideMoney (oldDictionary);
+		Dictionary<string, int> newDictionary = base.hideEmptyItems (oldDictionary2);
 		setUpItems (newDictionary);
 	}
 
 	// Update is called once per frame
 	void Update () {
 
-		if (!inventory.Equals (GameController.control.stringInventory)) {
-			inventory = GameController.control.stringInventory;
-			setUpItems (inventory);
-		}
-
 	}
 
+	void OnEnable(){
+		Debug.Log("updating inventory extended");
+		Dictionary<string, int> oldDictionary = GameController.control.stringInventory;
+		Dictionary<string, int> oldDictionary2 = base.hideMoney (oldDictionary);
+		Dictionary<string, int> newDictionary = base.hideEmptyItems (oldDictionary2);
+		setUpItems (newDictionary);
+	}
 
 
 	/*public void setUpItems(Dictionary<string, int> itemDictionary){
@@ -42,7 +45,6 @@ public class InventoryGUIScript : ItemDisplayAbstract {
 	public override void selectItem(string s){
 		base.selectItem (s);
 
-
 		int nr = base.items [base.chosenItem];
 		string itemText = s;
 		string itemPrice = "" + nr;	//The amount
@@ -53,6 +55,7 @@ public class InventoryGUIScript : ItemDisplayAbstract {
 
 
 	/*public void actionButtonPush(){
+	     base.actionButtonPush();
 		//close inventory
 	}*/
 }

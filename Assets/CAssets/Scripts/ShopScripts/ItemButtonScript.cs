@@ -21,5 +21,6 @@ public class ItemButtonScript : MonoBehaviour {
 		string s = t.text;
 		//Call selectItem(s) in ItemDisplayAbstract (or actually one of its instantiated subclasses)
 		transform.parent.parent.parent.parent.SendMessage("selectItem", s);
+
 	}
 }

@@ -59,6 +59,9 @@ public abstract class ItemDisplayAbstract : MonoBehaviour {
 			transform.FindChild ("Panel").FindChild ("Options").FindChild ("ActionButton").GetComponent<Button>();
 
 		inventory = GameController.control.stringInventory;
+
+
+
 		updateItems ();
 	}
 
@@ -68,20 +71,25 @@ public abstract class ItemDisplayAbstract : MonoBehaviour {
 
 	}
 
+	/*public virtual void OnEnable(){
+	}*/
+
 	public virtual void setUpItems(Dictionary<string, int> itemDictionary){
+		Debug.Log("setting up items");
 		items = itemDictionary;
 
 		inStock.Clear ();
 		foreach (KeyValuePair<string, int> item in items) {
 			inStock.Add (item.Key.ToString());
 		}
-
 		updateItems ();
+
 
 
 	}
 
 	public virtual void updateItems(){
+		Debug.Log("updating items");
 		//Clear the button panel
 		Transform itemButtons = transform.FindChild("Panel").FindChild("ButtonPanel").FindChild("ItemButtons");
 		foreach (Transform button in itemButtons.transform) {
@@ -104,6 +112,8 @@ public abstract class ItemDisplayAbstract : MonoBehaviour {
 			t.color = Color.clear;	//To hide the text
 
 			clone.localScale = new Vector3 (1.0f, 1.0f, 1.0f);
+			Button b = clone.GetComponent<Button> ();
+			b.enabled = true;
 
 			Texture tex = Resources.Load(s) as Texture;
 			RawImage im = clone.gameObject.GetComponent<RawImage>();
@@ -111,7 +121,6 @@ public abstract class ItemDisplayAbstract : MonoBehaviour {
 
 		}
 			
-		setScrollButtons ();
 
 	}
 
@@ -168,6 +177,18 @@ public abstract class ItemDisplayAbstract : MonoBehaviour {
 				newDictionary.Add (item, itemDictionary[item]);
 			}
 		}
+		return newDictionary;
+	}
+
+	public virtual Dictionary<string, int> hideMoney(Dictionary<string, int> itemDictionary){
+		Dictionary<string, int> newDictionary = new Dictionary<string, int> ();
+		foreach(string item in itemDictionary.Keys){
+			if (  !((item.Equals("OneCoin")) ||  (item.Equals("FiveCoin")) ||  (item.Equals("TenCoin")) || 
+				(item.Equals("TwentyBill")) || (item.Equals("HundredBill")) || (item.Equals("ThousandBill"))) ) {
+				newDictionary.Add (item, itemDictionary[item]);
+			}
+		}
+
 		return newDictionary;
 	}
 

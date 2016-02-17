@@ -38,6 +38,7 @@ public class GUIMenuControl : MonoBehaviour {
 	public void openInventory(){
 		closeMenu ();
 		inventoryPanel.gameObject.SetActive (true);
+		//inventoryPanel.FindChild ("InventoryGUI").GetComponent<InventoryGUIScript> ().SendMessage ("UpdateInventory");
 		openMenuButton.gameObject.SetActive (false);
 		closeMenuButton.gameObject.SetActive (false);
 		if(buildHandler != null)

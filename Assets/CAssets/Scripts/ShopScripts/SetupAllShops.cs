@@ -24,6 +24,17 @@ public class SetupAllShops : MonoBehaviour {
 		{ "Brick", 5 },
 		{ "Fish", 12 }
 	};
+
+	static Dictionary<string, int> brickshop = new Dictionary<string, int>() {
+		{ "Brick", 0 },
+		{ "BlueBrick", 0 },
+		{ "GreenBrick", 0 },
+		{ "YellowBrick", 1 }
+	};
+
+	static Dictionary<string, int> glassshop = new Dictionary<string, int>() {
+		{ "GlassBlock", 10 }
+	};
 		
 
 
@@ -39,6 +50,10 @@ public class SetupAllShops : MonoBehaviour {
 			} 
 			else if(shop.name.Equals("smallshop")){
 				itemValues = smallshop;
+			}else if(shop.name.Equals("brickshop")){
+				itemValues = brickshop;
+			}else if(shop.name.Equals("glassshop")){
+				itemValues = glassshop;
 			}else {
 				itemValues = allshop;
 			}
