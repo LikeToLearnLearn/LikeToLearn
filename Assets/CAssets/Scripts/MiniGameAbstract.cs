@@ -6,50 +6,50 @@ public abstract class MiniGameAbstract : MonoBehaviour
 
     private bool playing = false;
 
-    private float startTime;
-    private float remainingTime;
-    private int currentScore;
-    private Question q;
+    private float startTime; // Time since level load when minigame starts
+    private float remainingTime; // Time left of current round
+    private int currentScore; // Score gained so far this round
+
+    private Question currentQuestion; // Current question to answer
 
     // Use this for initialization
-    public virtual void Start()
-    {
-        
-    }
+    public abstract void Start();
 
     // Update is called once per frame
     public virtual void Update()
     {
-        if (playing)
+        if (GetPlaying())
         {
-            remainingTime -= Time.deltaTime;
+            AddTime(-Time.deltaTime);
             //print("playing:" + remainingTime + " score: " + currentScore);    
 
-            if (remainingTime < 0)
+            if (GetRemainingTime() < 0)
             {
                 StopGame();
             }
         }
     }
-
-
+    
 
     public virtual void StartGame()
     {
         startTime = Time.timeSinceLevelLoad;
-        remainingTime = 90f; // 90s default remaining time
+        AddTime(90f); // 90s default remaining time
         currentScore = 0;
 
         playing = true;
-
     }
 
     public virtual void StopGame()
     {
         //TODO save highscore and whatnot
         //convert score to prize
+        //GameController.control.AddBalance(currentScore); // Default reward
+        //GameController.control.AddExp(currentScore/2);
+
         playing = false;
     }
+
 
     public virtual float GetPlayedTime()
     {
@@ -84,14 +84,15 @@ public abstract class MiniGameAbstract : MonoBehaviour
         remainingTime += time;
     }
 
-    public void CreateQuestion(int n)
+
+    public void CreateQuestion(int choices)
     {
-        q = GameController.control.GetQuestion(n);
-        Debug.Log("question: " + q.question);
+        currentQuestion = GameController.control.GetQuestion(choices);
+        Debug.Log("question: " + currentQuestion.question);
     }
 
     public Question GetQuestion()
     {
-        return q;
+        return currentQuestion;
     }
 }
