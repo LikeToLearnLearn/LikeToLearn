@@ -7,15 +7,6 @@ using UnityEditor;
 public class BuildGUIScript : ItemDisplayAbstract {
 
 
-	//Temporary inventory, use player's real inventory later
-	/*static Dictionary<Inventory.Item, int> tempInv = new Dictionary<Inventory.Item, int>() {
-		{ Inventory.Item.OneCoin, 1 },
-		{ Inventory.Item.TenCoin, 10 },
-		{ Inventory.Item.HundredBill, 100 },
-		{ Inventory.Item.ThousandBill, 1000 },
-		{ Inventory.Item.Brick, 5 },
-		{ Inventory.Item.Fish, 12 }
-	};*/
 
 	//Dictionary<Inventory.Item, int> items;
 
@@ -23,7 +14,6 @@ public class BuildGUIScript : ItemDisplayAbstract {
 	void Start () {
 		base.Start (5);	
 //		Debug.Log ("extended");
-		//Dictionary<string, int> oldDictionary = base.inventory.getInventoryAsDictionary ();
 		Dictionary<string, int> oldDictionary = GameController.control.stringInventory;
 		Dictionary<string, int> oldDictionary2 = base.hideMoney (oldDictionary);
 		Dictionary<string, int> newDictionary = base.hideEmptyItems (oldDictionary2);

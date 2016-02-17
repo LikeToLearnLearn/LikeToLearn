@@ -31,10 +31,6 @@ public abstract class ItemDisplayAbstract : MonoBehaviour {
 	//				ActionButton (a button)
 
 
-
-
-
-
 	public Transform newButton;	//The button to be used for the items
 	public Dictionary<string, int> inventory;
 	Vector3 normalScale;
@@ -59,9 +55,6 @@ public abstract class ItemDisplayAbstract : MonoBehaviour {
 			transform.FindChild ("Panel").FindChild ("Options").FindChild ("ActionButton").GetComponent<Button>();
 
 		inventory = GameController.control.stringInventory;
-
-
-
 		updateItems ();
 	}
 
@@ -75,7 +68,7 @@ public abstract class ItemDisplayAbstract : MonoBehaviour {
 	}*/
 
 	public virtual void setUpItems(Dictionary<string, int> itemDictionary){
-		Debug.Log("setting up items");
+		//Debug.Log("setting up items");
 		items = itemDictionary;
 
 		inStock.Clear ();
@@ -83,13 +76,9 @@ public abstract class ItemDisplayAbstract : MonoBehaviour {
 			inStock.Add (item.Key.ToString());
 		}
 		updateItems ();
-
-
-
 	}
 
 	public virtual void updateItems(){
-		Debug.Log("updating items");
 		//Clear the button panel
 		Transform itemButtons = transform.FindChild("Panel").FindChild("ButtonPanel").FindChild("ItemButtons");
 		foreach (Transform button in itemButtons.transform) {
@@ -99,9 +88,7 @@ public abstract class ItemDisplayAbstract : MonoBehaviour {
 
 		//Set up the right number of buttons (currently 4 per page)
 		int start = currentPage * itemsPerPage;
-
 		for (int i = start; (i <= start + (itemsPerPage - 1)) && i < inStock.Count; i++) {
-			
 			string s = inStock [i];
 
 			Transform clone = (Transform)Instantiate (newButton, new Vector3 (0, 0, 0), Quaternion.identity);
@@ -120,6 +107,8 @@ public abstract class ItemDisplayAbstract : MonoBehaviour {
 			im.texture = tex;
 
 		}
+
+		setScrollButtons ();
 			
 
 	}
@@ -131,7 +120,7 @@ public abstract class ItemDisplayAbstract : MonoBehaviour {
 		Button nextButton = 
 			transform.FindChild ("Panel").FindChild ("ButtonPanel").FindChild ("NextButton").GetComponent<Button>();
 
-		if (currentPage == 0) {
+		if (currentPage <= 0) {
 			prevButton.interactable = false;
 		} else {
 			prevButton.interactable = true;
@@ -154,16 +143,11 @@ public abstract class ItemDisplayAbstract : MonoBehaviour {
 		
 
 	public virtual void selectItem(string s){
-
 		chosenItem = s;
-
-
-
 	}
 
 	public virtual int GetChosenItemValue(){
 		return items [chosenItem];
-			
 	}
 
 	public virtual void actionButtonPush(){

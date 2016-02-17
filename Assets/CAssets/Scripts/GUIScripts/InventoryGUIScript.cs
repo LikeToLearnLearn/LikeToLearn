@@ -23,7 +23,7 @@ public class InventoryGUIScript : ItemDisplayAbstract {
 	}
 
 	void OnEnable(){
-		Debug.Log("updating inventory extended");
+		//Debug.Log("updating inventory extended");
 		Dictionary<string, int> oldDictionary = GameController.control.stringInventory;
 		Dictionary<string, int> oldDictionary2 = base.hideMoney (oldDictionary);
 		Dictionary<string, int> newDictionary = base.hideEmptyItems (oldDictionary2);

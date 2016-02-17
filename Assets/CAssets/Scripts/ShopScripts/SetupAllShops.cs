@@ -29,7 +29,8 @@ public class SetupAllShops : MonoBehaviour {
 		{ "Brick", 0 },
 		{ "BlueBrick", 0 },
 		{ "GreenBrick", 0 },
-		{ "YellowBrick", 1 }
+		{ "YellowBrick", 1 },
+		{ "GlassBlock", 10 }
 	};
 
 	static Dictionary<string, int> glassshop = new Dictionary<string, int>() {
