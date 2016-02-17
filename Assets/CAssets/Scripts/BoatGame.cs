@@ -1,26 +1,43 @@
-﻿using UnityEngine;
+﻿﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class BoatGame : MiniGameAbstract
 {
-    /*
-    BoatGameHUDController hud;
+
 
     // Use this for initialization
     public override void Start()
     {
-        playing = false;
-    }*/
+       
+        //answerPoints = GameObject.Find("AnswerPoints").GetComponentsInChildren<Transform>();
+
+        //SetUpQuestionAndAnswers();
+    }
+
+    /*
+    private void SetUpQuestionAndAnswers()
+    {
+        CreateQuestion(answerPoints.Length);
+        foreach (Transform t in answerPoints)
+        {
+            t.GetComponentInChildren<TextMesh>().text = GetQuestion().Alternative();
+
+        }
+    }
+    */
 
     public void AnsweredCorrect(int difficulty)
     {
-        AddScore(Random.Range(0, 5) + difficulty * 5);
+        AddScore(UnityEngine.Random.Range(0, 5) + difficulty * 5);
         AddTime(10 * difficulty);
     }
 
     public void AnsweredFalse(int difficulty)
     {
-        AddScore(-(Random.Range(0, 5) + difficulty * 1));
+        AddScore(-(UnityEngine.Random.Range(0, 5) + difficulty * 1));
+
     }
+
 
 }

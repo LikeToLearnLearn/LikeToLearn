@@ -48,13 +48,12 @@ public class BoatController : MonoBehaviour {
             ps.startSpeed = h*10;
             if (v > 0)
             {
-                rb.AddForce(transform.forward * v * forwardSpeed * Time.fixedDeltaTime / rb.mass, ForceMode.Acceleration);
+                rb.AddForce(transform.forward * v * forwardSpeed * Time.fixedDeltaTime, ForceMode.Acceleration);
             }
             else if (v == 0)
             {
                 rb.velocity = new Vector3(rb.velocity.x * 0.94f, rb.velocity.y * 0.94f, rb.velocity.z *0.94f);
                     
-
             }
             else if (v < 0)
             {
