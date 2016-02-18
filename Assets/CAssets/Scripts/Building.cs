@@ -5,15 +5,24 @@ using UnityStandardAssets.CrossPlatformInput;
 public class Building : MonoBehaviour {
 
     public BuildGUIScript buildgui;
+
     public GameObject currentItem;
     public GameObject currentItemMarker;
+    private Bounds currentItemBounds;
+
     public GameObject player;
     private GameObject camera;
+    private Vector3 currentMousePosition;
+
+    private bool markerSnapped = false;
 
     private Ray ray;
     private RaycastHit hit;
 
     private bool snapMode = false;
+    private Vector3 snapStartPosition;
+    private Vector3 snapCurrentPosition;
+    private GameObject[] snapItemMarkers;
 
     // Use this for initialization
     void Start () {
@@ -24,6 +33,7 @@ public class Building : MonoBehaviour {
         //TODO Get item counts and current item properly!
         currentItem = GameObject.Find("Brick");
         currentItemMarker = GameObject.Find("TransparentBrick");
+        currentItemBounds = currentItem.GetComponent<Renderer>().bounds;
 
         //Instantiate(currentItem, new Vector3(), Quaternion.identity); //TODO On chosen item, make a transparent version of it to show!
     }
@@ -39,58 +49,205 @@ public class Building : MonoBehaviour {
 
         if(currentItem != null)
         {
-            // Move transparent version of current chosen item to where camera is pointing
-            ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            Physics.Raycast(ray, out hit);
-            float dist = Vector3.Distance(hit.point, player.transform.position);
-            if (dist < 1)
-            {
-                return;
-            }
-            else if (dist < 5)
-            {
-                currentItemMarker.transform.position = hit.point;
-            }   
-            else
-            {
-                currentItemMarker.transform.position = ray.GetPoint(5);
-            }
-
-            currentItemMarker.transform.rotation = Quaternion.identity; 
-                                                //player.transform.rotation; to make item turn with player
-                                                //Quaternion.identity; to make item never turn, all placed items align
-
-            // On Fire1 (ctrl/lmb/touch) place the real item where camera is pointing
-            if (CrossPlatformInputManager.GetButtonDown("Fire1") && !snapMode)
-            {
-                //RaycastHit hit2;
-                //if (Physics.Raycast(ray, out hit2))
-                //{
-
-                Instantiate(currentItem, currentItemMarker.transform.position, currentItemMarker.transform.rotation);
-
-
+            //if (currentMousePosition != Input.mousePosition)
+            //{
+            MoveCurrentItemMarker();
                 //}
 
-            }
-            else if(CrossPlatformInputManager.GetButtonDown("Fire1") && snapMode)
-            {
-                //TODO some sort of hold and drag mode that will automatically align several items within origin and another point...
-                // will need some sort of ITEM SIZE, and count multiples of this size that fit in the box...
-            }
-
-
-            if (CrossPlatformInputManager.GetButton("Fire2"))
-            {
-                //if (Physics.Raycast(ray, out hit))
-                //{
+                // On Fire1 (ctrl/lmb/touch) place an item where camera is pointing, initiate snapmode
+                if (CrossPlatformInputManager.GetButton("Fire1") && !snapMode)
+                {
                     Instantiate(currentItem, currentItemMarker.transform.position, currentItemMarker.transform.rotation);
-                //}
-            }
+                    snapStartPosition = currentItemMarker.transform.position;
+                    snapMode = true;
+
+                }
+                // While mouse is held down, move the marker around
+                else if (CrossPlatformInputManager.GetButton("Fire1") && snapMode)
+                {
+                    // Some sort of hold and drag mode that will automatically align several items within origin and another point...
+                    // will need some sort of ITEM SIZE, and count multiples of this size that fit in the box...
+                    snapCurrentPosition = currentItemMarker.transform.position;   
+
+                    //print("holding");
+                }
+                // On release, calculate and place blocks
+                else if (CrossPlatformInputManager.GetButtonUp("Fire1") && snapMode)
+                {
+                    
+                    // Calculate length of box in every dimension
+                    float distanceX = snapCurrentPosition.x - snapStartPosition.x;
+                    float distanceY = snapCurrentPosition.y - snapStartPosition.y;
+                    float distanceZ = snapCurrentPosition.z - snapStartPosition.z;
+
+                    // Determine directions box is to be offset toward
+                    int dirX = distanceX >= 0 ? 1 : -1;
+                    int dirY = distanceY >= 0 ? 1 : -1;
+                    int dirZ = distanceZ >= 0 ? 1 : -1;
+
+                    // Attempt at removing smallest of the 3 to only form a plane instead
+                    /*ArrayList list = new ArrayList();
+                    list.Add(distanceX);
+                    list.Add(distanceY);
+                    list.Add(distanceZ);
+                    list.Remove(Mathf.Min(distanceX,distanceY,distanceZ));
+                    list.Sort();*/
+
+                    // Calculate how many blocks fit in every dimension
+                    int blocksX = Mathf.CeilToInt(Mathf.Abs(distanceX) / currentItemBounds.size.x);
+                    int blocksY = Mathf.CeilToInt(Mathf.Abs(distanceY) / currentItemBounds.size.y);
+                    int blocksZ = Mathf.CeilToInt(Mathf.Abs(distanceZ) / currentItemBounds.size.z);
+
+                    // Place all blocks in a hollow box form
+                    for (int i = 0; i < blocksX; i++)
+                    {
+                        for (int j = 0; j < blocksY; j++)
+                        {
+                            for (int k = 0; k < blocksZ; k++)
+                            {
+                                if(i == 0 || j == 0 || k == 0 || 
+                                   i == blocksX-1|| j == blocksY-1 || k == blocksZ-1)
+                            {
+                                Instantiate(currentItem, snapStartPosition + new Vector3(
+                                    dirX * i * currentItemBounds.size.x,
+                                    dirY * j * currentItemBounds.size.y,
+                                    dirZ * k * currentItemBounds.size.z),
+                                    currentItemMarker.transform.rotation);
+                            }
+                            }
+                        }
+                    }
+
+                    // Place X-length blocks
+                    /*if (distanceX < 0)
+                    {
+                        for (int i = 0; i < blocksX; i++)
+                        {
+                            Instantiate(currentItem, snapStartPosition - new Vector3(i * currentItemBounds.size.x, 0, 0),
+                                currentItemMarker.transform.rotation);
+                        }
+                    }
+                    else if (distanceX >= 0)
+                    {
+                        for (int i = 0; i < blocksX; i++)
+                        {
+                            Instantiate(currentItem, snapStartPosition + new Vector3(i * currentItemBounds.size.x, 0, 0),
+                                currentItemMarker.transform.rotation);
+                        }
+                    }*/
+
+                    // Place Y-length blocks
+                    /*if (distanceY < 0)
+                    {
+                        for (int i = 0; i < blocksY; i++)
+                        {
+                            Instantiate(currentItem, snapStartPosition - new Vector3(0, i * currentItemBounds.size.y, 0),
+                                currentItemMarker.transform.rotation);
+                        }
+                    }
+                    else if (distanceY >= 0)
+                    {
+                        for (int i = 0; i < blocksY; i++)
+                        {
+                            Instantiate(currentItem, snapStartPosition + new Vector3(0, i * currentItemBounds.size.y, 0),
+                                currentItemMarker.transform.rotation);
+                        }
+                    }
+
+                    // Place Z-length blocks
+                    if (distanceZ < 0)
+                    {
+                        for (int i = 0; i < blocksZ; i++)
+                        {
+                            Instantiate(currentItem, snapStartPosition - new Vector3(0, 0, i * currentItemBounds.size.z),
+                                currentItemMarker.transform.rotation);
+                        }
+                    }
+                    else if (distanceZ >= 0)
+                    {
+                        for (int i = 0; i < blocksZ; i++)
+                        {
+                            Instantiate(currentItem, snapStartPosition + new Vector3(0, 0, i * currentItemBounds.size.z),
+                                currentItemMarker.transform.rotation);
+                        }
+
+                    }*/
+
+                    snapMode = false;
+                    print("snap off");
+                }
+
+                // Second button to remove a block. MAYBE NO SECOND BUTTON ON MOBILE?
+                if (CrossPlatformInputManager.GetButtonDown("Fire2"))
+                {
+                    if (hit.collider != null)
+                    {
+                        if (hit.collider.name.Contains("Clone"))
+                        {
+                            Destroy(hit.collider.gameObject);
+                        }
+                    }
+                }
+           // }
 
         }
 
+    }
 
+    private IEnumerator PlaceItemsAsHollowBox()
+    {
+
+        yield return new WaitForSeconds(0);
+    }
+
+    private void MoveCurrentItemMarker()
+    {
+        // Move transparent version of current chosen item to where camera is pointing
+        ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Physics.Raycast(ray, out hit);
+        float dist = Vector3.Distance(hit.point, player.transform.position);
+        if (dist < 1)
+        {
+            return;
+        }
+        else if (dist < 5)
+        {
+            if (!currentItemMarker.GetComponent<Collider>().Equals(hit.collider) || hit.collider.gameObject.GetComponent<Renderer>() != null)
+            {
+                // WIP MAKE IT ACTUALLY SNAP NEXT TO BLOCK
+                if (hit.normal.x != 0 && !markerSnapped)
+                {
+                    float add = hit.collider.gameObject.GetComponent<Renderer>().bounds.extents.x;
+                    Vector3 a = new Vector3(add, 0, 0);
+                    currentItemMarker.transform.position = hit.collider.bounds.center + a;
+                    markerSnapped = true;
+                }
+                else if (hit.normal.y != 0 && !markerSnapped)
+                {
+                    float add = hit.collider.gameObject.GetComponent<Renderer>().bounds.extents.y;
+                    Vector3 a = new Vector3(0, add, 0);
+                    currentItemMarker.transform.position = hit.collider.bounds.center + a;
+                    markerSnapped = true;
+                }
+                else if (hit.normal.z != 0 && !markerSnapped)
+                {
+                    float add = hit.collider.gameObject.GetComponent<Renderer>().bounds.extents.z;
+                    Vector3 a = new Vector3(0, 0, add);
+                    currentItemMarker.transform.position = hit.collider.bounds.center + a;
+                    markerSnapped = true;
+                }
+            }
+
+            currentItemMarker.transform.position = hit.point;
+        }
+        else
+        {
+            currentItemMarker.transform.position = ray.GetPoint(5);
+        }
+
+        currentItemMarker.transform.rotation = Quaternion.identity;
+        //player.transform.rotation; to make item turn with player
+        //Quaternion.identity; to make item never turn, all placed items align (not to grid)
 
     }
 }
