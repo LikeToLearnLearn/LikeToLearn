@@ -57,5 +57,8 @@ public class BoatGameHUDController : MonoBehaviour {
     {
         print(questionText.text);
         questionText.text = qp.GetQuestionAsString();
+        questionText.GetComponent<Animator>().Play("GrowIn");
+        //questionText.GetComponent<Animator>().Stop();
+
     }
 }

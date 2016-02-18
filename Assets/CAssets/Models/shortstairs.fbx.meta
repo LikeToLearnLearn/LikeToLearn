@@ -1,46 +1,16 @@
 fileFormatVersion: 2
-guid: ca3dc7d2b5ff22642ab2b7a8416f2bed
-timeCreated: 1454207870
+guid: eec128bfec6b0eb409e0505ea6ef55ce
+timeCreated: 1455810108
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
-    100000: Camera
-    100002: Lamp
-    100004: Rock1
-    100006: Rock2
-    100008: Rock3
-    100010: Rock4
-    100012: Rock5
-    100014: //RootNode
-    400000: Camera
-    400002: Lamp
-    400004: Rock1
-    400006: Rock2
-    400008: Rock3
-    400010: Rock4
-    400012: Rock5
-    400014: //RootNode
-    2300000: Rock1
-    2300002: Rock2
-    2300004: Rock3
-    2300006: Rock4
-    2300008: Rock5
-    3300000: Rock1
-    3300002: Rock2
-    3300004: Rock3
-    3300006: Rock4
-    3300008: Rock5
-    4300000: Rock5
-    4300002: Rock4
-    4300004: Rock3
-    4300006: Rock2
-    4300008: Rock1
-    6400000: Rock1
-    6400002: Rock2
-    6400004: Rock3
-    6400006: Rock4
-    6400008: Rock5
+    100000: //RootNode
+    400000: //RootNode
+    2300000: //RootNode
+    3300000: //RootNode
+    4300000: treads.020
+    6400000: //RootNode
   materials:
     importMaterials: 1
     materialName: 0
@@ -81,9 +51,9 @@ ModelImporter:
     secondaryUVPackMargin: 4
     useFileScale: 1
   tangentSpace:
-    normalSmoothAngle: 21
-    normalImportMode: 1
-    tangentImportMode: 3
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 0
   importAnimation: 0
   copyAvatar: 0
   humanDescription:
