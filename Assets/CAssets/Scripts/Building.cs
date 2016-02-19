@@ -19,6 +19,7 @@ public class Building : MonoBehaviour {
     private Ray ray;
     private RaycastHit hit;
 
+    private GameObject latestPlaced;
     private bool snapMode = false;
     private Vector3 snapStartPosition;
     private Vector3 snapCurrentPosition;
@@ -31,7 +32,7 @@ public class Building : MonoBehaviour {
         buildgui = GameObject.Find("BuildGUI").GetComponent<BuildGUIScript>();
 
         //TODO Get item counts and current item properly!
-        currentItem = GameObject.Find("Brick");
+        currentItem = GameObject.Find("Brick"); //alt "ShortStair"
         currentItemMarker = GameObject.Find("TransparentBrick");
         currentItemBounds = currentItem.GetComponent<Renderer>().bounds;
 
@@ -93,10 +94,10 @@ public class Building : MonoBehaviour {
                     list.Remove(Mathf.Min(distanceX,distanceY,distanceZ));
                     list.Sort();*/
 
-                    // Calculate how many blocks fit in every dimension
-                    int blocksX = Mathf.CeilToInt(Mathf.Abs(distanceX) / currentItemBounds.size.x);
-                    int blocksY = Mathf.CeilToInt(Mathf.Abs(distanceY) / currentItemBounds.size.y);
-                    int blocksZ = Mathf.CeilToInt(Mathf.Abs(distanceZ) / currentItemBounds.size.z);
+                    // Calculate how many blocks fit in every dimension, with a max for performance reasons
+                    int blocksX = Mathf.Min(40, Mathf.CeilToInt(Mathf.Abs(distanceX) / currentItemBounds.size.x));
+                    int blocksY = Mathf.Min(40, Mathf.CeilToInt(Mathf.Abs(distanceY) / currentItemBounds.size.y));
+                    int blocksZ = Mathf.Min(40, Mathf.CeilToInt(Mathf.Abs(distanceZ) / currentItemBounds.size.z));
 
                     // Place all blocks in a hollow box form
                     for (int i = 0; i < blocksX; i++)
@@ -108,7 +109,7 @@ public class Building : MonoBehaviour {
                                 if(i == 0 || j == 0 || k == 0 || 
                                    i == blocksX-1|| j == blocksY-1 || k == blocksZ-1)
                             {
-                                Instantiate(currentItem, snapStartPosition + new Vector3(
+                                 latestPlaced = (GameObject) Instantiate(currentItem, snapStartPosition + new Vector3(
                                     dirX * i * currentItemBounds.size.x,
                                     dirY * j * currentItemBounds.size.y,
                                     dirZ * k * currentItemBounds.size.z),
@@ -210,9 +211,9 @@ public class Building : MonoBehaviour {
         {
             return;
         }
-        else if (dist < 5)
+        else if (dist < 4)
         {
-            if (!currentItemMarker.GetComponent<Collider>().Equals(hit.collider) || hit.collider.gameObject.GetComponent<Renderer>() != null)
+            if (hit.collider != null && !hit.collider.gameObject.name.Equals("Terrain")) // TODO fix this check to prevent exception
             {
                 // WIP MAKE IT ACTUALLY SNAP NEXT TO BLOCK
                 if (hit.normal.x != 0 && !markerSnapped)
@@ -222,14 +223,14 @@ public class Building : MonoBehaviour {
                     currentItemMarker.transform.position = hit.collider.bounds.center + a;
                     markerSnapped = true;
                 }
-                else if (hit.normal.y != 0 && !markerSnapped)
+                if (hit.normal.y != 0 && !markerSnapped)
                 {
                     float add = hit.collider.gameObject.GetComponent<Renderer>().bounds.extents.y;
                     Vector3 a = new Vector3(0, add, 0);
                     currentItemMarker.transform.position = hit.collider.bounds.center + a;
                     markerSnapped = true;
                 }
-                else if (hit.normal.z != 0 && !markerSnapped)
+                if (hit.normal.z != 0 && !markerSnapped)
                 {
                     float add = hit.collider.gameObject.GetComponent<Renderer>().bounds.extents.z;
                     Vector3 a = new Vector3(0, 0, add);
@@ -238,11 +239,11 @@ public class Building : MonoBehaviour {
                 }
             }
 
-            currentItemMarker.transform.position = hit.point;
+            //currentItemMarker.transform.position = hit.point;
         }
         else
         {
-            currentItemMarker.transform.position = ray.GetPoint(5);
+            currentItemMarker.transform.position = ray.GetPoint(4);
         }
 
         currentItemMarker.transform.rotation = Quaternion.identity;
