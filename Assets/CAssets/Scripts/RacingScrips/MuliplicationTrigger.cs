@@ -8,10 +8,10 @@ public class MuliplicationTrigger : MonoBehaviour {
     public GameObject PlayerCar;
     private RacingLogic racingLogic;
     public Transform prefabWrong;
-    public Transform prefabRight;
-    public GameObject firstThrowingPoint;
-    public GameObject throwingPoint;
-    public GameObject secondThrowingPoint;
+    //public Transform prefabRight;
+    //public GameObject firstThrowingPoint;
+    //public GameObject throwingPoint;
+    //public GameObject secondThrowingPoint;
 
     public GameObject BalloonPointA;
     public GameObject BalloonPointB;
@@ -85,12 +85,12 @@ public class MuliplicationTrigger : MonoBehaviour {
 
             //offset = PlayerCar.transform.position - text.transform.position;
 
-            pointA = firstThrowingPoint.transform.position;
-            pointB = throwingPoint.transform.position;
-            pointC = secondThrowingPoint.transform.position;
-            racingLogic.SetPointA(pointA);
-            racingLogic.SetPointB(pointB);
-            racingLogic.SetPointC(pointC);
+            //pointA = firstThrowingPoint.transform.position;
+            //pointB = throwingPoint.transform.position;
+            //pointC = secondThrowingPoint.transform.position;
+            //racingLogic.SetPointA(pointA);
+            //racingLogic.SetPointB(pointB);
+            //racingLogic.SetPointC(pointC);
 
 
         }
@@ -115,12 +115,12 @@ public class MuliplicationTrigger : MonoBehaviour {
 
             //offset = PlayerCar.transform.position - text.transform.position;
 
-            pointA = firstThrowingPoint.transform.position;
-            pointB = throwingPoint.transform.position;
-            pointC = secondThrowingPoint.transform.position;
-            racingLogic.SetPointA(pointA);
-            racingLogic.SetPointB(pointC);
-            racingLogic.SetPointC(pointB);
+            //pointA = firstThrowingPoint.transform.position;
+            //pointB = throwingPoint.transform.position;
+            //pointC = secondThrowingPoint.transform.position;
+            //racingLogic.SetPointA(pointA);
+            //racingLogic.SetPointB(pointC);
+            //racingLogic.SetPointC(pointB);
 
 
         }
