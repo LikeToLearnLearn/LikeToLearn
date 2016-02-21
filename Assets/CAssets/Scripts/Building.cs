@@ -55,7 +55,7 @@ public class Building : MonoBehaviour {
             MoveCurrentItemMarker();
                 //}
 
-                // On Fire1 (ctrl/lmb/touch) place an item where camera is pointing, initiate snapmode
+                // On Fire1 (ctrl/lmb) place an item where camera is pointing, initiate snapmode
                 if (CrossPlatformInputManager.GetButtonDown("Fire1") && !snapMode)
                 {
                 print("fire1 no snap");
@@ -73,7 +73,7 @@ public class Building : MonoBehaviour {
 
                     //print("holding");
                 //}
-                // On release, calculate and place blocks
+                // On second click, calculate and place blocks
                 else if (CrossPlatformInputManager.GetButtonDown("Fire1") && snapMode)
                 {
                     snapCurrentPosition = currentItemMarker.transform.position;
@@ -181,6 +181,7 @@ public class Building : MonoBehaviour {
                 }
 
 
+                // Mobile delete block on touch. UNTESTED
                 if(Input.touches.Length != 0)
                 {
                     Touch t = Input.GetTouch(0);
@@ -197,10 +198,9 @@ public class Building : MonoBehaviour {
                         }
                     }
                 }
-
-
+                
           
-            // Second button to remove a block. MAYBE NO SECOND BUTTON ON MOBILE?
+            // Second button to remove a block. NO SECOND BUTTON ON MOBILE
             if (CrossPlatformInputManager.GetButtonDown("Fire2"))
                 {
                     if (hit.collider != null)
