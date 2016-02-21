@@ -56,26 +56,28 @@ public class Building : MonoBehaviour {
                 //}
 
                 // On Fire1 (ctrl/lmb/touch) place an item where camera is pointing, initiate snapmode
-                if (CrossPlatformInputManager.GetButton("Fire1") && !snapMode)
+                if (CrossPlatformInputManager.GetButtonDown("Fire1") && !snapMode)
                 {
+                print("fire1 no snap");
                     Instantiate(currentItem, currentItemMarker.transform.position, currentItemMarker.transform.rotation);
                     snapStartPosition = currentItemMarker.transform.position;
                     snapMode = true;
 
                 }
                 // While mouse is held down, move the marker around
-                else if (CrossPlatformInputManager.GetButton("Fire1") && snapMode)
-                {
+                //else if (CrossPlatformInputManager.GetButton("Fire1") && snapMode)
+                //{
                     // Some sort of hold and drag mode that will automatically align several items within origin and another point...
                     // will need some sort of ITEM SIZE, and count multiples of this size that fit in the box...
-                    snapCurrentPosition = currentItemMarker.transform.position;   
+                     
 
                     //print("holding");
-                }
+                //}
                 // On release, calculate and place blocks
-                else if (CrossPlatformInputManager.GetButtonUp("Fire1") && snapMode)
+                else if (CrossPlatformInputManager.GetButtonDown("Fire1") && snapMode)
                 {
-                    
+                    snapCurrentPosition = currentItemMarker.transform.position;
+
                     // Calculate length of box in every dimension
                     float distanceX = snapCurrentPosition.x - snapStartPosition.x;
                     float distanceY = snapCurrentPosition.y - snapStartPosition.y;
@@ -178,8 +180,28 @@ public class Building : MonoBehaviour {
                     print("snap off");
                 }
 
-                // Second button to remove a block. MAYBE NO SECOND BUTTON ON MOBILE?
-                if (CrossPlatformInputManager.GetButtonDown("Fire2"))
+
+                if(Input.touches.Length != 0)
+                {
+                    Touch t = Input.GetTouch(0);
+                    Ray touchRay = Camera.main.ScreenPointToRay(Input.GetTouch(0).position);
+                    RaycastHit touchHit;
+                    if (Physics.Raycast(touchRay, out touchHit))
+                    {
+                        if (hit.collider != null)
+                        {
+                            if (hit.collider.name.Contains("Clone"))
+                            {
+                                Destroy(hit.collider.gameObject);
+                            }
+                        }
+                    }
+                }
+
+
+          
+            // Second button to remove a block. MAYBE NO SECOND BUTTON ON MOBILE?
+            if (CrossPlatformInputManager.GetButtonDown("Fire2"))
                 {
                     if (hit.collider != null)
                     {
@@ -195,6 +217,8 @@ public class Building : MonoBehaviour {
 
     }
 
+
+
     private IEnumerator PlaceItemsAsHollowBox()
     {
 
@@ -204,7 +228,8 @@ public class Building : MonoBehaviour {
     private void MoveCurrentItemMarker()
     {
         // Move transparent version of current chosen item to where camera is pointing
-        ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        print("move");
+        ray = Camera.main.ScreenPointToRay(new Vector3(Screen.width/2, Screen.height/2, 0));
         Physics.Raycast(ray, out hit);
         float dist = Vector3.Distance(hit.point, player.transform.position);
         if (dist < 1)

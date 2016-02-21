@@ -35,19 +35,18 @@ namespace UnityStandardAssets.CrossPlatformInput
             // check if we already have an axis with that name and log and error if we do
             if (m_VirtualAxes.ContainsKey(axis.name))
             {
-                Debug.LogError("There is already a virtual axis named " + axis.name + " registered.");
+                m_VirtualAxes.Remove(axis.name);
+                //Debug.LogError("There is already a virtual axis named " + axis.name + " registered.");
             }
-            else
-            {
-                // add any new axes
-                m_VirtualAxes.Add(axis.name, axis);
+            // add any new axes
+            m_VirtualAxes.Add(axis.name, axis);
 
-                // if we dont want to match with the input manager setting then revert to always using virtual
-                if (!axis.matchWithInputManager)
-                {
-                    m_AlwaysUseVirtual.Add(axis.name);
-                }
+            // if we dont want to match with the input manager setting then revert to always using virtual
+            if (!axis.matchWithInputManager)
+            {
+                m_AlwaysUseVirtual.Add(axis.name);
             }
+
         }
 
 
