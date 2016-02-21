@@ -10,6 +10,8 @@ public class BoatGameHUDController : MonoBehaviour {
     private Text scoreText;
     private Text questionText;
 
+    private string q;
+
 	// Use this for initialization
 	void Start() {
 
@@ -22,27 +24,8 @@ public class BoatGameHUDController : MonoBehaviour {
 
 
         qp = GameObject.Find("QuestionPoint Easy").GetComponent<QuestionPoint>();
-        
-        /*
-                if (GetComponentInParent<Transform>().gameObject.name.Equals("BoatGame"))
-                {
-                    minigame = GetComponentInParent<BoatGame>();
-                }
-                //else if parent name equals another minigame...
 
-                Text[] uiTexts = GetComponentsInChildren<Text>();
-                foreach (Text text in uiTexts)
-                {
-                    if (text.gameObject.name.Equals("TimeText"))
-                    {
-                        timeText = text;
-                    }
-                    else if (text.gameObject.name.Equals("ScoreText"))
-                    {
-                        scoreText = text;
-                    }
-                }
-                */
+
     }
 	
 	// Update is called once per frame
@@ -50,15 +33,19 @@ public class BoatGameHUDController : MonoBehaviour {
         timeText.text = "Time left: " + minigame.GetRemainingTime().ToString("f1");
         scoreText.text = "Score: " + minigame.GetCurrentScore().ToString();
         
-        UpdateHUDQuestion();
+        if (q != qp.GetQuestionAsString())
+        {
+           UpdateHUDQuestion();
+        }
 	}
 
     public void UpdateHUDQuestion()
     {
         print(questionText.text);
         questionText.text = qp.GetQuestionAsString();
-        questionText.GetComponent<Animator>().Play("GrowIn");
-        //questionText.GetComponent<Animator>().Stop();
+        q = qp.GetQuestionAsString();
+        questionText.GetComponent<Animator>().SetTrigger("OnNewQuestion");
 
     }
+
 }
