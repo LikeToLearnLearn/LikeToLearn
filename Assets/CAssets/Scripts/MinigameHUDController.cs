@@ -32,7 +32,7 @@ public class MinigameHUDController : MonoBehaviour {
         // Update score
         scoreText.text = "Score: " + minigame.GetCurrentScore().ToString();
 
-        //UpdateQuestion();
+        UpdateQuestion();
 	}
 
 

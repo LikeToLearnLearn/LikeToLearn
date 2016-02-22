@@ -33,6 +33,7 @@ public abstract class MiniGameAbstract : MonoBehaviour
 
     public virtual void StartGame()
     {
+        remainingTime = 0;
         startTime = Time.timeSinceLevelLoad;
         AddTime(90f); // 90s default remaining time
         currentScore = 0;
