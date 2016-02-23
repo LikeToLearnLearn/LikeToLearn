@@ -6,6 +6,7 @@ public class StartRaceTrigger : MonoBehaviour {
 
     public GameObject car;
     public GameObject player;
+    public GameObject Hud;
     public Transform prefabWrong;
     //public Transform prefabRight;
     //public bool passed;
@@ -46,9 +47,13 @@ public class StartRaceTrigger : MonoBehaviour {
       
         if ((c.tag.Equals("Player")|| c.tag.Equals( "PlayerTest")) && !racingLogic.GetGameStarted())
         {
+            racingLogic.StartGame();
             racingLogic.SetGameStarted(true);
+            racingLogic.SetCar(car);
+            racingLogic.SetHud(Hud);
             //racingLogic.CreatePickups(prefabWrong, prefabRight, 285, 120, 335 );
             car.SetActive(true);
+            Hud.SetActive(true);
             print("Mjaou");
             //var CarCamera = car.GetComponent<Camera>();
             //var CarCamera = GameObject.Find("MultipurposeCameraRig").GetComponentInChildren<Transform>().GetComponentInChildren<Transform>().gameObject.GetComponent<Camera>();
