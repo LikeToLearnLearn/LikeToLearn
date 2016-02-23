@@ -2,6 +2,9 @@
 var vy;
 var vz;
 var move = true;
+var distance = 10.0;
+var angle = 0.0;
+var speed = 2;
 
 function Awake() {
     vx = Random.Range(-0.05, 0.05);
@@ -9,14 +12,22 @@ function Awake() {
     vz = Random.Range(-0.03, 0.03);
 }
 function Update() {
+    var fwd = transform.TransformDirection(Vector3.forward);
+    if (Physics.Raycast(transform.position, fwd, 20)) {
+        print("There is something in front of the object!");
+        move = false;
+    }
+    var bwd = transform.TransformDirection(Vector3.back);
+    if (Physics.Raycast(transform.position, bwd, 20)) {
+        print("There is something at back of the object!");
+        move = true;
+    }
     if (move) {
         transform.position.x += vx;
-        transform.position.y += vy;
         transform.position.z += vz;
     }
     else {
         transform.position.x -= vx;
-        transform.position.y -= vy;
         transform.position.z -= vz;
     }
 
@@ -36,9 +47,6 @@ function Update() {
     } else if (transform.position.z > 2.0) {
         vz = vz * -1;
     }
-    var fwd = transform.TransformDirection(Vector3.forward);
-    if (Physics.Raycast(transform.position, fwd, 10)) {
-        print("There is something in front of the object!");
-        move = false;
-    }
+
+    move = true;
 }

@@ -10,6 +10,8 @@ public class Building : MonoBehaviour {
     public GameObject currentItemMarker;
     private Bounds currentItemBounds;
 
+	private string currentItemString;
+
     public GameObject player;
     private GameObject camera;
     private Vector3 currentMousePosition;
@@ -30,23 +32,19 @@ public class Building : MonoBehaviour {
         player = GameObject.FindGameObjectWithTag("Player");
         camera = GameObject.FindGameObjectWithTag("MainCamera");
         buildgui = GameObject.Find("BuildGUI").GetComponent<BuildGUIScript>();
-
-        //TODO Get item counts and current item properly!
-        currentItem = GameObject.Find("Brick"); //alt "ShortStair"
-        currentItemMarker = GameObject.Find("TransparentBrick");
-        currentItemBounds = currentItem.GetComponent<Renderer>().bounds;
-
-        //Instantiate(currentItem, new Vector3(), Quaternion.identity); //TODO On chosen item, make a transparent version of it to show!
-    }
-
-    public void SetCurrentItem()
-    {
-
     }
 
     // Update is called once per frame
     void Update()
     {
+		if (currentItemString != buildgui.chosenItem && buildgui.chosenItem != "")
+		{
+			currentItemString = buildgui.chosenItem;
+			currentItem = (GameObject) Instantiate(Resources.Load("Build" + currentItemString));
+			currentItemBounds = currentItem.GetComponent<Renderer>().bounds;
+			currentItemMarker = (GameObject) Instantiate(currentItem, new Vector3(), Quaternion.identity);
+			currentItemMarker.name = "Transparent" + currentItemString;
+		}
 
         if(currentItem != null)
         {
@@ -58,8 +56,10 @@ public class Building : MonoBehaviour {
                 // On Fire1 (ctrl/lmb) place an item where camera is pointing, initiate snapmode
                 if (CrossPlatformInputManager.GetButtonDown("Fire1") && !snapMode)
                 {
-                print("fire1 no snap");
-                    Instantiate(currentItem, currentItemMarker.transform.position, currentItemMarker.transform.rotation);
+    	            print("fire1 no snap");
+					if (GameController.control.RemoveItem(currentItemString) > 0) {
+                    	Instantiate(currentItem, currentItemMarker.transform.position, currentItemMarker.transform.rotation);
+					}
                     snapStartPosition = currentItemMarker.transform.position;
                     snapMode = true;
 
@@ -111,11 +111,13 @@ public class Building : MonoBehaviour {
                                 if(i == 0 || j == 0 || k == 0 || 
                                    i == blocksX-1|| j == blocksY-1 || k == blocksZ-1)
                             {
-                                 latestPlaced = (GameObject) Instantiate(currentItem, snapStartPosition + new Vector3(
-                                    dirX * i * currentItemBounds.size.x,
-                                    dirY * j * currentItemBounds.size.y,
-                                    dirZ * k * currentItemBounds.size.z),
-                                    currentItemMarker.transform.rotation);
+								if (GameController.control.RemoveItem(currentItemString) > 0) {
+	                                 latestPlaced = (GameObject) Instantiate(currentItem, snapStartPosition + new Vector3(
+	                                    dirX * i * currentItemBounds.size.x,
+	                                    dirY * j * currentItemBounds.size.y,
+	                                    dirZ * k * currentItemBounds.size.z),
+	                                    currentItemMarker.transform.rotation);
+								}
                             }
                             }
                         }

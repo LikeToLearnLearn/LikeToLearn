@@ -19,9 +19,12 @@ public class MinigameFish : MonoBehaviour {
 
     Ray ray;
     RaycastHit hit;
+    private GameObject mhc;
 
     // Use this for initialization
     void Start () {
+        mhc = GameObject.FindWithTag("MinigameHud");
+        mhc.SetActive(false);
         GameObject racingLogicObject = GameObject.FindWithTag("FishingController");
         if (racingLogicObject != null)
         {
@@ -40,7 +43,9 @@ public class MinigameFish : MonoBehaviour {
 	void Update () {
         if (play)
         {
-            ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            //ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            ray = Camera.main.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
+            
             if (Physics.Raycast(ray, out hit))
             {
                 GameObject fish = hit.transform.gameObject;
@@ -94,8 +99,13 @@ public class MinigameFish : MonoBehaviour {
             play = true;
             fishingLogic.ActiveQuestion();
             fishingLogic.ActivateSign();
+
+            mhc.SetActive(true);
+
             fishingLogic.UpdateScore();
-            
+
+            fishingLogic.StartGame();
+
             //Create 4*n math question
             fishingLogic.CreateQuestion(answers);
             fishingLogic.SetQuestion();
@@ -109,6 +119,9 @@ public class MinigameFish : MonoBehaviour {
         if (c.tag.Equals("Player"))
         {
             play = false;
+            fishingLogic.StopGame();
+
+            mhc.SetActive(false);
             fishingLogic.DeactivateQuestion();
             fishingLogic.DeactivateSign();
             DestroyAllPickups();
