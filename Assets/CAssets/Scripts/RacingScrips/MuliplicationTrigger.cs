@@ -67,7 +67,7 @@ public class MuliplicationTrigger : MonoBehaviour {
        
         if (c.tag.Equals("PlayerCar") && racingLogic.GetDirection()== 1)
         {
-            Debug.Log("MultiplicationTrigger collision det with" + c.name);
+            //Debug.Log("MultiplicationTrigger collision det with" + c.name);
             //passed = true;
             
 
