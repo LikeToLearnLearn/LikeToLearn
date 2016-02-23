@@ -69,7 +69,8 @@ public class MuliplicationTrigger : MonoBehaviour {
         {
             Debug.Log("MultiplicationTrigger collision det with" + c.name);
             //passed = true;
-            
+
+            racingLogic.DeactivateSign();
             racingLogic.SetSign(text);
             racingLogic.SetPlayer(PlayerCar);
             text.SetActive(true);
@@ -99,7 +100,8 @@ public class MuliplicationTrigger : MonoBehaviour {
         {
             Debug.Log("MultiplicationTrigger collision det with" + c.name);
             //passed = true;
-          
+
+            racingLogic.DeactivateSign();
             racingLogic.SetSign(text);
             racingLogic.SetPlayer(PlayerCar);
             if (!turned)

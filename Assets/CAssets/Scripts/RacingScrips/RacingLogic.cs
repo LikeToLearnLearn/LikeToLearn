@@ -70,20 +70,21 @@ public class RacingLogic : MonoBehaviour//MiniGameAbstract
                 //else
                 //Instantiate(prefabWrong, new Vector3((SetPickUpPosition(5)) + 2 + x, y, (SetPickUpPosition(10)) - 2 + z), Quaternion.identity);
                 numbersLeft--;
-                timeLeft = 3.0f;
+                timeLeft = 1.0f;
             }
             
 
         }
         else GotRight = false;
 
-        if (update == true && timeLeft > 0)
+        if (message == true) sign.GetComponent<TextMesh>().text = MessageString + " Score: " + points;
+
+        else if (update == true && timeLeft > 0)
         {
             sign.GetComponent<TextMesh>().text = "Score: " + points;
 
         }
-        else if (message == true) sign.GetComponent<TextMesh>().text = MessageString + " Score: " + points;
-
+       
         else if (update == true)
         {
             sign.GetComponent<TextMesh>().text = GetMultiplication();
@@ -203,7 +204,7 @@ public class RacingLogic : MonoBehaviour//MiniGameAbstract
 
     public void DeactivateSign()
     {
-        sign.SetActive(false);
+        if(sign != null) sign.SetActive(false);
         message = false;
 
 
@@ -302,7 +303,7 @@ public class RacingLogic : MonoBehaviour//MiniGameAbstract
     public void CreatePickups(Transform prefab, Vector3 A, Vector3 B, Vector3 C, Vector3 D)
     {
         numbersLeft = 4;
-        timeLeft = 3.0f;
+        timeLeft = 1.0f;
         //prefabWrong = prefab;
         Instantiate(prefab, A, Quaternion.identity);
         Instantiate(prefab, B, Quaternion.identity);
@@ -360,7 +361,7 @@ public class RacingLogic : MonoBehaviour//MiniGameAbstract
         yield return new WaitForSeconds(5);
         print(Time.time);
     }*/
-
+    /*
     public IEnumerator MoveObject(Transform thisTransform, Vector3 startPos, Vector3 endPos, float time)
     {
         var i = 0.0f;
@@ -372,6 +373,7 @@ public class RacingLogic : MonoBehaviour//MiniGameAbstract
             yield return null;
         }
         
-    }
+        
+    }*/
 
 }
