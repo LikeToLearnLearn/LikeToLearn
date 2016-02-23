@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 public class ExitRaceTrigger : MonoBehaviour {
 
     public GameObject car;
+    public GameObject Hud;
     //public GameObject player;
 
     private RacingLogic racingLogic;
@@ -40,7 +41,8 @@ public class ExitRaceTrigger : MonoBehaviour {
             GameObject Player = racingLogic.GetPlayer();
             Player.SetActive(true);
             car.SetActive(false);
-            GettingMoney(racingLogic.GetPoints());
+            Hud.SetActive(false);
+            racingLogic.GettingMoney(racingLogic.GetPoints());
             racingLogic.SetGameStarted(false);
             car.transform.position = new Vector3(318, 120, 318);
             //racingLogic.GetPlayer().SetActive(true);
@@ -55,28 +57,5 @@ public class ExitRaceTrigger : MonoBehaviour {
 
     }
 
-    void GettingMoney(float score)
-    {
-        float Hundredbills = 0;
-        float points = score;
-        for (int i = 0; i < points/100; i++)
-        {
-            GameController.control.AddItem(GameController.Item.HundredBill);
-            Hundredbills++;
-        }
-        points = points - (Hundredbills * 100);
-
-        float TenCoins = 0;
-        for (int i = 0; i < points / 10; i++)
-        {
-            GameController.control.AddItem(GameController.Item.TenCoin);
-            TenCoins ++;
-        }
-
-        points = points - (TenCoins  * 10);
-        for (int i = 0; i < points; i++)
-        {
-            GameController.control.AddItem(GameController.Item.OneCoin);
-        }
-    }
+   
 }

@@ -83,7 +83,8 @@ public class PickUpRacing : MonoBehaviour {
             {
                 //gameObject.SetActive(false);
 
-                racingLogic.AddScore(5);
+                racingLogic.AddTime(25);
+                racingLogic.AddScore(5f);
                 racingLogic.PutMessage("Yes!!");
                 racingLogic.SetGotRight(true);
                 //Debug.Log(points);
@@ -93,6 +94,7 @@ public class PickUpRacing : MonoBehaviour {
             }
             else {
                 racingLogic.AddScore(-2);
+                racingLogic.AddTime(-5);
             }
 
             //Debug.Log(points);

@@ -34,14 +34,15 @@ public class PickUpRightAnswere : MonoBehaviour {
         //Debug.Log("Right answere :" + racingLogic.
           //  GetMultiplicationAnswere());
 
-        points = 0;
+      /*  points = 0;
         SetValue();
 
         pointB = racingLogic.GetPointB();
         pointC = racingLogic.GetPointC();
-        if (pointB == null) pointB = new Vector3(pointA.x + racingLogic.SetPickUpPosition(5), pointA.y, pointA.z - racingLogic.SetPickUpPosition(5));
-        if (pointC == null) pointC = new Vector3(pointB.x + racingLogic.SetPickUpPosition(5), pointB.y /*- racingLogic.SetPickUpPosition(1)*/, pointB.z - racingLogic.SetPickUpPosition(5));
-        while (true)
+        if (pointB == null) pointB = new Vector3(pointA.x + racingLogic.SetPickUpPosition(5), pointA.y, pointA.z - racingLogic.SetPickUpPosition(5));*/
+        /*if (pointC == null) pointC = new Vector3(pointB.x + racingLogic.SetPickUpPosition(5), pointB.y /*- racingLogic.SetPickUpPosition(1), pointB.z - racingLogic.SetPickUpPosition(5));
+        */
+            while (true)
         {
             //yield return StartCoroutine(racingLogic.MoveObject(transform, pointB, pointC, 8.0f/*racingLogic.SetValue(5)*/));
             //yield return StartCoroutine(racingLogic.MoveObject(transform, pointC, pointA, 5.0f/*racingLogic.SetValue(5)*/));
@@ -77,14 +78,14 @@ public class PickUpRightAnswere : MonoBehaviour {
         }
     }
 
-
+    /*
     void SetValue()
     {
         f = racingLogic.GetMultiplicationAnswere();
         if (racingLogic.GetDirection() == 2) text.transform.Rotate(0, 180, 0);
         text.GetComponent<TextMesh>().text = "" +f;
 
-    }
+    }*/
    
 
    

@@ -38,6 +38,8 @@ public class ThrowingPointTrigger : MonoBehaviour
             {
                 racingLogic.DestroyAllPickUps();
                 racingLogic.DeactivateSign();
+                racingLogic.PutMessage("");
+                //racingLogic.StopGame();
             }
 
             racingLogic.DestroyAllPickUps();
