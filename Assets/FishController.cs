@@ -20,20 +20,22 @@ public class FishController : MonoBehaviour {
 
     void FixedUpdate()
     {
-        currentSpeed = Mathf.Lerp(currentSpeed, maxSpeed, 0.4f);
+
+        currentSpeed = Mathf.Lerp(currentSpeed, maxSpeed, 0.1f);
         rb.AddRelativeForce(Vector3.forward * currentSpeed);
 
         Quaternion q = Quaternion.FromToRotation(transform.up, Vector3.up);
         float buoyantTorque = 100f;
-        rb.AddTorque(q.x * 1 * buoyantTorque,0,q.y*buoyantTorque);
+        rb.AddTorque(q.x * 1 * buoyantTorque, 0, q.y * buoyantTorque);
 
-        Quaternion deltaRotation = Quaternion.Euler(new Vector3(rb.rotation.x + Random.Range(-4,4), rb.rotation.y + Random.Range(-4, 4), rb.rotation.z + Random.Range(-4, 4) * Time.fixedDeltaTime));
+        Quaternion deltaRotation = Quaternion.Euler(new Vector3(rb.rotation.x + Random.Range(-1, 1), rb.rotation.y + Random.Range(-1, 1), rb.rotation.z + Random.Range(-1, 1) * Time.fixedDeltaTime));
         rb.MoveRotation(rb.rotation * deltaRotation);
+
     }
 
     void OnCollisionEnter()
     {
-        currentSpeed = 20;
+        currentSpeed = maxSpeed;
     }
 
 
