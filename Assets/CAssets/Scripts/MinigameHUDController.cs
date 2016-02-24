@@ -11,6 +11,12 @@ public class MinigameHUDController : MonoBehaviour {
     private Text scoreText;
     private Text questionText;
 
+    private GameObject timeBar, scoreBar, timeTextGB, scoreTextGB, secondTextGB, HUDQuestionTextGB;
+    private GameObject gameoverText;
+    private GameObject endScore;
+
+    private string endText;
+
 	// Use this for initialization
 	void Start() {
         // Use the gameobjects with these names. They must each have a Text component.
@@ -18,8 +24,18 @@ public class MinigameHUDController : MonoBehaviour {
         scoreText = GameObject.Find("ScoreText").GetComponent<Text>();
         questionText = GameObject.Find("HUDQuestionText").GetComponent<Text>();
 
+        gameoverText = GameObject.Find("GameoverText");
+        endScore = GameObject.Find("EndScore");
+        timeBar = GameObject.Find("TimeBar");
+        scoreBar = GameObject.Find("ScoreBar");
+        timeTextGB = GameObject.Find("TimeText");
+        scoreTextGB = GameObject.Find("ScoreText");
+        secondTextGB = GameObject.Find("SecondText");
+        HUDQuestionTextGB = GameObject.Find("HUDQuestionText");
+
         minigame = minigameGO.GetComponent<MiniGameAbstract>();
 
+        GameStart();
         //System.Type a = minigame.GetType();
         //print(a);
     }
@@ -41,5 +57,35 @@ public class MinigameHUDController : MonoBehaviour {
     {   
         questionText.text = minigame.GetQuestion().question;
         // TODO add effect
+    }
+
+    public void GameStart()
+    {
+        timeBar.SetActive(true);
+        scoreBar.SetActive(true);
+        timeTextGB.SetActive(true);
+        scoreTextGB.SetActive(true);
+        secondTextGB.SetActive(true);
+        HUDQuestionTextGB.SetActive(true);
+        gameoverText.SetActive(false);
+        endScore.SetActive(false);
+    }
+
+    public void GameOver()
+    {
+        endScore.GetComponent<Text>().text = endText;
+        timeBar.SetActive(false);
+        scoreBar.SetActive(false);
+        timeTextGB.SetActive(false);
+        scoreTextGB.SetActive(false);
+        secondTextGB.SetActive(false);
+        HUDQuestionTextGB.SetActive(false);
+        gameoverText.SetActive(true);
+        endScore.SetActive(true);
+    }
+
+    public void SetEndText(string s)
+    {
+        endText = s;
     }
 }

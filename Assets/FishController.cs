@@ -13,7 +13,7 @@ public class FishController : MonoBehaviour {
     void Start()
     {
         currentSpeed = 0f;
-        maxSpeed = 500f;
+        maxSpeed = 300f;
         rb = GetComponent<Rigidbody>();
     }
 
@@ -42,7 +42,7 @@ public class FishController : MonoBehaviour {
     void OnCollisionStay(Collision collisionInfo)
     {
         //print(collisionInfo.collider.gameObject.name);
-        Quaternion deltaRotation = Quaternion.Euler(new Vector3(rb.rotation.x + Random.Range(-15, 15), rb.rotation.y + 150f, rb.rotation.z + Random.Range(-15, 15)) * 5 *Time.fixedDeltaTime);
+        Quaternion deltaRotation = Quaternion.Euler(new Vector3(rb.rotation.x + Random.Range(-15, 15), rb.rotation.y + 100f, rb.rotation.z + Random.Range(-15, 15)) * 5 *Time.fixedDeltaTime);
         rb.MoveRotation(rb.rotation * deltaRotation);
     }
 }

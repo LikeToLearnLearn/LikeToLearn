@@ -21,6 +21,8 @@ public class MinigameFish : MonoBehaviour {
     RaycastHit hit;
     private GameObject mhc;
 
+    private bool gameOver = false;
+
     // Use this for initialization
     void Start () {
         mhc = GameObject.FindWithTag("MinigameHud");
@@ -41,6 +43,13 @@ public class MinigameFish : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if (fishingLogic.GetRemainingTime() < 0)
+        {
+            gameOver = true;
+            Debug.Log("end score: " + fishingLogic.GetCurrentScore().ToString());
+            mhc.GetComponent<MinigameHUDController>().SetEndText("You have catched " + fishingLogic.GetCurrentScore().ToString() + " fish!");
+            EndGame();
+        }
         if (play)
         {
             //ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -101,6 +110,7 @@ public class MinigameFish : MonoBehaviour {
             fishingLogic.ActivateSign();
 
             mhc.SetActive(true);
+            mhc.GetComponent<MinigameHUDController>().GameStart();
 
             fishingLogic.UpdateScore();
 
@@ -118,14 +128,8 @@ public class MinigameFish : MonoBehaviour {
     {
         if (c.tag.Equals("Player"))
         {
-            play = false;
-            fishingLogic.StopGame();
-
-            mhc.SetActive(false);
-            fishingLogic.DeactivateQuestion();
-            fishingLogic.DeactivateSign();
-            DestroyAllPickups();
-            fishingLogic.cleanScore();
+            gameOver = false;
+            EndGame();
         }
     }
 
@@ -176,5 +180,18 @@ public class MinigameFish : MonoBehaviour {
             Destroy(o);
         }
     }
-    
+
+    void EndGame()
+    {
+        if (gameOver)
+            mhc.GetComponent<MinigameHUDController>().GameOver();
+        else
+            mhc.SetActive(false);
+        play = false;
+        fishingLogic.StopGame();
+        fishingLogic.DeactivateQuestion();
+        fishingLogic.DeactivateSign();
+        DestroyAllPickups();
+        fishingLogic.cleanScore();
+    }
 }
