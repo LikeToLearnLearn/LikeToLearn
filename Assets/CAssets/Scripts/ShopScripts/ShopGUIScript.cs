@@ -44,4 +44,9 @@ public class ShopGUIScript : ItemDisplayAbstract {
 
 	}
 
+    public void CancelShop()
+    {
+        gameObject.SetActive(false);
+    }
+
 }
