@@ -38,7 +38,7 @@ public class BoatEnterTrigger : MonoBehaviour {
             GameObject boat = GameObject.Find("Speedboat");
             boat.GetComponent<BoatController>().StartBoat();
             Rigidbody boatrb = boat.GetComponent<Rigidbody>();
-            boatrb.constraints = RigidbodyConstraints.FreezePositionY;
+            boatrb.constraints = RigidbodyConstraints.FreezePositionY; //| RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
             boatCamera.SetActive(true);
             exitTrigger.StartTimer(); // timer for minimum time before exiting (prevents boat stuck in exit trigger)
 

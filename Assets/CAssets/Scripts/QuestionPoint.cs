@@ -86,19 +86,19 @@ public class QuestionPoint : MonoBehaviour {
         {
             question = MathQGenerator.GenerateIntMultiplicationQ(1, 1, 9); //1 operation, numbers 1 to 9
             correctAnswer = question[0] * question[2];
-            questionAsString = question[0] + " x " + question[2] + " = ?";
+            questionAsString = question[0] + " * " + question[2] + " = ?";
 
-            questionWAnswer = question[0] + " x " + question[2] + " = " + correctAnswer;
+            questionWAnswer = question[0] + " * " + question[2] + " = " + correctAnswer;
         }
         else if (difficulty.Equals("Medium")) {
             question = MathQGenerator.GenerateIntMultiplicationQ(2, 1, 9); //2 operations, numbers 1 to 9
             correctAnswer = question[0] * question[2] * question[4];
-            questionAsString = question[0] + " x " + question[2] + " x " + question[4] + " = ?";
+            questionAsString = question[0] + " * " + question[2] + " * " + question[4] + " = ?";
         }
         else if (difficulty.Equals("Hard")) {
             question = MathQGenerator.GenerateIntMultiplicationQ(3, 1, 9); //3 random operations, numbers 1 to 9
             correctAnswer = question[0] * question[2] * question[4] * question[6];
-            questionAsString = question[0] + " x " + question[2] + " x " + question[4] + " x " + question[6] + " = ?";
+            questionAsString = question[0] + " * " + question[2] + " * " + question[4] + " * " + question[6] + " = ?";
 
         }
         GetComponentInChildren<TextMesh>().text = questionAsString;

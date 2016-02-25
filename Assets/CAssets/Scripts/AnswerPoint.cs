@@ -7,11 +7,13 @@ public class AnswerPoint : MonoBehaviour
     private float currentAnswer;
     private bool triggered;
     private QuestionPoint qp;
+    private GameObject textChild;
 
     // Use this for initialization
     void Start()
     {
         qp = this.gameObject.GetComponentInParent<QuestionPoint>();
+        textChild = this.gameObject.GetComponentsInChildren<Transform>()[1].gameObject;
     }
 
     // Update is called once per frame
@@ -34,13 +36,19 @@ public class AnswerPoint : MonoBehaviour
     {
         Color oldcolor = GetComponentInChildren<TextMesh>().color;
 
+
         GetComponentInChildren<MeshRenderer>().enabled = false;
+        textChild.GetComponent<MeshRenderer>().enabled = false;
         yield return new WaitForSeconds(0.2f);
         GetComponentInChildren<MeshRenderer>().enabled = true;
+        textChild.GetComponent<MeshRenderer>().enabled = true;
         yield return new WaitForSeconds(0.2f);
+        textChild.GetComponent<MeshRenderer>().enabled = false;
         GetComponentInChildren<MeshRenderer>().enabled = false;
         yield return new WaitForSeconds(0.2f);
+        textChild.GetComponent<MeshRenderer>().enabled = true;
         GetComponentInChildren<MeshRenderer>().enabled = true;
+        
         bool ans = qp.AnswerQuestion(currentAnswer);
         if (ans)
         {
