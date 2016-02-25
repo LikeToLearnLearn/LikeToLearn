@@ -12,7 +12,7 @@ public class PayScript : MonoBehaviour {
 	int itemAmount;
 	string item;
 
-	static Dictionary<string, string> CoinValues = new Dictionary<string, string>() {
+	public static Dictionary<string, string> CoinValues = new Dictionary<string, string>() {
 		{ "1", "OneCoin" },
 		{ "5", "FiveCoin" },
 		{ "10", "TenCoin" },
@@ -21,8 +21,17 @@ public class PayScript : MonoBehaviour {
 		{ "1000", "ThousandBill" }
 	};
 
-	// Use this for initialization
-	void Start () {
+    public static Dictionary<string, int> CoinsToValues = new Dictionary<string, int>() {
+        { "OneCoin", 1 },
+        { "FiveCoin", 5 },
+        { "TenCoin", 10 },
+        { "TwentyBill", 20 },
+        { "HundredBill", 100 },
+        { "ThousandBill", 1000 }
+    };
+
+    // Use this for initialization
+    void Start () {
 
 
 			
@@ -33,7 +42,7 @@ public class PayScript : MonoBehaviour {
 	
 	}
 
-	public void SetUpPayGUI(int price, string chosenItem){
+	public void SetUpPayGUI(int price, string chosenItem, int amount){
 
 		//Add this init somewhere, probably in GameController
 		GameController.control.AddItems ("OneCoin", 0);
@@ -51,7 +60,7 @@ public class PayScript : MonoBehaviour {
 			t.text = "" + 0;
 		}
 			
-		itemAmount = 1;
+		itemAmount = amount;
 		item = chosenItem;
 		itemPrice = price;
 		SetItemPrice (itemPrice);
@@ -61,7 +70,11 @@ public class PayScript : MonoBehaviour {
 			FindChild("RawImage").GetComponent<RawImage>();
 		im.texture = tex;
 
-	}
+        Text amountText = transform.FindChild("PayPanel").FindChild("Amount").
+            FindChild("AmountText").GetComponent<Text>();
+        amountText.text = "" + amount;
+
+    }
 
 	public void SetItemPrice(int price){
 		toPay = price;

@@ -21,25 +21,25 @@ public class SetupAllShops : MonoBehaviour {
 	};
 
     static Dictionary<string, int> bank100 = new Dictionary<string, int>() {
-        { "OneCoin", 100 },
-        { "FiveCoin", 100 },
-        { "TenCoin", 100 },
-        { "TwentyBill", 100 },
+        { "OneCoin", 1 },
+        { "FiveCoin", 5 },
+        { "TenCoin", 10 },
+        { "TwentyBill", 20 },
     };
 
     static Dictionary<string, int> bank20 = new Dictionary<string, int>() {
-        { "OneCoin", 20 },
-        { "FiveCoin", 20 },
-        { "TenCoin", 20 },
+        { "OneCoin", 1 },
+        { "FiveCoin", 5 },
+        { "TenCoin", 10 },
     };
 
     static Dictionary<string, int> bank10 = new Dictionary<string, int>() {
-        { "OneCoin", 10 },
-        { "FiveCoin", 10 },
+        { "OneCoin", 1 },
+        { "FiveCoin", 5 },
     };
 
     static Dictionary<string, int> bank5 = new Dictionary<string, int>() {
-        { "OneCoin", 5 },
+        { "OneCoin", 1 },
     };
 
     static Dictionary<string, int> smallshop = new Dictionary<string, int>() {
