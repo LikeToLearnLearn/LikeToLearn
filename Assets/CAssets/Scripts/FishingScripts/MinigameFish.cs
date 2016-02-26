@@ -105,8 +105,8 @@ public class MinigameFish : MonoBehaviour {
 
             //Create gui: display crosshair, question, score, timer...
             play = true;
-            fishingLogic.ActiveQuestion();
-            fishingLogic.ActivateSign();
+            //fishingLogic.ActiveQuestion();
+            //fishingLogic.ActivateSign();
 
             mhc.SetActive(true);
             mhc.GetComponent<MinigameHUDController>().GameStart();
@@ -191,8 +191,8 @@ public class MinigameFish : MonoBehaviour {
         }
         play = false;
         fishingLogic.StopGame();
-        fishingLogic.DeactivateQuestion();
-        fishingLogic.DeactivateSign();
+        //fishingLogic.DeactivateQuestion();
+        //fishingLogic.DeactivateSign();
         DestroyAllPickups();
     }
 }
