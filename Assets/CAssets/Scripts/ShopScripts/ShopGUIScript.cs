@@ -6,11 +6,13 @@ using UnityEditor;
 
 public class ShopGUIScript : ItemDisplayAbstract {
 
-
+	Button payButton;
 
 	// Use this for initialization
 	void Start () {
 		base.Start (4);	
+		payButton = transform.FindChild ("Panel").FindChild ("Options").FindChild ("ActionButton").GetComponent<Button> ();
+		payButton.interactable = false;
 	}
 	
 	// Update is called once per frame
@@ -43,6 +45,7 @@ public class ShopGUIScript : ItemDisplayAbstract {
 		transform.FindChild ("Panel").FindChild ("Options").FindChild ("ItemText").GetComponent<Text> ().text = itemText;
 		transform.FindChild ("Panel").FindChild ("Options").FindChild ("ItemPrice").GetComponent<Text> ().text = itemPrice;
 
+		payButton.interactable = true;
 	}
 		
 
