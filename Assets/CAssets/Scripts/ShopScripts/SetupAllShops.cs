@@ -20,27 +20,13 @@ public class SetupAllShops : MonoBehaviour {
 		{ "Fish", 12 }
 	};
 
-    static Dictionary<string, int> bank100 = new Dictionary<string, int>() {
+    static Dictionary<string, int> bank = new Dictionary<string, int>() {
         { "OneCoin", 1 },
         { "FiveCoin", 5 },
         { "TenCoin", 10 },
         { "TwentyBill", 20 },
     };
-
-    static Dictionary<string, int> bank20 = new Dictionary<string, int>() {
-        { "OneCoin", 1 },
-        { "FiveCoin", 5 },
-        { "TenCoin", 10 },
-    };
-
-    static Dictionary<string, int> bank10 = new Dictionary<string, int>() {
-        { "OneCoin", 1 },
-        { "FiveCoin", 5 },
-    };
-
-    static Dictionary<string, int> bank5 = new Dictionary<string, int>() {
-        { "OneCoin", 1 },
-    };
+		
 
     static Dictionary<string, int> smallshop = new Dictionary<string, int>() {
 		{ "Brick", 5 },
@@ -78,21 +64,9 @@ public class SetupAllShops : MonoBehaviour {
 			}else if(shop.name.Equals("glassshop")){
 				itemValues = glassshop;
 			}
-            else if (shop.name.Equals("bank100"))
+            else if (shop.name.Equals("bank"))
             {
-                itemValues = bank100;
-            }
-            else if (shop.name.Equals("bank20"))
-            {
-                itemValues = bank20;
-            }
-            else if (shop.name.Equals("bank10"))
-            {
-                itemValues = bank10;
-            }
-            else if (shop.name.Equals("bank5"))
-            {
-                itemValues = bank5;
+                itemValues = bank;
             }
             else {
 				itemValues = allshop;

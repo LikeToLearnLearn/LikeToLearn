@@ -75,7 +75,6 @@ public abstract class Course {
 		if (!results.ContainsKey(question))
 			results[question] = 0;
 		results[question]++;
-		GameController.control.AddExp(1); // fixme
 	}
 
 }
