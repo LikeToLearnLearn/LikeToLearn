@@ -39,34 +39,12 @@ public class ShopGUIScript : ItemDisplayAbstract {
 
 		payGUI.gameObject.SetActive (true);
 
+		payGUI.GetComponent<PayScript>().SetUpPayGUI(base.GetChosenItemValue(), base.chosenItem, 1);
 
-        
-
-        if (transform.parent.name.StartsWith("bank"))
-        {
-            int amount = BankExchange();
-            Debug.Log("amount to buy:  " + amount);
-            payGUI.GetComponent<PayScript>().SetUpPayGUI(base.GetChosenItemValue(), base.chosenItem, amount);
-        }
-        else {
-            payGUI.GetComponent<PayScript>().SetUpPayGUI(base.GetChosenItemValue(), base.chosenItem, 1);
-        }
-
-		
 		gameObject.SetActive(false);
 
 	}
-
-    private int BankExchange() {
-        string bankName = transform.parent.name;
-        int bankType = int.Parse(bankName.Remove(0, 4));
-        Debug.Log("banktype:  " + bankType);
-        int chosenType = PayScript.CoinsToValues[base.chosenItem];
-
-        int result = bankType / chosenType;
-        return result;
-
-    }
+		
 
     public void CancelShop()
     {
