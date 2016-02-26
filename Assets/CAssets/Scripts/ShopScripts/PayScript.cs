@@ -95,7 +95,7 @@ public class PayScript : MonoBehaviour {
 
 	}
 
-	public void AmountTextIncrease(string value){
+	public void AmountTextIncrease(string value, int increaseAmount){
 		
 		Text t = transform.FindChild ("PayPanel").FindChild ("Values").
 			FindChild (value).FindChild ("Text").GetComponent<Text>();
@@ -104,37 +104,39 @@ public class PayScript : MonoBehaviour {
 		string currentValue = CoinValues[value];
 
 		if (amount < inventory[currentValue]) {
-			amount = amount + 1;
+			amount = amount + increaseAmount;
 			t.text = "" + amount;
 		}
 
 	}
+		
 
-	public void ItemAmountDecrease(){
+	public void ItemAmountDecrease(int decreaseAmount){
 		Text t = transform.FindChild ("PayPanel").FindChild ("Amount").
 			FindChild ("AmountText").GetComponent<Text>();
 		int amount = int.Parse (t.text);
-		if (amount > 0) {
-			amount = amount - 1;
+		if (amount - decreaseAmount >= 0) {
+			amount = amount - decreaseAmount;
 			t.text = "" + amount;
-			itemAmount--;
+			itemAmount = amount;
+		} else {
+			amount = 0;
+			t.text = "" + amount;
+			itemAmount = amount;
 		}
 		SetItemPrice (amount * itemPrice);
 	}
 
-	public void ItemAmountIncrease(){
+	public void ItemAmountIncrease(int increaseAmount){
 
 		Text t = transform.FindChild ("PayPanel").FindChild ("Amount").
 			FindChild ("AmountText").GetComponent<Text>();
-		Debug.Log("text is " + t.text);
 		int amount = int.Parse (t.text);
 
-		amount = amount + 1;
+		amount = amount + increaseAmount;
 		t.text = "" + amount;
 		itemAmount++;
 		SetItemPrice (amount * itemPrice);
-
-
 	}
 
 	public void CheckPayment(){
