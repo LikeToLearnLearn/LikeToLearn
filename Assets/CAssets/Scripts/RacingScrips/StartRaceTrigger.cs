@@ -66,6 +66,7 @@ public class StartRaceTrigger : MonoBehaviour {
             //racingLogic.SetPlayerCamera(PlayerCamera);
 
             racingLogic.SetPlayer(c.gameObject);
+            print("Sparade: " + c.gameObject);
             c.gameObject.SetActive(false);
             c.gameObject.transform.position = new Vector3(282, 119, 318);
             

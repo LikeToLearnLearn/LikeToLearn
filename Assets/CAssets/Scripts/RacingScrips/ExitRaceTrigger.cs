@@ -39,6 +39,7 @@ public class ExitRaceTrigger : MonoBehaviour {
         {
 
             GameObject Player = racingLogic.GetPlayer();
+            print("Hämtade: " + c.gameObject);
             Player.SetActive(true);
             car.SetActive(false);
             Hud.SetActive(false);
