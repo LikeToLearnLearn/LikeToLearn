@@ -35,7 +35,7 @@ public abstract class MiniGameAbstract : MonoBehaviour
     {
         remainingTime = 0;
         startTime = Time.timeSinceLevelLoad;
-        AddTime(10f); // 90s default remaining time
+        AddTime(90f); // 90s default remaining time
 
         playing = true;
     }
