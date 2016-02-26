@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
-using UnityEditor;
 using System.Collections;
 
-public class Popup : EditorWindow {
+/*public class Popup : EditorWindow {
 	[MenuItem("Example/ShowPopup Example")]
 	static void Init()
 	{
@@ -17,4 +16,4 @@ public class Popup : EditorWindow {
 		GUILayout.Space (70);
 		if(GUILayout.Button("Agree!")) this.Close();
 	}
-}
+}*/
