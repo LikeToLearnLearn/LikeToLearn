@@ -69,6 +69,6 @@ public class FishingLogic : MiniGameAbstract
 
     public void SetQuestion()
     {
-        text.GetComponent<TextMesh>().text = GetQuestion().question;
+		text.GetComponent<TextMesh>().text = GetQuestion().GetQuestion();
     }
 }

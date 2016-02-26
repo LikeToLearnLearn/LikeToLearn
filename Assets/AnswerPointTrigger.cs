@@ -44,7 +44,7 @@ public class AnswerPointTrigger : MonoBehaviour {
         GetComponentInChildren<MeshRenderer>().enabled = false;
         yield return new WaitForSeconds(0.2f);
         GetComponentInChildren<MeshRenderer>().enabled = true;
-        bool ans = minigame.GetQuestion().Correct();
+        bool ans = minigame.GetQuestion().IsCorrect();
         if (ans)
         {
             Color c = new Color(0, 255, 0);

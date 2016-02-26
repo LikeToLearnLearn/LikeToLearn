@@ -79,7 +79,7 @@ public class PickUpRacing : MonoBehaviour {
             gameObject.SetActive(false);     
             //points = points + f;
             racingLogic.GetQuestion().Answer(value);
-            if (racingLogic.GetQuestion().Correct())
+            if (racingLogic.GetQuestion().IsCorrect())
             {
                 //gameObject.SetActive(false);
 
@@ -111,7 +111,7 @@ public class PickUpRacing : MonoBehaviour {
          if (racingLogic.GetDirection() == 2) text.transform.Rotate(0, 180, 0);
          text.GetComponent<TextMesh>().text = "" + f;*/
 
-        value = racingLogic.GetQuestion().Alternative();
+        value = racingLogic.GetQuestion().GetAlternative();
 
         text.GetComponent<TextMesh>().text = value;
 

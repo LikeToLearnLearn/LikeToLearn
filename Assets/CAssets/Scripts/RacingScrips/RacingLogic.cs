@@ -315,7 +315,7 @@ public class RacingLogic :/* MonoBehaviour//*/MiniGameAbstract
         //float a = n;
         //float b = SetValue(10);
         //SetMultiplicationAnswere(a * b);
-        multiplication = q.question; //"" + a + " * " + b;
+		multiplication = q.GetQuestion(); //"" + a + " * " + b;
                                      //t.GetComponent<TextMesh>().text = a + " * " + b;
 
         //t.GetComponent<TextMesh>().text = multiplication;  

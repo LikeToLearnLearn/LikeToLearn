@@ -53,7 +53,7 @@ public class Fish : MonoBehaviour
     public void SetAnswer()
     {
         q = fishingLogic.GetQuestion();
-        answer = q.Alternative();
+        answer = q.GetAlternative();
         text.GetComponent<TextMesh>().text = answer;
         Debug.Log("Generated answer: " + answer);
     }
@@ -61,7 +61,7 @@ public class Fish : MonoBehaviour
     void OnMouseDown()
     {
         q.Answer(answer);
-        if (q.Correct())
+        if (q.IsCorrect())
         {
             fishingLogic.AddScore(point);
             fishingLogic.UpdateScore();

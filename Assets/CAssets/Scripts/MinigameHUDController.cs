@@ -55,7 +55,7 @@ public class MinigameHUDController : MonoBehaviour {
     // Update question
     private void UpdateQuestion()
     {   
-        questionText.text = minigame.GetQuestion().question;
+		questionText.text = minigame.GetQuestion().GetQuestion();
         // TODO add effect
     }
 

@@ -29,8 +29,6 @@ public class GameController : MonoBehaviour {
 	[Serializable]
 	class GameData {
 		public Dictionary<Item, int> inventory = new Dictionary<Item, int>();
-		//public int questionMode = 3;
-		//public string questionType = "math";
 		public string currentScene = "city_centralisland";
 		public List<Course> coruses = new List<Course>();
 		public List<Question> questions = new List<Question>();
@@ -40,20 +38,9 @@ public class GameController : MonoBehaviour {
 
 	public static GameController control;
 
-	GameData data;
-	GlobalData global;
+	GameData data = null;
+	GlobalData global = null;
 	SceneHandler sceneHandler;
-	/*
-	public int questionMode {
-		get { return data.questionMode; }
-		set { data.questionMode = value; }			
-	}
-
-	public int questionType {
-		get { return data.questionType; }
-		set { data.questionType = value; }			
-	}
-	*/
 
 	public int unlockedWorldLevel {  // not tested
 		get { return (int) Math.Log10(data.experiencePoints); }
@@ -81,7 +68,6 @@ public class GameController : MonoBehaviour {
 		if (control == null) {
 			DontDestroyOnLoad(gameObject);
 			control = this;
-			data = new GameData();
 		} else if (control != this) {
 			Destroy(gameObject);
 		}
@@ -91,6 +77,9 @@ public class GameController : MonoBehaviour {
 	{
 		GameObject sco = GameObject.Find("SceneHandlerO");
 		sceneHandler = sco.GetComponent<SceneHandler>();
+
+		// auto save every fifth secound
+		InvokeRepeating("Save", 5, 5);
 	}
 
 	void OnEnable()
@@ -100,10 +89,16 @@ public class GameController : MonoBehaviour {
 
 	void OnDisable()
 	{
+		Save();
+	}
+
+	private void Save()
+	{
 		if (global != null) {
 			SaveGlobal();
-			if (data != null)
+			if (data != null) {
 				SaveGame();
+			}
 		}
 	}
 
@@ -201,6 +196,15 @@ public class GameController : MonoBehaviour {
 		}
 		data = content;
 		sceneHandler.ChangeScene("new", data.currentScene);
+
+		// silly debug code
+		/*
+		for (int i = 0; i < 100; i++) {
+		  var q = GetQuestion(5);
+			print(q.GetQuestion()+": "+q.GetAlternative()+", "+q.GetAlternative()+", "+q.GetAlternative()+", "+q.GetAlternative()+", "+q.GetAlternative());
+		}
+		*/
+
 	}
 
 	public void DeleteGame(string name) // not tested
@@ -308,6 +312,10 @@ public class GameController : MonoBehaviour {
 
 	public Question GetQuestion(int alternatives)
 	{
+		if (data.currentCourse == null) {
+			print("Player don't have a current course selected!");
+			return null;
+		}
 		var q = data.currentCourse.GetQuestion(alternatives);
 		data.questions.Add(q);
 		return q;
