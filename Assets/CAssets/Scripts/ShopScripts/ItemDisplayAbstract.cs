@@ -67,6 +67,9 @@ public abstract class ItemDisplayAbstract : MonoBehaviour {
 	/*public virtual void OnEnable(){
 	}*/
 
+	public virtual void setTitle(string name){
+	}
+
 	public virtual void setUpItems(Dictionary<string, int> itemDictionary){
 		//Debug.Log("setting up items");
 		items = itemDictionary;

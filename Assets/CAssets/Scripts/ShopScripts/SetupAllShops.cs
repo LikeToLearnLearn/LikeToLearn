@@ -44,6 +44,8 @@ public class SetupAllShops : MonoBehaviour {
 	static Dictionary<string, int> glassshop = new Dictionary<string, int>() {
 		{ "GlassBlock", 10 }
 	};
+
+
 		
 
 
@@ -53,26 +55,42 @@ public class SetupAllShops : MonoBehaviour {
 	//Drag the shops into the ShopHandlers shop-list to add them.
 	void Start () {
 
+		string name = "Shop name";
+		string descr = "Description";
+
 		foreach (Transform shop in cityShops) {
 			if (shop.name.Equals ("allshop")) {
 				itemValues = allshop;
+				name = "The Everything Shop";
+				descr = "This shop sells everything.";
 			} 
 			else if(shop.name.Equals("smallshop")){
 				itemValues = smallshop;
+				name = "The Small Shop";
+				descr = "This shop sells a few things.";
 			}else if(shop.name.Equals("brickshop")){
 				itemValues = brickshop;
+				name = "The Brick Shop";
+				descr = "This shop sells bricks of all types.";
 			}else if(shop.name.Equals("glassshop")){
+				name = "The Glass Shop";
+				descr = "This shop sells glass items.";
 				itemValues = glassshop;
 			}
             else if (shop.name.Equals("bank"))
             {
                 itemValues = bank;
+				name = "The Bank";
+				descr = "This is the bank. Here you can exchange your money into different values by 'buying' money.";
             }
             else {
-				itemValues = allshop;
+				itemValues = smallshop;
+				name = "The Small Shop";
+				descr = "This shop sells a few things.";
 			}
 	
 			Transform shopGUI = shop.FindChild("ShopGUI");
+			shopGUI.GetComponent<ShopGUIScript> ().setUpShop(name, descr);
 			shopGUI.GetComponent<ShopGUIScript> ().setUpItems(itemValues);
 			shopGUI.gameObject.SetActive (false);
 		

@@ -11,12 +11,25 @@ public class ShopGUIScript : ItemDisplayAbstract {
 	// Use this for initialization
 	void Start () {
 		base.Start (4);	
-	
 	}
 	
 	// Update is called once per frame
 	void Update () {
 	
+	}
+
+	public void setUpShop(string name, string descr){
+		setTitle (name);
+		setDescription (descr);
+	}
+
+	public override void setTitle(string name){
+		Text t = transform.FindChild("Panel").FindChild("Description").FindChild("ShopName").GetComponent<Text>();
+		t.text = name;
+	}
+	public void setDescription(string descr){
+		Text t = transform.FindChild("Panel").FindChild("Description").FindChild("ShopDescription").GetComponent<Text>();
+		t.text = descr;
 	}
 
 
