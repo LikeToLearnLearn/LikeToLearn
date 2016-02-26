@@ -54,7 +54,7 @@ public class PayScript : MonoBehaviour {
 
 		inventory = GameController.control.stringInventory;
 
-		Transform val = transform.FindChild ("PayPanel").FindChild ("Values");
+		Transform val = transform.FindChild ("PayPanel").FindChild ("ValuePanel").FindChild ("Values");
 		foreach(Transform type in val){
 			Text t = type.FindChild ("Text").GetComponent<Text> ();
 			t.text = "" + 0;
@@ -66,11 +66,11 @@ public class PayScript : MonoBehaviour {
 		SetItemPrice (itemPrice);
 
 		Texture tex = Resources.Load(item) as Texture;
-		RawImage im = transform.FindChild("PayPanel").FindChild("Amount").
+		RawImage im = transform.FindChild("PayPanel").FindChild ("FinishPanel").FindChild("Amount").
 			FindChild("RawImage").GetComponent<RawImage>();
 		im.texture = tex;
 
-        Text amountText = transform.FindChild("PayPanel").FindChild("Amount").
+		Text amountText = transform.FindChild("PayPanel").FindChild ("FinishPanel").FindChild("Amount").
             FindChild("AmountText").GetComponent<Text>();
         amountText.text = "" + amount;
 
@@ -78,14 +78,14 @@ public class PayScript : MonoBehaviour {
 
 	public void SetItemPrice(int price){
 		toPay = price;
-		Text t = transform.FindChild ("PayPanel").FindChild ("PriceText").GetComponent<Text>();
+		Text t = transform.FindChild ("PayPanel").FindChild ("TextPanel").FindChild ("PriceText").GetComponent<Text>();
 		t.text = "You need to pay: " + price;
-		Text t2 = transform.FindChild ("PayPanel").FindChild ("MoneyText").GetComponent<Text>();
+		Text t2 = transform.FindChild ("PayPanel").FindChild ("TextPanel").FindChild ("MoneyText").GetComponent<Text>();
 		t2.text = "You have: " + GameController.control.GetBalance ();
 	}
 
 	public void AmountTextDecrease(string value){
-		Text t = transform.FindChild ("PayPanel").FindChild ("Values").
+		Text t = transform.FindChild ("PayPanel").FindChild ("ValuePanel").FindChild ("Values").
 			FindChild (value).FindChild ("Text").GetComponent<Text>();
 		int amount = int.Parse (t.text);
 		if (amount > 0) {
@@ -97,7 +97,7 @@ public class PayScript : MonoBehaviour {
 
 	public void AmountTextIncrease(string value, int increaseAmount){
 		
-		Text t = transform.FindChild ("PayPanel").FindChild ("Values").
+		Text t = transform.FindChild ("PayPanel").FindChild ("ValuePanel").FindChild ("Values").
 			FindChild (value).FindChild ("Text").GetComponent<Text>();
 		int amount = int.Parse (t.text);
 
@@ -112,7 +112,7 @@ public class PayScript : MonoBehaviour {
 		
 
 	public void ItemAmountDecrease(int decreaseAmount){
-		Text t = transform.FindChild ("PayPanel").FindChild ("Amount").
+		Text t = transform.FindChild ("PayPanel").FindChild ("FinishPanel").FindChild ("Amount").
 			FindChild ("AmountText").GetComponent<Text>();
 		int amount = int.Parse (t.text);
 		if (amount - decreaseAmount >= 0) {
@@ -129,7 +129,7 @@ public class PayScript : MonoBehaviour {
 
 	public void ItemAmountIncrease(int increaseAmount){
 
-		Text t = transform.FindChild ("PayPanel").FindChild ("Amount").
+		Text t = transform.FindChild ("PayPanel").FindChild ("FinishPanel").FindChild ("Amount").
 			FindChild ("AmountText").GetComponent<Text>();
 		int amount = int.Parse (t.text);
 
@@ -144,7 +144,7 @@ public class PayScript : MonoBehaviour {
 		int[] typeAmounts = new int[10];
 		int i = 0;
 
-		Transform val = transform.FindChild ("PayPanel").FindChild ("Values");
+		Transform val = transform.FindChild ("PayPanel").FindChild ("ValuePanel").FindChild ("Values");
 		foreach(Transform type in val){
 			Text t = type.FindChild ("Text").GetComponent<Text> ();
 			int amount = int.Parse (t.text) * int.Parse (type.name);
@@ -158,7 +158,7 @@ public class PayScript : MonoBehaviour {
 		if (total == toPay) {
 			FinishPayment (typeAmounts);
 		} else {
-			Text t = transform.FindChild ("PayPanel").FindChild ("PayText").GetComponent<Text>();
+			Text t = transform.FindChild ("PayPanel").FindChild ("FinishPanel").FindChild ("PayText").GetComponent<Text>();
 			t.text = "Wrong!" + '\n' + "You paid " + total;
 		}
 
