@@ -35,8 +35,7 @@ public abstract class MiniGameAbstract : MonoBehaviour
     {
         remainingTime = 0;
         startTime = Time.timeSinceLevelLoad;
-        AddTime(90f); // 90s default remaining time
-        currentScore = 0;
+        AddTime(10f); // 90s default remaining time
 
         playing = true;
     }
@@ -45,8 +44,8 @@ public abstract class MiniGameAbstract : MonoBehaviour
     {
         //TODO save highscore and whatnot
         //convert score to prize
-        //GameController.control.AddBalance(currentScore); // Default reward
-        //GameController.control.AddExp(currentScore/2);
+        GameController.control.AddBalance(currentScore); // Default reward
+        GameController.control.AddExp(currentScore/2);
 
         playing = false;
     }

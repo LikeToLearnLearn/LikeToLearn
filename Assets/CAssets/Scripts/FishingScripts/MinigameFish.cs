@@ -46,7 +46,6 @@ public class MinigameFish : MonoBehaviour {
         if (fishingLogic.GetRemainingTime() < 0)
         {
             gameOver = true;
-            Debug.Log("end score: " + fishingLogic.GetCurrentScore().ToString());
             mhc.GetComponent<MinigameHUDController>().SetEndText("You have catched " + fishingLogic.GetCurrentScore().ToString() + " fish!");
             EndGame();
         }
@@ -186,12 +185,14 @@ public class MinigameFish : MonoBehaviour {
         if (gameOver)
             mhc.GetComponent<MinigameHUDController>().GameOver();
         else
+        {
             mhc.SetActive(false);
+            fishingLogic.cleanScore();
+        }
         play = false;
         fishingLogic.StopGame();
         fishingLogic.DeactivateQuestion();
         fishingLogic.DeactivateSign();
         DestroyAllPickups();
-        fishingLogic.cleanScore();
     }
 }
