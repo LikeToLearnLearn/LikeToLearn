@@ -11,12 +11,16 @@ ModelImporter:
     100006: Cloud4
     100008: Cloud5
     100010: //RootNode
+    100012: Camera
+    100014: Lamp
     400000: Cloud1
     400002: Cloud2
     400004: Cloud3
     400006: Cloud4
     400008: Cloud5
     400010: //RootNode
+    400012: Camera
+    400014: Lamp
     2300000: Cloud1
     2300002: Cloud2
     2300004: Cloud3
