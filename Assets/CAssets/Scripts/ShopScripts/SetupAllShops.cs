@@ -6,6 +6,7 @@ public class SetupAllShops : MonoBehaviour {
 
 	public string[] shopItems;
 	public Transform[] cityShops;
+	public Transform[] sellShops;
 
 
 	public static Dictionary<string, int> itemValues;
@@ -24,6 +25,7 @@ public class SetupAllShops : MonoBehaviour {
         { "FiveCoin", 5 },
         { "TenCoin", 10 },
         { "TwentyBill", 20 },
+		{ "HundredBill", 100 }
     };
 		
 
@@ -44,7 +46,18 @@ public class SetupAllShops : MonoBehaviour {
 		{ "GlassBlock", 10 }
 	};
 
+	static Dictionary<string, int> allsell = new Dictionary<string, int>() {
+		{ "Fish", 5 },
+		{ "Brick", 2 },
+		{ "BlueBrick", 2 },
+		{ "GreenBrick", 2 },
+		{ "YellowBrick", 2 },
+		{ "GlassBlock", 5 }
+	};
 
+	static Dictionary<string, int> fishsell = new Dictionary<string, int>() {
+		{ "Fish", 12 },
+	};
 		
 
 
@@ -92,7 +105,31 @@ public class SetupAllShops : MonoBehaviour {
 			shopGUI.GetComponent<ShopGUIScript> ().setUpShop(name, descr);
 			shopGUI.GetComponent<ShopGUIScript> ().setUpItems(itemValues);
 			shopGUI.gameObject.SetActive (false);
-		
+		}
+
+
+
+		foreach (Transform shop in sellShops) {
+			if (shop.name.Equals ("allsell")) {
+				itemValues = allsell;
+				name = "Flea Market";
+				descr = "Here you can sell all your stuff! (For a slightly worse price...)";
+			} 
+			else if(shop.name.Equals ("fishsell")){
+				itemValues = fishsell;
+				name = "The Fish Market";
+				descr = "Here you can sell fish.";
+			}
+			else {
+				itemValues = allsell;
+				name = "Flea Market";
+				descr = "Here you can sell all your stuff! (For a slightly worse price...)";
+			}
+
+			Transform sellGUI = shop.FindChild("SellGUI");
+			sellGUI.GetComponent<SellGUIScript> ().setUpShop(name, descr);
+			sellGUI.GetComponent<SellGUIScript> ().setUpItems(itemValues);
+			sellGUI.gameObject.SetActive (false);
 		}
 
 	}

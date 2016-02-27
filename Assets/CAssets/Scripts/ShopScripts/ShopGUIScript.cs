@@ -9,6 +9,7 @@ public class ShopGUIScript : ItemDisplayAbstract {
 
 	// Use this for initialization
 	void Start () {
+		Debug.Log ("SHOP gui script");
 		base.Start (4);	
 		payButton = transform.FindChild ("Panel").FindChild ("Options").FindChild ("ActionButton").GetComponent<Button> ();
 		payButton.interactable = false;
@@ -40,7 +41,7 @@ public class ShopGUIScript : ItemDisplayAbstract {
 
 		int nr = base.items [base.chosenItem];
 		string itemText = s;
-		string itemPrice = "" + nr;
+		string itemPrice = "Buy for: " + nr;
 		transform.FindChild ("Panel").FindChild ("Options").FindChild ("ItemText").GetComponent<Text> ().text = itemText;
 		transform.FindChild ("Panel").FindChild ("Options").FindChild ("ItemPrice").GetComponent<Text> ().text = itemPrice;
 

@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine.UI;
 using System.Collections.Generic;
 
-public class PayScript : MonoBehaviour {
+public class SellScript : MonoBehaviour {
 
 	Dictionary<string, int> inventory;
 	int toPay;
@@ -19,26 +19,16 @@ public class PayScript : MonoBehaviour {
 		{ "100", "HundredBill" },
 		{ "1000", "ThousandBill" }
 	};
+		
 
-    public static Dictionary<string, int> CoinsToValues = new Dictionary<string, int>() {
-        { "OneCoin", 1 },
-        { "FiveCoin", 5 },
-        { "TenCoin", 10 },
-        { "TwentyBill", 20 },
-        { "HundredBill", 100 },
-        { "ThousandBill", 1000 }
-    };
+	// Use this for initialization
+	void Start () {
 
-    // Use this for initialization
-    void Start () {
-
-
-			
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
-	
+
 	}
 
 	public void SetUpPayGUI(int price, string chosenItem, int amount){
@@ -53,12 +43,6 @@ public class PayScript : MonoBehaviour {
 
 		inventory = GameController.control.stringInventory;
 
-		Transform val = transform.FindChild ("PayPanel").FindChild ("ValuePanel").FindChild ("Values");
-		foreach(Transform type in val){
-			Text t = type.FindChild ("Text").GetComponent<Text> ();
-			t.text = "" + 0;
-		}
-			
 		itemAmount = amount;
 		item = chosenItem;
 		itemPrice = price;
@@ -70,15 +54,15 @@ public class PayScript : MonoBehaviour {
 		im.texture = tex;
 
 		Text amountText = transform.FindChild("PayPanel").FindChild ("FinishPanel").FindChild("Amount").
-            FindChild("AmountText").GetComponent<Text>();
-        amountText.text = "" + amount;
+			FindChild("AmountText").GetComponent<Text>();
+		amountText.text = "" + amount;
 
-    }
+	}
 
 	public void SetItemPrice(int price){
 		toPay = price;
 		Text t = transform.FindChild ("PayPanel").FindChild ("TextPanel").FindChild ("PriceText").GetComponent<Text>();
-		t.text = "You need to pay: " + price;
+		t.text = "You will get: " + price;
 		Text t2 = transform.FindChild ("PayPanel").FindChild ("TextPanel").FindChild ("MoneyText").GetComponent<Text>();
 		t2.text = "You have: " + GameController.control.GetBalance ();
 	}
@@ -95,7 +79,7 @@ public class PayScript : MonoBehaviour {
 	}
 
 	public void AmountTextIncrease(string value, int increaseAmount){
-		
+
 		Text t = transform.FindChild ("PayPanel").FindChild ("ValuePanel").FindChild ("Values").
 			FindChild (value).FindChild ("Text").GetComponent<Text>();
 		int amount = int.Parse (t.text);
@@ -108,7 +92,7 @@ public class PayScript : MonoBehaviour {
 		}
 
 	}
-		
+
 
 	public void ItemAmountDecrease(int decreaseAmount){
 		Text t = transform.FindChild ("PayPanel").FindChild ("FinishPanel").FindChild ("Amount").
@@ -132,49 +116,20 @@ public class PayScript : MonoBehaviour {
 			FindChild ("AmountText").GetComponent<Text>();
 		int amount = int.Parse (t.text);
 
-		amount = amount + increaseAmount;
-		t.text = "" + amount;
-		itemAmount = amount;
-		SetItemPrice (amount * itemPrice);
-	}
-
-	public void CheckPayment(){
-		int total = 0;
-		int[] typeAmounts = new int[10];
-		int i = 0;
-
-		Transform val = transform.FindChild ("PayPanel").FindChild ("ValuePanel").FindChild ("Values");
-		foreach(Transform type in val){
-			Text t = type.FindChild ("Text").GetComponent<Text> ();
-			int amount = int.Parse (t.text) * int.Parse (type.name);
-
-			total = total + amount;
-			//Debug.Log("type amount for " + type.name + " is: " + t.text);
-			typeAmounts [i] = int.Parse (t.text);
-			i++;
+		if (inventory[item] >= amount + increaseAmount) {
+			amount = amount + increaseAmount;
+			t.text = "" + amount;
+			itemAmount = amount;
+			SetItemPrice (amount * itemPrice);
 		}
-
-		if (total == toPay) {
-			FinishPayment (typeAmounts);
-		} else {
-			Text t = transform.FindChild ("PayPanel").FindChild ("FinishPanel").FindChild ("PayText").GetComponent<Text>();
-			t.text = "Wrong!" + '\n' + "You paid " + total;
-		}
-
 	}
+		
 
-	private void FinishPayment(int[] amounts){
-
-		GameController.control.RemoveItems ("OneCoin", amounts[0]);
-		GameController.control.RemoveItems ("FiveCoin", amounts[1]);
-		GameController.control.RemoveItems ("TenCoin", amounts[2]);
-		GameController.control.RemoveItems ("TwentyBill", amounts[3]);
-		GameController.control.RemoveItems ("HundredBill", amounts[4]);
-
-		GameController.control.AddItems (item, itemAmount);
+	public void FinishPayment(){
+		GameController.control.RemoveItems (item, itemAmount);
+		GameController.control.AddBalance (toPay);
 
 		gameObject.SetActive (false);
-
 	}
 
 	public void QuitPayment(){
