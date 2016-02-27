@@ -15,7 +15,7 @@ public class Building : MonoBehaviour {
 	private string currentItemString;
 
     public GameObject player;
-    private GameObject camera;
+    private GameObject cam;
     private Vector3 currentMousePosition;
 
     private bool markerSnapped = false;
@@ -36,7 +36,7 @@ public class Building : MonoBehaviour {
         maxMarkerDistance = 4;
 
         player = GameObject.FindGameObjectWithTag("Player");
-        camera = GameObject.FindGameObjectWithTag("MainCamera");
+        cam = GameObject.FindGameObjectWithTag("MainCamera");
         buildgui = GameObject.Find("BuildGUI").GetComponent<BuildGUIScript>();
 
         //ITEMS CHEAT FOR TESTING!
@@ -163,7 +163,7 @@ public class Building : MonoBehaviour {
                 }
 
 
-                // Mobile delete block on touch. TO FIX: DELETES WHEN ANY TOUCH IS REGISTERED
+                // Mobile delete block on touch. UNTESTED with mousePosition
                 if(Input.touches.Length != 0)
                 {
                     Ray touchRay = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -206,27 +206,36 @@ public class Building : MonoBehaviour {
 
     private IEnumerator PlaceItemsAsHollowBox()
     {
+        //Vector3 difference = snapCurrentPosition - snapStartPosition;
+        //print(difference);
+        //int blocksX = Mathf.Min(100, 1 + Mathf.FloorToInt(difference.x / currentItemBounds.size.x));
+        //int blocksY = Mathf.Min(100, 1 + Mathf.FloorToInt(difference.y / currentItemBounds.size.y));
+        //int blocksZ = Mathf.Min(100, 1 + Mathf.FloorToInt(difference.z / currentItemBounds.size.z));
+        //int dirX = difference.x >= 0 ? 1 : -1;
+        //int dirY = difference.y >= 0 ? 1 : -1;
+        //int dirZ = difference.z >= 0 ? 1 : -1;
+
         // Calculate length of box in every dimension
         float distanceX = snapCurrentPosition.x - snapStartPosition.x;
         float distanceY = snapCurrentPosition.y - snapStartPosition.y;
         float distanceZ = snapCurrentPosition.z - snapStartPosition.z;
-
+        
         // Determine directions box is to be offset toward
         int dirX = distanceX >= 0 ? 1 : -1;
         int dirY = distanceY >= 0 ? 1 : -1;
         int dirZ = distanceZ >= 0 ? 1 : -1;
-
+        
         // Calculate how many blocks fit in every dimension, with a max for performance reasons
         int blocksX = Mathf.Min(40, 1 + Mathf.FloorToInt(Mathf.Abs(distanceX) / currentItemBounds.size.x));
         int blocksY = Mathf.Min(40, 1 + Mathf.FloorToInt(Mathf.Abs(distanceY) / currentItemBounds.size.y));
         int blocksZ = Mathf.Min(40, 1 + Mathf.FloorToInt(Mathf.Abs(distanceZ) / currentItemBounds.size.z));
-
+        
         // Place all blocks in a hollow box form
-        for (int i = 0; i < blocksX; i++)
+        for (int i = 0; i < Mathf.Abs(blocksX); i++)
         {
-            for (int j = 0; j < blocksY; j++)
+            for (int j = 0; j < Mathf.Abs(blocksY); j++)
             {
-                for (int k = 0; k < blocksZ; k++)
+                for (int k = 0; k < Mathf.Abs(blocksZ); k++)
                 {
                     if (i == 0 || j == 0 || k == 0 ||
                        i == blocksX - 1 || j == blocksY - 1 || k == blocksZ - 1)
@@ -260,6 +269,7 @@ public class Building : MonoBehaviour {
         {
             if (hit.collider != null && !hit.collider.gameObject.name.Equals("Terrain") && !markerSnapped)
             {
+                currentItemMarker.transform.rotation = hit.collider.transform.rotation;
                 currentItemMarker.transform.position = hit.collider.bounds.center + Vector3.Scale(hit.collider.gameObject.GetComponent<Renderer>().bounds.size, hit.normal);
                 // Much smurt.
             }
@@ -267,11 +277,11 @@ public class Building : MonoBehaviour {
         else
         {
             currentItemMarker.transform.position = ray.GetPoint(maxMarkerDistance);
+            currentItemMarker.transform.rotation = Quaternion.identity; //Quaternion.identity;
+                                                                              //player.transform.rotation; to make item turn with player
+                                                                              //Quaternion.identity; to make item never turn, all placed items align (not to grid)
         }
 
-        currentItemMarker.transform.rotation = player.transform.rotation; //Quaternion.identity;
-        //player.transform.rotation; to make item turn with player
-        //Quaternion.identity; to make item never turn, all placed items align (not to grid)
 
     }
 }
