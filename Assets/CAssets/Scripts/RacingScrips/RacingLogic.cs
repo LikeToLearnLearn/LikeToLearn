@@ -9,7 +9,7 @@ public class RacingLogic :/* MonoBehaviour//*/MiniGameAbstract
     private float f;
     private float answere;
 
-    public GUIText scoreText;
+    //public GUIText scoreText;
     public GameObject text;
 
     private GameObject sign;
@@ -53,6 +53,8 @@ public class RacingLogic :/* MonoBehaviour//*/MiniGameAbstract
         message = false;
         //GotRight = false;
         GameStarted = false;
+        Hud = null;
+        car = null;
         
 
 
@@ -68,23 +70,26 @@ public class RacingLogic :/* MonoBehaviour//*/MiniGameAbstract
 
         //if (numbersLeft > 0 && timeLeft < 0)
         //{
-           // if (!GotRight)
-           // {
-                //print("Putting");
-                // if(numbersLeft == right) Instantiate(prefabRight, new Vector3((SetPickUpPosition(5)) + x, y, (SetPickUpPosition(10)) + z), Quaternion.identity);
-                //else
-                //Instantiate(prefabWrong, new Vector3((SetPickUpPosition(5)) + 2 + x, y, (SetPickUpPosition(10)) - 2 + z), Quaternion.identity);
-                //numbersLeft--;
-                //timeLeft = 1.0f;
-           // }
-            
+        // if (!GotRight)
+        // {
+        //print("Putting");
+        // if(numbersLeft == right) Instantiate(prefabRight, new Vector3((SetPickUpPosition(5)) + x, y, (SetPickUpPosition(10)) + z), Quaternion.identity);
+        //else
+        //Instantiate(prefabWrong, new Vector3((SetPickUpPosition(5)) + 2 + x, y, (SetPickUpPosition(10)) - 2 + z), Quaternion.identity);
+        //numbersLeft--;
+        //timeLeft = 1.0f;
+        // }
+
 
         //}
-       // else GotRight = false;
+        // else GotRight = false;
 
+        
         if (!GetPlaying()&& GameStarted)
         {
             player.SetActive(true);
+            print("Hämtade: " + player);
+            car = GetCar();
             car.SetActive(false);
             Hud.SetActive(false);
             GettingMoney(GetCurrentScore());
@@ -126,9 +131,19 @@ public class RacingLogic :/* MonoBehaviour//*/MiniGameAbstract
         car = c;
     }
 
+    public GameObject GetCar()
+    {
+        return car;
+    }
+
     public void SetHud(GameObject h)
     {
         Hud = h;
+    }
+
+    public GameObject GetHud()
+    {
+        return Hud;
     }
 
     public void SetPlayerCamera(Camera c)
@@ -151,11 +166,11 @@ public class RacingLogic :/* MonoBehaviour//*/MiniGameAbstract
         return GameStarted;
     }
 
-    public void SetGotRight(bool set)
+   /* public void SetGotRight(bool set)
     {
         //GotRight = set;
 
-    }
+    }*/
 
     public void PutMessage(string s)
     {
@@ -163,11 +178,11 @@ public class RacingLogic :/* MonoBehaviour//*/MiniGameAbstract
         MessageString = s;
     }
 
-    public void SetQuestion(Question qu)
+   /* public void SetQuestion(Question qu)
     {
         q = qu;
 
-    }
+    }*/
    /* public override
      Question GetQuestion()
     {
@@ -255,10 +270,10 @@ public class RacingLogic :/* MonoBehaviour//*/MiniGameAbstract
         return sign;
     }
 
-   public float SetValue(float i)
+   /*public float SetValue(float i)
     {
         return Mathf.Floor(Random.value * i);
-    }
+    }*/
 
     /*public float SetPickUpPosition(float i)
     {
@@ -341,8 +356,6 @@ public class RacingLogic :/* MonoBehaviour//*/MiniGameAbstract
                 Debug.Log("Destroyed: " + o);
                 Destroy(o, 0);
                 
-
-
             }
         }
 
@@ -357,6 +370,8 @@ public class RacingLogic :/* MonoBehaviour//*/MiniGameAbstract
                 GameController.control.AddItem(GameController.Item.HundredBill);
                 Hundredbills++;
             }
+
+            Debug.Log("Got : " + Hundredbills + "hundredbills");
             points = points - (Hundredbills * 100);
 
             int TenCoins = 0;
@@ -365,12 +380,13 @@ public class RacingLogic :/* MonoBehaviour//*/MiniGameAbstract
                 GameController.control.AddItem(GameController.Item.TenCoin);
                 TenCoins++;
             }
-
+            Debug.Log("Got : " + TenCoins  + "tencoins");
             points = points - (TenCoins * 10);
             for (int i = 0; i < points; i++)
             {
                 GameController.control.AddItem(GameController.Item.OneCoin);
             }
+            Debug.Log("Got : " + points + "onecoins");
         }
     }
 

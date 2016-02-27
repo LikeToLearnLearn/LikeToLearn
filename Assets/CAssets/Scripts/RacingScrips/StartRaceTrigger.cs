@@ -5,13 +5,13 @@ using UnityEngine.SceneManagement;
 public class StartRaceTrigger : MonoBehaviour {
 
     public GameObject car;
-    public GameObject player;
+    //public GameObject player;
     public GameObject Hud;
-    public Transform prefabWrong;
+    //public Transform prefabWrong;
     //public Transform prefabRight;
     //public bool passed;
     //public GameObject light;
-    private GameObject sign;
+    //private GameObject sign;
 
 
     private RacingLogic racingLogic;
@@ -53,6 +53,7 @@ public class StartRaceTrigger : MonoBehaviour {
             racingLogic.SetHud(Hud);
             //racingLogic.CreatePickups(prefabWrong, prefabRight, 285, 120, 335 );
             car.SetActive(true);
+            print("Carpoisition: " + car.transform.position);
             Hud.SetActive(true);
             print("Mjaou");
             //var CarCamera = car.GetComponent<Camera>();
@@ -65,10 +66,11 @@ public class StartRaceTrigger : MonoBehaviour {
             //else PlayerCamera.enabled = false;
             //racingLogic.SetPlayerCamera(PlayerCamera);
 
-            racingLogic.SetPlayer(c.gameObject);
             print("Sparade: " + c.gameObject);
+            racingLogic.SetPlayer(c.gameObject);
+            
             c.gameObject.SetActive(false);
-            c.gameObject.transform.position = new Vector3(282, 119, 318);
+            c.gameObject.transform.position = new Vector3(360, 120, 340);
             
             //Debug.Log("Found object: " + GetComponentInParent("PlayerController").name);
             //Debug.Log("StartTrigger: " + c. name);

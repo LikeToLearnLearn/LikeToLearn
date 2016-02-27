@@ -5,7 +5,7 @@ public class MuliplicationTrigger : MonoBehaviour {
 
     public GameObject text;
    // public GameObject text2;
-    public GameObject PlayerCar;
+    
     private RacingLogic racingLogic;
     public Transform prefabWrong;
     //public Transform prefabRight;
@@ -21,10 +21,12 @@ public class MuliplicationTrigger : MonoBehaviour {
     // private bool passed;
     //private Vector3 offset;
     private bool turned;
+    private GameObject PlayerCar;
 
-    private Vector3 pointA;
-    private Vector3 pointB;
-    private Vector3 pointC;
+    //private Vector3 pointA;
+    //private Vector3 pointB;
+    //private Vector3 pointC;
+    //private Vector3 pointD;
 
     //private Vector3 pointC;
 
@@ -41,6 +43,8 @@ public class MuliplicationTrigger : MonoBehaviour {
             Debug.Log("Cannot find 'RacingLogic' script");
         }
         turned = false;
+        PlayerCar = null;
+        
 
       
         //racingLogic.SetPointC(pointC);
@@ -49,12 +53,17 @@ public class MuliplicationTrigger : MonoBehaviour {
 
     }
 
-    
+
 
     void LateUpdate()
     {
-        if(racingLogic.GetDirection() == 1) text.transform.position = new Vector3(PlayerCar.transform.position.x -4, PlayerCar.transform.position.y + 4, PlayerCar.transform.position.z + 4) ;
-        else text.transform.position = new Vector3(PlayerCar.transform.position.x + 4, PlayerCar.transform.position.y + 4, PlayerCar.transform.position.z - 4);
+        PlayerCar = racingLogic.GetCar();
+        if (PlayerCar != null)
+        {
+            if (racingLogic.GetDirection() == 1) text.transform.position = new Vector3(PlayerCar.transform.position.x - 4, PlayerCar.transform.position.y + 4, PlayerCar.transform.position.z + 4);
+            else text.transform.position = new Vector3(PlayerCar.transform.position.x + 4, PlayerCar.transform.position.y + 4, PlayerCar.transform.position.z - 4);
+
+        }
     }
 
     // Update is called once per frame
@@ -73,7 +82,7 @@ public class MuliplicationTrigger : MonoBehaviour {
 
             racingLogic.DeactivateSign();
             racingLogic.SetSign(text);
-            racingLogic.SetPlayer(PlayerCar);
+            //racingLogic.SetPlayer(PlayerCar);
             text.SetActive(true);
             if (turned)
             {
@@ -105,13 +114,14 @@ public class MuliplicationTrigger : MonoBehaviour {
 
             racingLogic.DeactivateSign();
             racingLogic.SetSign(text);
-            racingLogic.SetPlayer(PlayerCar);
+            text.SetActive(true);
+           //racingLogic.SetPlayer(PlayerCar);
             if (!turned)
             {
                 text.transform.Rotate(0, 180, 0);
                 turned = true;
             }
-            text.SetActive(true);
+           
             racingLogic.CreateMultiplication(text);
 
             //Debug.Log("Right answere :" + racingLogic.GetMultiplicationAnswere());

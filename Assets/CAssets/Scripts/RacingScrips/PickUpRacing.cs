@@ -86,7 +86,7 @@ public class PickUpRacing : MonoBehaviour {
                 racingLogic.AddTime(25);
                 racingLogic.AddScore(5f);
                 racingLogic.PutMessage("Yes!!");
-                racingLogic.SetGotRight(true);
+                //racingLogic.SetGotRight(true);
                 //Debug.Log(points);
                 racingLogic.DestroyAllPickUps();
                 GameController.control.AddItem(GameController.Item.RedBalloon);

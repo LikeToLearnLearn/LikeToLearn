@@ -2,12 +2,11 @@
 using System.Collections;
 using UnityEngine.SceneManagement;
 
-public class ExitRaceTrigger : MonoBehaviour {
+public class DriveIntoWaterTrigger : MonoBehaviour {
 
-    public GameObject car;
-    public GameObject Hud;
-    //public GameObject player;
-
+    private GameObject car;
+    private  GameObject Hud;
+    private GameObject Player;
     private RacingLogic racingLogic;
 
 	// Use this for initialization
@@ -22,6 +21,7 @@ public class ExitRaceTrigger : MonoBehaviour {
         {
             Debug.Log("Cannot find 'RacingLogic' script");
         }
+        
 
     }
 	
@@ -32,9 +32,7 @@ public class ExitRaceTrigger : MonoBehaviour {
     
     void OnTriggerEnter(Collider c)
     {
-          GameObject Player = racingLogic.GetPlayer();
-          print("Hämtade: " + Player);
-          print("Playerpoisition: " + Player.transform.position);
+         
 
         // car = GameObject.Find("Car");
         //Debug.Log("collision det with" + c.name);
@@ -42,14 +40,21 @@ public class ExitRaceTrigger : MonoBehaviour {
         //if (c.Equals(GameObject.Find("Car")))
         {
 
-          
+            Player = racingLogic.GetPlayer();
             print("Hämtade: " + Player);
+            car = racingLogic.GetCar();
+            print("Hämtade: " + car);
+            print("Playerpoisition: " + Player.transform.position);
+            Hud = racingLogic.GetHud();
             Player.SetActive(true);
+            Debug.Log("Huden som stängs av är: "+ Hud);
+            Debug.Log("Bilen som stängs av är: " + car);
             car.SetActive(false);
             Hud.SetActive(false);
+            
             racingLogic.GettingMoney(racingLogic.GetPoints());
             racingLogic.SetGameStarted(false);
-            car.transform.position = new Vector3(318, 120, 318);
+            car.transform.position = new Vector3(329, 120, 318);
             //racingLogic.GetPlayer().SetActive(true);
 
             //var PlayerCamera = racingLogic.GetPlayerCamera();

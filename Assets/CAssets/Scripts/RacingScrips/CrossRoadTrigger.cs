@@ -38,7 +38,7 @@ public class CrossRoadTrigger : MonoBehaviour
 
         if (c.gameObject.CompareTag("PlayerCar"))
         {
-            way = racingLogic.SetValue(100);
+            way = Mathf.Floor(Random.value * 100); //racingLogic.SetValue(100);
             Debug.Log("way: " + way);
           
             if (way < 50)
