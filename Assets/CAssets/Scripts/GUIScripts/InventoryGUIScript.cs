@@ -28,6 +28,7 @@ public class InventoryGUIScript : ItemDisplayAbstract {
 		Dictionary<string, int> oldDictionary2 = base.hideMoney (oldDictionary);
 		Dictionary<string, int> newDictionary = base.hideEmptyItems (oldDictionary2);
 		setUpItems (newDictionary);
+		SetMoney ();
 	}
 
 
@@ -51,6 +52,11 @@ public class InventoryGUIScript : ItemDisplayAbstract {
 		transform.FindChild ("Panel").FindChild ("Options").FindChild ("ItemText").GetComponent<Text> ().text = itemText;
 		transform.FindChild ("Panel").FindChild ("Options").FindChild ("ItemPrice").GetComponent<Text> ().text = "Amount: " + itemPrice;
 
+	}
+
+	private void SetMoney(){
+		int money = GameController.control.GetBalance ();
+		transform.FindChild ("Panel").FindChild ("MoneyPanel").FindChild ("MoneyText").GetComponent<Text> ().text = "Money: " + money;
 	}
 
 

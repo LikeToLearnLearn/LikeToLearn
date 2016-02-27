@@ -14,8 +14,9 @@ public class BuildGUIScript : ItemDisplayAbstract {
 		base.Start (5);	
 //		Debug.Log ("extended");
 		Dictionary<string, int> oldDictionary = GameController.control.stringInventory;
-		Dictionary<string, int> oldDictionary2 = base.hideMoney (oldDictionary);
-		Dictionary<string, int> newDictionary = base.hideEmptyItems (oldDictionary2);
+		//Dictionary<string, int> oldDictionary2 = base.hideMoney (oldDictionary);
+		//Dictionary<string, int> newDictionary = base.hideEmptyItems (oldDictionary2);
+		Dictionary<string, int> newDictionary = base.hideEmptyItems (oldDictionary);
 		setUpItems (newDictionary);
 	}
 	
@@ -34,6 +35,8 @@ public class BuildGUIScript : ItemDisplayAbstract {
 	}
 */
 	public void actionButtonPush(){
+		GameController.control.AddItem ("Fish");
+		GameController.control.AddItem ("TenCoin");
 
 	}
 

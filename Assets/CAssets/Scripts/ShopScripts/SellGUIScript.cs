@@ -40,7 +40,9 @@ public class SellGUIScript : ItemDisplayAbstract {
 		base.selectItem (s);
 		int nr = base.items [base.chosenItem];
 		payButton.interactable = false;
-		if (GameController.control.stringInventory.ContainsKey (base.chosenItem)) {
+		//GameController.control.stringInventory.ContainsKey (base.chosenItem)
+
+		if (GameController.control.stringInventory.ContainsKey (base.chosenItem) && GameController.control.stringInventory[base.chosenItem] > 0) {
 			string itemText = s;
 			string itemPrice = "Sell for: " + nr;
 			transform.FindChild ("Panel").FindChild ("Options").FindChild ("ItemText").GetComponent<Text> ().text = itemText;
