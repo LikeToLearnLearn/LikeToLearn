@@ -70,7 +70,7 @@ public class BoatController : MonoBehaviour {
             //Keep boat upright
             Quaternion q = Quaternion.FromToRotation(transform.up, Vector3.up);
             float buoyantTorque = 120f;
-            rb.AddTorque(q.x * buoyantTorque * 10, q.y * buoyantTorque * 10, q.z * buoyantTorque * 10);
+            rb.AddTorque(q.x * buoyantTorque * 10, q.y * buoyantTorque, q.z * buoyantTorque * 10);
 
         }
     }
