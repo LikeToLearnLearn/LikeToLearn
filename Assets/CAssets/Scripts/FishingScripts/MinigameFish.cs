@@ -23,10 +23,17 @@ public class MinigameFish : MonoBehaviour {
 
     private bool gameOver = false;
 
+    private GameObject ihc;
+    private bool gameStart = false;
+
     // Use this for initialization
     void Start () {
         mhc = GameObject.FindWithTag("MinigameHud");
         mhc.SetActive(false);
+
+        ihc = GameObject.FindWithTag("InstructionHud");
+        ihc.SetActive(false);
+
         GameObject racingLogicObject = GameObject.FindWithTag("FishingController");
         if (racingLogicObject != null)
         {
@@ -104,21 +111,11 @@ public class MinigameFish : MonoBehaviour {
 
 
             //Create gui: display crosshair, question, score, timer...
-            play = true;
+            
             //fishingLogic.ActiveQuestion();
             //fishingLogic.ActivateSign();
 
-            mhc.SetActive(true);
-            mhc.GetComponent<MinigameHUDController>().GameStart();
-
-            fishingLogic.UpdateScore();
-
-            fishingLogic.StartGame();
-
-            //Create 4*n math question
-            fishingLogic.CreateQuestion(answers);
-            fishingLogic.SetQuestion();
-            CreatePickups();
+            ihc.SetActive(true);
         }
 
     }
@@ -144,7 +141,7 @@ public class MinigameFish : MonoBehaviour {
 
     Vector3 GeneradPosition()
     {
-        Vector3 position = new Vector3(SetValue(5) - 5, -0.95f, SetValue(5) - 10);
+        Vector3 position = new Vector3(SetValue(5) - 5, -0.95f, SetValue(5) - 14);
 
         fishes = GameObject.FindGameObjectsWithTag("Fish");
 
@@ -152,7 +149,7 @@ public class MinigameFish : MonoBehaviour {
         {
             while (position == go.transform.position)
                 position.x = SetValue(5) - 5;
-                position.z = SetValue(5) - 10;
+                position.z = SetValue(5) - 14;
         }
         return position;
     }
@@ -194,5 +191,22 @@ public class MinigameFish : MonoBehaviour {
         //fishingLogic.DeactivateQuestion();
         //fishingLogic.DeactivateSign();
         DestroyAllPickups();
+    }
+
+    public void GameStart()
+    {
+        ihc.SetActive(false);
+        play = true;
+        mhc.SetActive(true);
+        mhc.GetComponent<MinigameHUDController>().GameStart();
+
+        fishingLogic.UpdateScore();
+
+        fishingLogic.StartGame();
+
+        //Create 4*n math question
+        fishingLogic.CreateQuestion(answers);
+        fishingLogic.SetQuestion();
+        CreatePickups();
     }
 }
