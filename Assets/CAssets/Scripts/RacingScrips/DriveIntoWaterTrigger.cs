@@ -54,6 +54,12 @@ public class DriveIntoWaterTrigger : MonoBehaviour {
             
             racingLogic.GettingMoney(racingLogic.GetPoints());
             racingLogic.SetGameStarted(false);
+            /*
+            Quaternion rot = car.rotation;
+            rot[0] = 0; //null rotation X
+            rot[2] = 0; //null rotation Z
+            car.rotation = rot;*/
+
             car.transform.position = new Vector3(329, 120, 318);
             //racingLogic.GetPlayer().SetActive(true);
 

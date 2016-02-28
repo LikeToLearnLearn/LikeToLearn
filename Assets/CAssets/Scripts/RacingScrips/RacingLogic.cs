@@ -361,6 +361,9 @@ public class RacingLogic :/* MonoBehaviour//*/MiniGameAbstract
 
     public void GettingMoney(float score)
     {
+        GameController.control.AddBalance((int)score);
+
+        /*
         int Hundredbills = 0;
         int points = Mathf.FloorToInt(score);
         if (GetCurrentScore() > 0)
@@ -388,6 +391,7 @@ public class RacingLogic :/* MonoBehaviour//*/MiniGameAbstract
             }
             Debug.Log("Got : " + points + "onecoins");
         }
+        */
     }
 
     public void CreatePickups(Transform prefab, Vector3 A, Vector3 B, Vector3 C, Vector3 D)
