@@ -124,6 +124,7 @@ public class MinigameFish : MonoBehaviour {
     {
         if (c.tag.Equals("Player"))
         {
+            ihc.SetActive(false);
             gameOver = false;
             EndGame();
         }

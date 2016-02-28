@@ -55,6 +55,7 @@ public class Fish : MonoBehaviour
         q = fishingLogic.GetQuestion();
         answer = q.GetAlternative();
         text.GetComponent<TextMesh>().text = answer;
+        text.GetComponent<TextMesh>().color = Color.white;
         Debug.Log("Generated answer: " + answer);
     }
 
@@ -70,6 +71,10 @@ public class Fish : MonoBehaviour
             rightFish = true;
             fishingLogic.SetAnswered(true);
             Destroy(gameObject);
+        }
+        else
+        {
+            text.GetComponent<TextMesh>().color = new Color(0.7F, 0, 0, 0.7F);
         }
     }
 
