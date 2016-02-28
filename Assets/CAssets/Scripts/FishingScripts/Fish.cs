@@ -65,7 +65,7 @@ public class Fish : MonoBehaviour
         if (q.IsCorrect())
         {
             fishingLogic.AddScore(point);
-            fishingLogic.UpdateScore();
+            //fishingLogic.UpdateScore();
             //add fish
             GameController.control.AddItem(GameController.Item.Fish);
             rightFish = true;
@@ -74,7 +74,7 @@ public class Fish : MonoBehaviour
         }
         else
         {
-            text.GetComponent<TextMesh>().color = new Color(0.7F, 0, 0, 0.7F);
+            text.GetComponent<TextMesh>().color = new Color(0.8F, 0.1F, 0.1F, 0.8F);
         }
     }
 

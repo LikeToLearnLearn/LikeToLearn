@@ -58,7 +58,6 @@ public class MinigameFish : MonoBehaviour {
         }
         if (play)
         {
-            //ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             ray = Camera.main.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
             
             if (Physics.Raycast(ray, out hit))
@@ -87,7 +86,6 @@ public class MinigameFish : MonoBehaviour {
             {
                 fishes = GameObject.FindGameObjectsWithTag("Fish");
                 fishingLogic.CreateQuestion(answers);
-                fishingLogic.SetQuestion();
                 foreach (GameObject i in fishes)
                 {
                     f = i.GetComponent<Fish>();
@@ -111,10 +109,6 @@ public class MinigameFish : MonoBehaviour {
 
 
             //Create gui: display crosshair, question, score, timer...
-            
-            //fishingLogic.ActiveQuestion();
-            //fishingLogic.ActivateSign();
-
             ihc.SetActive(true);
         }
 
@@ -189,8 +183,6 @@ public class MinigameFish : MonoBehaviour {
         }
         play = false;
         fishingLogic.StopGame();
-        //fishingLogic.DeactivateQuestion();
-        //fishingLogic.DeactivateSign();
         DestroyAllPickups();
     }
 
@@ -201,13 +193,8 @@ public class MinigameFish : MonoBehaviour {
         mhc.SetActive(true);
         mhc.GetComponent<MinigameHUDController>().GameStart();
 
-        fishingLogic.UpdateScore();
-
         fishingLogic.StartGame();
-
-        //Create 4*n math question
         fishingLogic.CreateQuestion(answers);
-        fishingLogic.SetQuestion();
         CreatePickups();
     }
 }

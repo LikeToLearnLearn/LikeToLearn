@@ -32,43 +32,8 @@ public class FishingLogic : MiniGameAbstract
         answered = s;
     }
 
-    public void SetSign(GameObject t)
-    {
-        score = t;
-    }
-
-    public void ActiveQuestion()
-    {
-        text.SetActive(true);
-    }
-
-    public void ActivateSign()
-    {
-        score.SetActive(true);
-    }
-
-    public void DeactivateSign()
-    {
-        score.SetActive(false);
-    }
-
-    public void DeactivateQuestion()
-    {
-        text.SetActive(false);
-    }
-
     public float SetValue(float i)
     {
         return Mathf.Floor(Random.value * i);
-    }
-
-    public void UpdateScore()
-    {
-        score.GetComponent<TextMesh>().text = "Score: " + GetCurrentScore();
-    }
-
-    public void SetQuestion()
-    {
-		text.GetComponent<TextMesh>().text = GetQuestion().GetQuestion();
     }
 }
