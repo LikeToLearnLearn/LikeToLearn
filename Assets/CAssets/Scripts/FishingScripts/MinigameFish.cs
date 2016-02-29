@@ -179,7 +179,7 @@ public class MinigameFish : MonoBehaviour {
         else
         {
             mhc.SetActive(false);
-            fishingLogic.cleanScore();
+            fishingLogic.ClearScore();
         }
         play = false;
         fishingLogic.StopGame();
