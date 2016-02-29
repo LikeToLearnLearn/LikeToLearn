@@ -116,7 +116,6 @@ public class SetupAllShops : MonoBehaviour {
 				descr = "Here you can sell all your stuff! (For a slightly worse price...)";
 			} 
 			else if(shop.name.Equals ("fishsell")){
-				Debug.Log ("Setting up fish shop");
 				itemValues = fishsell;
 				name = "The Fish Market";
 				descr = "Here you can sell fish.";

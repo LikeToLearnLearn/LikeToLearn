@@ -10,7 +10,6 @@ public class SellGUIScript : ItemDisplayAbstract {
 
 	// Use this for initialization
 	void Start () {
-		Debug.Log ("SELL gui script");
 		base.Start (4);	
 		payButton = transform.FindChild ("Panel").FindChild ("Options").FindChild ("ActionButton").GetComponent<Button> ();
 		payButton.interactable = false;
@@ -49,7 +48,7 @@ public class SellGUIScript : ItemDisplayAbstract {
 			transform.FindChild ("Panel").FindChild ("Options").FindChild ("ItemPrice").GetComponent<Text> ().text = itemPrice;
 			payButton.interactable = true;
 		} else {
-			string itemText = "You don't have this item!";
+			string itemText = "You don't " + '\n' +  "have this " + '\n' +  "item!";
 			string itemPrice = "Sell for:" + nr;
 			transform.FindChild ("Panel").FindChild ("Options").FindChild ("ItemText").GetComponent<Text> ().text = itemText;
 			transform.FindChild ("Panel").FindChild ("Options").FindChild ("ItemPrice").GetComponent<Text> ().text = itemPrice;
