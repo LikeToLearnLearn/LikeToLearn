@@ -65,7 +65,6 @@ public class Fish : MonoBehaviour
         if (q.IsCorrect())
         {
             fishingLogic.AddScore(point);
-            //fishingLogic.UpdateScore();
             //add fish
             GameController.control.AddItem(GameController.Item.Fish);
             rightFish = true;

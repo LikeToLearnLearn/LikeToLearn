@@ -47,16 +47,27 @@ public class MinigameHUDController : MonoBehaviour {
 
         // Update score
         scoreText.text = "Score: " + minigame.GetCurrentScore().ToString();
-
-        UpdateQuestion();
-	}
+        
+        if (minigame.GetQuestion() == null)
+        {
+            questionText.text = "";
+        }
+        else if (questionText.text != minigame.GetQuestion().GetQuestion())
+        {
+            UpdateQuestion();
+        }
+    }
 
 
     // Update question
     private void UpdateQuestion()
     {   
-		if(minigame.GetQuestion() != null) questionText.text = minigame.GetQuestion().GetQuestion();
+	if (minigame.GetQuestion() != null)
+	{
+		questionText.text = minigame.GetQuestion().GetQuestion();
+	}
         // TODO add effect
+        questionText.GetComponent<Animator>().SetTrigger("OnNewQuestion");
     }
 
     public void GameStart()

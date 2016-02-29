@@ -48,7 +48,7 @@ public abstract class MiniGameAbstract : MonoBehaviour
         GameController.control.AddExp(currentScore/2);
 
         playing = false;
-    }
+    }   
 
 
     public virtual float GetPlayedTime()

@@ -63,7 +63,7 @@ public class QuestionPoint : MonoBehaviour {
 
             if (guess == correctAnswer)
             {
-                boatgame.AnsweredCorrect(difficultyAsInt);
+               // boatgame.AnsweredCorrect();
 
 
                 rewarded = true;
@@ -71,7 +71,7 @@ public class QuestionPoint : MonoBehaviour {
             }
             else
             {
-                boatgame.AnsweredFalse(difficultyAsInt);
+               // boatgame.AnsweredFalse();
             }
         }
 
