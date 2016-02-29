@@ -12,9 +12,10 @@ public class InventoryGUIScript : ItemDisplayAbstract {
 	void Start () {
 		base.Start (10);	
 		Dictionary<string, int> oldDictionary = GameController.control.stringInventory;
-		Dictionary<string, int> oldDictionary2 = base.hideMoney (oldDictionary);
-		Dictionary<string, int> newDictionary = base.hideEmptyItems (oldDictionary2);
-		setUpItems (newDictionary);
+        //Dictionary<string, int> oldDictionary2 = base.hideMoney (oldDictionary);
+        //Dictionary<string, int> newDictionary = base.hideEmptyItems (oldDictionary2);
+        Dictionary<string, int> newDictionary = base.hideEmptyItems(oldDictionary);
+        setUpItems (newDictionary);
 	}
 
 	// Update is called once per frame
