@@ -12,11 +12,11 @@ public class RandomMovementScript : MonoBehaviour {
     void Start()
     {
         currentSpeed = 0f;
-        maxSpeed = 400f;
+        maxSpeed = 500f;
         rb = GetComponent<Rigidbody>();
     }
 
-    
+        
     void FixedUpdate()
     {
 
@@ -26,10 +26,13 @@ public class RandomMovementScript : MonoBehaviour {
         Quaternion q = Quaternion.FromToRotation(transform.up, Vector3.up);
         float buoyantTorque = 10f;
         rb.AddTorque(q.x * 1 * buoyantTorque, 0, q.y * buoyantTorque);
-        
-        Quaternion deltaRotation = Quaternion.Euler(new Vector3(rb.rotation.x + Random.Range(-4,5), rb.rotation.y + Random.Range(-5,5), rb.rotation.z + Random.Range(-4, 5) * Time.fixedDeltaTime));
-        rb.MoveRotation(rb.rotation * deltaRotation);
-        
+
+        if (Random.Range(0, 100) == 0)
+        {
+            Quaternion deltaRotation = Quaternion.Euler(new Vector3(rb.rotation.x + Random.Range(-4,5), rb.rotation.y + Random.Range(-5,5), rb.rotation.z + Random.Range(-4, 5) * Time.fixedDeltaTime));
+            rb.MoveRotation(rb.rotation * deltaRotation);
+        }
+
         if (Physics.Raycast(transform.position, Vector3.forward, 5))
         {
             //print("something in front");
@@ -52,7 +55,7 @@ public class RandomMovementScript : MonoBehaviour {
 
     void OnCollisionStay()
     {
-        if (Random.Range(0, 1000) == 0)
+        if (Random.Range(0, 10000) == 0)
         {
             Quaternion deltaRotation = Quaternion.Euler(new Vector3(rb.rotation.x + 180f, rb.rotation.y + 180f, rb.rotation.z + 180f) * 5 * Time.fixedDeltaTime);
             rb.MoveRotation(rb.rotation * deltaRotation);
