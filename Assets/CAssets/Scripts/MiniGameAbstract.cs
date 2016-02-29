@@ -33,7 +33,8 @@ public abstract class MiniGameAbstract : MonoBehaviour
 
     public virtual void StartGame()
     {
-        remainingTime = 0;
+        ClearScore();
+        ClearRemainingTime();
         startTime = Time.timeSinceLevelLoad;
         AddTime(90f); // 90s default remaining time
 
@@ -74,7 +75,7 @@ public abstract class MiniGameAbstract : MonoBehaviour
         currentScore += score;
     }
 
-    public virtual void cleanScore()
+    public virtual void ClearScore()
     {
         currentScore = 0;
     }
@@ -82,6 +83,11 @@ public abstract class MiniGameAbstract : MonoBehaviour
     public virtual void AddTime(float time)
     {
         remainingTime += time;
+    }
+
+    public virtual void ClearRemainingTime()
+    {
+        remainingTime = 0;
     }
 
 

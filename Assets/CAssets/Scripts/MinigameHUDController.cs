@@ -63,7 +63,9 @@ public class MinigameHUDController : MonoBehaviour {
     private void UpdateQuestion()
     {   
 		questionText.text = minigame.GetQuestion().GetQuestion();
-        questionText.GetComponent<Animator>().SetTrigger("OnNewQuestion");
+
+        // If exception: Add an animator component on questionText and set Controller to "GUIAnimatorController"
+        questionText.GetComponent<Animator>().SetTrigger("OnNewQuestion"); 
     }
 
     public void GameStart()
