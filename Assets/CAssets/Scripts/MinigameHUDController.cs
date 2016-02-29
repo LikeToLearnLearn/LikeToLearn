@@ -48,8 +48,15 @@ public class MinigameHUDController : MonoBehaviour {
         // Update score
         scoreText.text = "Score: " + minigame.GetCurrentScore().ToString();
 
-        UpdateQuestion();
-	}
+        if (minigame.GetQuestion() != null && questionText.text != minigame.GetQuestion().GetQuestion())
+        {
+            UpdateQuestion();
+        }
+        else if (minigame.GetQuestion() == null)
+        {
+            questionText.text = "";
+        }
+    }
 
 
     // Update question
