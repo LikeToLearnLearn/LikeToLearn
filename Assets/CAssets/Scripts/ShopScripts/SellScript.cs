@@ -50,11 +50,11 @@ public class SellScript : MonoBehaviour {
 
 		Texture tex = Resources.Load(item) as Texture;
 		RawImage im = transform.FindChild("PayPanel").FindChild ("FinishPanel").FindChild("Amount").
-			FindChild("RawImage").GetComponent<RawImage>();
+            FindChild("ImagePanel").FindChild("RawImage").GetComponent<RawImage>();
 		im.texture = tex;
 
 		Text amountText = transform.FindChild("PayPanel").FindChild ("FinishPanel").FindChild("Amount").
-			FindChild("AmountText").GetComponent<Text>();
+            FindChild("AmountPanel").FindChild("AmountText").GetComponent<Text>();
 		amountText.text = "" + amount;
 
 	}
@@ -67,7 +67,7 @@ public class SellScript : MonoBehaviour {
 		t2.text = "You have: " + GameController.control.GetBalance ();
 	}
 
-	public void AmountTextDecrease(string value){
+	/*public void AmountTextDecrease(string value){
 		Text t = transform.FindChild ("PayPanel").FindChild ("ValuePanel").FindChild ("Values").
 			FindChild (value).FindChild ("Text").GetComponent<Text>();
 		int amount = int.Parse (t.text);
@@ -91,12 +91,12 @@ public class SellScript : MonoBehaviour {
 			t.text = "" + amount;
 		}
 
-	}
+	}*/
 
 
 	public void ItemAmountDecrease(int decreaseAmount){
 		Text t = transform.FindChild ("PayPanel").FindChild ("FinishPanel").FindChild ("Amount").
-			FindChild ("AmountText").GetComponent<Text>();
+            FindChild("AmountPanel").FindChild ("AmountText").GetComponent<Text>();
 		int amount = int.Parse (t.text);
 		if (amount - decreaseAmount >= 0) {
 			amount = amount - decreaseAmount;
@@ -113,7 +113,7 @@ public class SellScript : MonoBehaviour {
 	public void ItemAmountIncrease(int increaseAmount){
 
 		Text t = transform.FindChild ("PayPanel").FindChild ("FinishPanel").FindChild ("Amount").
-			FindChild ("AmountText").GetComponent<Text>();
+            FindChild("AmountPanel").FindChild ("AmountText").GetComponent<Text>();
 		int amount = int.Parse (t.text);
 
 		if (inventory[item] >= amount + increaseAmount) {
