@@ -1,59 +1,30 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using System;
 
+//note: int GameController.control.unlockWorldLevel() = worldlevel
 public class TransportTrigger : MonoBehaviour
 {
-    private static int windowWidth = Screen.width / 3;
-    private static int windowHeight = Screen.height / 2;
-
-    private Rect windowRect = new Rect(Screen.width / 3, Screen.height / 4, windowWidth, windowHeight);
-    // Only show it if needed.
-    private bool show = false;
     private GameObject sceneHandler;
     private SceneHandler sh;
+    private GameObject tc;
+    private int worldLevel;
 
     // Use this for initialization
     void Start()
     {
         sceneHandler = GameObject.Find("SceneHandlerO");
         sh = sceneHandler.GetComponent<SceneHandler>();
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
+        tc = GameObject.Find("TransportCanvas");
+        tc.SetActive(false);
 
-    }
+        //original code
+        //worldLevel = GameController.control.unlockedWorldLevel;
 
-    void OnGUI()
-    {
-        if (show)
-            windowRect = GUI.Window(0, windowRect, DialogWindow, "Transport");
-    }
-
-    // This is the actual window.
-    void DialogWindow(int windowID)
-    {
-        float y = 20;
-        GUI.Label(new Rect(5, y, windowRect.width, Screen.height / 20), "Where do you want to go?");
-
-        if (GUI.Button(new Rect(5, y + 20, windowRect.width - 10, 20), "Centralisland"))
-        {
-            sh.ChangeScene("game_fishingscene", "city_centralisland");
-            show = false;
-        }
-
-        if (GUI.Button(new Rect(5, y+40, windowRect.width - 10, 20), "Racingisland"))
-        {
-            sh.ChangeScene("game_fishingscene", "game_racingisland");
-            show = false;
-        }
-        if (GUI.Button(new Rect(5, y+60, windowRect.width - 10, 20), "Goldisland"))
-        {
-            sh.ChangeScene("game_fishingscene", "game_goldisland");
-            show = false;
-        }
+        //cheat to reach the highest worldlevel
+        worldLevel = 3;
     }
 
     void OnTriggerEnter(Collider c)
@@ -63,7 +34,8 @@ public class TransportTrigger : MonoBehaviour
         {
 
             Debug.Log("collision det with player");
-            show = true;
+            //show = true;
+            tc.SetActive(true);
         }
 
     }
@@ -72,8 +44,17 @@ public class TransportTrigger : MonoBehaviour
     {
         if (c.tag.Equals("Player"))
         {
-            Application.Quit();
-            show = false;
+            tc.SetActive(false);
         }
+    }
+    
+    public void SetDestination(String s)
+    {
+        if (s == "game_goldisland" && worldLevel < 2)
+            return;
+        else if (s == "game_racingisland" && worldLevel < 3)
+            return;
+        else
+            sh.ChangeScene("game_fishingscene", s);
     }
 }

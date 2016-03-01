@@ -53,7 +53,7 @@ public class MinigameFish : MonoBehaviour {
         if (fishingLogic.GetRemainingTime() < 0)
         {
             gameOver = true;
-            mhc.GetComponent<MinigameHUDController>().SetEndText("You have catched " + fishingLogic.GetCurrentScore().ToString() + " fish!");
+            mhc.GetComponent<MinigameHUDController>().SetEndText("You have caught " + fishingLogic.GetCurrentScore().ToString() + " fish!");
             EndGame();
         }
         if (play)
