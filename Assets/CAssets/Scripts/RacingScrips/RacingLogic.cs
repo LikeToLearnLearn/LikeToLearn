@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class RacingLogic :/* MonoBehaviour//*/MiniGameAbstract
 {
+    public GameObject IntroductionCanvas;
+
     private float points;
     private float f;
     private float answere;
@@ -95,6 +97,7 @@ public class RacingLogic :/* MonoBehaviour//*/MiniGameAbstract
             GettingMoney(GetCurrentScore());
             SetGameStarted(false);
             car.transform.position = new Vector3(318, 120, 318);
+            DeactivateSign();
         }
 
 
@@ -124,6 +127,11 @@ public class RacingLogic :/* MonoBehaviour//*/MiniGameAbstract
             sign.GetComponent<TextMesh>().text = GetMultiplication();
             update = false;
         }*/
+    }
+
+    public void DeactivateIntroductionCanvas()
+    {
+        IntroductionCanvas.SetActive(false);
     }
 
     public void SetCar(GameObject c)

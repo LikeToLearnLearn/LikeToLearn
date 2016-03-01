@@ -50,6 +50,7 @@ public class ExitRaceTrigger : MonoBehaviour {
             racingLogic.GettingMoney(racingLogic.GetPoints());
             racingLogic.SetGameStarted(false);
             car.transform.position = new Vector3(318, 120, 318);
+            racingLogic.DeactivateSign();
             //racingLogic.GetPlayer().SetActive(true);
 
             //var PlayerCamera = racingLogic.GetPlayerCamera();

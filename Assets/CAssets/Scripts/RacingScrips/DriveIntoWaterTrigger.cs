@@ -36,15 +36,15 @@ public class DriveIntoWaterTrigger : MonoBehaviour {
 
         // car = GameObject.Find("Car");
         //Debug.Log("collision det with" + c.name);
-        if (c.tag.Equals("PlayerCar"))
+        if (c.tag.Equals("PlayerCar") || c.tag.Equals("Player"))
         //if (c.Equals(GameObject.Find("Car")))
         {
 
             Player = racingLogic.GetPlayer();
-            print("Hämtade: " + Player);
+            //print("Hämtade: " + Player);
             car = racingLogic.GetCar();
-            print("Hämtade: " + car);
-            print("Playerpoisition: " + Player.transform.position);
+            //print("Hämtade: " + car);
+            //print("Playerpoisition: " + Player.transform.position);
             Hud = racingLogic.GetHud();
             Player.SetActive(true);
             Debug.Log("Huden som stängs av är: "+ Hud);
@@ -59,7 +59,7 @@ public class DriveIntoWaterTrigger : MonoBehaviour {
             rot[0] = 0; //null rotation X
             rot[2] = 0; //null rotation Z
             car.rotation = rot;*/
-
+            car.transform.Rotate(0, 0, 0);
             car.transform.position = new Vector3(329, 120, 318);
             //racingLogic.GetPlayer().SetActive(true);
 
