@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using UnityEngine;
 
 [Serializable]
 public abstract class Course {
@@ -11,7 +12,7 @@ public abstract class Course {
 	Dictionary<int, List<string>> questions = new Dictionary<int, List<string>>();
 	Dictionary<string, string> answers = new Dictionary<string, string>();
 	Dictionary<string, int> results = new Dictionary<string, int>();
-	static Random rnd = new Random();
+	static System.Random rnd = new System.Random();
 
 	public virtual Question GetQuestion(int alternatives)
 	{
@@ -33,25 +34,23 @@ public abstract class Course {
 		return res;
 	}
 
-	private int CurrentLevel()
+	public virtual int CurrentLevel()
 	{
-		var levels = new List<int>();
-		foreach (var key in questions.Keys)
-			levels.Add(key);
+		var levels = questions.Keys.ToList();
 		levels.Sort();
+		int result = 0;
 		foreach (int level in levels) {
-			foreach (string question in questions[level]) {
-				if (results[question] < 2) // number of correct answers needed
-					return level;
+			if (4 < questions[level].Count(x => results[x] > 0)) {
+				result = level + 1;
+			} else {
+				break;
 			}
 		}
-		return levels[levels.Count - 1];
+		return result;
 	}
 
 	public virtual void SetTestMode(int level)
 	{
-		//if (!questions.ContainsKey(level))
-		//	throw new KeyNotFoundException();
 		testMode = true;
 		testLevel = level;
 	}
@@ -63,18 +62,23 @@ public abstract class Course {
 
 	public virtual void AddQuestion(int level, string question, string answer)
 	{
-		if (!questions.ContainsKey(level))
+		if (!questions.ContainsKey(level)) {
 			questions[level] = new List<string>();
-		questions[level].Add(question);
-		answers[question] = answer;
-		results[question] = 0;
+		}
+		if (!questions[level].Exists(q => q == question)) {
+			questions[level].Add(question);
+		}
+		if (!answers.ContainsKey(answer)) {
+			answers[question] = answer;
+		}
+		if (!results.ContainsKey(question)) {
+			results[question] = 0;
+		}
 	}
 
 	public virtual void LogAnswerCorrect(string question)
 	{
-		if (!results.ContainsKey(question))
-			results[question] = 0;
-		results[question]++;
+		++results[question];
 	}
 
 }

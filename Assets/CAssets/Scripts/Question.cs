@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System;
+using UnityEngine;
 
 [Serializable]
 public class Question {
-	private static Random rnd = new Random();
+	private static System.Random rnd = new System.Random();
 	private List<string> answers = new List<string>(); 
 	private List<string> alt = new List<string>();
 	private Course course;
@@ -24,8 +25,8 @@ public class Question {
 	public void Answer(string givenAnswer)
 	{
 		answers.Add(givenAnswer);
-		if (answers.Count == 1 && IsCorrect()) {
-			course.LogAnswerCorrect(givenAnswer);
+		if (IsCorrect() && answers.Count == 1) {
+			course.LogAnswerCorrect(question);
 		}
 	}
 

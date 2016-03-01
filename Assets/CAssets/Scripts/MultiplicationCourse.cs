@@ -1,8 +1,11 @@
 ﻿using System.Collections;
 using System;
+using UnityEngine;
 
 [Serializable]
 public class MultiplicationCourse : Course {
+
+	static System.Random rnd = new System.Random();
 
 	public MultiplicationCourse()
 	{
@@ -15,11 +18,10 @@ public class MultiplicationCourse : Course {
 			}
 		}
 	}
-	// todo
-	/*
-	public override Question GetQuestion(int alternatives)
-	{		
-		return base.GetQuestion(alternatives);
+
+	public override int CurrentLevel()
+	{
+		int i = base.CurrentLevel();
+		return i > 9 ? rnd.Next(0, 9) : i;
 	}
-	*/
 }

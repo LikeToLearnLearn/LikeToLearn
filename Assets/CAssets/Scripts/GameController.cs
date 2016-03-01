@@ -196,15 +196,6 @@ public class GameController : MonoBehaviour {
 		}
 		data = content;
 		sceneHandler.ChangeScene("new", data.currentScene);
-
-		// silly debug code
-		/*
-		for (int i = 0; i < 100; i++) {
-		  var q = GetQuestion(5);
-			print(q.GetQuestion()+": "+q.GetAlternative()+", "+q.GetAlternative()+", "+q.GetAlternative()+", "+q.GetAlternative()+", "+q.GetAlternative());
-		}
-		*/
-
 	}
 
 	public void DeleteGame(string name) // not tested
