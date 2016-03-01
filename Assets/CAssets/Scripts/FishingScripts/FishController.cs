@@ -13,7 +13,7 @@ public class FishController : MonoBehaviour {
     void Start()
     {
         currentSpeed = 50f;
-        maxSpeed = 100f;
+        maxSpeed = 200f;
         rb = GetComponent<Rigidbody>();
     }
 
@@ -27,8 +27,8 @@ public class FishController : MonoBehaviour {
         currentSpeed = Mathf.Lerp(currentSpeed, maxSpeed, 0.1f);
         rb.AddRelativeForce(Vector3.forward * currentSpeed);
 
-        Quaternion q = Quaternion.FromToRotation(transform.up, Vector3.up);
-        rb.AddTorque(q.x * 100, q.y * 100, q.z * 100);
+        //Quaternion q = Quaternion.FromToRotation(transform.up, Vector3.up);
+        //rb.AddTorque(q.x * 30, q.y * 30, q.z * 100);
 
         Quaternion deltaRotation = Quaternion.Euler(new Vector3(rb.rotation.x + Random.Range(-1, 1), rb.rotation.y + Random.Range(-1, 1), rb.rotation.z + Random.Range(-1, 1) * Time.fixedDeltaTime));
         rb.MoveRotation(rb.rotation * deltaRotation);

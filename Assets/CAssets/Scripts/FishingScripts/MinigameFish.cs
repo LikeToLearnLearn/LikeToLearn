@@ -92,7 +92,7 @@ public class MinigameFish : MonoBehaviour {
                     if(!f.IsRightFish())
                         f.SetAnswer();
                 }
-                Instantiate(fish, new Vector3(SetValue(5) - 5, -0.95f, SetValue(5) - 10), Quaternion.Euler(0, 90, 0));
+                Instantiate(fish, new Vector3(SetValue(5) - 5, -0.95f, SetValue(5) - 15), Quaternion.Euler(0, 90, 0));
             }
             fishingLogic.SetAnswered(false);
         }
