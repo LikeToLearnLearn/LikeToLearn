@@ -154,15 +154,6 @@ public class MinigameFish : MonoBehaviour {
         return Mathf.Floor(Random.value * i);
     }
 
-    //Display crosshair
-    void OnGUI()
-    {
-        if (play)
-        {
-            GUI.DrawTexture(new Rect(Screen.width/2 - image.width/2, Screen.height/2 - image.height/2, image.width, image.height), image);
-        }
-    }
-
     void DestroyAllPickups()
     {
         fishes = GameObject.FindGameObjectsWithTag("Fish");
@@ -178,6 +169,7 @@ public class MinigameFish : MonoBehaviour {
             mhc.GetComponent<MinigameHUDController>().GameOver();
         else
         {
+            mhc.GetComponent<MinigameHUDController>().SetCrosshair(false);
             mhc.SetActive(false);
             fishingLogic.ClearScore();
         }
@@ -192,6 +184,7 @@ public class MinigameFish : MonoBehaviour {
         play = true;
         mhc.SetActive(true);
         mhc.GetComponent<MinigameHUDController>().GameStart();
+        mhc.GetComponent<MinigameHUDController>().SetCrosshair(true);
 
         fishingLogic.StartGame();
         fishingLogic.CreateQuestion(answers);

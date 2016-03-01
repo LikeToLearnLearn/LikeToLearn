@@ -14,6 +14,7 @@ public class MinigameHUDController : MonoBehaviour {
     private GameObject timeBar, scoreBar, timeTextGB, scoreTextGB, secondTextGB, HUDQuestionTextGB;
     private GameObject gameoverText;
     private GameObject endScore;
+    private GameObject crosshair;
 
     private string endText;
 
@@ -32,6 +33,7 @@ public class MinigameHUDController : MonoBehaviour {
         scoreTextGB = GameObject.Find("ScoreText");
         secondTextGB = GameObject.Find("SecondText");
         HUDQuestionTextGB = GameObject.Find("HUDQuestionText");
+        crosshair = GameObject.Find("Crosshair");
 
         minigame = minigameGO.GetComponent<MiniGameAbstract>();
 
@@ -80,6 +82,7 @@ public class MinigameHUDController : MonoBehaviour {
         HUDQuestionTextGB.SetActive(true);
         gameoverText.SetActive(false);
         endScore.SetActive(false);
+        crosshair.SetActive(false);
     }
 
     public void GameOver()
@@ -98,5 +101,10 @@ public class MinigameHUDController : MonoBehaviour {
     public void SetEndText(string s)
     {
         endText = s;
+    }
+
+    public void SetCrosshair(bool b)
+    {
+        crosshair.SetActive(b);
     }
 }

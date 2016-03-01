@@ -3,7 +3,6 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 using System;
 
-//note: int GameController.control.unlockWorldLevel() = worldlevel
 public class TransportTrigger : MonoBehaviour
 {
     private GameObject sceneHandler;
