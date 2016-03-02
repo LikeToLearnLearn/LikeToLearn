@@ -6,7 +6,6 @@ public class MinigameHUDController : MonoBehaviour {
 
     public GameObject minigameGO; // gameobject the minigame script is attached to
     private MiniGameAbstract minigame; // minigame script, subclass of minigameabstract
-    private QuestionPoint qp;
     private Text timeText;
     private Text scoreText;
     private Text questionText;
@@ -82,7 +81,7 @@ public class MinigameHUDController : MonoBehaviour {
         HUDQuestionTextGB.SetActive(true);
         gameoverText.SetActive(false);
         endScore.SetActive(false);
-        crosshair.SetActive(false);
+        //crosshair.SetActive(false);
     }
 
     public void GameOver()
