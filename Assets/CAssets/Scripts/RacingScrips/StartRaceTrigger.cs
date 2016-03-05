@@ -28,11 +28,15 @@ public class StartRaceTrigger : MonoBehaviour {
             Debug.Log("Cannot find 'RacingLogic' script");
         }
         racingLogic.SetGameStarted(false);
+  
         //sign = racingLogic.GetSign();
         
         //racingLogic.CreateMultiplication(4, null);
         //Debug.Log("Right answere :" + racingLogic.
             //GetMultiplicationAnswere());
+
+        //car.GetComponent<Rigidbody>().freezeRotation = true;
+
 
 
     }
@@ -52,10 +56,18 @@ public class StartRaceTrigger : MonoBehaviour {
             racingLogic.SetCar(car);
             racingLogic.SetHud(Hud);
             //racingLogic.CreatePickups(prefabWrong, prefabRight, 285, 120, 335 );
-            car.SetActive(true);
-            print("Carpoisition: " + car.transform.position);
+
+            //-----------
+           car.SetActive(true);
+           car.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+            
+            //Camera ccam = car.GetComponentInChildren<Camera>();
+            //print("CarCamer: " + ccam);
+            //ccam.enabled = true;
+            
+            //print("Carpoisition: " + car.transform.position);
             Hud.SetActive(true);
-            print("Mjaou");
+            //print("Mjaou");
             //var CarCamera = car.GetComponent<Camera>();
             //var CarCamera = GameObject.Find("MultipurposeCameraRig").GetComponentInChildren<Transform>().GetComponentInChildren<Transform>().gameObject.GetComponent<Camera>();
             //if (CarCamera == null) Debug.Log("No CarCamera found");
@@ -66,25 +78,28 @@ public class StartRaceTrigger : MonoBehaviour {
             //else PlayerCamera.enabled = false;
             //racingLogic.SetPlayerCamera(PlayerCamera);
 
-            print("Sparade: " + c.gameObject);
+            //print("Sparade: " + c.gameObject);
             racingLogic.SetPlayer(c.gameObject);
             
             c.gameObject.SetActive(false);
             c.gameObject.transform.position = new Vector3(360, 120, 340);
-            
+            Camera pcam = c.gameObject.GetComponentInChildren<Camera>();
+            //---------pcam.enabled = false;
+            print("PlayerCamera = " + pcam);
+
             //Debug.Log("Found object: " + GetComponentInParent("PlayerController").name);
             //Debug.Log("StartTrigger: " + c. name);
             // sign.SetActive(true);
         }
         
     }
-
+    /*
     float SetValue(float i)
     {
         
         return Mathf.Floor(Random.value * i) + 5 ;
        
 
-    }
+    }*/
         
 }

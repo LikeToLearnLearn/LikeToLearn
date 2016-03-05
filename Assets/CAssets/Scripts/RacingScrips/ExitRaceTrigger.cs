@@ -45,11 +45,15 @@ public class ExitRaceTrigger : MonoBehaviour {
           
             print("Hämtade: " + Player);
             Player.SetActive(true);
-            car.SetActive(false);
+            //car.SetActive(false);
+            
             Hud.SetActive(false);
             racingLogic.GettingMoney(racingLogic.GetPoints());
             racingLogic.SetGameStarted(false);
             car.transform.position = new Vector3(318, 120, 318);
+            car.SetActive(false);
+            car.transform.localEulerAngles = new Vector3(0, -43, 0);
+            //car.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezePositionY;
             racingLogic.DeactivateSign();
             //racingLogic.GetPlayer().SetActive(true);
 

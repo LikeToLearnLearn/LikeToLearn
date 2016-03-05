@@ -97,6 +97,9 @@ public class RacingLogic :/* MonoBehaviour//*/MiniGameAbstract
             GettingMoney(GetCurrentScore());
             SetGameStarted(false);
             car.transform.position = new Vector3(318, 120, 318);
+            car.transform.localEulerAngles = new Vector3(0, -43, 0);
+            //car.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezePositionY;
+
             DeactivateSign();
         }
 

@@ -50,6 +50,10 @@ public class DriveIntoWaterTrigger : MonoBehaviour {
             Debug.Log("Huden som stängs av är: "+ Hud);
             Debug.Log("Bilen som stängs av är: " + car);
             car.SetActive(false);
+            car.transform.position = new Vector3(318, 120, 318);
+            car.transform.localEulerAngles = new Vector3(0, -43, 0);
+            //car.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezePositionY;
+
             Hud.SetActive(false);
             
             racingLogic.GettingMoney(racingLogic.GetPoints());
@@ -60,7 +64,7 @@ public class DriveIntoWaterTrigger : MonoBehaviour {
             rot[2] = 0; //null rotation Z
             car.rotation = rot;*/
             car.transform.Rotate(0, 0, 0);
-            car.transform.position = new Vector3(329, 120, 318);
+            //car.transform.position = new Vector3(329, 120, 318);
             //racingLogic.GetPlayer().SetActive(true);
 
             //var PlayerCamera = racingLogic.GetPlayerCamera();
