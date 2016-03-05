@@ -51,20 +51,25 @@ public class StartRaceTrigger : MonoBehaviour {
       
         if ((c.tag.Equals("Player")|| c.tag.Equals( "PlayerTest")) && !racingLogic.GetGameStarted())
         {
-            racingLogic.StartGame();
-            racingLogic.SetGameStarted(true);
+            racingLogic.ActivateIntroductionCanvas();
+
+            //racingLogic.StartGame();
+            //racingLogic.SetGameStarted(true);
             racingLogic.SetCar(car);
             racingLogic.SetHud(Hud);
+            
             //racingLogic.CreatePickups(prefabWrong, prefabRight, 285, 120, 335 );
 
             //-----------
            car.SetActive(true);
-           car.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
-            
+           car.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezePositionY;
+
+            //car.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+
             //Camera ccam = car.GetComponentInChildren<Camera>();
             //print("CarCamer: " + ccam);
             //ccam.enabled = true;
-            
+
             //print("Carpoisition: " + car.transform.position);
             Hud.SetActive(true);
             //print("Mjaou");

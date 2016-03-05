@@ -132,9 +132,26 @@ public class RacingLogic :/* MonoBehaviour//*/MiniGameAbstract
         }*/
     }
 
+    public void StartRaicing()
+    {
+        StartGame();
+        SetGameStarted(true);
+        
+       
+        car.SetActive(true);
+        car.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+        DeactivateIntroductionCanvas();
+
+    }
+
     public void DeactivateIntroductionCanvas()
     {
         IntroductionCanvas.SetActive(false);
+    }
+
+    public void ActivateIntroductionCanvas()
+    {
+        IntroductionCanvas.SetActive(true);
     }
 
     public void SetCar(GameObject c)
