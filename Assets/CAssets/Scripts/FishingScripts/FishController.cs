@@ -13,7 +13,7 @@ public class FishController : MonoBehaviour {
     void Start()
     {
         currentSpeed = 50f;
-        maxSpeed = 300f;
+        maxSpeed = 150f;
         rb = GetComponent<Rigidbody>();
     }
 
