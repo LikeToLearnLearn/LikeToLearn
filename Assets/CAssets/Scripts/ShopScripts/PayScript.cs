@@ -84,7 +84,9 @@ public class PayScript : MonoBehaviour {
 	}
 
 	public void AmountTextDecrease(string value){
-		Text t = transform.FindChild ("PayPanel").FindChild ("ValuePanel").FindChild ("Values").
+        //This is for the coin/bill values
+        //Debug.Log("AmountTextDecrease for " + value);
+        Text t = transform.FindChild ("PayPanel").FindChild ("ValuePanel").FindChild ("Values").
 			FindChild (value).FindChild("AmountPanel").FindChild ("Text").GetComponent<Text>();
 		int amount = int.Parse (t.text);
 		if (amount > 0) {
@@ -94,16 +96,17 @@ public class PayScript : MonoBehaviour {
 
 	}
 
-	public void AmountTextIncrease(string value, int increaseAmount){
-		
-		Text t = transform.FindChild ("PayPanel").FindChild ("ValuePanel").FindChild ("Values").
-			FindChild (value).FindChild ("Text").GetComponent<Text>();
+	public void AmountTextIncrease(string value){
+        //This is for the coin/bill values
+        //Debug.Log("AmountTextIncrease for " + value);
+        Text t = transform.FindChild ("PayPanel").FindChild ("ValuePanel").FindChild ("Values").
+			FindChild (value).FindChild("AmountPanel").FindChild ("Text").GetComponent<Text>();
 		int amount = int.Parse (t.text);
 
-		string currentValue = CoinValues[value];
+        string currentValue = CoinValues[value];
 
-		if (amount < inventory[currentValue]) {
-			amount = amount + increaseAmount;
+        if (amount < inventory[currentValue]) {
+            amount = amount + 1;
 			t.text = "" + amount;
 		}
 
@@ -111,7 +114,8 @@ public class PayScript : MonoBehaviour {
 		
 
 	public void ItemAmountDecrease(int decreaseAmount){
-		Text t = transform.FindChild ("PayPanel").FindChild ("FinishPanel").FindChild ("Amount").
+        //This is for the item amount to buy
+        Text t = transform.FindChild ("PayPanel").FindChild ("FinishPanel").FindChild ("Amount").
             FindChild("AmountPanel").FindChild ("AmountText").GetComponent<Text>();
 		int amount = int.Parse (t.text);
 		if (amount - decreaseAmount >= 0) {
@@ -127,8 +131,9 @@ public class PayScript : MonoBehaviour {
 	}
 
 	public void ItemAmountIncrease(int increaseAmount){
+        //This is for the item amount to buy
 
-		Text t = transform.FindChild ("PayPanel").FindChild ("FinishPanel").FindChild ("Amount").
+        Text t = transform.FindChild ("PayPanel").FindChild ("FinishPanel").FindChild ("Amount").
             FindChild("AmountPanel").FindChild ("AmountText").GetComponent<Text>();
 		int amount = int.Parse (t.text);
 
