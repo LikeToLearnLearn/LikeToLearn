@@ -29,7 +29,7 @@ public class Building : MonoBehaviour {
     private Vector3 snapCurrentPosition;
     private GameObject[] snapItemMarkers;
 
-    public bool add99999ofeveryitem = true;
+    public bool add99999ofeveryitem = false;
 
     // Use this for initialization
     void Start() {
@@ -163,8 +163,8 @@ public class Building : MonoBehaviour {
                 }
 
 
-                // Mobile delete block on touch. UNTESTED with mousePosition
-                if(Input.touches.Length != 0)
+                // Mobile delete block on touch. TO FIX DON'T USE. Make a GUI button for deleteMode
+                /*if(Input.touches.Length != 0)
                 {
                     Ray touchRay = Camera.main.ScreenPointToRay(Input.mousePosition);
                     RaycastHit touchHit;
@@ -179,7 +179,7 @@ public class Building : MonoBehaviour {
                             }
                         }
                     }
-                }
+                }*/
                 
           
             // Second button to remove a block. This button doens't exist on mobile.
