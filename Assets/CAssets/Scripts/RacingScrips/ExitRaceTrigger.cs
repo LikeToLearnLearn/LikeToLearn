@@ -46,7 +46,7 @@ public class ExitRaceTrigger : MonoBehaviour {
             print("Hämtade: " + Player);
             Player.SetActive(true);
             //car.SetActive(false);
-            
+            Hud = racingLogic.GetHud();
             Hud.SetActive(false);
             racingLogic.GettingMoney(racingLogic.GetPoints());
             racingLogic.SetGameStarted(false);
