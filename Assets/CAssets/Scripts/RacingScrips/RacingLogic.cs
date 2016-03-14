@@ -137,10 +137,13 @@ public class RacingLogic :/* MonoBehaviour//*/MiniGameAbstract
         StartGame();
         SetGameStarted(true);
         
-       
+        player.SetActive(false);
+        player.transform.position = new Vector3(360, 120, 340);
+        player.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
         car.SetActive(true);
         car.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
         DeactivateIntroductionCanvas();
+        Cursor.visible = false;
 
     }
 

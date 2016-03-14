@@ -44,9 +44,11 @@ public class MuliplicationTrigger : MonoBehaviour {
         }
         turned = false;
         PlayerCar = null;
-        
+        racingLogic.CreatePickups(prefabWrong, BalloonPointA.transform.position, BalloonPointB.transform.position, BalloonPointC.transform.position, BalloonPointD.transform.position);
 
-      
+
+
+
         //racingLogic.SetPointC(pointC);
 
 

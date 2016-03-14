@@ -52,6 +52,8 @@ public class StartRaceTrigger : MonoBehaviour {
         if ((c.tag.Equals("Player")|| c.tag.Equals( "PlayerTest")) && !racingLogic.GetGameStarted())
         {
             racingLogic.ActivateIntroductionCanvas();
+            //Screen.showCursor = true;
+            Cursor.visible = true;
 
             //racingLogic.StartGame();
             //racingLogic.SetGameStarted(true);
@@ -61,8 +63,8 @@ public class StartRaceTrigger : MonoBehaviour {
             //racingLogic.CreatePickups(prefabWrong, prefabRight, 285, 120, 335 );
 
             //-----------
-           car.SetActive(true);
-           car.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezePositionY;
+           //car.SetActive(true);
+           c.gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezePositionY;
 
             //car.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
 
@@ -86,11 +88,11 @@ public class StartRaceTrigger : MonoBehaviour {
             //print("Sparade: " + c.gameObject);
             racingLogic.SetPlayer(c.gameObject);
             
-            c.gameObject.SetActive(false);
-            c.gameObject.transform.position = new Vector3(360, 120, 340);
-            Camera pcam = c.gameObject.GetComponentInChildren<Camera>();
+            //c.gameObject.SetActive(false);
+            //c.gameObject.transform.position = new Vector3(360, 120, 340);
+            //Camera pcam = c.gameObject.GetComponentInChildren<Camera>();
             //---------pcam.enabled = false;
-            print("PlayerCamera = " + pcam);
+            //print("PlayerCamera = " + pcam);
 
             //Debug.Log("Found object: " + GetComponentInParent("PlayerController").name);
             //Debug.Log("StartTrigger: " + c. name);
