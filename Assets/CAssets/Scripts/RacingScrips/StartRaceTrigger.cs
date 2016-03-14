@@ -73,7 +73,7 @@ public class StartRaceTrigger : MonoBehaviour {
             //ccam.enabled = true;
 
             //print("Carpoisition: " + car.transform.position);
-            Hud.SetActive(true);
+            //Hud.SetActive(true);
             //print("Mjaou");
             //var CarCamera = car.GetComponent<Camera>();
             //var CarCamera = GameObject.Find("MultipurposeCameraRig").GetComponentInChildren<Transform>().GetComponentInChildren<Transform>().gameObject.GetComponent<Camera>();

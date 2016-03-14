@@ -91,11 +91,11 @@ public class MuliplicationTrigger : MonoBehaviour {
                 text.transform.Rotate(0, 180, 0);
                 turned = false;
             }
-            racingLogic.CreateQuestion(4);
-            racingLogic.CreateMultiplication(text);
+            //racingLogic.CreateQuestion(4);
+            //racingLogic.CreateMultiplication(text);
            
             //(Debug.Log("Right answere :" + racingLogic.GetMultiplicationAnswere());
-            racingLogic.CreatePickups(prefabWrong, BalloonPointA.transform.position, BalloonPointB.transform.position, BalloonPointC.transform.position, BalloonPointD.transform.position);
+            //racingLogic.CreatePickups(prefabWrong, BalloonPointA.transform.position, BalloonPointB.transform.position, BalloonPointC.transform.position, BalloonPointD.transform.position);
 
             //offset = PlayerCar.transform.position - text.transform.position;
 
@@ -127,7 +127,7 @@ public class MuliplicationTrigger : MonoBehaviour {
             racingLogic.CreateMultiplication(text);
 
             //Debug.Log("Right answere :" + racingLogic.GetMultiplicationAnswere());
-            racingLogic.CreatePickups(prefabWrong, BalloonPointA.transform.position, BalloonPointB.transform.position, BalloonPointC.transform.position, BalloonPointD.transform.position);
+            //racingLogic.CreatePickups(prefabWrong, BalloonPointA.transform.position, BalloonPointB.transform.position, BalloonPointC.transform.position, BalloonPointD.transform.position);
 
             //offset = PlayerCar.transform.position - text.transform.position;
 

@@ -68,7 +68,8 @@ public class PickUpRacing : MonoBehaviour {
     void Update()
     {
         //transform.position = transform.position + player.transform.position;       
-        transform.Rotate(0, 98 * Time.deltaTime, 0);
+        transform.Rotate(0, 80 * Time.deltaTime, 0);
+        //SetValue();
     }
 
     void OnTriggerEnter(Collider c)
@@ -86,10 +87,13 @@ public class PickUpRacing : MonoBehaviour {
                 racingLogic.AddTime(25);
                 racingLogic.AddScore(5f);
                 racingLogic.PutMessage("Yes!!");
+                racingLogic.CreateQuestion(4);
                 //racingLogic.SetGotRight(true);
                 //Debug.Log(points);
-                racingLogic.DestroyAllPickUps();
+                //racingLogic.DestroyAllPickUps();
                 GameController.control.AddItem(GameController.Item.RedBalloon);
+                //racingLogic.SetGotRight(true);
+                racingLogic.UpdateAllPickUps();
                 //racingLogic.DeactivateSign();
             }
             else {
@@ -104,16 +108,19 @@ public class PickUpRacing : MonoBehaviour {
     }
 
 
-    void SetValue()
+     public void SetValue()
     {
         /* f = Mathf.Floor(Random.value * 100f);
          while(f== racingLogic.GetMultiplicationAnswere()) f = Mathf.Floor(Random.value * 100f);
          if (racingLogic.GetDirection() == 2) text.transform.Rotate(0, 180, 0);
          text.GetComponent<TextMesh>().text = "" + f;*/
 
-        value = racingLogic.GetQuestion().GetAlternative();
-
-        text.GetComponent<TextMesh>().text = value;
+        if (racingLogic.GetGotRight() == true)
+        {
+            value = racingLogic.GetQuestion().GetAlternative();
+            text.GetComponent<TextMesh>().text = value;
+            //racingLogic.SetGotRight(false);
+        }
 
     }
 

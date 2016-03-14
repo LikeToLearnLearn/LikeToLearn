@@ -36,13 +36,13 @@ public class ThrowingPointTrigger : MonoBehaviour
             //Debug.Log(points);
             if (racingLogic.GetDirection() == 1)
             {
-                racingLogic.DestroyAllPickUps();
+                //racingLogic.DestroyAllPickUps();
                 racingLogic.DeactivateSign();
                 racingLogic.PutMessage("");
                 //racingLogic.StopGame();
             }
 
-            racingLogic.DestroyAllPickUps();
+            //racingLogic.DestroyAllPickUps();
             racingLogic.SetDirection(2);
 
         }

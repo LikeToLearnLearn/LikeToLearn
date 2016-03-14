@@ -21,7 +21,7 @@ public class RacingLogic :/* MonoBehaviour//*/MiniGameAbstract
 
     private Vector3 pointA, pointB, pointC;
     //private float timeLeft;
-    //private float numbersLeft;
+    private int numbersLeft;
     private Transform prefabWrong;
     //private Transform prefabRight;
     //private Vector3 A, B, C, D;
@@ -29,11 +29,11 @@ public class RacingLogic :/* MonoBehaviour//*/MiniGameAbstract
     //private bool update;
     private string multiplication;
     private float direction;
-
+    
     private Question q;
     private bool message;
     private string MessageString;
-    //private bool GotRight;
+    private bool GotRight;
     private bool GameStarted;
     private Camera PlayerCamera;
     private GameObject car;
@@ -49,15 +49,21 @@ public class RacingLogic :/* MonoBehaviour//*/MiniGameAbstract
         sign = null;
         player = null;
         pickUps = new ArrayList();
+
+        /*foreach (GameObject o in pickUps)
+        {
+            numbersLeft = numbersLeft + 1;
+        }
+        Debug.Log("numbersLeft = " + numbersLeft);*/
         //numbersLeft = 0;
         //timeLeft = 3.0f;
         //update = false;
         message = false;
-        //GotRight = false;
+        GotRight = true;
         GameStarted = false;
         Hud = null;
         car = null;
-        
+        CreateQuestion(4);
 
 
         //UpdateScore();
@@ -68,6 +74,7 @@ public class RacingLogic :/* MonoBehaviour//*/MiniGameAbstract
         void Update()
     {
         base.Update();
+        //UpdateAllPickUps();
         //timeLeft -= Time.deltaTime;
 
         //if (numbersLeft > 0 && timeLeft < 0)
@@ -90,7 +97,7 @@ public class RacingLogic :/* MonoBehaviour//*/MiniGameAbstract
         if (!GetPlaying()&& GameStarted)
         {
             player.SetActive(true);
-            print("Hämtade: " + player);
+            //print("Hämtade: " + player);
             car = GetCar();
             car.SetActive(false);
             Hud.SetActive(false);
@@ -132,12 +139,38 @@ public class RacingLogic :/* MonoBehaviour//*/MiniGameAbstract
         }*/
     }
 
+    public void SetGotRight(bool right)
+    {
+        GotRight = right;
+        if(right == true)
+        {
+            foreach (GameObject o in pickUps)
+            {
+                numbersLeft = numbersLeft + 1;
+            }
+        }
+    }
+
+    public bool GetGotRight()
+    {
+        if(numbersLeft != 0)
+        {
+            numbersLeft = numbersLeft - 1;
+            return true;
+
+        }
+
+        else return GotRight;
+
+    }
+
     public void StartRaicing()
     {
         StartGame();
         SetGameStarted(true);
         
         player.SetActive(false);
+        Hud.SetActive(true);
         player.transform.position = new Vector3(360, 120, 340);
         player.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
         car.SetActive(true);
@@ -380,15 +413,25 @@ public class RacingLogic :/* MonoBehaviour//*/MiniGameAbstract
             Debug.Log("Addeded: " + p);
     }
 
-        public void DestroyAllPickUps()
+    public void DestroyAllPickUps()
+    {
+        foreach (GameObject o in pickUps)
         {
-            foreach (GameObject o in pickUps)
-            {
-                Debug.Log("Destroyed: " + o);
-                Destroy(o, 0);
+            Debug.Log("Destroyed: " + o);
+            Destroy(o, 0);
                 
-            }
         }
+    }
+
+    public void UpdateAllPickUps()
+    {
+        foreach (GameObject o in pickUps)
+        {
+            Debug.Log("Changed value on : " + o);
+            o.GetComponent<PickUpRacing>().SetValue();
+
+        }
+    }
 
     public void GettingMoney(float score)
     {
