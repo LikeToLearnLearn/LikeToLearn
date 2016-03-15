@@ -139,7 +139,7 @@ public class RacingLogic :/* MonoBehaviour//*/MiniGameAbstract
         }*/
     }
 
-    public void SetGotRight(bool right)
+  /*  public void SetGotRight(bool right)
     {
         GotRight = right;
         if(right == true)
@@ -162,7 +162,7 @@ public class RacingLogic :/* MonoBehaviour//*/MiniGameAbstract
 
         else return GotRight;
 
-    }
+    }*/
 
     public void StartRaicing()
     {

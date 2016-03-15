@@ -68,7 +68,7 @@ public class PickUpRacing : MonoBehaviour {
     void Update()
     {
         //transform.position = transform.position + player.transform.position;       
-        transform.Rotate(0, 80 * Time.deltaTime, 0);
+        transform.Rotate(0, 99 * Time.deltaTime, 0);
         //SetValue();
     }
 
@@ -115,12 +115,12 @@ public class PickUpRacing : MonoBehaviour {
          if (racingLogic.GetDirection() == 2) text.transform.Rotate(0, 180, 0);
          text.GetComponent<TextMesh>().text = "" + f;*/
 
-        if (racingLogic.GetGotRight() == true)
-        {
+        //if (racingLogic.GetGotRight() == true)
+       // {
             value = racingLogic.GetQuestion().GetAlternative();
             text.GetComponent<TextMesh>().text = value;
             //racingLogic.SetGotRight(false);
-        }
+        //}
 
     }
 
