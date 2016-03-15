@@ -31,18 +31,13 @@ public class ThrowingPointTrigger : MonoBehaviour
     {
         if (c.gameObject.CompareTag("PlayerCar"))
         {
-            //gameObject.SetActive(false);
-
-            //Debug.Log(points);
+          
             if (racingLogic.GetDirection() == 1)
             {
-                //racingLogic.DestroyAllPickUps();
-                racingLogic.DeactivateSign();
-                racingLogic.PutMessage("");
-                //racingLogic.StopGame();
+               racingLogic.DeactivateSign();
+               racingLogic.PutMessage("");
             }
 
-            //racingLogic.DestroyAllPickUps();
             racingLogic.SetDirection(2);
 
         }

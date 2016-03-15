@@ -3,30 +3,23 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 
 
-public class RacingLogic :/* MonoBehaviour//*/MiniGameAbstract
+public class RacingLogic :MiniGameAbstract
 {
     public GameObject IntroductionCanvas;
 
     private float points;
     private float f;
     private float answere;
-
-    //public GUIText scoreText;
     public GameObject text;
 
     private GameObject sign;
     private GameObject player;
     private ArrayList pickUps;
-    //private int TimeRemaining;
 
     private Vector3 pointA, pointB, pointC;
-    //private float timeLeft;
     private int numbersLeft;
     private Transform prefabWrong;
-    //private Transform prefabRight;
-    //private Vector3 A, B, C, D;
-    //private float right;
-    //private bool update;
+   
     private string multiplication;
     private float direction;
     
@@ -35,83 +28,34 @@ public class RacingLogic :/* MonoBehaviour//*/MiniGameAbstract
     private string MessageString;
     private bool GotRight;
     private bool GameStarted;
-    private Camera PlayerCamera;
     private GameObject car;
     private GameObject Hud;
-
-
-    // Use this for initialization
-    public override 
-    void Start()
+    
+    public override void Start()
     {
-      
         points = 0;
-        sign = null;
-        player = null;
         pickUps = new ArrayList();
 
-        /*foreach (GameObject o in pickUps)
-        {
-            numbersLeft = numbersLeft + 1;
-        }
-        Debug.Log("numbersLeft = " + numbersLeft);*/
-        //numbersLeft = 0;
-        //timeLeft = 3.0f;
-        //update = false;
+        sign = null;
+        player = null;
+        Hud = null;
+        car = null;
         message = false;
         GotRight = true;
         GameStarted = false;
-        Hud = null;
-        car = null;
+        
         CreateQuestion(4);
-
-
-        //UpdateScore();
     }
-    
-    // Update is called once per frame
-    public override 
-        void Update()
+
+   public override void Update()
     {
         base.Update();
-        //UpdateAllPickUps();
-        //timeLeft -= Time.deltaTime;
-
-        //if (numbersLeft > 0 && timeLeft < 0)
-        //{
-        // if (!GotRight)
-        // {
-        //print("Putting");
-        // if(numbersLeft == right) Instantiate(prefabRight, new Vector3((SetPickUpPosition(5)) + x, y, (SetPickUpPosition(10)) + z), Quaternion.identity);
-        //else
-        //Instantiate(prefabWrong, new Vector3((SetPickUpPosition(5)) + 2 + x, y, (SetPickUpPosition(10)) - 2 + z), Quaternion.identity);
-        //numbersLeft--;
-        //timeLeft = 1.0f;
-        // }
-
-
-        //}
-        // else GotRight = false;
-
         
         if (!GetPlaying()&& GameStarted)
         {
-            player.SetActive(true);
-            //print("Hämtade: " + player);
-            car = GetCar();
-            car.SetActive(false);
-            Hud.SetActive(false);
-            GettingMoney(GetCurrentScore());
-            SetGameStarted(false);
-            car.transform.position = new Vector3(318, 120, 318);
-            car.transform.localEulerAngles = new Vector3(0, -43, 0);
-            //car.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezePositionY;
-
-            DeactivateSign();
+            StopRacing();
         }
-
-
-
+        
         if (message == true) sign.GetComponent<TextMesh>().text = MessageString;
 
         if (GetRemainingTime() < 15  && GetRemainingTime() >= 3 && GetPlaying())
@@ -125,45 +69,8 @@ public class RacingLogic :/* MonoBehaviour//*/MiniGameAbstract
             sign.GetComponent<TextMesh>().text = "Game Over";
             message = false;
         }
-
-        /*else if (update == true && timeLeft > 0)
-        {
-            sign.GetComponent<TextMesh>().text = "Score: " + points;
-
-        }
-       
-        else if (update == true)
-        {
-            sign.GetComponent<TextMesh>().text = GetMultiplication();
-            update = false;
-        }*/
     }
-
-  /*  public void SetGotRight(bool right)
-    {
-        GotRight = right;
-        if(right == true)
-        {
-            foreach (GameObject o in pickUps)
-            {
-                numbersLeft = numbersLeft + 1;
-            }
-        }
-    }
-
-    public bool GetGotRight()
-    {
-        if(numbersLeft != 0)
-        {
-            numbersLeft = numbersLeft - 1;
-            return true;
-
-        }
-
-        else return GotRight;
-
-    }*/
-
+    
     public void StartRaicing()
     {
         StartGame();
@@ -171,13 +78,29 @@ public class RacingLogic :/* MonoBehaviour//*/MiniGameAbstract
         
         player.SetActive(false);
         Hud.SetActive(true);
+        car.SetActive(true);
+
         player.transform.position = new Vector3(360, 120, 340);
         player.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
-        car.SetActive(true);
         car.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+
         DeactivateIntroductionCanvas();
         Cursor.visible = false;
+    }
 
+    public void StopRacing()
+    {
+            SetGameStarted(false);
+
+            player.SetActive(true);
+            car.SetActive(false);
+            Hud.SetActive(false);
+                        
+            car.transform.position = new Vector3(318, 120, 318);
+            car.transform.localEulerAngles = new Vector3(0, -43, 0);
+
+            DeactivateSign();
+            GettingMoney(GetCurrentScore());
     }
 
     public void DeactivateIntroductionCanvas()
@@ -210,16 +133,6 @@ public class RacingLogic :/* MonoBehaviour//*/MiniGameAbstract
         return Hud;
     }
 
-    public void SetPlayerCamera(Camera c)
-    {
-        PlayerCamera = c;
-    }
-
-    public Camera GetPlayerCamera()
-    {
-        return PlayerCamera;
-    }
-
     public void SetGameStarted(bool started)
     {
         GameStarted = started;
@@ -229,125 +142,42 @@ public class RacingLogic :/* MonoBehaviour//*/MiniGameAbstract
     {
         return GameStarted;
     }
-
-   /* public void SetGotRight(bool set)
-    {
-        //GotRight = set;
-
-    }*/
-
+    
     public void PutMessage(string s)
     {
         message = true;
         MessageString = s;
     }
 
-   /* public void SetQuestion(Question qu)
-    {
-        q = qu;
-
-    }*/
-   /* public override
-     Question GetQuestion()
-    {
-        return q;
-    }*/
-
     public void SetDirection(float d)
     {
         direction = d;
-
     }
 
     public float GetDirection()
     {
-
         return direction;
     }
-
-    /*public void SetPointB(Vector3 b)
-    {
-        pointB  = b;
-
-    }
-
-    public void SetPointC(Vector3 c)
-    {
-        pointC = c;
-
-    }
-
-    public void SetPointA(Vector3 a)
-    {
-        pointA = a;
-
-    }
-
-    public Vector3 GetPointA()
-    {
-        return pointA;
-
-    }
-
-    public Vector3 GetPointB()
-    {
-        return pointB;
-
-    }
-
-    public Vector3 GetPointC()
-    {
-        return pointC;
-
-    }*/
-
-
-   /* void SetMultiplicationAnswere(float i)
-    {
-        answere = i;
-
-    }
-
-    public float GetMultiplicationAnswere()
-    {
-        return answere;
-
-    }*/
-
+    
     public void SetSign(GameObject t)
     {
         sign = t;
-
     }
 
     public void DeactivateSign()
     {
         if(sign != null) sign.SetActive(false);
         message = false;
-
-
     }
 
     public GameObject GetSign()
     {
-        //if (sign == null) sign = text;
         return sign;
     }
-
-   /*public float SetValue(float i)
-    {
-        return Mathf.Floor(Random.value * i);
-    }*/
-
-    /*public float SetPickUpPosition(float i)
-    {
-        return Mathf.Floor(Random.value * i) + 5;
-    }*/
 
     public void SetPlayer(GameObject P)
     {
         player = P;
-
     }
 
     public GameObject GetPlayer()
@@ -355,7 +185,6 @@ public class RacingLogic :/* MonoBehaviour//*/MiniGameAbstract
         return player;
     }
   
-
     void SetPoints(float f)
     {
         points = points + f;
@@ -363,15 +192,9 @@ public class RacingLogic :/* MonoBehaviour//*/MiniGameAbstract
 
     public void AddScore(float newScoreValue)
     {
-        //if (sign == null) sign = text;
         points += newScoreValue;
-        //Debug.Log("New score value: " + newScoreValue);
-        //UpdateScore();
         int newScore = (int) newScoreValue;
-
-        //Debug.Log("New score: " + newScore);
-        base.AddScore(newScore);
-        
+        base.AddScore(newScore);        
     }
 
     public float GetPoints()
@@ -379,38 +202,21 @@ public class RacingLogic :/* MonoBehaviour//*/MiniGameAbstract
         return points;
     }
 
-   /* void UpdateScore()
-    {
-       // if (sign == null) sign = text;
-        //scoreText.text = "Score: " + points;
-        update = true;
-        //sign.GetComponent<TextMesh>().text = "Score: " + points;
-    }*/
-
     public void CreateMultiplication(GameObject t)
     {
         q = GetQuestion();
-        //if (t == null) t = text;
-        //float a = n;
-        //float b = SetValue(10);
-        //SetMultiplicationAnswere(a * b);
-		multiplication = q.GetQuestion(); //"" + a + " * " + b;
-                                     //t.GetComponent<TextMesh>().text = a + " * " + b;
-
-        //t.GetComponent<TextMesh>().text = multiplication;  
-
+		multiplication = q.GetQuestion();
     }
 
     public string GetMultiplication()
     {
         return multiplication;
-
     } 
 
      public void AddPickUp(GameObject p)
-        {
-            pickUps.Add(p);
-            Debug.Log("Addeded: " + p);
+     {
+          pickUps.Add(p);
+          Debug.Log("Addeded: " + p);
     }
 
     public void DestroyAllPickUps()
@@ -418,8 +224,7 @@ public class RacingLogic :/* MonoBehaviour//*/MiniGameAbstract
         foreach (GameObject o in pickUps)
         {
             Debug.Log("Destroyed: " + o);
-            Destroy(o, 0);
-                
+            Destroy(o, 0);                
         }
     }
 
@@ -429,119 +234,19 @@ public class RacingLogic :/* MonoBehaviour//*/MiniGameAbstract
         {
             Debug.Log("Changed value on : " + o);
             o.GetComponent<PickUpRacing>().SetValue();
-
         }
     }
 
     public void GettingMoney(float score)
     {
         GameController.control.AddBalance((int)score);
-
-        /*
-        int Hundredbills = 0;
-        int points = Mathf.FloorToInt(score);
-        if (GetCurrentScore() > 0)
-        {
-            for (int i = 0; i < (points / 100); i++)
-            {
-                GameController.control.AddItem(GameController.Item.HundredBill);
-                Hundredbills++;
-            }
-
-            Debug.Log("Got : " + Hundredbills + "hundredbills");
-            points = points - (Hundredbills * 100);
-
-            int TenCoins = 0;
-            for (int i = 0; i < (points / 10); i++)
-            {
-                GameController.control.AddItem(GameController.Item.TenCoin);
-                TenCoins++;
-            }
-            Debug.Log("Got : " + TenCoins  + "tencoins");
-            points = points - (TenCoins * 10);
-            for (int i = 0; i < points; i++)
-            {
-                GameController.control.AddItem(GameController.Item.OneCoin);
-            }
-            Debug.Log("Got : " + points + "onecoins");
-        }
-        */
     }
 
     public void CreatePickups(Transform prefab, Vector3 A, Vector3 B, Vector3 C, Vector3 D)
     {
-        //numbersLeft = 4;
-        //timeLeft = 1.0f;
-        //prefabWrong = prefab;
         Instantiate(prefab, A, Quaternion.identity);
         Instantiate(prefab, B, Quaternion.identity);
         Instantiate(prefab, C, Quaternion.identity);
         Instantiate(prefab, D, Quaternion.identity);
-        //this.A = A;
-        //this.B = B;
-        //this.C = C;
-        //this.D = D;
-        //right = SetValue(1) + 1;
-
-        //for (int i = 0; i < 3; i++)
-        //{
-        // Debug.Log("CreatePickUps");
-        // 
-        //StartCoroutine(Example());
-        //}
-        //MoveObject(prefabWrong, new Vector3((SetPickUpPosition(5)) + 2 + x, y, (SetPickUpPosition(10)) - 2 + z), new Vector3((SetPickUpPosition(5)) + 2 + x, y, (SetPickUpPosition(10)) - 2 + z), 1);
-
-        //Debug.Log("Create rigth pickUp");
-        //Instantiate(prefabRigth, new Vector3((SetPickUpPosition(5)) + x, y, (SetPickUpPosition(10)) + z), Quaternion.identity);
     }
-
-
-    /*
-    public void OldCreatePickups(Transform pbWrong, Transform pbRigth, float x, float y, float z)
-    {
-        numbersLeft =4;
-        timeLeft = 3.0f;
-        prefabWrong = pbWrong;
-        prefabRight = pbRigth;
-        this.x = x;
-        this.y = y;
-        this.z = z;
-        right = SetValue(1) + 1;
-
-        //for (int i = 0; i < 3; i++)
-        //{
-                       // Debug.Log("CreatePickUps");
-           // Instantiate(prefabWrong, new Vector3((SetPickUpPosition(5)) + i + x, y, (SetPickUpPosition(10)) - i + z), Quaternion.identity);
-            //StartCoroutine(Example());
-        //}
-        //MoveObject(prefabWrong, new Vector3((SetPickUpPosition(5)) + 2 + x, y, (SetPickUpPosition(10)) - 2 + z), new Vector3((SetPickUpPosition(5)) + 2 + x, y, (SetPickUpPosition(10)) - 2 + z), 1);
-
-        //Debug.Log("Create rigth pickUp");
-        //Instantiate(prefabRigth, new Vector3((SetPickUpPosition(5)) + x, y, (SetPickUpPosition(10)) + z), Quaternion.identity);
-    }
-    */
-         
-    
-/*
-    IEnumerator Example()
-    {
-        print(Time.time);
-        yield return new WaitForSeconds(5);
-        print(Time.time);
-    }*/
-    /*
-    public IEnumerator MoveObject(Transform thisTransform, Vector3 startPos, Vector3 endPos, float time)
-    {
-        var i = 0.0f;
-        var rate = 1.0f / time;
-        while (i < 1.0f)
-        {
-            i += Time.deltaTime * rate;
-            thisTransform.position = Vector3.Lerp(startPos, endPos, i);
-            yield return null;
-        }
-        
-        
-    }*/
-
 }

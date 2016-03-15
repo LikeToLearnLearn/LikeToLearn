@@ -3,34 +3,17 @@ using System.Collections;
 
 public class MuliplicationTrigger : MonoBehaviour {
 
-    public GameObject text;
-   // public GameObject text2;
-    
     private RacingLogic racingLogic;
     public Transform prefabWrong;
-    //public Transform prefabRight;
-    //public GameObject firstThrowingPoint;
-    //public GameObject throwingPoint;
-    //public GameObject secondThrowingPoint;
 
     public GameObject BalloonPointA;
     public GameObject BalloonPointB;
     public GameObject BalloonPointC;
     public GameObject BalloonPointD;
 
-    // private bool passed;
-    //private Vector3 offset;
     private bool turned;
     private GameObject PlayerCar;
-
-    //private Vector3 pointA;
-    //private Vector3 pointB;
-    //private Vector3 pointC;
-    //private Vector3 pointD;
-
-    //private Vector3 pointC;
-
-    // Use this for initialization
+    
     void Start () {
 
         GameObject racingLogicObject = GameObject.FindWithTag("RacingController");
@@ -45,14 +28,7 @@ public class MuliplicationTrigger : MonoBehaviour {
         turned = false;
         PlayerCar = null;
         racingLogic.CreatePickups(prefabWrong, BalloonPointA.transform.position, BalloonPointB.transform.position, BalloonPointC.transform.position, BalloonPointD.transform.position);
-
-
-
-
-        //racingLogic.SetPointC(pointC);
-
-
-
+        
     }
 
 
@@ -60,64 +36,39 @@ public class MuliplicationTrigger : MonoBehaviour {
     void LateUpdate()
     {
         PlayerCar = racingLogic.GetCar();
-        if (PlayerCar != null)
+       /* if (PlayerCar != null)
         {
             if (racingLogic.GetDirection() == 1) text.transform.position = new Vector3(PlayerCar.transform.position.x - 4, PlayerCar.transform.position.y + 4, PlayerCar.transform.position.z + 4);
             else text.transform.position = new Vector3(PlayerCar.transform.position.x + 4, PlayerCar.transform.position.y + 4, PlayerCar.transform.position.z - 4);
-
-        }
+        }*/
     }
-
-    // Update is called once per frame
+    
     void Update () {
        
 	}
 
     void OnTriggerEnter(Collider c)
     {
-       
+       /*
         if (c.tag.Equals("PlayerCar") && racingLogic.GetDirection()== 1)
         {
-            //Debug.Log("MultiplicationTrigger collision det with" + c.name);
-            //passed = true;
-            
-
             racingLogic.DeactivateSign();
-            racingLogic.SetSign(text);
-            //racingLogic.SetPlayer(PlayerCar);
-            text.SetActive(true);
-            if (turned)
+            //racingLogic.SetSign(text);
+            //text.SetActive(true);
+           /* if (turned)
             {
                 text.transform.Rotate(0, 180, 0);
                 turned = false;
-            }
-            //racingLogic.CreateQuestion(4);
-            //racingLogic.CreateMultiplication(text);
-           
-            //(Debug.Log("Right answere :" + racingLogic.GetMultiplicationAnswere());
-            //racingLogic.CreatePickups(prefabWrong, BalloonPointA.transform.position, BalloonPointB.transform.position, BalloonPointC.transform.position, BalloonPointD.transform.position);
+            }*/
+       // }
 
-            //offset = PlayerCar.transform.position - text.transform.position;
-
-            //pointA = firstThrowingPoint.transform.position;
-            //pointB = throwingPoint.transform.position;
-            //pointC = secondThrowingPoint.transform.position;
-            //racingLogic.SetPointA(pointA);
-            //racingLogic.SetPointB(pointB);
-            //racingLogic.SetPointC(pointC);
-
-
-        }
-
-        if (c.tag.Equals("PlayerCar") && racingLogic.GetDirection() == 2)
+       /* if (c.tag.Equals("PlayerCar") && racingLogic.GetDirection() == 2)
         {
             Debug.Log("MultiplicationTrigger collision det with" + c.name);
-            //passed = true;
 
             racingLogic.DeactivateSign();
-            racingLogic.SetSign(text);
-            text.SetActive(true);
-           //racingLogic.SetPlayer(PlayerCar);
+            //racingLogic.SetSign(text);
+            /*text.SetActive(true);
             if (!turned)
             {
                 text.transform.Rotate(0, 180, 0);
@@ -125,23 +76,8 @@ public class MuliplicationTrigger : MonoBehaviour {
             }
            
             racingLogic.CreateMultiplication(text);
-
-            //Debug.Log("Right answere :" + racingLogic.GetMultiplicationAnswere());
-            //racingLogic.CreatePickups(prefabWrong, BalloonPointA.transform.position, BalloonPointB.transform.position, BalloonPointC.transform.position, BalloonPointD.transform.position);
-
-            //offset = PlayerCar.transform.position - text.transform.position;
-
-            //pointA = firstThrowingPoint.transform.position;
-            //pointB = throwingPoint.transform.position;
-            //pointC = secondThrowingPoint.transform.position;
-            //racingLogic.SetPointA(pointA);
-            //racingLogic.SetPointB(pointC);
-            //racingLogic.SetPointC(pointB);
-
-
-        }
-
-
+        }*/
+        
     }
 
 }

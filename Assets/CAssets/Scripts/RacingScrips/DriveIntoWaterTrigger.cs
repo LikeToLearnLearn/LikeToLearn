@@ -4,12 +4,8 @@ using UnityEngine.SceneManagement;
 
 public class DriveIntoWaterTrigger : MonoBehaviour {
 
-    private GameObject car;
-    private  GameObject Hud;
-    private GameObject Player;
     private RacingLogic racingLogic;
 
-	// Use this for initialization
 	void Start () {
 
         GameObject racingLogicObject = GameObject.FindWithTag("RacingController");
@@ -21,61 +17,18 @@ public class DriveIntoWaterTrigger : MonoBehaviour {
         {
             Debug.Log("Cannot find 'RacingLogic' script");
         }
-        
 
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    void Update () {
 	
 	}
     
     void OnTriggerEnter(Collider c)
-    {
-         
-
-        // car = GameObject.Find("Car");
-        //Debug.Log("collision det with" + c.name);
-        if (c.tag.Equals("PlayerCar") || c.tag.Equals("Player"))
-        //if (c.Equals(GameObject.Find("Car")))
+    {       
+        if (c.tag.Equals("PlayerCar") || c.tag.Equals("Player" ))
         {
-
-            Player = racingLogic.GetPlayer();
-            //print("Hämtade: " + Player);
-            car = racingLogic.GetCar();
-            //print("Hämtade: " + car);
-            //print("Playerpoisition: " + Player.transform.position);
-            Hud = racingLogic.GetHud();
-            Player.SetActive(true);
-            Debug.Log("Huden som stängs av är: "+ Hud);
-            Debug.Log("Bilen som stängs av är: " + car);
-            car.SetActive(false);
-            car.transform.position = new Vector3(318, 120, 318);
-            car.transform.localEulerAngles = new Vector3(0, -43, 0);
-            //car.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezePositionY;
-
-            Hud.SetActive(false);
-            
-            racingLogic.GettingMoney(racingLogic.GetPoints());
-            racingLogic.SetGameStarted(false);
-            /*
-            Quaternion rot = car.rotation;
-            rot[0] = 0; //null rotation X
-            rot[2] = 0; //null rotation Z
-            car.rotation = rot;*/
-            car.transform.Rotate(0, 0, 0);
-            //car.transform.position = new Vector3(329, 120, 318);
-            //racingLogic.GetPlayer().SetActive(true);
-
-            //var PlayerCamera = racingLogic.GetPlayerCamera();
-            //if (PlayerCamera == null) Debug.Log("No PlayerCamera found");
-            //else PlayerCamera.enabled = true;
-
-            //Debug.Log("collision det with player");
-            //SceneManager.LoadScene("game_racingisland");
-        }
-
-    }
-
-   
+            racingLogic.StopRacing();
+         }
+     } 
 }
