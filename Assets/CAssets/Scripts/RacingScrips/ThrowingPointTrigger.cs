@@ -31,14 +31,14 @@ public class ThrowingPointTrigger : MonoBehaviour
     {
         if (c.gameObject.CompareTag("PlayerCar"))
         {
-          
+          /*
             if (racingLogic.GetDirection() == 1)
             {
-               racingLogic.DeactivateSign();
+               //racingLogic.DeactivateSign();
                racingLogic.PutMessage("");
             }
 
-            racingLogic.SetDirection(2);
+            racingLogic.SetDirection(2);*/
 
         }
     }

@@ -49,15 +49,16 @@ public class PickUpRacing : MonoBehaviour {
 
             if (racingLogic.GetQuestion().IsCorrect())
             {
-                racingLogic.AddTime(25);
-                racingLogic.AddScore(5f);
+                racingLogic.AddTime(20);
+                racingLogic.AddScore(5);
                 racingLogic.CreateQuestion(4);
                 GameController.control.AddItem(GameController.Item.RedBalloon);
                 racingLogic.UpdateAllPickUps();
+                racingLogic.PutMessage("Yes!!");
             }
             else {
-                racingLogic.AddScore(-2);
-                racingLogic.AddTime(-5);
+                racingLogic.AddScore(-3);
+                racingLogic.AddTime(-15);
             }
         }
     }
@@ -66,7 +67,7 @@ public class PickUpRacing : MonoBehaviour {
      public void SetValue()
     {
         value = racingLogic.GetQuestion().GetAlternative();
-        text.GetComponent<TextMesh>().text = value;
+        if(text!=null) text.GetComponent<TextMesh>().text = value;
     }
 
 }

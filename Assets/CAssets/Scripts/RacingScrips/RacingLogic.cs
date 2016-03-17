@@ -6,42 +6,32 @@ using UnityEngine.SceneManagement;
 public class RacingLogic :MiniGameAbstract
 {
     public GameObject IntroductionCanvas;
-
-    private float points;
-    private float f;
-    private float answere;
-    public GameObject text;
-
-    private GameObject sign;
+        
     private GameObject player;
     private ArrayList pickUps;
 
-    private Vector3 pointA, pointB, pointC;
-    private int numbersLeft;
-    private Transform prefabWrong;
-   
-    private string multiplication;
-    private float direction;
-    
+    private int feedbackTime;
     private Question q;
+
     private bool message;
-    private string MessageString;
-    private bool GotRight;
     private bool GameStarted;
+
     private GameObject car;
     private GameObject Hud;
+
+
     
     public override void Start()
     {
-        points = 0;
         pickUps = new ArrayList();
 
-        sign = null;
-        player = null;
+        player = GameObject.FindWithTag("Player");
+        if(player == null) player = GameObject.FindWithTag("PlayerTest");
+        player.transform.localEulerAngles = new Vector3(0, 278, 0);
+
         Hud = null;
         car = null;
         message = false;
-        GotRight = true;
         GameStarted = false;
         
         CreateQuestion(4);
@@ -55,18 +45,26 @@ public class RacingLogic :MiniGameAbstract
         {
             StopRacing();
         }
-        
-        if (message == true) sign.GetComponent<TextMesh>().text = MessageString;
-
-        if (GetRemainingTime() < 15  && GetRemainingTime() >= 3 && GetPlaying())
+        else if (message == true && feedbackTime > 0)
         {
-            sign.GetComponent<TextMesh>().text =  GetRemainingTime().ToString("f0")+ " s left!!";
+           feedbackTime--;
+        }
+
+        else if (message == true && feedbackTime == 0)
+        {
+            Hud.GetComponent<MinigameHUDController>().DeactivateFeedback();
             message = false;
         }
 
-        else if (GetRemainingTime() <= 2 && GetPlaying())
+        if (GetRemainingTime() < 15  && GetRemainingTime() >= 2 && GetPlaying())
         {
-            sign.GetComponent<TextMesh>().text = "Game Over";
+            PutMessage(GetRemainingTime().ToString("f0") + " s left!!");
+            message = false;
+        }
+
+        else if (GetRemainingTime() <= 1 && GetPlaying())
+        {
+            PutMessage("Time's up!");
             message = false;
         }
     }
@@ -81,7 +79,6 @@ public class RacingLogic :MiniGameAbstract
         car.SetActive(true);
 
         player.transform.position = new Vector3(360, 120, 340);
-        player.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
         car.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
 
         DeactivateIntroductionCanvas();
@@ -90,17 +87,19 @@ public class RacingLogic :MiniGameAbstract
 
     public void StopRacing()
     {
-            SetGameStarted(false);
+        SetGameStarted(false);
 
-            player.SetActive(true);
-            car.SetActive(false);
-            Hud.SetActive(false);
+        player.SetActive(true);
+        car.SetActive(false);
+
+        PutMessage("");
+        Hud.GetComponent<MinigameHUDController>().DeactivateFeedback();
+        Hud.SetActive(false);
                         
-            car.transform.position = new Vector3(318, 120, 318);
-            car.transform.localEulerAngles = new Vector3(0, -43, 0);
+        car.transform.position = new Vector3(318, 120, 318);
+        car.transform.localEulerAngles = new Vector3(0, -43, 0);
 
-            DeactivateSign();
-            GettingMoney(GetCurrentScore());
+        GameController.control.AddBalance(GetCurrentScore());
     }
 
     public void DeactivateIntroductionCanvas()
@@ -146,84 +145,24 @@ public class RacingLogic :MiniGameAbstract
     public void PutMessage(string s)
     {
         message = true;
-        MessageString = s;
+        feedbackTime = 20;
+        Hud.GetComponent<MinigameHUDController>().GiveFeedback(s);
     }
-
-    public void SetDirection(float d)
-    {
-        direction = d;
-    }
-
-    public float GetDirection()
-    {
-        return direction;
-    }
-    
-    public void SetSign(GameObject t)
-    {
-        sign = t;
-    }
-
-    public void DeactivateSign()
-    {
-        if(sign != null) sign.SetActive(false);
-        message = false;
-    }
-
-    public GameObject GetSign()
-    {
-        return sign;
-    }
-
-    public void SetPlayer(GameObject P)
-    {
-        player = P;
-    }
-
+      
     public GameObject GetPlayer()
     {
         return player;
     }
   
-    void SetPoints(float f)
-    {
-        points = points + f;
-    }
-
-    public void AddScore(float newScoreValue)
-    {
-        points += newScoreValue;
-        int newScore = (int) newScoreValue;
-        base.AddScore(newScore);        
-    }
-
-    public float GetPoints()
-    {
-        return points;
-    }
-
-    public void CreateMultiplication(GameObject t)
-    {
-        q = GetQuestion();
-		multiplication = q.GetQuestion();
-    }
-
-    public string GetMultiplication()
-    {
-        return multiplication;
-    } 
-
      public void AddPickUp(GameObject p)
      {
           pickUps.Add(p);
-          Debug.Log("Addeded: " + p);
     }
 
     public void DestroyAllPickUps()
     {
         foreach (GameObject o in pickUps)
         {
-            Debug.Log("Destroyed: " + o);
             Destroy(o, 0);                
         }
     }
@@ -232,14 +171,8 @@ public class RacingLogic :MiniGameAbstract
     {
         foreach (GameObject o in pickUps)
         {
-            Debug.Log("Changed value on : " + o);
             o.GetComponent<PickUpRacing>().SetValue();
         }
-    }
-
-    public void GettingMoney(float score)
-    {
-        GameController.control.AddBalance((int)score);
     }
 
     public void CreatePickups(Transform prefab, Vector3 A, Vector3 B, Vector3 C, Vector3 D)

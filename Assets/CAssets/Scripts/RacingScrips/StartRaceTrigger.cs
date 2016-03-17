@@ -39,11 +39,7 @@ public class StartRaceTrigger : MonoBehaviour {
             
             racingLogic.SetCar(car);
             racingLogic.SetHud(Hud);
-            
-            c.gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezePositionY;
-           
-            racingLogic.SetPlayer(c.gameObject);
-           }
+        }
         
     }
            

@@ -26,20 +26,20 @@ public class ThrowingPointTrigger1 : MonoBehaviour
 
     }
 
-    void OnTriggerEnter(Collider c)
+   /* void OnTriggerEnter(Collider c)
     {
         if (c.gameObject.CompareTag("PlayerCar"))
         {
             if (racingLogic.GetDirection() == 2)
             {
-                racingLogic.DeactivateSign();
+                //racingLogic.DeactivateSign();
                 racingLogic.PutMessage("");
             }
             racingLogic.SetDirection(1);
 
 
-        }
-    }
+        }*/
+   //}
 
 
 }

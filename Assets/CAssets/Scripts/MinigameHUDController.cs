@@ -97,6 +97,20 @@ public class MinigameHUDController : MonoBehaviour {
         endScore.SetActive(true);
     }
 
+    public void GiveFeedback(string s)
+    {
+        endScore.SetActive(true);
+        endText = s;
+        endScore.GetComponent<Text>().text = endText;
+        
+    }
+
+    public void DeactivateFeedback()
+    {
+        endScore.SetActive(false);
+
+    }
+
     public void SetEndText(string s)
     {
         endText = s;
