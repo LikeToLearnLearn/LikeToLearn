@@ -6,13 +6,13 @@ using UnityEngine.SceneManagement;
 
 public class PickUpRacing : MonoBehaviour {
     public GameObject text;
+    public GameObject me;
     private RacingLogic racingLogic;
     public Vector3 pointA, pointB, pointC;
-    public GameObject me;
+    
 
     private float points;
     private float f;
-    private GameObject player;
     private string value;
     
     void Start()
@@ -27,7 +27,6 @@ public class PickUpRacing : MonoBehaviour {
             Debug.Log("Cannot find 'RacingLogic' script");
         }
 
-        player = racingLogic.GetPlayer();
         SetValue();
 
         racingLogic.AddPickUp(me);

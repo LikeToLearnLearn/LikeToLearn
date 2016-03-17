@@ -4,9 +4,6 @@ using UnityEngine.SceneManagement;
 
 public class ExitRaceTrigger : MonoBehaviour {
 
-    public GameObject car;
-    public GameObject Hud;
-
     private RacingLogic racingLogic;
 
 	void Start () {
