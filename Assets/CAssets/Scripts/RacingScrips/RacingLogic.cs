@@ -7,6 +7,7 @@ public class RacingLogic :MiniGameAbstract
 {
     public GameObject introductionCanvas;
     public Transform balloon;
+
     private GameObject player;
     private GameObject car;
     private GameObject Hud;
@@ -127,7 +128,7 @@ public class RacingLogic :MiniGameAbstract
         Hud.GetComponent<MinigameHUDController>().DeactivateFeedback();
         Hud.SetActive(false);
                         
-        car.transform.position = new Vector3(318, 120, 318);
+        car.transform.position = new Vector3(330, 120, 318);
         car.transform.localEulerAngles = new Vector3(0, -43, 0);
 
         GameController.control.AddBalance(GetCurrentScore());

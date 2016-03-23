@@ -50,10 +50,12 @@ public class PickUpRacing : MonoBehaviour {
             {
                 racingLogic.AddTime(20);
                 racingLogic.AddScore(5);
+
                 racingLogic.CreateQuestion(4);
-                GameController.control.AddItem(GameController.Item.RedBalloon);
                 racingLogic.UpdateAllPickUps();
                 racingLogic.PutMessage("Yes!!");
+
+                GameController.control.AddItem(GameController.Item.RedBalloon);
             }
             else {
                 racingLogic.AddScore(-3);
