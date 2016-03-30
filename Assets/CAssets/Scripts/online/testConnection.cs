@@ -39,6 +39,7 @@ public class testConnection : MonoBehaviour {
         form.AddField("question", "3");
 
         WWW www = new WWW("192.168.254.157:8080/greeting", form);
+        Debug.Log("Nu försöker jag skicka: " + form);
         //WWW www = new WWW("192.168.254.157:8080/greeting?name=" + data);
     }
     
