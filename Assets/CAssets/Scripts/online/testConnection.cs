@@ -33,14 +33,17 @@ public class testConnection : MonoBehaviour {
         //Debug.Log(data);
         WWWForm form = new WWWForm();
 
-        form.AddField("coursecode", "data065");
+        /*form.AddField("coursecode", "data065");
         form.AddField("momentcode", "kurt");
         form.AddField("question", "1 + 2");
-        form.AddField("question", "3");
+        form.AddField("question", "3");*/
+        form.AddField("name", "data065");
+        string data = "from Unity";
 
-        WWW www = new WWW("192.168.254.157:8080/greeting", form);
+        WWW www = new WWW("192.168.254.169:8080/greeting", form);
         Debug.Log("Nu försöker jag skicka: " + form);
-        //WWW www = new WWW("192.168.254.157:8080/greeting?name=" + data);
+        //WWW www = new WWW("192.168.254.169:8080/greeting?name=" + data);
+        //Debug.Log("Nu försöker jag skicka: " + data);
     }
     
 }
