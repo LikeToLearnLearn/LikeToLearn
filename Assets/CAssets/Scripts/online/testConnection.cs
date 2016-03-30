@@ -28,14 +28,18 @@ public class testConnection : MonoBehaviour {
         Network.Connect("192.168.254.169", 8080);
     }
 
-    static void UploadJSON(string data)
+    public void UploadJSON(/*string data*/)
     {
-        Debug.Log(data);
+        //Debug.Log(data);
         WWWForm form = new WWWForm();
 
-        form.AddField("name", data);
-        //WWW www = new WWW("192.168.254.157:8080/greeting?name=Je", form);
-        WWW www = new WWW("192.168.254.157:8080/greeting?name=" + data);
+        form.AddField("coursecode", "data065");
+        form.AddField("momentcode", "kurt");
+        form.AddField("question", "1 + 2");
+        form.AddField("question", "3");
+
+        WWW www = new WWW("192.168.254.157:8080/greeting", form);
+        //WWW www = new WWW("192.168.254.157:8080/greeting?name=" + data);
     }
     
 }
