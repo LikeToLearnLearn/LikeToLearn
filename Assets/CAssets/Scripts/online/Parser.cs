@@ -1,10 +1,26 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Parser : MonoBehaviour {
+public class Parser {
 
-	// Use this for initialization
-	void Start () {
+    public string coursecode { get; private set; } 
+    public string momentcode { get; private set; } 
+    public string question { get; private set; }
+    public string answer { get; private set; }
+
+    private enum State { open, array, obj }; // keeps track of the mode the parser has reached 
+
+    public Parser(string data)
+    {
+        coursecode = string.Empty; ;
+        momentcode = string.Empty;
+        question = string.Empty;
+        answer = string.Empty;
+        parseJson(data);
+    }
+
+    // Use this for initialization
+    void Start () {
 	
 	}
 	
@@ -13,10 +29,14 @@ public class Parser : MonoBehaviour {
 	
 	}
 
-    public void parseJson()
+    public void parseJson(string data)
     {
+        State st = State.open; // start outside any data structure
+        string newCoursecode = string.Empty; // most recently read timestamp that may be saved
+        string valueCand = string.Empty; // most recently read value that may be saved
+        bool save = false; // indicates if the candidate value should replace the result value
 
-        /*  for (int i = 0; i < data.Length; i++) // iterate over the characters
+         for (int i = 0; i < data.Length; i++) // iterate over the characters
          {
              switch (st)
              {
@@ -34,17 +54,43 @@ public class Parser : MonoBehaviour {
                      {
                          if (save) // the object read should replace the return values
                          {
-                             Timestamp = timestampCand;
-                             Value = valueCand;
-                             HasResult = true; // we now have a result
+                             coursecode = newCoursecode;
+                             momentcode = valueCand;
+                             //HasResult = true; // we now have a result
                          }
 
 
                      }
 
-             }
+                    else if (data[i] == 'c' && data[i + 1] == 'o' && data[i + 2] == 'u' && data[i + 3] == 'r' && data[i + 4] == 's' && data[i + 5] == 'e' && data[i + 6] == 'c' && data[i + 7] == 'o' && data[i + 8] == 'd' && data[i + 9] == 'e')
+                    {
+                        i += "coursecode\":".Length; // skip forward to the coursecode data
+                        int j = i;
+                        while (data[j] != ',') // find end of coursecode data
+                            j++;
+                        newCoursecode = (data.Substring(i, j - i)); // parse timestamp
+                        //if (timestampCand > coursecode) // save if more recent
+                            //save = true;
+                        i = j; // skip past timestamp data
+                    }
+                    // elseif data[i...] == "value"
+                    else if (data[i] == 'v' && data[i + 1] == 'a' && data[i + 2] == 'l' && data[i + 3] == 'u' && data[i + 4] == 'e')
+                    {
+                        i += "value\":".Length; // skip forward to the value data
+                        int j = i;
+                        while (data[j] == '\"') // find start of text data 
+                            j++;
+                        int k = j;
+                        while (data[k] != '\"') // find end of text data
+                            k++;
+                        valueCand = data.Substring(j, k - j); // parse value
+                        i = k; // skip past value data
+                    }
+                    break;
 
-         }*/
+            }
+
+         }
 
     }
 }

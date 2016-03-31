@@ -33,49 +33,45 @@ public class testConnection : MonoBehaviour {
 
     public void UploadJSON()
     {
-        //Debug.Log(data);
-
-       WWWForm form = new WWWForm();
+        WWWForm form = new WWWForm();
         form.AddField("name", "data065");
-
-        //string data = "from Unity";
-       //WWW www = new WWW("192.168.254.169:8080/greeting?name=" + data);
-       //Debug.Log("Nu försöker jag skicka: " + data);
 
         WWW www = new WWW("192.168.254.169:8080/greeting", form);
         Debug.Log("Nu försöker jag skicka: " + form + " till greeting");
 
         WWWForm form1 = new WWWForm();
-        WWW www1 = new WWW("192.168.254.169:8080/school", form1);
-        Debug.Log("Nu försöker jag skicka: " + form1 + " till school");
-
         form1.AddField("coursecode", "data065");
         form1.AddField("momentcode", "kurt");
         form1.AddField("question", "1 + 2");
-        form1.AddField("question", "3");
+        form1.AddField("answer", "3");
+               
+        WWW www1 = new WWW("192.168.254.169:8080/school", form1);
+        Debug.Log("Nu försöker jag skicka: " + form1 + " till school");
+        
+        testJson();
         
     }
 
     public void testJson()
     {
 
-        string url = string.Format("192.168.254.169:8080/greeting?name=Jenny");
+        string url = string.Format("192.168.254.169:8080/school");
         var www = new WWW(url, null, headers);
         StartCoroutine(WaitForRequest(www));
-        var parse = new Parser();
 
     }
 
     private IEnumerator WaitForRequest(/*Action<EricssonApiParser> fn,*/ WWW www)
     {
         yield return www;
-        /*if (www.error == null)
+        if (www.error == null)
         {
             if (www.text.Length > 0)
             {
-                var parse = new EricssonApiParser(www.text);
-                if (parse.HasResult)
-                    fn(parse);
+                var parse = new Parser(www.text);
+                Debug.Log(www.text + " was received");
+                //if (parse.HasResult)
+                //fn(parse);
             }
             else
             {
@@ -85,7 +81,7 @@ public class testConnection : MonoBehaviour {
         else
         {
             Debug.LogError("Failed to fetch data: " + www.error);
-        }*/
+        }
     }
 
     
