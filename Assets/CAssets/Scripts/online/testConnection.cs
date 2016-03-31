@@ -38,25 +38,22 @@ public class testConnection : MonoBehaviour {
 
         WWW www = new WWW("192.168.254.169:8080/greeting", form);
         Debug.Log("Nu försöker jag skicka: " + form + " till greeting");
-
-        WWWForm form1 = new WWWForm();
-        form1.AddField("coursecode", "data065");
-        form1.AddField("momentcode", "kurt");
-        form1.AddField("question", "1 + 2");
-        form1.AddField("answer", "3");
-               
-        WWW www1 = new WWW("192.168.254.169:8080/school", form1);
-        Debug.Log("Nu försöker jag skicka: " + form1 + " till school");
-        
+                    
         testJson();
         
     }
 
     public void testJson()
     {
+        WWWForm form1 = new WWWForm();
+        form1.AddField("coursecode", "iugu");
+        form1.AddField("momentcode", "9845u");
+        form1.AddField("question", "1 + 2");
+        form1.AddField("answer", "3");
 
         string url = string.Format("192.168.254.169:8080/school");
-        var www = new WWW(url, null, headers);
+        var www = new WWW(url, form1);
+        Debug.Log("Nu försöker jag skicka: " + form1 + " till school");
         StartCoroutine(WaitForRequest(www));
 
     }
@@ -82,10 +79,10 @@ public class testConnection : MonoBehaviour {
         {
             Debug.LogError("Failed to fetch data: " + www.error);
         }
+
     }
 
-    
-
+   
 }
 
 

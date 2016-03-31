@@ -33,7 +33,9 @@ public class Parser {
     {
         State st = State.open; // start outside any data structure
         string newCoursecode = string.Empty; // most recently read timestamp that may be saved
-        string valueCand = string.Empty; // most recently read value that may be saved
+        string newMomentcode = string.Empty; // most recently read value that may be saved
+        string newQuestion = string.Empty; // most recently read value that may be saved
+        string newAnswer = string.Empty; // most recently read value that may be saved
         bool save = false; // indicates if the candidate value should replace the result value
 
          for (int i = 0; i < data.Length; i++) // iterate over the characters
@@ -55,10 +57,9 @@ public class Parser {
                          if (save) // the object read should replace the return values
                          {
                              coursecode = newCoursecode;
-                             momentcode = valueCand;
+                             momentcode = newMomentcode;
                              //HasResult = true; // we now have a result
                          }
-
 
                      }
 
@@ -68,22 +69,33 @@ public class Parser {
                         int j = i;
                         while (data[j] != ',') // find end of coursecode data
                             j++;
-                        newCoursecode = (data.Substring(i, j - i)); // parse timestamp
+                        newCoursecode = (data.Substring(i, j - i)); // parse coursecode
                         //if (timestampCand > coursecode) // save if more recent
                             //save = true;
-                        i = j; // skip past timestamp data
+                        i = j; // jump to momentcode
+                    }
+
+                    if (data[i] == 'm' && data[i + 1] == 'o' && data[i + 2] == 'm' && data[i + 3] == 'e' && data[i + 4] == 'n' && data[i + 5] == 't' && data[i + 6] == 'c' && data[i + 7] == 'o' && data[i + 8] == 'd' && data[i + 9] == 'e')
+                    {
+                        i += "momentcode\":".Length; // skip forward to the momentcode data
+                        int j = i;
+                        while (data[j] != ',') // find end of momentcode data
+                            j++;
+                        newCoursecode = (data.Substring(i, j - i)); // parse momentcode
+                                                                    
+                        i = j; // jump to question
                     }
                     // elseif data[i...] == "value"
-                    else if (data[i] == 'v' && data[i + 1] == 'a' && data[i + 2] == 'l' && data[i + 3] == 'u' && data[i + 4] == 'e')
+                    if (data[i] == 'q' && data[i + 1] == 'u' && data[i + 2] == 'e' && data[i + 3] == 's' && data[i + 4] == 't' && data[i + 4] == 'i' && data[i + 4] == 'o' && data[i + 4] == 'n')
                     {
-                        i += "value\":".Length; // skip forward to the value data
+                        i += "question\":".Length; // skip forward to the question data
                         int j = i;
-                        while (data[j] == '\"') // find start of text data 
+                        while (data[j] == ',') // find end of question data 
                             j++;
                         int k = j;
                         while (data[k] != '\"') // find end of text data
                             k++;
-                        valueCand = data.Substring(j, k - j); // parse value
+                        newQuestion = data.Substring(j, k - j); // parse value
                         i = k; // skip past value data
                     }
                     break;
