@@ -14,6 +14,18 @@ public abstract class Course {
 	Dictionary<string, int> results = new Dictionary<string, int>();
 	static System.Random rnd = new System.Random();
 
+    private string coursecode;
+
+    public Course(/*string coursecode*/)
+    {
+        this.coursecode = "testkursen";
+    }
+
+   public string getCoursecode()
+    {
+        return coursecode;
+    }
+
 	public virtual Question GetQuestion(int alternatives)
 	{
 		int level = testMode ? testLevel : CurrentLevel();
@@ -21,7 +33,7 @@ public abstract class Course {
 		string q = qs[rnd.Next(qs.Count)];
 		string a = answers[q];
 		var added = new List<string>();
-		var res = new Question(this, q, a);
+		var res = new Question(this, level,  q, a);
 		List<string> ans = Enumerable.ToList(answers.Values);
 		while (alternatives > 0) {
 			string cand = ans[rnd.Next(ans.Count)];

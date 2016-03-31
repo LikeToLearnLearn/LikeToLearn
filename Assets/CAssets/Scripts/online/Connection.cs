@@ -1,22 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
-public class testConnection : MonoBehaviour {
+[Serializable]
+public class   Connection/*: MonoBehaviour*/{
 
  private Dictionary<string, string> headers = new Dictionary<string, string>();
 
     // Use this for initialization
     void Start () {
 
-        //string url = String.Format("https://ece01.ericsson.net:4443/ecity?dgw=Ericsson${0}&sensorSpec=Ericsson${1}&t1={2}&t2={3}", bus, sensor, t1, t2);
-        //var www = new WWW(url, null, headers);
-        // StartCoroutine(WaitForRequest(action, www));
-
-        //string productlist = File.ReadAllText(Application.dataPath + "/Resources/AssetBundles/" + "AssetBundleInfo.json");
-        //UploadProductListJSON(productList);
-
-        
+              
 
     }
 	
@@ -54,7 +49,22 @@ public class testConnection : MonoBehaviour {
         string url = string.Format("192.168.254.169:8080/school");
         var www = new WWW(url, form1);
         Debug.Log("Nu försöker jag skicka: " + form1 + " till school");
-        StartCoroutine(WaitForRequest(www));
+        //StartCoroutine(WaitForRequest(www));
+
+    }
+
+    public void sendResult(string coursecode, string momentcode, string question, string answer)
+    {
+        WWWForm form1 = new WWWForm();
+        form1.AddField("coursecode", coursecode);
+        form1.AddField("momentcode", momentcode);
+        form1.AddField("question", question);
+        form1.AddField("answer", answer);
+
+        string url = string.Format("192.168.254.169:8080/school");
+        var www = new WWW(url, form1);
+        Debug.Log("Nu försöker jag skicka: " + form1 + " till school");
+        //StartCoroutine(WaitForRequest(www));
 
     }
 

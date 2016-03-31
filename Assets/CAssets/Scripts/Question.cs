@@ -9,22 +9,31 @@ public class Question {
 	private List<string> answers = new List<string>(); 
 	private List<string> alt = new List<string>();
 	private Course course;
+    private string coursecode;
+    private string momentcode;
 	private string question;
 	private string answer;
 	private int index;
+    private Connection connection;
 
-	public Question(Course course, string question, string answer)
+	public Question(Course course, int level, string question, string answer)
 	{
 		this.course = course;
+        coursecode = course.getCoursecode();
+        momentcode = "" + level;
 		this.question = question;
 		this.answer = answer;
 		this.index = rnd.Next(1000);
+
+        
 		AddAlternative(answer);
 	}
 		
 	public void Answer(string givenAnswer)
 	{
-		answers.Add(givenAnswer);
+        connection = new Connection();
+        connection.sendResult(coursecode, momentcode, question, givenAnswer);
+        answers.Add(givenAnswer);
 		if (IsCorrect() && answers.Count == 1) {
 			course.LogAnswerCorrect(question);
 		}
@@ -33,7 +42,8 @@ public class Question {
 	public bool IsCorrect()
 	{
 		int n = answers.Count;
-		return n > 0 && answers[n - 1] == answer;
+        //GameObject.DestroyObject(connection, 0);
+        return n > 0 && answers[n - 1] == answer;
 	}
 
 	public string GetAlternative()
