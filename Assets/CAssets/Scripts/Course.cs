@@ -9,37 +9,51 @@ public abstract class Course {
 
 	bool testMode = false;
 	int testLevel = 0;
-	Dictionary<int, List<string>> questions = new Dictionary<int, List<string>>();
-	Dictionary<string, string> answers = new Dictionary<string, string>();
+    int nr = 0;
+    public Dictionary<int, List<string>> questions = new Dictionary<int, List<string>>();
+Dictionary<string, string> answers = new Dictionary<string, string>();
 	Dictionary<string, int> results = new Dictionary<string, int>();
 	static System.Random rnd = new System.Random();
 
-    private string coursecode;
+    private string coursecode = "defaulCourse";
 
-    public Course(/*string coursecode*/)
-    {
-        this.coursecode = "testkursen";
-    }
-
+    
    public string getCoursecode()
     {
         return coursecode;
     }
 
-	public virtual Question GetQuestion(int alternatives)
+    public void setCoursecode( string coursecode)
+    {
+        this.coursecode = coursecode;
+    }
+
+    public virtual Question GetQuestion(int alternatives)
 	{
-		int level = testMode ? testLevel : CurrentLevel();
+        Debug.Log( "in getquestion 1");
+
+        int level = 1;// testMode ? testLevel : CurrentLevel();
 		List<string> qs = questions[level];
+        Debug.Log(qs + "in getquestion 2");
 		string q = qs[rnd.Next(qs.Count)];
-		string a = answers[q];
-		var added = new List<string>();
-		var res = new Question(this, level,  q, a);
-		List<string> ans = Enumerable.ToList(answers.Values);
-		while (alternatives > 0) {
-			string cand = ans[rnd.Next(ans.Count)];
-			if (a != cand && added.IndexOf(cand) == -1) {
-				added.Add(cand);
-				res.AddAlternative(cand);
+        Debug.Log(q + "in getquestion 3");
+        string a = answers[q + "" + 2];
+        Debug.Log(a + "in getquestion 4");
+        var added = new List<string>();
+        Debug.Log(added + "in getquestion 5");
+        var res = new Question(this, level,  q, a);
+        Debug.Log(res + "in getquestion 6");
+        List<string> ans = Enumerable.ToList(answers.Values);
+        Debug.Log(ans + "in getquestion 7");
+        while (alternatives > 0) {
+            Debug.Log( "in getquestion 8");
+            string cand = ans[rnd.Next(ans.Count)];
+            Debug.Log(qs + "in getquestion 9");
+            if (a != cand && added.IndexOf(cand) == -1) {
+                Debug.Log(qs + "in getquestion 10");
+                added.Add(cand);
+                Debug.Log(qs + "in getquestion 11");
+                res.AddAlternative(cand);
 				alternatives--;
 			}
 		}
@@ -74,17 +88,34 @@ public abstract class Course {
 
 	public virtual void AddQuestion(int level, string question, string answer)
 	{
+        Debug.Log("questions.ContainsKey(level) = " + questions.ContainsKey(level));
+        nr++;
 		if (!questions.ContainsKey(level)) {
-			questions[level] = new List<string>();
-		}
-		if (!questions[level].Exists(q => q == question)) {
+            //questions[level] = new List<string>();
+            Debug.Log(" Innan jag lagt till en fråga i questions: " + questions.ToString());
+            questions.Add(level, new List<string>());
+            questions[level].Add(question);
+            Debug.Log(" Efter att jag lagt till en fråga i questions[level]: " + questions[level]);
+        }
+
+		/*if (!questions[level].Exists(q => q == question)) {
 			questions[level].Add(question);
+		}*/
+
+        else
+        {
+            questions[level].Add(question);
+            
+        }
+
+		if (!answers.ContainsKey(question + "" + nr)) {
+            //answers[question] = answer;
+            answers.Add(question + "" + nr, answer + "" + nr);
+            Debug.Log("answer " + answers.ContainsKey(answer + "" + nr));
 		}
-		if (!answers.ContainsKey(answer)) {
-			answers[question] = answer;
-		}
+
 		if (!results.ContainsKey(question)) {
-			results[question] = 0;
+			results.Add(question, 0);
 		}
 	}
 

@@ -7,6 +7,7 @@ public class MultiplicationCourse : Course {
 
 	static System.Random rnd = new System.Random();
 
+    
 	public MultiplicationCourse()
 	{
 		for (int i = 0; i < 10; i++) {

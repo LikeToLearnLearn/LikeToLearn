@@ -22,7 +22,7 @@ public class Parser {
         //Debug.Log(data + " kom till en nyskapad parser");
 
         HasResult = false;
-        parseJson(data);
+        if (data != null) parseJson(data);
     }
 
     // Use this for initialization
@@ -76,7 +76,7 @@ public class Parser {
                             
                             HasResult = true; // we now have a result
 
-                            Debug.Log("corsecode sparas som" + coursecode + ", momentcode sparas som" + momentcode + ", question sparas som" + question + ", answer sparas som" + answer);
+                            Debug.Log("Tillfälligt i Parser: corsecode sparas som" + coursecode + ", momentcode sparas som" + momentcode + ", question sparas som" + question + ", answer sparas som" + answer);
                          }
 
                      }

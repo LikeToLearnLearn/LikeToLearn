@@ -41,6 +41,7 @@ public class GameController : MonoBehaviour {
 	GameData data = null;
 	GlobalData global = null;
 	SceneHandler sceneHandler;
+    Recive recive;
 
 	public int unlockedWorldLevel {  // not tested
 		get { return (int) Math.Log10(data.experiencePoints); }
@@ -82,7 +83,22 @@ public class GameController : MonoBehaviour {
 		InvokeRepeating("Save", 5, 5);
 	}
 
-	void OnEnable()
+    void Update()
+    {
+        if(recive != null)
+            {
+                if (recive.getNewQuestions())
+                {
+                    setCurrentcourse(recive.c);
+                    Debug.Log("Vi försöker sätta " + recive.c + "till currencourse i GameController.Update");
+                }
+                
+
+            }
+    }
+
+
+    void OnEnable()
 	{
 		LoadGlobal();
 	}
@@ -113,13 +129,27 @@ public class GameController : MonoBehaviour {
 		// add player to math course for now
 		Course m = new MultiplicationCourse();
 		data.coruses.Add(m);
-		data.currentCourse = m;
+        //data.currentCourse = m;
+        setCurrentcourse(m);
+        //recive = new Recive(data.coruses);
+        GameObject conn = GameObject.Find("ConnectionHandler");
+        recive = conn.GetComponent<Recive>();
+        Debug.Log("Nu sattes recive till: " + recive + "i NewGame");
 
-		// one less variation to test if we save and load every time
-		SaveGame();
+        recive.setCourseList(data.coruses);
+        
+        Debug.Log("Nu försökte jag sätta recive.courseList till: " + data.coruses + " i NewGame");
+
+
+        // one less variation to test if we save and load every time
+        SaveGame();
 		LoadGame(name);
 	}
 
+    public void setCurrentcourse( Course m)
+    {
+        if (data != null) data.currentCourse = m;
+    }
 	public Item TranslateItem(string name)
 	{
 		return (Item) Enum.Parse(typeof(Item), name, true);
@@ -196,7 +226,16 @@ public class GameController : MonoBehaviour {
 		}
 		data = content;
 		sceneHandler.ChangeScene("new", data.currentScene);
-	}
+        //recive = new Recive(data.coruses); // Man fick visst inte skapa nya monobehaviorsaker med hjälp av new ....
+        GameObject conn = GameObject.Find("ConnectionHandler");
+        recive = conn.GetComponent<Recive>();
+        recive.setCourseList(data.coruses);
+
+        Debug.Log("Nu sattes recive till: " + recive + "i LoadGame");
+        Debug.Log("Nu försökte jag sätta recive.courseList till: " + data.coruses + " i LoadGame");
+
+
+    }
 
 	public void DeleteGame(string name) // not tested
 	{
