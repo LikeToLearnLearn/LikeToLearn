@@ -167,9 +167,9 @@ public class Recive : MonoBehaviour {
     void createNewMoment(Course c)
     {
         Debug.Log("newMomentcode i början av createNewMoment är: " + newMomentcode);
-        //Debug.Log("Vad blir System.Int32.Parse(newMomentcode) i createNewMoment??? Jo: " + System.Int32.Parse(newMomentcode)); // Seriöst!!!!
+        Debug.Log("Vad blir System.Int32.Parse(newMomentcode) i createNewMoment??? Jo: " + System.Int32.Parse(newMomentcode)); // Seriöst!!!!
 
-        int level = 1;// int.Parse(newMomentcode);
+        int level = int.Parse(newMomentcode);
         Debug.Log("Level som skapas i createNewMoment är: " + level);
 
        /* if (!c.questions.ContainsKey(level))

@@ -87,7 +87,7 @@ public class Parser {
                         int j = i;
                         while (data[j] != ',') // find end of coursecode data
                             j++;
-                        newCoursecode = (data.Substring(i, j - i)); // parse coursecode
+                        newCoursecode = (data.Substring(i +1 , j - (i + 2))); // parse coursecode
                         //Debug.Log(newCoursecode + " hämtades som kurskod ");
                         //if (timestampCand > coursecode) // save if more recent
                         //save = true;
@@ -100,7 +100,7 @@ public class Parser {
                         int j = i;
                         while (data[j] != ',') // find end of momentcode data
                             j++;
-                        newMomentcode = (data.Substring(i, j - i)); // parse momentcode
+                        newMomentcode = (data.Substring(i + 1, j - (i + 2 ))); // parse momentcode
                         //Debug.Log(newMomentcode + " hämtades som momentkod ");
                         i = j; // jump to question
                     }
@@ -110,9 +110,9 @@ public class Parser {
                     {
                         i += "question\":".Length; // skip forward to the question data
                         int j = i;
-                        while (data[j] != ',') // find end of momentcode data
+                        while (data[j] != ',') // find end of question data
                             j++;
-                        newQuestion = (data.Substring(i, j - i)); // parse momentcode
+                        newQuestion = (data.Substring(i + 1, j - (i + 2) )); // parse question
                         //Debug.Log(newQuestion + " hämtades som fråga ");
                     }
 
@@ -122,7 +122,7 @@ public class Parser {
                         int j = i;
                         while (data[j] != '}') // find end of answere data
                             j++;
-                        newAnswer = (data.Substring(i, j - i)); // parse momentcode
+                        newAnswer = (data.Substring(i + 1, j - (i + 2))); // parse answer
                         //Debug.Log(newAnswer + " hämtades som svar ");
                     }
 
