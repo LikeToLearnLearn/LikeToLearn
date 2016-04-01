@@ -66,7 +66,7 @@ public class Recive : MonoBehaviour {
         WWWForm form = new WWWForm();
         form.AddField("name", "data065");
 
-        WWW www = new WWW("127.0.0.1:8080/greeting", form);
+        WWW www = new WWW("192.168.254.169:8080/greeting", form);
         Debug.Log("Nu försöker jag skicka: " + form + " till greeting");
 
         testJson();
@@ -81,7 +81,7 @@ public class Recive : MonoBehaviour {
         form1.AddField("question", "1 + 2");
         form1.AddField("answer", "3");
 
-        string url = string.Format("127.0.0.1:8080/school");
+        string url = string.Format("192.168.254.169:8080/school");
         var www = new WWW(url, form1);
         Debug.Log("Nu försöker jag skicka: " + form1 + " till school");
         StartCoroutine(WaitForRequest(www));
@@ -90,7 +90,7 @@ public class Recive : MonoBehaviour {
 
     public bool getNewQuestions()
     {
-        string url = string.Format("127.0.0.1:8080/test");
+        string url = string.Format("192.168.254.169:8080/test");
         var www = new WWW(url);
         StartCoroutine(WaitForRequest(www));
         return parse.HasResult;
