@@ -37,7 +37,7 @@ Dictionary<string, string> answers = new Dictionary<string, string>();
         Debug.Log(qs + "in getquestion 2");
 		string q = qs[rnd.Next(qs.Count)];
         Debug.Log(q + "in getquestion 3");
-        string a = answers[q + "" + 2];
+        string a = answers[q /*+ "" + 2*/];
         Debug.Log(a + "in getquestion 4");
         var added = new List<string>();
         Debug.Log(added + "in getquestion 5");
@@ -108,10 +108,10 @@ Dictionary<string, string> answers = new Dictionary<string, string>();
             
         }
 
-		if (!answers.ContainsKey(question + "" + nr)) {
+		if (!answers.ContainsKey(question/* + "" + nr*/)) {
             //answers[question] = answer;
-            answers.Add(question + "" + nr, answer + "" + nr);
-            Debug.Log("answer " + answers.ContainsKey(answer + "" + nr));
+            answers.Add(question/* + "" + nr*/, answer /*+ "" + nr*/);
+            Debug.Log("answer " + answers.ContainsKey(answer /*+ "" + nr*/));
 		}
 
 		if (!results.ContainsKey(question)) {
