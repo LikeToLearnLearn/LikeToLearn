@@ -25,7 +25,6 @@ public class Question {
 		this.answer = answer;
 		this.index = rnd.Next(1000);
 
-        
 		AddAlternative(answer);
 	}
 		
@@ -42,7 +41,6 @@ public class Question {
 	public bool IsCorrect()
 	{
 		int n = answers.Count;
-        //GameObject.DestroyObject(connection, 0);
         return n > 0 && answers[n - 1] == answer;
 	}
 

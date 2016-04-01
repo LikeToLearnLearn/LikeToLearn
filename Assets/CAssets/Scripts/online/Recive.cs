@@ -1,8 +1,18 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections;using UnityEngine;
 
+
+    
 
 public class Recive : MonoBehaviour {
+
+    private const bool allowCarrierDataNetwork = false;
+    private const string pingAddress = presentIP; 
+    private const float waitingTime = 2.0f;
+    private const string presentIP = "192.168.254.169"; // Kurts ipadress
+
+    private Ping ping;
+    private float pingStartTime;
 
     public string newCoursecode { get; private set; }
     public System.String newMomentcode { get; private set; }
@@ -22,19 +32,9 @@ public class Recive : MonoBehaviour {
     private Parser parse;
     public Course c { get; private set; }
     private System.Collections.Generic.List<Course> courseList;
+    private bool online;
 
-    public Recive(System.Collections.Generic.List<Course> coruses)
-    {
-        parse = new Parser(null);
-        courseList = coruses;
-        c = null;
-        
-    }
-
-    public void setCourseList(System.Collections.Generic.List<Course> coruses)
-    {
-        courseList = coruses;
-    }
+    
 
 
     // Use this for initialization
@@ -46,19 +46,66 @@ public class Recive : MonoBehaviour {
         HasNewAnswer = false;
 
         parse = new Parser(null);
+        checkOnline(); 
 
+    }
 
+    public /*bool*/ void checkOnline()
+    {
+        bool internetPossiblyAvailable;
+        switch (Application.internetReachability)
+        {
+            case NetworkReachability.ReachableViaLocalAreaNetwork:
+                internetPossiblyAvailable = true;
+                break;
+            case NetworkReachability.ReachableViaCarrierDataNetwork:
+                internetPossiblyAvailable = allowCarrierDataNetwork;
+                break;
+            default:
+                internetPossiblyAvailable = false;
+                break;
+        }
+        if (!internetPossiblyAvailable)
+        {
+            InternetIsNotAvailable();
+            return;
+        }
+        ping = new Ping(pingAddress);
+        pingStartTime = Time.time;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (ping != null)
+            {
+                bool stopCheck = true;
+                if (ping.isDone)
+                {
+                    if (ping.time >= 0)
+                        InternetAvailable();
+                    else
+                        InternetIsNotAvailable();
+                }
+                else if (Time.time - pingStartTime < waitingTime)
+                    stopCheck = false;
+                else
+                    InternetIsNotAvailable();
+                if (stopCheck)
+                ping = null
+                ;
+            }
+    }
 
+    public bool Online()
+    {
+        //checkOnline();
+        return online;
     }
 
     void ConnectToServer()
     {
-        Network.Connect("192.168.254.169", 8080);
+        Network.Connect(presentIP, 8080);
     }
 
     public void UploadJSON()
@@ -66,7 +113,7 @@ public class Recive : MonoBehaviour {
         WWWForm form = new WWWForm();
         form.AddField("name", "data065");
 
-        WWW www = new WWW("192.168.254.169:8080/greeting", form);
+        WWW www = new WWW(presentIP + ":8080/greeting", form);
         Debug.Log("Nu försöker jag skicka: " + form + " till greeting");
 
         testJson();
@@ -81,7 +128,7 @@ public class Recive : MonoBehaviour {
         form1.AddField("question", "1 + 2");
         form1.AddField("answer", "3");
 
-        string url = string.Format("192.168.254.169:8080/school");
+        string url = string.Format(presentIP +":8080/school");
         var www = new WWW(url, form1);
         Debug.Log("Nu försöker jag skicka: " + form1 + " till school");
         StartCoroutine(WaitForRequest(www));
@@ -90,13 +137,13 @@ public class Recive : MonoBehaviour {
 
     public bool getNewQuestions()
     {
-        string url = string.Format("192.168.254.169:8080/test");
+        string url = string.Format(presentIP + ":8080/test");
         var www = new WWW(url);
         StartCoroutine(WaitForRequest(www));
-        return parse.HasResult;
+        return parse.HasNewResult;
     }
 
-    private IEnumerator WaitForRequest(/*Action<EricssonApiParser> fn,*/ WWW www)
+    private IEnumerator WaitForRequest(WWW www)
     {
         yield return www;
         if (www.error == null)
@@ -105,7 +152,7 @@ public class Recive : MonoBehaviour {
             {
                 parse = new Parser(www.text);
                 Debug.Log(www.text + " was received i Recive.cs");
-                if (parse.HasResult)
+                if (parse.HasNewResult)
                 {
                     newCoursecode = parse.coursecode;
                     newMomentcode = parse.momentcode;
@@ -132,23 +179,16 @@ public class Recive : MonoBehaviour {
     {
         c = new CurrentCourse(newCoursecode);
         c.setCoursecode(newCoursecode);
-
-        Debug.Log("Nu försöker jag skapa en ny kurs i createNewCourse. Den blev: " + c);
-        Debug.Log("Nu försöker jag sätta kurskoden i " + c + "till" + newCoursecode + "Detta görs i createNewCourse");
-
+                
         if (newCoursecode!= null)
         {
             bool newCourse = true;
-            Debug.Log("Innan jag går in i loopen i createNewCourse är courselist = " + courseList);
             foreach (Course co in courseList)
             {
-                Debug.Log("En kurs som ligger i courseList har kurskoden: " + co.getCoursecode());
                 if (co.getCoursecode().Equals(newCoursecode))
                 {
-                    Debug.Log("Det finnsen kurs med samma kurskod som jag letar efter i createNewCourse. Koden är: " + newCoursecode);
                     newCourse = false;
                     c = co;
-                    Debug.Log("Nu försöker jag en gammal kurs i createNewCourse. Den blev: " + c);
                 }
             }
 
@@ -156,40 +196,33 @@ public class Recive : MonoBehaviour {
             {
                 HasNewCourse = true;
                 courseList.Add(c);
-                Debug.Log("När jag är nästan klar i createNewCourse ser courseList ut så här: " + courseList);
-
             }
             createNewMoment(c);
-            
         }
     }
 
     void createNewMoment(Course c)
     {
-        Debug.Log("newMomentcode i början av createNewMoment är: " + newMomentcode);
-        Debug.Log("Vad blir System.Int32.Parse(newMomentcode) i createNewMoment??? Jo: " + System.Int32.Parse(newMomentcode)); // Seriöst!!!!
-
-        int level = int.Parse(newMomentcode);
-        Debug.Log("Level som skapas i createNewMoment är: " + level);
-
-       /* if (!c.questions.ContainsKey(level))
-        {
-            Debug.Log("Nu försöker jag lägga till en ny level i createNewMoment. Den bör bli: " + level + " Innan ser c.questions[level] ut så här: " +  c.questions[level].ToString());
-            c.questions[level] = new System.Collections.Generic.List<string>();
-            Debug.Log("I createNewMoment ser c.questions[level] ut så här efter att jag till level : " + c.questions[level].ToString());
-
-            HasNewMoment = true;
-        }*/
-        Debug.Log("I createNewMoment försöker jag skapa en ny fråga med level: " + level + " , och frågan: " + newQuestion + ", och svaret: " + newAnswer);
+        int level = int.Parse(newMomentcode);           
         c.AddQuestion(level, newQuestion, newAnswer);
-        //createNewQuestion(c, level);
+    }
+      
+    private void InternetIsNotAvailable()
+    {
+        Debug.Log("No Internet :(");
+        online = false;
+        
     }
 
-    void createNewQuestion(Course c, int level)
+    private void InternetAvailable()
     {
-        Debug.Log("I createNewQuestion försöker jag skapa en ny fråga med level: " + level + " , och frågan: " + newQuestion + ", och svaret: " + newAnswer);
-        c.AddQuestion(level, newQuestion, newAnswer);
-        HasNewQuestion = true;
+        Debug.Log("Internet is available! ;)");
+        online = true;
+    }
+
+    public void setCourseList(System.Collections.Generic.List<Course> coruses)
+    {
+        courseList = coruses;
     }
 
 }

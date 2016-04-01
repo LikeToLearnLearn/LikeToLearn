@@ -8,7 +8,8 @@ public class Parser {
     public string question { get; private set; }
     public string answer { get; private set; }
 
-    public bool HasResult { get; private set; } // indicated if the object is carrying an result
+    private bool HasResult; // indicated if the object is carrying an result
+    public bool HasNewResult { get; private set; } // indicated if the object is carrying a new result
 
     private enum State { open, array, obj }; // keeps track of the mode the parser has reached 
 
@@ -18,8 +19,6 @@ public class Parser {
         momentcode = string.Empty;
         question = string.Empty;
         answer = string.Empty;
-
-        //Debug.Log(data + " kom till en nyskapad parser");
 
         HasResult = false;
         if (data != null) parseJson(data);
@@ -37,7 +36,6 @@ public class Parser {
 
     public void parseJson(string data)
     {
-        //Debug.Log(data + " kom till parseJson");
         State st = State.open; // start outside any data structure
         string newCoursecode = string.Empty; // most recently read timestamp that may be saved
         string newMomentcode = string.Empty; // most recently read value that may be saved
@@ -51,31 +49,44 @@ public class Parser {
              switch (st)
              {
                  case State.open:
-                    //Debug.Log( " kom till State.open");
                      if (data[i] == '{') // look for opening JSON array
                          st = State.array; // switch to array state
                     
                     break;
                  case State.array:
-                    //Debug.Log(" kom till State.array");
                      if (data[i] == '"') // look for opening JSON object
                          st = State.obj; // switch to object state
                      save = false; // new object; reset save state
                     
                     break;
                  case State.obj:
-                    //Debug.Log(" kom till State.obj");
                     if (data[i] == '}') // looking for end of JSON object
                      {
                          if (save) // the object read should replace the return values
                          {
-                             coursecode = newCoursecode;
-                             momentcode = newMomentcode;
-                             question = newQuestion;
-                             answer = newAnswer;
-                            
-                            HasResult = true; // we now have a result
+                            if (coursecode != newCoursecode && newCoursecode != null)
+                            {
+                                coursecode = newCoursecode;
+                                HasNewResult = true;
+                            }
 
+                            if (momentcode != newMomentcode && newMomentcode != null )
+                            {
+                                momentcode = newMomentcode;
+                                HasNewResult = true;
+                            }
+
+                            if (question != newQuestion && newQuestion != null)
+                                                {
+                                question = newQuestion;
+                                HasNewResult = true;
+                            }
+
+                            if (answer != newAnswer && newAnswer != null)
+                            {
+                                answer = newAnswer;
+                                HasNewResult = true;
+                            }
                             Debug.Log("Tillfälligt i Parser: corsecode sparas som" + coursecode + ", momentcode sparas som" + momentcode + ", question sparas som" + question + ", answer sparas som" + answer);
                          }
 
@@ -88,55 +99,43 @@ public class Parser {
                         while (data[j] != ',') // find end of coursecode data
                             j++;
                         newCoursecode = (data.Substring(i +1 , j - (i + 2))); // parse coursecode
-                        //Debug.Log(newCoursecode + " hämtades som kurskod ");
-                        //if (timestampCand > coursecode) // save if more recent
-                        //save = true;
+                        
                         i = j; // jump to momentcode
                     }
 
-                    if (data[i] == 'm' && data[i + 1] == 'o' && data[i + 2] == 'm' && data[i + 3] == 'e' && data[i + 4] == 'n' && data[i + 5] == 't' && data[i + 6] == 'c' && data[i + 7] == 'o' && data[i + 8] == 'd' && data[i + 9] == 'e')
+                     else if (data[i] == 'm' && data[i + 1] == 'o' && data[i + 2] == 'm' && data[i + 3] == 'e' && data[i + 4] == 'n' && data[i + 5] == 't' && data[i + 6] == 'c' && data[i + 7] == 'o' && data[i + 8] == 'd' && data[i + 9] == 'e')
                     {
                         i += "momentcode\":".Length; // skip forward to the momentcode data
                         int j = i;
                         while (data[j] != ',') // find end of momentcode data
                             j++;
                         newMomentcode = (data.Substring(i + 1, j - (i + 2 ))); // parse momentcode
-                        //Debug.Log(newMomentcode + " hämtades som momentkod ");
                         i = j; // jump to question
                     }
                     // if data[i...] == "question"
-                    //Debug.Log( " utanför koden där question ska hämtas ");
-                    if (data[i] == 'q' && data[i + 1] == 'u' && data[i + 2] == 'e' && data[i + 3] == 's' && data[i + 4] == 't' && data[i + 5] == 'i' && data[i + 6] == 'o' && data[i + 7] == 'n')
+                    else if (data[i] == 'q' && data[i + 1] == 'u' && data[i + 2] == 'e' && data[i + 3] == 's' && data[i + 4] == 't' && data[i + 5] == 'i' && data[i + 6] == 'o' && data[i + 7] == 'n')
                     {
                         i += "question\":".Length; // skip forward to the question data
                         int j = i;
                         while (data[j] != ',') // find end of question data
                             j++;
                         newQuestion = (data.Substring(i + 1, j - (i + 2) )); // parse question
-                        //Debug.Log(newQuestion + " hämtades som fråga ");
                     }
 
-                    if (data[i] == 'a' && data[i + 1] == 'n' && data[i + 2] == 's' && data[i + 3] == 'w' && data[i + 4] == 'e' && data[i + 5] == 'r')
+                    else if (data[i] == 'a' && data[i + 1] == 'n' && data[i + 2] == 's' && data[i + 3] == 'w' && data[i + 4] == 'e' && data[i + 5] == 'r')
                     {
                         i += "answer\":".Length; // skip forward to the answer data
                         int j = i;
                         while (data[j] != '}') // find end of answere data
                             j++;
                         newAnswer = (data.Substring(i + 1, j - (i + 2))); // parse answer
-                        //Debug.Log(newAnswer + " hämtades som svar ");
                     }
-
-                    /*coursecode = newCoursecode;
-                    momentcode = newMomentcode;
-                    question = newQuestion;
-                    answer = newAnswer;*/
 
                     HasResult = true; // we now have a result
 
                     save = true;
                     break;
-
-            }
+              }
 
          }
 

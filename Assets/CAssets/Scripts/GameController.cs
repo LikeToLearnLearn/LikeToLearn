@@ -85,16 +85,17 @@ public class GameController : MonoBehaviour {
 
     void Update()
     {
-        if(recive != null)
+        if (recive != null)
+        {
+            Debug.Log(recive.Online() + " online?");
+            if (recive.Online())
             {
                 if (recive.getNewQuestions())
                 {
                     setCurrentcourse(recive.c);
-                    Debug.Log("Vi försöker sätta " + recive.c + "till currencourse i GameController.Update");
                 }
-                
-
             }
+        }
     }
 
 
@@ -131,16 +132,10 @@ public class GameController : MonoBehaviour {
 		data.coruses.Add(m);
         //data.currentCourse = m;
         setCurrentcourse(m);
-        //recive = new Recive(data.coruses);
         GameObject conn = GameObject.Find("ConnectionHandler");
         recive = conn.GetComponent<Recive>();
-        Debug.Log("Nu sattes recive till: " + recive + "i NewGame");
-
         recive.setCourseList(data.coruses);
         
-        Debug.Log("Nu försökte jag sätta recive.courseList till: " + data.coruses + " i NewGame");
-
-
         // one less variation to test if we save and load every time
         SaveGame();
 		LoadGame(name);
@@ -230,11 +225,7 @@ public class GameController : MonoBehaviour {
         GameObject conn = GameObject.Find("ConnectionHandler");
         recive = conn.GetComponent<Recive>();
         recive.setCourseList(data.coruses);
-
-        Debug.Log("Nu sattes recive till: " + recive + "i LoadGame");
-        Debug.Log("Nu försökte jag sätta recive.courseList till: " + data.coruses + " i LoadGame");
-
-
+                
     }
 
 	public void DeleteGame(string name) // not tested
