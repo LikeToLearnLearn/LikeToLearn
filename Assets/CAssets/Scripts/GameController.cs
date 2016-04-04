@@ -79,16 +79,55 @@ public class GameController : MonoBehaviour {
 		GameObject sco = GameObject.Find("SceneHandlerO");
 		sceneHandler = sco.GetComponent<SceneHandler>();
 
-		// auto save every fifth secound
-		InvokeRepeating("Save", 5, 5);
+        GameObject conn = GameObject.Find("ConnectionHandler");
+        recive = conn.GetComponent<Recive>();
+
+        // auto save every fifth secound
+        InvokeRepeating("Save", 5, 5);
 	}
 
     void Update()
     {
+        AskForNewQuestions();
+        SendRessults();       
+    }
+
+    void SendRessults()
+    {
+        //Debug.Log(" data = " + data);
+        if (recive != null && data!= null)
+        {
+            //Debug.Log(" data.questions = " + data.questions);
+            if (recive.Online() )
+            {
+                Debug.Log(" data.qusetions är nu " + data.questions.Count + " lång");
+                Question q = null;
+                //foreach (Question q in data.questions)
+                for (int i = 0; i < data.questions.Count; ++i)
+                {
+                    q = data.questions[i];
+                    //Debug.Log(" q är nu = " + q + " i GameController");
+                    Dictionary<string, string> tmp = q.a;
+                    foreach (KeyValuePair<string, string> ans in tmp)                        
+                    {
+                        recive.sendResult(q.coursecode, q.momentcode, q.question, ans.Key, ans.Value);
+                        Debug.Log("Försöker skicka :" + q.coursecode + q.momentcode + q.question + ans.Key + ans.Value);
+                        q.a.Remove(ans.Key);
+                    }
+                    //data.questions.Remove(q);
+                }
+
+            }
+        }
+
+    }
+
+    void AskForNewQuestions()
+    {
         if (recive != null)
         {
-            Debug.Log(recive.Online() + " online?");
-            if (recive.Online())
+            //Debug.Log(recive.Online() + " online?");
+            if (false/*recive.Online()*/)
             {
                 if (recive.getNewQuestions())
                 {
@@ -96,6 +135,7 @@ public class GameController : MonoBehaviour {
                 }
             }
         }
+
     }
 
 
@@ -333,12 +373,14 @@ public class GameController : MonoBehaviour {
 
 	public Question GetQuestion(int alternatives)
 	{
-		if (data.currentCourse == null) {
+        Debug.Log(" nu är vi i gamecontrollers GetQuestion");
+        if (data.currentCourse == null) {
 			print("Player don't have a current course selected!");
 			return null;
 		}
 		var q = data.currentCourse.GetQuestion(alternatives);
 		data.questions.Add(q);
+        Debug.Log(" nu läggs frågan " + q + " till i data.questions");
 		return q;
 	}
 

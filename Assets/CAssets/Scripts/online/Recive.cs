@@ -9,7 +9,7 @@ public class Recive : MonoBehaviour {
     private const bool allowCarrierDataNetwork = false;
     private const string pingAddress = presentIP; 
     private const float waitingTime = 2.0f;
-    private const string presentIP = "192.168.254.169"; // Kurts ipadress
+    private const string presentIP = "192.168.254.154"; // Kurts ipadress
 
     private Ping ping;
     private float pingStartTime;
@@ -46,6 +46,7 @@ public class Recive : MonoBehaviour {
         HasNewAnswer = false;
 
         parse = new Parser(null);
+        online = false;
         checkOnline(); 
 
     }
@@ -180,7 +181,7 @@ public class Recive : MonoBehaviour {
         c = new CurrentCourse(newCoursecode);
         c.setCoursecode(newCoursecode);
                 
-        if (newCoursecode!= null)
+        if (newCoursecode!= null && courseList!= null)
         {
             bool newCourse = true;
             foreach (Course co in courseList)
@@ -223,6 +224,22 @@ public class Recive : MonoBehaviour {
     public void setCourseList(System.Collections.Generic.List<Course> coruses)
     {
         courseList = coruses;
+    }
+
+    public void sendResult(string coursecode, string momentcode, string question, string answer, string rightOrWrong)
+    {
+        WWWForm form1 = new WWWForm();
+        form1.AddField("coursecode", coursecode);
+        form1.AddField("momentcode", momentcode);
+        form1.AddField("question", question);
+        form1.AddField("answer", answer);
+        form1.AddField("correctness", rightOrWrong);
+
+        string url = string.Format("192.168.254.154:8080/school");
+        var www = new WWW(url, form1);
+        Debug.Log("Nu försöker jag skicka: " + form1 + " till school");
+        //StartCoroutine(WaitForRequest(www));
+
     }
 
 }

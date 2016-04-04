@@ -29,7 +29,7 @@ public class   Connection/*: MonoBehaviour*/{
         form1.AddField("question", question);
         form1.AddField("answer", answer);
 
-        string url = string.Format("192.168.254.169:8080/school");
+        string url = string.Format("192.168.254.154:8080/school");
         var www = new WWW(url, form1);
         Debug.Log("Nu försöker jag skicka: " + form1 + " till school");
         //StartCoroutine(WaitForRequest(www));

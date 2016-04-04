@@ -6,13 +6,14 @@ using UnityEngine;
 [Serializable]
 public class Question {
 	private static System.Random rnd = new System.Random();
-	private List<string> answers = new List<string>(); 
-	private List<string> alt = new List<string>();
+	public Dictionary<string, string> a = new Dictionary<string, string>();
+    private List<string> answers = new List<string>();
+    private List<string> alt = new List<string>();
 	private Course course;
-    private string coursecode;
-    private string momentcode;
-	private string question;
-	private string answer;
+    public string coursecode;
+    public string momentcode;
+	public string question;
+	public string answer;
 	private int index;
     private Connection connection;
 
@@ -25,18 +26,32 @@ public class Question {
 		this.answer = answer;
 		this.index = rnd.Next(1000);
 
-		AddAlternative(answer);
+        //GameObject conn = GameObject.Find("ConnectionHandler");
+        connection = new Connection();
+            //conn.GetComponent<Connection>();
+
+        AddAlternative(answer);
 	}
 		
 	public void Answer(string givenAnswer)
 	{
-        connection = new Connection();
-        connection.sendResult(coursecode, momentcode, question, givenAnswer);
-        answers.Add(givenAnswer);
-		if (IsCorrect() && answers.Count == 1) {
-			course.LogAnswerCorrect(question);
-		}
-	}
+        //connection = new Connection();
+
+
+        if (IsCorrect() && answers.Count == 1)
+        {
+            course.LogAnswerCorrect(question);
+            a.Add(givenAnswer, "rigtht");
+            answers.Add(givenAnswer);
+            //connection.sendResult(coursecode, momentcode, question, "right");
+        }
+        else
+        {
+            a.Add(givenAnswer, "wrong");
+            answers.Add(givenAnswer);
+        }
+            //connection.sendResult(coursecode, momentcode, question, "wrong");
+    }
 
 	public bool IsCorrect()
 	{

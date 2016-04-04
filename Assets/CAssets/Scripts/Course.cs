@@ -30,10 +30,10 @@ public abstract class Course {
     public virtual Question GetQuestion(int alternatives)
 	{
         
-        int level = 1;// testMode ? testLevel : CurrentLevel();
+        int level = testMode ? testLevel : CurrentLevel();
 		List<string> qs = questions[level];
 		string q = qs[rnd.Next(qs.Count)];
-        string a = answers[q /*+ "" + 2*/];
+        string a = answers[q];
         var added = new List<string>();
         var res = new Question(this, level,  q, a);
         List<string> ans = Enumerable.ToList(answers.Values);
