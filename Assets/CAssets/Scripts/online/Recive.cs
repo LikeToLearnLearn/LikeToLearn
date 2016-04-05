@@ -129,16 +129,16 @@ public class Recive : MonoBehaviour {
         form1.AddField("question", "1 + 2");
         form1.AddField("answer", "3");
 
-        string url = string.Format(presentIP +":8080/school");
+        string url = string.Format(presentIP +":8080/test");
         var www = new WWW(url, form1);
-        Debug.Log("Nu försöker jag skicka: " + form1 + " till school");
+        Debug.Log("Nu försöker jag skicka: " + form1 + " till test");
         StartCoroutine(WaitForRequest(www));
 
     }
 
     public bool getNewQuestions()
     {
-        string url = string.Format(presentIP + ":8080/test");
+        string url = string.Format(presentIP + ":8080/questions");
         var www = new WWW(url);
         StartCoroutine(WaitForRequest(www));
         return parse.HasNewResult;
@@ -242,9 +242,9 @@ public class Recive : MonoBehaviour {
         form1.AddField("answer", answer);
         form1.AddField("correctness", rightOrWrong);
 
-        string url = string.Format(presentIP + ":8080/school");
+        string url = string.Format(presentIP + ":8080/statistics");
         var www = new WWW(url, form1);
-        Debug.Log("Nu försöker jag skicka: " + form1 + " till school");
+        Debug.Log("Nu försöker jag skicka: " + form1 + " till statistics");
         //StartCoroutine(WaitForRequest(www));
 
     }
