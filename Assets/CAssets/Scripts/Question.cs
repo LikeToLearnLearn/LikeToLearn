@@ -27,7 +27,7 @@ public class Question {
 		this.index = rnd.Next(1000);
 
         //GameObject conn = GameObject.Find("ConnectionHandler");
-        connection = new Connection();
+        //connection = new Connection();
             //conn.GetComponent<Connection>();
 
         AddAlternative(answer);

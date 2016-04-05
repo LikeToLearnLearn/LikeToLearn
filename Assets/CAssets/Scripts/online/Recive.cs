@@ -9,7 +9,7 @@ public class Recive : MonoBehaviour {
     private const bool allowCarrierDataNetwork = false;
     private const string pingAddress = presentIP; 
     private const float waitingTime = 2.0f;
-    private const string presentIP = "192.168.254.154"; // Kurts ipadress
+    private const string presentIP = "127.0.0.1"; // "192.168.254.154"; // Kurts ipadress
 
     private Ping ping;
     private float pingStartTime;
@@ -156,9 +156,13 @@ public class Recive : MonoBehaviour {
                 if (parse.HasNewResult)
                 {
                     newCoursecode = parse.coursecode;
+                    Debug.Log(newCoursecode + " was received i Recive.cs");
                     newMomentcode = parse.momentcode;
+                    Debug.Log(newCoursecode + " was received i Recive.cs");
                     newQuestion = parse.question;
+                    Debug.Log(newQuestion + " was received i Recive.cs");
                     newAnswer = parse.answer;
+                    Debug.Log(newAnswer + " was received i Recive.cs");
                     createNewCourse();
                  }
                                                                                                 
@@ -179,6 +183,7 @@ public class Recive : MonoBehaviour {
     void createNewCourse()
     {
         c = new CurrentCourse(newCoursecode);
+        Debug.Log(c + "  c i createNewCourse i Recive.cs");
         c.setCoursecode(newCoursecode);
                 
         if (newCoursecode!= null && courseList!= null)
@@ -186,6 +191,7 @@ public class Recive : MonoBehaviour {
             bool newCourse = true;
             foreach (Course co in courseList)
             {
+                Debug.Log(co + " co in createNewCourse");
                 if (co.getCoursecode().Equals(newCoursecode))
                 {
                     newCourse = false;
@@ -204,7 +210,8 @@ public class Recive : MonoBehaviour {
 
     void createNewMoment(Course c)
     {
-        int level = int.Parse(newMomentcode);           
+        int level = int.Parse(newMomentcode);
+        Debug.Log(level + newQuestion + newAnswer + " was received i createNewMoment i Recive.cs");
         c.AddQuestion(level, newQuestion, newAnswer);
     }
       
@@ -235,7 +242,7 @@ public class Recive : MonoBehaviour {
         form1.AddField("answer", answer);
         form1.AddField("correctness", rightOrWrong);
 
-        string url = string.Format("192.168.254.154:8080/school");
+        string url = string.Format(presentIP + ":8080/school");
         var www = new WWW(url, form1);
         Debug.Log("Nu försöker jag skicka: " + form1 + " till school");
         //StartCoroutine(WaitForRequest(www));

@@ -84,42 +84,48 @@ public class GameController : MonoBehaviour {
 
         // auto save every fifth secound
         InvokeRepeating("Save", 5, 5);
-	}
+        InvokeRepeating("SendResults", 5, 5);
+        InvokeRepeating("AskForNewQuestions", 10, 10);
+    }
 
     void Update()
     {
-        AskForNewQuestions();
-        SendRessults();       
+        //AskForNewQuestions();
+        //SendResults();       
     }
 
-    void SendRessults()
+    void SendResults()
     {
-        //Debug.Log(" data = " + data);
         if (recive != null && data!= null)
         {
-            //Debug.Log(" data.questions = " + data.questions);
-            if (recive.Online() )
+            if ( recive.Online())
             {
-                Debug.Log(" data.qusetions är nu " + data.questions.Count + " lång");
                 Question q = null;
-                //foreach (Question q in data.questions)
-                for (int i = 0; i < data.questions.Count; ++i)
+                List<Question> temp = data.questions;
+                for (int i = 0; i < temp.Count; ++i)
                 {
-                    q = data.questions[i];
-                    //Debug.Log(" q är nu = " + q + " i GameController");
+                    q = temp[i];
                     Dictionary<string, string> tmp = q.a;
-                    foreach (KeyValuePair<string, string> ans in tmp)                        
+                    if ( tmp.Count > 0)
                     {
-                        recive.sendResult(q.coursecode, q.momentcode, q.question, ans.Key, ans.Value);
-                        Debug.Log("Försöker skicka :" + q.coursecode + q.momentcode + q.question + ans.Key + ans.Value);
-                        q.a.Remove(ans.Key);
-                    }
-                    //data.questions.Remove(q);
-                }
+                        List<string> keys = new List<string>(tmp.Keys);
+                        foreach (string key in keys)
+                        {
+                            //foreach (KeyValuePair<string, string> ans in tmp)
+                            //{
 
+                            recive.sendResult(q.coursecode, q.momentcode, q.question, key, tmp[key]/*ans.Key, ans.Value*/);
+                            Debug.Log("Försöker skicka :" + q.coursecode + " " + q.momentcode + " " + q.question + " " + key /*ans.Key*/ + " " + tmp[key] /*ans.Value*/);
+                            data.questions[i].a.Remove(key);
+                        }
+
+                        //temp.Remove(q);
+                    }
+                        
+                }
+                //data.questions = temp;
             }
         }
-
     }
 
     void AskForNewQuestions()
@@ -127,7 +133,7 @@ public class GameController : MonoBehaviour {
         if (recive != null)
         {
             //Debug.Log(recive.Online() + " online?");
-            if (false/*recive.Online()*/)
+            if (recive.Online())
             {
                 if (recive.getNewQuestions())
                 {
@@ -183,7 +189,12 @@ public class GameController : MonoBehaviour {
 
     public void setCurrentcourse( Course m)
     {
-        if (data != null) data.currentCourse = m;
+        if (data != null)
+        {
+            if (!data.coruses.Contains(m))
+                data.coruses.Add(m);
+            data.currentCourse = m;
+        }
     }
 	public Item TranslateItem(string name)
 	{

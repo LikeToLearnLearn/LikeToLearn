@@ -87,7 +87,7 @@ public class Parser {
                                 answer = newAnswer;
                                 HasNewResult = true;
                             }
-                            Debug.Log("Tillfälligt i Parser: corsecode sparas som" + coursecode + ", momentcode sparas som" + momentcode + ", question sparas som" + question + ", answer sparas som" + answer);
+                            Debug.Log("Tillfälligt i Parser: corsecode sparas som: " + coursecode + ", momentcode sparas som: " + momentcode + ", question sparas som: " + question + ", answer sparas som: " + answer);
                          }
 
                      }
@@ -103,7 +103,7 @@ public class Parser {
                         i = j; // jump to momentcode
                     }
 
-                     else if (data[i] == 'm' && data[i + 1] == 'o' && data[i + 2] == 'm' && data[i + 3] == 'e' && data[i + 4] == 'n' && data[i + 5] == 't' && data[i + 6] == 'c' && data[i + 7] == 'o' && data[i + 8] == 'd' && data[i + 9] == 'e')
+                      else if (data[i] == 'm' && data[i + 1] == 'o' && data[i + 2] == 'm' && data[i + 3] == 'e' && data[i + 4] == 'n' && data[i + 5] == 't' && data[i + 6] == 'c' && data[i + 7] == 'o' && data[i + 8] == 'd' && data[i + 9] == 'e')
                     {
                         i += "momentcode\":".Length; // skip forward to the momentcode data
                         int j = i;
@@ -113,7 +113,7 @@ public class Parser {
                         i = j; // jump to question
                     }
                     // if data[i...] == "question"
-                    else if (data[i] == 'q' && data[i + 1] == 'u' && data[i + 2] == 'e' && data[i + 3] == 's' && data[i + 4] == 't' && data[i + 5] == 'i' && data[i + 6] == 'o' && data[i + 7] == 'n')
+                     else if (data[i] == 'q' && data[i + 1] == 'u' && data[i + 2] == 'e' && data[i + 3] == 's' && data[i + 4] == 't' && data[i + 5] == 'i' && data[i + 6] == 'o' && data[i + 7] == 'n')
                     {
                         i += "question\":".Length; // skip forward to the question data
                         int j = i;
@@ -122,7 +122,7 @@ public class Parser {
                         newQuestion = (data.Substring(i + 1, j - (i + 2) )); // parse question
                     }
 
-                    else if (data[i] == 'a' && data[i + 1] == 'n' && data[i + 2] == 's' && data[i + 3] == 'w' && data[i + 4] == 'e' && data[i + 5] == 'r')
+                     else if (data[i] == 'a' && data[i + 1] == 'n' && data[i + 2] == 's' && data[i + 3] == 'w' && data[i + 4] == 'e' && data[i + 5] == 'r')
                     {
                         i += "answer\":".Length; // skip forward to the answer data
                         int j = i;

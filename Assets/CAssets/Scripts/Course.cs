@@ -14,7 +14,7 @@ public abstract class Course {
 	Dictionary<string, int> results = new Dictionary<string, int>();
 	static System.Random rnd = new System.Random();
 
-    private string coursecode = "defaulCourse";
+    private string coursecode = "defaultCourse";
 
     
    public string getCoursecode()
@@ -29,16 +29,24 @@ public abstract class Course {
 
     public virtual Question GetQuestion(int alternatives)
 	{
-        
-        int level = testMode ? testLevel : CurrentLevel();
-		List<string> qs = questions[level];
-		string q = qs[rnd.Next(qs.Count)];
+
+        int level = 0;// testMode ? testLevel : CurrentLevel();
+        Debug.Log("I Courses GetQuestions level: " + level);
+        List<string> qs = questions[level];
+        Debug.Log("I GetQuestions questions[level]: " + questions[level]);
+        string q = qs[rnd.Next(qs.Count)];
+        Debug.Log("I GetQuestions q: " + q);
         string a = answers[q];
+        Debug.Log("I GetQuestions a: " + a);
         var added = new List<string>();
+        Debug.Log("I GetQuestions added: " + added);
         var res = new Question(this, level,  q, a);
+        Debug.Log("I GetQuestions res: " + res);
         List<string> ans = Enumerable.ToList(answers.Values);
+        Debug.Log("I GetQuestions ans: " + ans);
         while (alternatives > 0) {
             string cand = ans[rnd.Next(ans.Count)];
+            Debug.Log("I GetQuestions cand: " + cand);
             if (a != cand && added.IndexOf(cand) == -1) {
                 added.Add(cand);
                 res.AddAlternative(cand);
@@ -76,7 +84,10 @@ public abstract class Course {
 
 	public virtual void AddQuestion(int level, string question, string answer)
 	{
-            if (!questions.ContainsKey(level)) {
+        Debug.Log("I AddQuestions");
+        if (!questions.ContainsKey(level))
+        {
+            Debug.Log("I AddQuestions if: " + level + ", " + question + ", " + answer);
             //questions[level] = new List<string>();
             questions.Add(level, new List<string>());
             questions[level].Add(question);
@@ -89,17 +100,20 @@ public abstract class Course {
         else
         {
             questions[level].Add(question);
-            
+            Debug.Log("I AddQuestions questions[level]: "  + questions[level]);
+
         }
 
 		if (!answers.ContainsKey(question)) {
             //answers[question] = answer;
             answers.Add(question, answer);
-		}
+            Debug.Log("I AddQuestions answers[question]: " + answers[question]);
+        }
 
 		if (!results.ContainsKey(question)) {
 			results.Add(question, 0);
-		}
+            Debug.Log("I AddQuestions result[question]: " + results[question]);
+        }
 	}
 
 	public virtual void LogAnswerCorrect(string question)
