@@ -92,7 +92,8 @@ public class GameController : MonoBehaviour {
     void Update()
     {
         //AskForNewQuestions();
-        //SendResults();       
+        //SendResults();  
+        if (recive.c != null) setCurrentcourse(recive.c);     
     }
 
     void SendResults()
@@ -182,11 +183,11 @@ public class GameController : MonoBehaviour {
         // add player to math course for now
         Course m = new MultiplicationCourse(); // Fix me!!!! tillfälligt bortkommenterad pga test
         data.coruses.Add(m); // Fix me!! tillfälligt bortkommenterad pga test
-        data.currentCourse = m; // Fix me!! tillfälligt bortkommenterad pga test
-        //AskForNewQuestions();
-        //if (recive.c == null) setCurrentcourse(m);  /// fix me!!!
-        //else 
-        //setCurrentcourse(recive.c);
+        //data.currentCourse = m; // Fix me!! tillfälligt bortkommenterad pga test
+        AskForNewQuestions();
+        if (recive.c == null) setCurrentcourse(m);  /// fix me!!!
+       
+        Debug.Log("Nu sätts " + recive.c + " till currentcourse i GameControllers NewGame.");
         GameObject conn = GameObject.Find("ConnectionHandler");
         recive = conn.GetComponent<Recive>();
         recive.setCourseList(data.coruses);
@@ -200,8 +201,8 @@ public class GameController : MonoBehaviour {
     {
         if (data != null)
         {
-            if (!data.coruses.Contains(m))
-                data.coruses.Add(m);
+            /*if (!data.coruses.Contains(m))
+                data.coruses.Add(m);*/
             data.currentCourse = m;
         }
     }
@@ -285,6 +286,7 @@ public class GameController : MonoBehaviour {
         GameObject conn = GameObject.Find("ConnectionHandler");
         recive = conn.GetComponent<Recive>();
         recive.setCourseList(data.coruses);
+        AskForNewQuestions();
                 
     }
 

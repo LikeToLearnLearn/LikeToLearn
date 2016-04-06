@@ -14,6 +14,7 @@ public class Parser {
     private enum State { open, array, obj }; // keeps track of the mode the parser has reached 
     public System.Collections.Generic.List<Course> courseList { get; set; }
     public Course c { get; private set; }
+    private int defaultAnswer = 0;
 
     public Parser(string data, System.Collections.Generic.List<Course> courseList)
     {
@@ -88,7 +89,12 @@ public class Parser {
 
                             if (answer != newAnswer && newAnswer != null)
                             {
-                                if (newAnswer == "ul") answer = "0";
+                                
+                                if (newAnswer == "ul")
+                                {
+                                    defaultAnswer++;
+                                    answer = "" + defaultAnswer;
+                                }
                                 else answer = newAnswer;
                                 HasNewResult = true;
                             }
@@ -171,7 +177,7 @@ public class Parser {
                 if (co == null)
                 {
                     //courseList.Remove(co);
-                    Debug.Log(" co = null");
+                    Debug.Log(" co = null Vi hoppar över den!!");
                 }
                 else
                 {

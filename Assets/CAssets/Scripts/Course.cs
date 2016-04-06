@@ -41,41 +41,45 @@ public abstract class Course {
     public virtual Question GetQuestion(int alternatives)
 	{
 
-        int level = 0;// testMode ? testLevel : CurrentLevel();
-        Debug.Log("I Courses GetQuestions level: " + level);
-
-        List<string> qs = null;
-        if (questions[level] != null) { qs = questions[level]; }
-        Debug.Log("I GetQuestions questions[level]: " + questions[level]);
-
-        string q = null;
-        if (questions[level] != null) q = qs[rnd.Next(qs.Count)];
-        Debug.Log("I GetQuestions q: " + q);
-
-        string a = null;
-        if(q != null) a =answers[q];
-        Debug.Log("I GetQuestions a: " + a);
-
-        var added = new List<string>();
-        Debug.Log("I GetQuestions added: " + added);
-
-
-       var res = new Question(this, level, q, a);
-       Debug.Log("I GetQuestions res: " + res);
+          int level = 0;// testMode ? testLevel : CurrentLevel();
+          Debug.Log("I Courses GetQuestions level: " + level);
         
+          List<string> qs = null;
+          if (questions[level] != null) { qs = questions[level]; }
+          Debug.Log("I GetQuestions questions[level]: " + questions[level]);
+        
+          string q = null;
+          if (questions[level] != null) q = qs[rnd.Next(qs.Count)];
+          Debug.Log("I GetQuestions q: " + q);
+        
+          string a = null;
+          if(q != null) a =answers[q];
+          Debug.Log("I GetQuestions a: " + a);
+        
+          var added = new List<string>();
+          Debug.Log("I GetQuestions added: " + added);
 
-        List<string> ans = Enumerable.ToList(answers.Values);
-        Debug.Log("I GetQuestions ans: " + ans);
-        while (alternatives > 0) {
-            string cand = ans[rnd.Next(ans.Count)];
-            Debug.Log("I GetQuestions cand: " + cand);
-            if (a != cand && added.IndexOf(cand) == -1) {
-                added.Add(cand);
-                res.AddAlternative(cand);
-				alternatives--;
-			}
-		}
-		return res;
+        
+         var res = new Question(this, level, q, a);
+         Debug.Log("I GetQuestions res: " + res);
+
+        
+         List<string> ans = Enumerable.ToList(answers.Values);  /// PLEEEAAAAASEEEEEEE fix me soon!!
+          Debug.Log("I GetQuestions ans: " + ans);
+          //while (true /*alternatives > 0*/)
+          for(int i= alternatives; i>0; i--)
+        {
+              string cand = ans[rnd.Next(ans.Count)];
+              Debug.Log("I GetQuestions cand: " + cand);
+              if (a != cand && added.IndexOf(cand) == -1)
+            {
+                  added.Add(cand);
+                  res.AddAlternative(cand);
+                  alternatives--;
+            }
+         }
+          return res;
+       
 	}
 
 	public virtual int CurrentLevel()

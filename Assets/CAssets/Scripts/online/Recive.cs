@@ -155,7 +155,8 @@ public class Recive : MonoBehaviour {
                 parse = new Parser(www.text, courseList);
                 Debug.Log(www.text + " was received i Recive.cs");
                 c = parse.c;
-                Debug.Log("Recive.c = " + c + " i Recive.cs:s WaitForRequest.");
+                Debug.Log("Recive.c = " + c + " i Recive.cs:s WaitForRequest. Den kursen har kurskod:  "+ c.getCoursecode() + " Exempel på en fråga är: " + c.GetQuestion(4).question );
+                
                 /* if (parse.HasNewResult)
                 {
                     newCoursecode = parse.coursecode;

@@ -94,7 +94,7 @@ public abstract class MiniGameAbstract : MonoBehaviour
     public void CreateQuestion(int choices)
     {
         currentQuestion = GameController.control.GetQuestion(choices);
-		Debug.Log("question: " + currentQuestion.GetQuestion());
+		Debug.Log("question i MinigameAbstract: " + currentQuestion.GetQuestion());
     }
 
     public Question GetQuestion()
