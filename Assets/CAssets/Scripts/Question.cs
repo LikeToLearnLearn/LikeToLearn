@@ -41,7 +41,7 @@ public class Question {
         if (IsCorrect() && answers.Count == 1)
         {
             course.LogAnswerCorrect(question);
-            a.Add(givenAnswer, "rigtht");
+            a.Add(givenAnswer, "rigtht");// Fix: behöver kunna svara fel många gånger på samma fråga.
             answers.Add(givenAnswer);
             //connection.sendResult(coursecode, momentcode, question, "right");
         }

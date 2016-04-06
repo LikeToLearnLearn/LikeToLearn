@@ -37,6 +37,7 @@ public abstract class MiniGameAbstract : MonoBehaviour
         ClearRemainingTime();
         startTime = Time.timeSinceLevelLoad;
         AddTime(90f); // 90s default remaining time
+        GameController.control.AskForNewQuestions();
 
         playing = true;
     }

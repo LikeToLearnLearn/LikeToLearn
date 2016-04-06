@@ -124,7 +124,7 @@ public class GameController : MonoBehaviour {
         }
     }
 
-    void AskForNewQuestions()
+    public void AskForNewQuestions()
     {
         if (recive != null)
         {
@@ -132,10 +132,7 @@ public class GameController : MonoBehaviour {
             if (recive.Online()) 
             {
                     recive.getNewQuestions();
-
-
-              
-               
+                
             }
         }
 
@@ -181,7 +178,7 @@ public class GameController : MonoBehaviour {
         //GameObject conn = GameObject.Find("ConnectionHandler");
         //recive = conn.GetComponent<Recive>();
         recive.setCourseList(data.coruses);
-         AskForNewQuestions();
+        AskForNewQuestions();
         // one less variation to test if we save and load every time
         SaveGame();
 		LoadGame(name);
