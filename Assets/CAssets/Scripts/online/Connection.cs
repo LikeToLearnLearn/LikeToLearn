@@ -43,7 +43,7 @@ public class   Connection/*: MonoBehaviour*/{
         {
             if (www.text.Length > 0)
             {
-                var parse = new Parser(www.text);
+                //var parse = new Parser(www.text, courseList); // bör fixas om denna koden ska användas!!!
                 Debug.Log(www.text + " was received");
                 //if (parse.HasResult)
                 //fn(parse);

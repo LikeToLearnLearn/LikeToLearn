@@ -8,11 +8,12 @@ using UnityEngine;
 public abstract class Course {
 
 	bool testMode = false;
-	int testLevel = 0;
+	int testLevel = 1;
     public Dictionary<int, List<string>> questions = new Dictionary<int, List<string>>();
     Dictionary<string, string> answers = new Dictionary<string, string>();
 	Dictionary<string, int> results = new Dictionary<string, int>();
 	static System.Random rnd = new System.Random();
+    int level = 1;
 
     private string coursecode = "defaultCourse";
 
@@ -20,6 +21,16 @@ public abstract class Course {
    public string getCoursecode()
     {
         return coursecode;
+    }
+
+    public void setLevel(int x)
+    {
+        level = x;
+    }
+
+    public int getLevel( int x)
+    {
+        return level;
     }
 
     public void setCoursecode( string coursecode)
@@ -32,16 +43,27 @@ public abstract class Course {
 
         int level = 0;// testMode ? testLevel : CurrentLevel();
         Debug.Log("I Courses GetQuestions level: " + level);
-        List<string> qs = questions[level];
+
+        List<string> qs = null;
+        if (questions[level] != null) { qs = questions[level]; }
         Debug.Log("I GetQuestions questions[level]: " + questions[level]);
-        string q = qs[rnd.Next(qs.Count)];
+
+        string q = null;
+        if (questions[level] != null) q = qs[rnd.Next(qs.Count)];
         Debug.Log("I GetQuestions q: " + q);
-        string a = answers[q];
+
+        string a = null;
+        if(q != null) a =answers[q];
         Debug.Log("I GetQuestions a: " + a);
+
         var added = new List<string>();
         Debug.Log("I GetQuestions added: " + added);
-        var res = new Question(this, level,  q, a);
-        Debug.Log("I GetQuestions res: " + res);
+
+
+       var res = new Question(this, level, q, a);
+       Debug.Log("I GetQuestions res: " + res);
+        
+
         List<string> ans = Enumerable.ToList(answers.Values);
         Debug.Log("I GetQuestions ans: " + ans);
         while (alternatives > 0) {
@@ -60,7 +82,7 @@ public abstract class Course {
 	{
 		var levels = questions.Keys.ToList();
 		levels.Sort();
-		int result = 0;
+		int result = 1;
 		foreach (int level in levels) {
 			if (4 < questions[level].Count(x => results[x] > 0)) {
 				result = level + 1;
@@ -84,7 +106,7 @@ public abstract class Course {
 
 	public virtual void AddQuestion(int level, string question, string answer)
 	{
-        Debug.Log("I AddQuestions");
+        Debug.Log("I AddQuestions; level = " + level + "question = " + question + "answer = " + answer);
         if (!questions.ContainsKey(level))
         {
             Debug.Log("I AddQuestions if: " + level + ", " + question + ", " + answer);
@@ -99,6 +121,8 @@ public abstract class Course {
 
         else
         {
+            // 
+            if (!questions[level].Contains(question))
             questions[level].Add(question);
             Debug.Log("I AddQuestions questions[level]: "  + questions[level]);
 

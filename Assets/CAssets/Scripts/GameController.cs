@@ -81,11 +81,12 @@ public class GameController : MonoBehaviour {
 
         GameObject conn = GameObject.Find("ConnectionHandler");
         recive = conn.GetComponent<Recive>();
+        //AskForNewQuestions();
 
         // auto save every fifth secound
         InvokeRepeating("Save", 5, 5);
         InvokeRepeating("SendResults", 5, 5);
-        InvokeRepeating("AskForNewQuestions", 10, 10);
+        //InvokeRepeating("AskForNewQuestions", 15, 15);
     }
 
     void Update()
@@ -98,7 +99,7 @@ public class GameController : MonoBehaviour {
     {
         if (recive != null && data!= null)
         {
-            if ( recive.Online())
+            //if ( recive.Online()) Fix me!!
             {
                 Question q = null;
                 List<Question> temp = data.questions;
@@ -132,13 +133,18 @@ public class GameController : MonoBehaviour {
     {
         if (recive != null)
         {
-            //Debug.Log(recive.Online() + " online?");
-            if (recive.Online())
+            Debug.Log(" Nu är vi i AskForNewQuestions");
+           // if (recive.Online()) // Fix me!!
             {
-                if (recive.getNewQuestions())
+                    recive.getNewQuestions();
+
+
+                if (recive.c != null)
                 {
                     setCurrentcourse(recive.c);
+                    Debug.Log(" Nu är vi i AskForNewQuestions ifsats: currentcourse = " + recive.c);
                 }
+               
             }
         }
 
@@ -173,11 +179,14 @@ public class GameController : MonoBehaviour {
 		data = new GameData();
 		global.games[global.currentGame] = global.gameCount++;
 
-		// add player to math course for now
-		Course m = new MultiplicationCourse();
-		data.coruses.Add(m);
-        //data.currentCourse = m;
-        setCurrentcourse(m);
+        // add player to math course for now
+        Course m = new MultiplicationCourse(); // Fix me!!!! tillfälligt bortkommenterad pga test
+        data.coruses.Add(m); // Fix me!! tillfälligt bortkommenterad pga test
+        data.currentCourse = m; // Fix me!! tillfälligt bortkommenterad pga test
+        //AskForNewQuestions();
+        //if (recive.c == null) setCurrentcourse(m);  /// fix me!!!
+        //else 
+        //setCurrentcourse(recive.c);
         GameObject conn = GameObject.Find("ConnectionHandler");
         recive = conn.GetComponent<Recive>();
         recive.setCourseList(data.coruses);

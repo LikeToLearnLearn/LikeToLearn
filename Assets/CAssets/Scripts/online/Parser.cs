@@ -9,18 +9,22 @@ public class Parser {
     public string answer { get; private set; }
 
     private bool HasResult; // indicated if the object is carrying an result
-    public bool HasNewResult { get; private set; } // indicated if the object is carrying a new result
+    public bool HasNewResult { get; set; } // indicated if the object is carrying a new result
 
     private enum State { open, array, obj }; // keeps track of the mode the parser has reached 
+    public System.Collections.Generic.List<Course> courseList { get; set; }
+    public Course c { get; private set; }
 
-    public Parser(string data)
+    public Parser(string data, System.Collections.Generic.List<Course> courseList)
     {
+        this.courseList = courseList;
         coursecode = string.Empty; ;
         momentcode = string.Empty;
         question = string.Empty;
         answer = string.Empty;
 
         HasResult = false;
+        HasNewResult = false;
         if (data != null) parseJson(data);
     }
 
@@ -49,12 +53,12 @@ public class Parser {
              switch (st)
              {
                  case State.open:
-                     if (data[i] == '{') // look for opening JSON array
+                     if (data[i] == '[') // look for opening JSON array
                          st = State.array; // switch to array state
                     
                     break;
                  case State.array:
-                     if (data[i] == '"') // look for opening JSON object
+                     if (data[i] == '{') // look for opening JSON object
                          st = State.obj; // switch to object state
                      save = false; // new object; reset save state
                     
@@ -84,11 +88,19 @@ public class Parser {
 
                             if (answer != newAnswer && newAnswer != null)
                             {
-                                answer = newAnswer;
+                                if (newAnswer == "ul") answer = "0";
+                                else answer = newAnswer;
                                 HasNewResult = true;
                             }
-                            Debug.Log("Tillfälligt i Parser: corsecode sparas som: " + coursecode + ", momentcode sparas som: " + momentcode + ", question sparas som: " + question + ", answer sparas som: " + answer);
-                         }
+                            if (HasNewResult)
+                            { 
+                                Debug.Log("Tillfälligt i Parser: corsecode sparas som: " + coursecode + ", momentcode sparas som: " + momentcode + ", question sparas som: " + question + ", answer sparas som: " + answer);
+                                createNewCourse();
+                                HasNewResult = false;
+                                save = false;
+                            }
+                            
+                        }
 
                      }
 
@@ -140,4 +152,54 @@ public class Parser {
          }
 
     }
+
+    void createNewCourse()
+    {
+        c = new CurrentCourse(coursecode);
+        Debug.Log(c + " = c i createNewCourse i Parser.cs");
+        c.setCoursecode(coursecode);
+        c.setLevel(int.Parse(momentcode));
+
+        if (coursecode != null && courseList != null)
+        {
+            bool newCourse = true;
+            foreach (Course co in courseList)
+            {
+                Debug.Log(co + " = co in createNewCourse i Parser:s foreachloop");
+
+
+                if (co == null)
+                {
+                    //courseList.Remove(co);
+                    Debug.Log(" co = null");
+                }
+                else
+                {
+                    Debug.Log(co.getCoursecode() + " = co:s kurskod in createNewCourse i Parser:s foreachloop");
+
+                    if (co.getCoursecode().Equals(coursecode))
+                    {
+                        newCourse = false;
+                        c = co;
+                    }
+                }
+            }
+
+            if (newCourse)
+            {
+                //HasNewCourse = true;
+                courseList.Add(c);
+                Debug.Log(c + " was added in courselist");
+            }
+            createNewMoment(c);
+        }
+    }
+
+    void createNewMoment(Course c)
+    {
+        int level = 0; // int.Parse(newMomentcode); // Fix me
+        Debug.Log(level + question + answer + " was received i createNewMoment i Parser.cs");
+        c.AddQuestion(level, question, answer);
+    }
+
 }

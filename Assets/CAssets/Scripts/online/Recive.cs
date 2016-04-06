@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;using UnityEngine;
 
-
-    
+ 
 
 public class Recive : MonoBehaviour {
 
@@ -45,9 +44,10 @@ public class Recive : MonoBehaviour {
         HasNewQuestion = false;
         HasNewAnswer = false;
 
-        parse = new Parser(null);
+        parse = new Parser(null, null);
         online = false;
-        checkOnline(); 
+        checkOnline();
+        c = null; 
 
     }
 
@@ -100,7 +100,7 @@ public class Recive : MonoBehaviour {
 
     public bool Online()
     {
-        //checkOnline();
+        //checkOnline();   Bör fixas snart!!!!!
         return online;
     }
 
@@ -141,6 +141,7 @@ public class Recive : MonoBehaviour {
         string url = string.Format(presentIP + ":8080/questions");
         var www = new WWW(url);
         StartCoroutine(WaitForRequest(www));
+        if (parse == null) return false;
         return parse.HasNewResult;
     }
 
@@ -151,9 +152,11 @@ public class Recive : MonoBehaviour {
         {
             if (www.text.Length > 0)
             {
-                parse = new Parser(www.text);
+                parse = new Parser(www.text, courseList);
                 Debug.Log(www.text + " was received i Recive.cs");
-                if (parse.HasNewResult)
+                c = parse.c;
+                Debug.Log("Recive.c = " + c + " i Recive.cs:s WaitForRequest.");
+                /* if (parse.HasNewResult)
                 {
                     newCoursecode = parse.coursecode;
                     Debug.Log(newCoursecode + " was received i Recive.cs");
@@ -163,8 +166,9 @@ public class Recive : MonoBehaviour {
                     Debug.Log(newQuestion + " was received i Recive.cs");
                     newAnswer = parse.answer;
                     Debug.Log(newAnswer + " was received i Recive.cs");
-                    createNewCourse();
-                 }
+                    //createNewCourse();
+                    //parse.HasNewResult = false;
+                 }*/
                                                                                                 
             }
             else
@@ -185,6 +189,7 @@ public class Recive : MonoBehaviour {
         c = new CurrentCourse(newCoursecode);
         Debug.Log(c + "  c i createNewCourse i Recive.cs");
         c.setCoursecode(newCoursecode);
+        c.setLevel(int.Parse(newMomentcode));
                 
         if (newCoursecode!= null && courseList!= null)
         {
@@ -210,7 +215,7 @@ public class Recive : MonoBehaviour {
 
     void createNewMoment(Course c)
     {
-        int level = int.Parse(newMomentcode);
+        int level = 0; // int.Parse(newMomentcode); // Fix me
         Debug.Log(level + newQuestion + newAnswer + " was received i createNewMoment i Recive.cs");
         c.AddQuestion(level, newQuestion, newAnswer);
     }
