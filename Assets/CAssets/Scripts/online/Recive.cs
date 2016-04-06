@@ -100,7 +100,7 @@ public class Recive : MonoBehaviour {
 
     public bool Online()
     {
-        //checkOnline();   Bör fixas snart!!!!!
+        checkOnline();   
         return online;
     }
 
