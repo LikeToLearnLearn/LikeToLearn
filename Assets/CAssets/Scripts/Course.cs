@@ -41,36 +41,36 @@ public abstract class Course {
     public virtual Question GetQuestion(int alternatives)
 	{
 
-          int level = 0;// testMode ? testLevel : CurrentLevel();
-          Debug.Log("I Courses GetQuestions level: " + level);
+        int level = testMode ? testLevel : CurrentLevel();
+          //Debug.Log("I Courses GetQuestions level: " + level);
         
           List<string> qs = null;
           if (questions[level] != null) { qs = questions[level]; }
-          Debug.Log("I GetQuestions questions[level]: " + questions[level]);
+          //Debug.Log("I GetQuestions questions[level]: " + questions[level]);
         
           string q = null;
           if (questions[level] != null) q = qs[rnd.Next(qs.Count)];
-          Debug.Log("I GetQuestions q: " + q);
+          //Debug.Log("I GetQuestions q: " + q);
         
           string a = null;
           if(q != null) a =answers[q];
-          Debug.Log("I GetQuestions a: " + a);
+          //Debug.Log("I GetQuestions a: " + a);
         
           var added = new List<string>();
-          Debug.Log("I GetQuestions added: " + added);
+          //Debug.Log("I GetQuestions added: " + added);
 
         
          var res = new Question(this, level, q, a);
-         Debug.Log("I GetQuestions res: " + res);
+         //Debug.Log("I GetQuestions res: " + res);
 
         
          List<string> ans = Enumerable.ToList(answers.Values);  /// PLEEEAAAAASEEEEEEE fix me soon!!
-          Debug.Log("I GetQuestions ans: " + ans);
+          //Debug.Log("I GetQuestions ans: " + ans);
           //while (true /*alternatives > 0*/)
           for(int i= alternatives; i>0; i--)
         {
               string cand = ans[rnd.Next(ans.Count)];
-              Debug.Log("I GetQuestions cand: " + cand);
+              //Debug.Log("I GetQuestions cand: " + cand);
               if (a != cand && added.IndexOf(cand) == -1)
             {
                   added.Add(cand);
@@ -110,10 +110,10 @@ public abstract class Course {
 
 	public virtual void AddQuestion(int level, string question, string answer)
 	{
-        Debug.Log("I AddQuestions; level = " + level + "question = " + question + "answer = " + answer);
+        //Debug.Log("I AddQuestions; level = " + level + "question = " + question + "answer = " + answer);
         if (!questions.ContainsKey(level))
         {
-            Debug.Log("I AddQuestions if: " + level + ", " + question + ", " + answer);
+            //Debug.Log("I AddQuestions if: " + level + ", " + question + ", " + answer);
             //questions[level] = new List<string>();
             questions.Add(level, new List<string>());
             questions[level].Add(question);
@@ -128,19 +128,19 @@ public abstract class Course {
             // 
             if (!questions[level].Contains(question))
             questions[level].Add(question);
-            Debug.Log("I AddQuestions questions[level]: "  + questions[level]);
+            //Debug.Log("I AddQuestions questions[level]: "  + questions[level]);
 
         }
 
 		if (!answers.ContainsKey(question)) {
             //answers[question] = answer;
             answers.Add(question, answer);
-            Debug.Log("I AddQuestions answers[question]: " + answers[question]);
+            //Debug.Log("I AddQuestions answers[question]: " + answers[question]);
         }
 
 		if (!results.ContainsKey(question)) {
 			results.Add(question, 0);
-            Debug.Log("I AddQuestions result[question]: " + results[question]);
+            //Debug.Log("I AddQuestions result[question]: " + results[question]);
         }
 	}
 

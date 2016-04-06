@@ -162,7 +162,7 @@ public class Parser {
     void createNewCourse()
     {
         c = new CurrentCourse(coursecode);
-        Debug.Log(c + " = c i createNewCourse i Parser.cs");
+        //Debug.Log(c + " = c i createNewCourse i Parser.cs");
         c.setCoursecode(coursecode);
         c.setLevel(int.Parse(momentcode));
 
@@ -171,17 +171,17 @@ public class Parser {
             bool newCourse = true;
             foreach (Course co in courseList)
             {
-                Debug.Log(co + " = co in createNewCourse i Parser:s foreachloop");
+                //Debug.Log(co + " = co in createNewCourse i Parser:s foreachloop");
 
 
                 if (co == null)
                 {
                     //courseList.Remove(co);
-                    Debug.Log(" co = null Vi hoppar över den!!");
+                    //Debug.Log(" co = null Vi hoppar över den!!");
                 }
                 else
                 {
-                    Debug.Log(co.getCoursecode() + " = co:s kurskod in createNewCourse i Parser:s foreachloop");
+                    //Debug.Log(co.getCoursecode() + " = co:s kurskod in createNewCourse i Parser:s foreachloop");
 
                     if (co.getCoursecode().Equals(coursecode))
                     {
@@ -195,7 +195,7 @@ public class Parser {
             {
                 //HasNewCourse = true;
                 courseList.Add(c);
-                Debug.Log(c + " was added in courselist");
+                //Debug.Log(c + " was added in courselist");
             }
             createNewMoment(c);
         }
@@ -203,8 +203,8 @@ public class Parser {
 
     void createNewMoment(Course c)
     {
-        int level = 0; // int.Parse(newMomentcode); // Fix me
-        Debug.Log(level + question + answer + " was received i createNewMoment i Parser.cs");
+        int level = int.Parse(momentcode); 
+        //Debug.Log(level + question + answer + " was received i createNewMoment i Parser.cs");
         c.AddQuestion(level, question, answer);
     }
 

@@ -61,7 +61,7 @@ public class Question {
 
 	public string GetAlternative()
 	{
-        Debug.Log(" alt.Count i Questions är nu: " + alt.Count);
+        //Debug.Log(" alt.Count i Questions är nu: " + alt.Count);
 		index %= alt.Count - 1;
 		return alt[index++];
 	}

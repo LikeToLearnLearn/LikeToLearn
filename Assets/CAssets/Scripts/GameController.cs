@@ -81,26 +81,23 @@ public class GameController : MonoBehaviour {
 
         GameObject conn = GameObject.Find("ConnectionHandler");
         recive = conn.GetComponent<Recive>();
-        //AskForNewQuestions();
+      
 
-        // auto save every fifth secound
+        // auto every fifth secound
         InvokeRepeating("Save", 5, 5);
         InvokeRepeating("SendResults", 5, 5);
-        //InvokeRepeating("AskForNewQuestions", 15, 15);
     }
 
     void Update()
     {
-        //AskForNewQuestions();
-        //SendResults();  
-        if (recive.c != null) setCurrentcourse(recive.c);     
+       if (recive.c != null) setCurrentcourse(recive.c);     
     }
 
     void SendResults()
     {
         if (recive != null && data!= null)
         {
-            //if ( recive.Online()) Fix me!!
+            if ( recive.Online()) 
             {
                 Question q = null;
                 List<Question> temp = data.questions;
@@ -113,19 +110,16 @@ public class GameController : MonoBehaviour {
                         List<string> keys = new List<string>(tmp.Keys);
                         foreach (string key in keys)
                         {
-                            //foreach (KeyValuePair<string, string> ans in tmp)
-                            //{
-
                             recive.sendResult(q.coursecode, q.momentcode, q.question, key, tmp[key]/*ans.Key, ans.Value*/);
                             Debug.Log("Försöker skicka :" + q.coursecode + " " + q.momentcode + " " + q.question + " " + key /*ans.Key*/ + " " + tmp[key] /*ans.Value*/);
                             data.questions[i].a.Remove(key);
                         }
 
-                        //temp.Remove(q);
+                        
                     }
                         
                 }
-                //data.questions = temp;
+                
             }
         }
     }
@@ -134,17 +128,13 @@ public class GameController : MonoBehaviour {
     {
         if (recive != null)
         {
-            Debug.Log(" Nu är vi i AskForNewQuestions");
-           // if (recive.Online()) // Fix me!!
+            //Debug.Log(" Nu är vi i AskForNewQuestions");
+            if (recive.Online()) 
             {
                     recive.getNewQuestions();
 
 
-                if (recive.c != null)
-                {
-                    setCurrentcourse(recive.c);
-                    Debug.Log(" Nu är vi i AskForNewQuestions ifsats: currentcourse = " + recive.c);
-                }
+              
                
             }
         }
@@ -181,17 +171,17 @@ public class GameController : MonoBehaviour {
 		global.games[global.currentGame] = global.gameCount++;
 
         // add player to math course for now
-        Course m = new MultiplicationCourse(); // Fix me!!!! tillfälligt bortkommenterad pga test
-        data.coruses.Add(m); // Fix me!! tillfälligt bortkommenterad pga test
-        //data.currentCourse = m; // Fix me!! tillfälligt bortkommenterad pga test
-        AskForNewQuestions();
-        if (recive.c == null) setCurrentcourse(m);  /// fix me!!!
+        Course m = new MultiplicationCourse(); 
+        data.coruses.Add(m); 
+        //data.currentCourse = m; 
        
-        Debug.Log("Nu sätts " + recive.c + " till currentcourse i GameControllers NewGame.");
-        GameObject conn = GameObject.Find("ConnectionHandler");
-        recive = conn.GetComponent<Recive>();
+        if (recive.c == null) setCurrentcourse(m);  
+       
+        //Debug.Log("Nu sätts " + recive.c + " till currentcourse i GameControllers NewGame.");
+        //GameObject conn = GameObject.Find("ConnectionHandler");
+        //recive = conn.GetComponent<Recive>();
         recive.setCourseList(data.coruses);
-        
+         AskForNewQuestions();
         // one less variation to test if we save and load every time
         SaveGame();
 		LoadGame(name);
@@ -282,9 +272,8 @@ public class GameController : MonoBehaviour {
 		}
 		data = content;
 		sceneHandler.ChangeScene("new", data.currentScene);
-        //recive = new Recive(data.coruses); // Man fick visst inte skapa nya monobehaviorsaker med hjälp av new ....
-        GameObject conn = GameObject.Find("ConnectionHandler");
-        recive = conn.GetComponent<Recive>();
+        //GameObject conn = GameObject.Find("ConnectionHandler");
+        //recive = conn.GetComponent<Recive>();
         recive.setCourseList(data.coruses);
         AskForNewQuestions();
                 
@@ -395,14 +384,14 @@ public class GameController : MonoBehaviour {
 
 	public Question GetQuestion(int alternatives)
 	{
-        Debug.Log(" nu är vi i gamecontrollers GetQuestion");
+        //Debug.Log(" nu är vi i gamecontrollers GetQuestion");
         if (data.currentCourse == null) {
 			print("Player don't have a current course selected!");
 			return null;
 		}
 		var q = data.currentCourse.GetQuestion(alternatives);
 		data.questions.Add(q);
-        Debug.Log(" nu läggs frågan " + q + " till i data.questions");
+        //Debug.Log(" nu läggs frågan " + q + " till i data.questions");
 		return q;
 	}
 

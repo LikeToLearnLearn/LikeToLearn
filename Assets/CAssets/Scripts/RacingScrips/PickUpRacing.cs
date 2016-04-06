@@ -30,7 +30,7 @@ public class PickUpRacing : MonoBehaviour {
         SetValue();
 
         racingLogic.AddPickUp(me);
-        Debug.Log("Added" + me);
+        //Debug.Log("Added" + me);
          
     }
 
