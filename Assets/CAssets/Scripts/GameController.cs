@@ -104,15 +104,22 @@ public class GameController : MonoBehaviour {
                 for (int i = 0; i < temp.Count; ++i)
                 {
                     q = temp[i];
-                    Dictionary<string, string> tmp = q.a;
+                    // Dictionary<string, string> tmp = q.a;
+                    Dictionary<string, List<string>> tmp = q.a;
                     if ( tmp.Count > 0)
                     {
                         List<string> keys = new List<string>(tmp.Keys);
                         foreach (string key in keys)
                         {
-                            recive.sendResult(q.coursecode, q.momentcode, q.question, key, tmp[key]/*ans.Key, ans.Value*/);
-                            Debug.Log("Försöker skicka :" + q.coursecode + " " + q.momentcode + " " + q.question + " " + key /*ans.Key*/ + " " + tmp[key] /*ans.Value*/);
-                            data.questions[i].a.Remove(key);
+                            List<string> ans = tmp[key];
+
+                            foreach (string answ in ans)
+                            {
+
+                                recive.sendResult(q.coursecode, q.momentcode, q.question, key, answ/*ans.Key, ans.Value*/);
+                                Debug.Log("Försöker skicka :" + q.coursecode + " " + q.momentcode + " " + q.question + " " + key /*ans.Key*/ + " " + answ /*ans.Value*/);
+                                data.questions[i].a.Remove(key);
+                            }
                         }
 
                         

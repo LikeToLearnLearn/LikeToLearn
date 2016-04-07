@@ -6,7 +6,8 @@ using UnityEngine;
 [Serializable]
 public class Question {
 	private static System.Random rnd = new System.Random();
-	public Dictionary<string, string> a = new Dictionary<string, string>();
+    //public Dictionary<string, string> a = new Dictionary<string, string>();
+    public Dictionary<string, List<string>> a = new Dictionary<string, List<string>>();
     private List<string> answers = new List<string>();
     private List<string> alt = new List<string>();
 	private Course course;
@@ -41,13 +42,35 @@ public class Question {
         if (IsCorrect() && answers.Count == 1)
         {
             course.LogAnswerCorrect(question);
-            a.Add(givenAnswer, "rigtht");// Fix: behöver kunna svara fel många gånger på samma fråga.
+            //a.Add(givenAnswer, "rigtht");// Fix: behöver kunna svara fel många gånger på samma fråga.
+            if (!a.ContainsKey(givenAnswer))
+            {
+                a.Add(givenAnswer, new List<string>());
+                a[givenAnswer].Add("right");
+                Debug.Log("La till rätt svar i listan i Question.");
+             }
+            else
+            {
+                a[givenAnswer].Add("right");
+                Debug.Log("La till rätt svar i listan i Question på redan befintlig nyckel.");
+            }
             answers.Add(givenAnswer);
             //connection.sendResult(coursecode, momentcode, question, "right");
         }
         else
         {
-            a.Add(givenAnswer, "wrong");
+            if (!a.ContainsKey(givenAnswer))
+            {
+                a.Add(givenAnswer, new List<string>());
+                a[givenAnswer].Add("wrong");
+                Debug.Log("La till fel svar i listan i Question.");
+            }
+            else
+            {
+                a[givenAnswer].Add("wrong");
+                Debug.Log("La till fel svar i listan i Question på redan befintlig nyckel.");
+            }
+            //a.Add(givenAnswer, "wrong");
             answers.Add(givenAnswer);
         }
             //connection.sendResult(coursecode, momentcode, question, "wrong");
