@@ -14,6 +14,8 @@ public abstract class Course {
 	Dictionary<string, int> results = new Dictionary<string, int>();
 	static System.Random rnd = new System.Random();
     int level = 1;
+    public Dictionary<int, int> momentcodes;
+    public List<int> levels;
 
     private string coursecode = "defaultCourse";
 
@@ -84,7 +86,7 @@ public abstract class Course {
 
 	public virtual int CurrentLevel()
 	{
-		var levels = questions.Keys.ToList();
+		levels = questions.Keys.ToList();
 		levels.Sort();
 		int result = 1;
 		foreach (int level in levels) {

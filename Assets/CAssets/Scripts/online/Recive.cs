@@ -216,7 +216,15 @@ public class Recive : MonoBehaviour {
 
     void createNewMoment(Course c)
     {
-        int level = 0; // int.Parse(newMomentcode); // Fix me
+        if (!c.momentcodes.ContainsKey(int.Parse(newMomentcode)))
+        {
+            int x = 1;
+            foreach (int y in c.levels) x++;
+            c.momentcodes.Add(int.Parse(newMomentcode), x + 1 );
+            
+        }
+        int level = c.momentcodes[int.Parse(newMomentcode)]; //int.Parse(newMomentcode);
+
         Debug.Log(level + newQuestion + newAnswer + " was received i createNewMoment i Recive.cs");
         c.AddQuestion(level, newQuestion, newAnswer);
     }
