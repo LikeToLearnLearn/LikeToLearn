@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Linq;
 
 public class Parser {
 
@@ -201,10 +202,31 @@ public class Parser {
         }
     }
 
-    void createNewMoment(Course c)
+   /* void createNewMoment(Course c)
     {
         int level = int.Parse(momentcode); 
         //Debug.Log(level + question + answer + " was received i createNewMoment i Parser.cs");
+        c.AddQuestion(level, question, answer);
+    }*/
+
+    void createNewMoment(Course c)
+    {
+        if (!c.momentcodes.ContainsKey(int.Parse(momentcode)))
+        {
+            int x = 0;
+            if (c.levels == null)
+            {
+                c.levels = c.questions.Keys.ToList();
+                c.levels.Add(x);
+            }
+
+            else foreach (int y in c.levels) x++;
+            c.momentcodes.Add(int.Parse(momentcode), x);
+
+        }
+        int level = c.momentcodes[int.Parse(momentcode)]; //int.Parse(newMomentcode);
+
+        Debug.Log(level + question + answer + " was received i createNewMoment i Recive.cs");
         c.AddQuestion(level, question, answer);
     }
 

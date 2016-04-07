@@ -14,11 +14,22 @@ public abstract class Course {
 	Dictionary<string, int> results = new Dictionary<string, int>();
 	static System.Random rnd = new System.Random();
     int level = 1;
-    public Dictionary<int, int> momentcodes;
+    public Dictionary<int, int> momentcodes = new Dictionary<int, int>();
     public List<int> levels;
 
     private string coursecode = "defaultCourse";
 
+  
+    void start()
+    {
+        levels = questions.Keys.ToList();
+        levels.Add(0);
+    }
+
+    void update()
+    {
+        levels = questions.Keys.ToList();
+    }
     
    public string getCoursecode()
     {
@@ -88,7 +99,7 @@ public abstract class Course {
 	{
 		levels = questions.Keys.ToList();
 		levels.Sort();
-		int result = 1;
+		int result = 0;
 		foreach (int level in levels) {
 			if (4 < questions[level].Count(x => results[x] > 0)) {
 				result = level + 1;
