@@ -15,6 +15,7 @@ public abstract class Course {
 	static System.Random rnd = new System.Random();
     int level = 1;
     public Dictionary<int, int> momentcodes = new Dictionary<int, int>();
+    //public Dictionary<int, string> levelDictionary = new Dictionary<int,string >();
     public List<int> levels;
 
     private string coursecode = "defaultCourse";

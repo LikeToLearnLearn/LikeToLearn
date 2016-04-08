@@ -116,7 +116,7 @@ public class GameController : MonoBehaviour {
                             foreach (string answ in ans)
                             {
 
-                                recive.sendResult(q.coursecode, q.momentcode, q.question, key, answ/*ans.Key, ans.Value*/);
+                                recive.sendResult(q.coursecode, q.momentcode, q.question, key, answ);
                                 Debug.Log("Försöker skicka :" + q.coursecode + " " + q.momentcode + " " + q.question + " " + key /*ans.Key*/ + " " + answ /*ans.Value*/);
                                 data.questions[i].a.Remove(key);
                             }

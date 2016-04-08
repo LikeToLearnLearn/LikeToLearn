@@ -218,6 +218,7 @@ public class Parser {
             {
                 c.levels = c.questions.Keys.ToList();
                 c.levels.Add(x);
+                //c.levelDictionary.Add(x, momentcode);
             }
 
             else foreach (int y in c.levels) x++;

@@ -38,7 +38,7 @@ public class Question {
 	{
         //connection = new Connection();
 
-
+        answers.Add(givenAnswer);
         if (IsCorrect() && answers.Count == 1)
         {
             course.LogAnswerCorrect(question);
@@ -46,31 +46,37 @@ public class Question {
             if (!a.ContainsKey(givenAnswer))
             {
                 a.Add(givenAnswer, new List<string>());
+               
+             }
+
                 a[givenAnswer].Add("right");
                 Debug.Log("La till rätt svar i listan i Question.");
-             }
-            else
+           /* else
             {
                 a[givenAnswer].Add("right");
                 Debug.Log("La till rätt svar i listan i Question på redan befintlig nyckel.");
-            }
-            answers.Add(givenAnswer);
+            }*/
+            
             //connection.sendResult(coursecode, momentcode, question, "right");
         }
+
         else
         {
             if (!a.ContainsKey(givenAnswer))
             {
                 a.Add(givenAnswer, new List<string>());
-                a[givenAnswer].Add("wrong");
-                Debug.Log("La till fel svar i listan i Question.");
             }
-            else
+
+            a[givenAnswer].Add("wrong");
+            Debug.Log("La till fel svar i listan i Question.");
+
+           /* else
             {
                 a[givenAnswer].Add("wrong");
                 Debug.Log("La till fel svar i listan i Question på redan befintlig nyckel.");
-            }
+            }*/
             //a.Add(givenAnswer, "wrong");
+
             answers.Add(givenAnswer);
         }
             //connection.sendResult(coursecode, momentcode, question, "wrong");
