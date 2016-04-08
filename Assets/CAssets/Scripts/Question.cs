@@ -51,7 +51,7 @@ public class Question {
              }
 
                 a[givenAnswer].Add("true");
-                Debug.Log("La till rätt svar i listan i Question.");
+                //Debug.Log("La till rätt svar i listan i Question.");
            /* else
             {
                 a[givenAnswer].Add("right");
@@ -69,7 +69,7 @@ public class Question {
             }
 
             a[givenAnswer].Add("false");
-            Debug.Log("La till fel svar i listan i Question.");
+            //Debug.Log("La till fel svar i listan i Question.");
 
            /* else
             {

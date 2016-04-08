@@ -103,7 +103,7 @@ public class GameController : MonoBehaviour {
         else this.name = name;
     }
 
-    bool Authorization(string username, string password)
+  /*  bool Authorization(string username, string password)
     {
         if (recive.Online())
         {
@@ -119,7 +119,7 @@ public class GameController : MonoBehaviour {
         
 
         
-    }
+    }*/
 
     void SendResults()
     {

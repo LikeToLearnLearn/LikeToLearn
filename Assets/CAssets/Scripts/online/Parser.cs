@@ -31,6 +31,7 @@ public class Parser {
         HasNewResult = false;
         authorization = false;
         if (data != null && courseList != null) parseJson(data);
+        else if (data != null) Authorization(data);
         HasCheckedLoggin = false;
         
         //else if (data != null) Authorization(data);
@@ -337,10 +338,10 @@ public class Parser {
 
                 save = true;
                 break;*/
-        }
-
-        return false;
-        //return authorization;
+       }
+        //return false;
+      return authorization;
+        //return true;
     }
 
  

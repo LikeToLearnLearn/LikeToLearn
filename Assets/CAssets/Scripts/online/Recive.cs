@@ -104,7 +104,7 @@ public class Recive : MonoBehaviour {
         return online;
     }
 
-    void ConnectToServer()
+  /*  void ConnectToServer()
     {
         Network.Connect(presentIP, 8080);
     }
@@ -119,9 +119,9 @@ public class Recive : MonoBehaviour {
 
         testJson();
 
-    }
+    }*/
 
-    public void testJson()
+  /*  public void testJson()
     {
         WWWForm form1 = new WWWForm();
         form1.AddField("coursecode", "iugu");
@@ -134,16 +134,9 @@ public class Recive : MonoBehaviour {
         Debug.Log("Nu försöker jag skicka: " + form1 + " till test");
         StartCoroutine(WaitForRequest(www, courseList));
 
-    }
+    }*/
 
-    public bool getNewQuestions()
-    {
-        string url = string.Format(presentIP + ":8080/questions");
-        var www = new WWW(url);
-        StartCoroutine(WaitForRequest(www, courseList));
-        if (parse == null) return false;
-        return parse.HasNewResult;
-    }
+  
 
     private IEnumerator WaitForRequest(WWW www, System.Collections.Generic.List<Course> courseList)
     {
@@ -152,11 +145,13 @@ public class Recive : MonoBehaviour {
         {
             if (www.text.Length > 0)
             {
-                parse = new Parser(www.text, courseList);
+                //var 
+                parse = new Parser(www.text, courseList); // fix me: parse = 
+               
                 Debug.Log(www.text + " was received i Recive.cs");
                 c = parse.c;
-                if (c!= null)Debug.Log("Recive.c = " + c + " i Recive.cs:s WaitForRequest. Den kursen har kurskod:  "+ c.getCoursecode() + " Exempel på en fråga är: " + c.GetQuestion(4).question );
-                
+                if (c != null) Debug.Log("Recive.c = " + c + " i Recive.cs:s WaitForRequest. Den kursen har kurskod:  " + c.getCoursecode() + " Exempel på en fråga är: " + c.GetQuestion(4).question);
+                //else Debug.Log(www.text + " blev authotization");
                 /* if (parse.HasNewResult)
                 {
                     newCoursecode = parse.coursecode;
@@ -180,7 +175,7 @@ public class Recive : MonoBehaviour {
         }
         else
         {
-            Debug.LogError("Failed to fetch data: " + www.error);
+            Debug.LogError("Failed to fetch data in recive.waitforrequest: " + www.error);
         }
 
     }
@@ -263,21 +258,32 @@ public class Recive : MonoBehaviour {
 
     }
 
+    public bool getNewQuestions()
+    {
+        string url = string.Format(presentIP + ":8080/questions");
+        var www = new WWW(url);
+        StartCoroutine(WaitForRequest(www, courseList));
+        if (parse == null) return false;
+        return true; // parse.HasNewResult; Fix me!!
+    }
+
     public bool Authorization(string username, string password)
     {
-       /* WWWForm form = new WWWForm();
+       WWWForm form = new WWWForm();
 
-        form.AddField("userid", username);
         form.AddField("password", password);
+        form.AddField("userid", username);
+       
         string url = string.Format(presentIP + ":8080/login");
         var www = new WWW(url, form);
         StartCoroutine(WaitForRequest(www, null));
 
-        while (!parse.HasCheckedLoggin) ;
+        //while (!parse.HasCheckedLoggin) Debug.Log(" Nu väntar vi på resultat från loggin");
+        //Debug.Log("Svaret blev: " + parse.authorization);
 
-        return parse.authorization; // false; */
+       return parse.authorization; // false; */
 
-        return true;
+        //return true;
 
 
     }

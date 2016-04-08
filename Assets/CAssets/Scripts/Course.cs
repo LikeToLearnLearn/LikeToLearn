@@ -102,10 +102,10 @@ public abstract class Course {
 		levels.Sort();
 		int result = 0;
 		foreach (int level in levels) {
-			if (4 < questions[level].Count(x => results[x] > 0)) {
-				result = level + 1;
-			} else {
-				break;
+            var xs = questions[level];
+            var y = level + 1;
+            if (xs.Count <= xs.Count(x => results[x] > 0) && y > result) {
+    			result = y;
 			}
 		}
 		return result;
