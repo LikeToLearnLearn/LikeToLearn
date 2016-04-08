@@ -96,7 +96,7 @@ public abstract class Course {
        
 	}
 
-	public virtual int CurrentLevel()
+	public virtual int CurrentLevel() //Fixa så det inte går att levla upp över den högsta level som finns!!!!
 	{
 		levels = questions.Keys.ToList();
 		levels.Sort();

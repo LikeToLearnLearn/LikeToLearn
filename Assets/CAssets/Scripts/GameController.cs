@@ -18,6 +18,7 @@ public class GameController : MonoBehaviour {
 	};
 
     private string name;
+    public Recive recive;
 
 	// global configuration data that all instances use
 	[Serializable]
@@ -43,7 +44,7 @@ public class GameController : MonoBehaviour {
 	GameData data = null;
 	GlobalData global = null;
 	SceneHandler sceneHandler;
-    Recive recive;
+    //Recive recive;
 
 	public int unlockedWorldLevel {  // not tested
 		get { return (int) Math.Log10(data.experiencePoints); }
@@ -101,6 +102,11 @@ public class GameController : MonoBehaviour {
         if (NameTaken(name) || NameInvalid(name)) return;
 
         else this.name = name;
+    }
+
+    public Recive GetRecive()
+    {
+        return recive;
     }
 
   /*  bool Authorization(string username, string password)

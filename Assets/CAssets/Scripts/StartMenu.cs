@@ -11,7 +11,7 @@ public class StartMenu : MonoBehaviour {
 	public GameObject newGame, loadGame, options, credits;
 
 	// new game
-	public GameObject takenNameText, invalidNameText, nameInput, passwordInput;
+	public GameObject takenNameText, invalidNameText, nameInput, passwordInput, onlinesign;
 
 	// load game
 	public GameObject loadPannelButton, nextButton, prevButton, nameText;
@@ -26,17 +26,38 @@ public class StartMenu : MonoBehaviour {
 	List<string> names;
 	Text nameToLoad;
 
-	void Start () {
-		if (!GameController.control.gotSavedGames) {
-			Button b = loadPannelButton.GetComponent<Button>();
-			b.interactable = false;
-			// fixme: decrease load game button text alpha
-		}
-		names = GameController.control.GetNames();
-		nameToLoad = nameText.GetComponent<Text>();
-	}
+    void Start()
+    {
+        GameController.control.recive.checkOnline();
 
-	void Update () {
+        if (!GameController.control.gotSavedGames)
+        {
+            Button b = loadPannelButton.GetComponent<Button>();
+            b.interactable = false;
+            // fixme: decrease load game button text alpha
+        }
+        names = GameController.control.GetNames();
+        nameToLoad = nameText.GetComponent<Text>();
+
+        
+        
+    }
+
+    void Update () 
+    {
+
+        if (GameController.control.recive.Online())
+        {
+            //bool online = onlinesign.GetComponent<Text>();
+            onlinesign.GetComponent<Text>().text = "online";
+        }
+        else
+        {
+            print(""); // Johans bidrag :)
+            onlinesign.GetComponent<Text>().text = "offline";
+        }
+        Debug.Log(" Online i StartMeny = " + GameController.control.recive.Online());
+
 		if (isZoomed) {
 			if (zoom > 0.0f) {
 				float move = Mathf.Log(zoom);
