@@ -49,7 +49,7 @@ public class Question {
                
              }
 
-                a[givenAnswer].Add("right");
+                a[givenAnswer].Add("true");
                 Debug.Log("La till rätt svar i listan i Question.");
            /* else
             {
@@ -67,7 +67,7 @@ public class Question {
                 a.Add(givenAnswer, new List<string>());
             }
 
-            a[givenAnswer].Add("wrong");
+            a[givenAnswer].Add("false");
             Debug.Log("La till fel svar i listan i Question.");
 
            /* else
