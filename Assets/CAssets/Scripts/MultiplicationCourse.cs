@@ -19,6 +19,8 @@ public class MultiplicationCourse : Course {
 				}
 			}
 		}
+
+        setCoursecode("MM");
 	}
 
 	public override int CurrentLevel()
@@ -26,4 +28,6 @@ public class MultiplicationCourse : Course {
 		int i = base.CurrentLevel();
 		return i > 9 ? rnd.Next(0, 9) : i;
 	}
+
+    
 }

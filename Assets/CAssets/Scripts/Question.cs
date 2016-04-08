@@ -15,6 +15,7 @@ public class Question {
     public string momentcode;
 	public string question;
 	public string answer;
+    public string FrågeId;
 	private int index;
     private Connection connection;
 

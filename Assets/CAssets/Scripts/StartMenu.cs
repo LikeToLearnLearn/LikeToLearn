@@ -11,7 +11,7 @@ public class StartMenu : MonoBehaviour {
 	public GameObject newGame, loadGame, options, credits;
 
 	// new game
-	public GameObject takenNameText, invalidNameText, nameInput;
+	public GameObject takenNameText, invalidNameText, nameInput, passwordInput;
 
 	// load game
 	public GameObject loadPannelButton, nextButton, prevButton, nameText;
@@ -122,7 +122,10 @@ public class StartMenu : MonoBehaviour {
 	public void StartGame()
 	{
 		var input = nameInput.GetComponent<InputField>();
-		string name = input.text;
+        var passwordinput  = passwordInput.GetComponent<InputField>();
+        string name = input.text;
+        string password = passwordinput.text;
+
 		if (GameController.control.NameTaken(name)) {
 			takenNameText.SetActive(true);
 			invalidNameText.SetActive(false);
@@ -132,7 +135,7 @@ public class StartMenu : MonoBehaviour {
 		} else {
 			takenNameText.SetActive(false);
 			invalidNameText.SetActive(false);
-			GameController.control.NewGame(name);
+			GameController.control.NewGame(name, password);
 		}
 	}
 

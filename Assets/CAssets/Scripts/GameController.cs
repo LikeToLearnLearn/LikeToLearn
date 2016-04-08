@@ -17,6 +17,8 @@ public class GameController : MonoBehaviour {
 		GlassBlock
 	};
 
+    private string name;
+
 	// global configuration data that all instances use
 	[Serializable]
 	class GlobalData {
@@ -93,6 +95,32 @@ public class GameController : MonoBehaviour {
        if (recive.c != null) setCurrentcourse(recive.c);     
     }
 
+    void setName(string name)
+    {
+        name = name.Trim();
+        if (NameTaken(name) || NameInvalid(name)) return;
+
+        else this.name = name;
+    }
+
+    bool Authorization(string username, string password)
+    {
+        if (recive.Online())
+        {
+
+            bool Accepted = recive.Authorization(username, password);
+
+            Debug.Log("Inloggningen resulterade i = " + Accepted);
+
+            return true;//  Accepted; Fix me!!
+        }
+
+        else return true; // false // Fix me!!
+        
+
+        
+    }
+
     void SendResults()
     {
         if (recive != null && data!= null)
@@ -121,12 +149,8 @@ public class GameController : MonoBehaviour {
                                 data.questions[i].a.Remove(key);
                             }
                         }
-
-                        
-                    }
-                        
+                    }     
                 }
-                
             }
         }
     }
@@ -166,29 +190,32 @@ public class GameController : MonoBehaviour {
 		}
 	}
 
-	public void NewGame(string name)
+	public void NewGame(string name, string password)
 	{
 		name = name.Trim();
 		if (NameTaken(name) || NameInvalid(name)) return;
-		global.currentGame = name;
-		data = new GameData();
-		global.games[global.currentGame] = global.gameCount++;
+        if (recive.Authorization(name, password))
+        {
+            global.currentGame = name;
+            data = new GameData();
+            global.games[global.currentGame] = global.gameCount++;
 
-        // add player to math course for now
-        Course m = new MultiplicationCourse(); 
-        data.coruses.Add(m); 
-        //data.currentCourse = m; 
-       
-        if (recive.c == null) setCurrentcourse(m);  
-       
-        //Debug.Log("Nu sätts " + recive.c + " till currentcourse i GameControllers NewGame.");
-        //GameObject conn = GameObject.Find("ConnectionHandler");
-        //recive = conn.GetComponent<Recive>();
-        recive.setCourseList(data.coruses);
-        AskForNewQuestions();
-        // one less variation to test if we save and load every time
-        SaveGame();
-		LoadGame(name);
+            // add player to math course for now
+            Course m = new MultiplicationCourse();
+            data.coruses.Add(m);
+            //data.currentCourse = m; 
+
+            if (recive.c == null) setCurrentcourse(m);
+
+            //Debug.Log("Nu sätts " + recive.c + " till currentcourse i GameControllers NewGame.");
+            //GameObject conn = GameObject.Find("ConnectionHandler");
+            //recive = conn.GetComponent<Recive>();
+            recive.setCourseList(data.coruses);
+            AskForNewQuestions();
+            // one less variation to test if we save and load every time
+            SaveGame();
+            LoadGame(name);
+        }
 	}
 
     public void setCurrentcourse( Course m)
@@ -278,8 +305,11 @@ public class GameController : MonoBehaviour {
 		sceneHandler.ChangeScene("new", data.currentScene);
         //GameObject conn = GameObject.Find("ConnectionHandler");
         //recive = conn.GetComponent<Recive>();
+        Course m = new MultiplicationCourse();
+        data.coruses.Add(m);
         recive.setCourseList(data.coruses);
         AskForNewQuestions();
+        if (recive.c == null) setCurrentcourse(m);
                 
     }
 

@@ -132,7 +132,7 @@ public class Recive : MonoBehaviour {
         string url = string.Format(presentIP +":8080/test");
         var www = new WWW(url, form1);
         Debug.Log("Nu försöker jag skicka: " + form1 + " till test");
-        StartCoroutine(WaitForRequest(www));
+        StartCoroutine(WaitForRequest(www, courseList));
 
     }
 
@@ -140,12 +140,12 @@ public class Recive : MonoBehaviour {
     {
         string url = string.Format(presentIP + ":8080/questions");
         var www = new WWW(url);
-        StartCoroutine(WaitForRequest(www));
+        StartCoroutine(WaitForRequest(www, courseList));
         if (parse == null) return false;
         return parse.HasNewResult;
     }
 
-    private IEnumerator WaitForRequest(WWW www)
+    private IEnumerator WaitForRequest(WWW www, System.Collections.Generic.List<Course> courseList)
     {
         yield return www;
         if (www.error == null)
@@ -155,7 +155,7 @@ public class Recive : MonoBehaviour {
                 parse = new Parser(www.text, courseList);
                 Debug.Log(www.text + " was received i Recive.cs");
                 c = parse.c;
-                Debug.Log("Recive.c = " + c + " i Recive.cs:s WaitForRequest. Den kursen har kurskod:  "+ c.getCoursecode() + " Exempel på en fråga är: " + c.GetQuestion(4).question );
+                if (c!= null)Debug.Log("Recive.c = " + c + " i Recive.cs:s WaitForRequest. Den kursen har kurskod:  "+ c.getCoursecode() + " Exempel på en fråga är: " + c.GetQuestion(4).question );
                 
                 /* if (parse.HasNewResult)
                 {
@@ -185,7 +185,7 @@ public class Recive : MonoBehaviour {
 
     }
 
-    void createNewCourse()
+  /*  void createNewCourse()
     {
         c = new CurrentCourse(newCoursecode);
         Debug.Log(c + "  c i createNewCourse i Recive.cs");
@@ -212,9 +212,9 @@ public class Recive : MonoBehaviour {
             }
             createNewMoment(c);
         }
-    }
+    }*/
 
-    void createNewMoment(Course c)
+   /* void createNewMoment(Course c)
     {
         if (!c.momentcodes.ContainsKey(int.Parse(newMomentcode)))
         {
@@ -227,7 +227,7 @@ public class Recive : MonoBehaviour {
 
         Debug.Log(level + newQuestion + newAnswer + " was received i createNewMoment i Recive.cs");
         c.AddQuestion(level, newQuestion, newAnswer);
-    }
+    }*/
       
     private void InternetIsNotAvailable()
     {
@@ -262,5 +262,28 @@ public class Recive : MonoBehaviour {
         //StartCoroutine(WaitForRequest(www));
 
     }
+
+    public bool Authorization(string username, string password)
+    {
+       /* WWWForm form = new WWWForm();
+
+        form.AddField("userid", username);
+        form.AddField("password", password);
+        string url = string.Format(presentIP + ":8080/login");
+        var www = new WWW(url, form);
+        StartCoroutine(WaitForRequest(www, null));
+
+        while (!parse.HasCheckedLoggin) ;
+
+        return parse.authorization; // false; */
+
+        return true;
+
+
+    }
+
+   
+    
+   
 
 }
