@@ -102,13 +102,19 @@ public abstract class Course {
 		levels = questions.Keys.ToList();
 		levels.Sort();
 		int result = 0;
-		foreach (int level in levels) {
+        foreach (int level in levels)
+        {
             var xs = questions[level];
             var y = level + 1;
-            if (xs.Count <= xs.Count(x => results[x] > 0) && y > result) {
-    			result = y;
-			}
-		}
+            if (xs.Count /** 2*/ <= xs.Count(x => results[x] > 0) && y > result)
+            {
+                result = y;
+            }
+            if (result == levels.Count)
+            {
+                result = rnd.Next(levels.Count);
+            }
+        }
 		return result;
 	}
 

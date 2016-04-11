@@ -228,9 +228,11 @@ public class GameController : MonoBehaviour {
     {
         if (data != null)
         {
-            /*if (!data.coruses.Contains(m))
-                data.coruses.Add(m);*/
+             if(!data.coruses.Contains(m))
+                data.coruses.Add(m);
+            Course old = data.currentCourse;
             data.currentCourse = m;
+            if (old != null) data.coruses.Remove(old);
         }
     }
 	public Item TranslateItem(string name)
