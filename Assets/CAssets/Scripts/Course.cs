@@ -106,7 +106,7 @@ public abstract class Course {
         {
             var xs = questions[level];
             var y = level + 1;
-            if (xs.Count /** 2*/ <= xs.Count(x => results[x] > 0) && y > result)
+            if (xs.Count <= xs.Count(x => results[x] > 3) && y > result)
             {
                 result = y;
             }

@@ -27,7 +27,7 @@ public class Question {
 		this.question = question;
 		this.answer = answer;
         this.questionId = questionID;
-        Debug.Log(" När frågan skapas är questionID = " + questionID);
+        //Debug.Log(" När frågan skapas är questionID = " + questionID);
 		this.index = rnd.Next(1000);
 
         //GameObject conn = GameObject.Find("ConnectionHandler");
