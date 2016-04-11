@@ -11,7 +11,8 @@ public abstract class Course {
 	int testLevel = 1;
     public Dictionary<int, List<string>> questions = new Dictionary<int, List<string>>();
     Dictionary<string, string> answers = new Dictionary<string, string>();
-	Dictionary<string, int> results = new Dictionary<string, int>();
+    Dictionary<string, string> questionIDs = new Dictionary<string, string>();
+    Dictionary<string, int> results = new Dictionary<string, int>();
 	static System.Random rnd = new System.Random();
     int level = 1;
     public Dictionary<int, int> momentcodes = new Dictionary<int, int>();
@@ -74,11 +75,11 @@ public abstract class Course {
           //Debug.Log("I GetQuestions added: " + added);
 
         
-         var res = new Question(this, level, q, a);
+         var res = new Question(this, level, questionIDs[q], q, a);
          //Debug.Log("I GetQuestions res: " + res);
 
         
-         List<string> ans = Enumerable.ToList(answers.Values);  /// PLEEEAAAAASEEEEEEE fix me soon!!
+         List<string> ans = Enumerable.ToList(answers.Values);  
           //Debug.Log("I GetQuestions ans: " + ans);
           //while (true /*alternatives > 0*/)
           for(int i= alternatives; i>0; i--)
@@ -122,7 +123,7 @@ public abstract class Course {
 		testMode = false;
 	}
 
-	public virtual void AddQuestion(int level, string question, string answer)
+    public virtual void AddQuestion(int level, string questionID, string question, string answer)
 	{
         //Debug.Log("I AddQuestions; level = " + level + "question = " + question + "answer = " + answer);
         if (!questions.ContainsKey(level))
@@ -151,8 +152,14 @@ public abstract class Course {
             answers.Add(question, answer);
             //Debug.Log("I AddQuestions answers[question]: " + answers[question]);
         }
+        if (!questionIDs.ContainsKey(question))
+        {
+            //answers[question] = answer;
+            questionIDs.Add(question, questionID);
+            //Debug.Log("I AddQuestions answers[question]: " + answers[question]);
+        }
 
-		if (!results.ContainsKey(question)) {
+        if (!results.ContainsKey(question)) {
 			results.Add(question, 0);
             //Debug.Log("I AddQuestions result[question]: " + results[question]);
         }

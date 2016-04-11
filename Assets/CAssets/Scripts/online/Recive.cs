@@ -150,7 +150,7 @@ public class Recive : MonoBehaviour {
                
                 Debug.Log(www.text + " was received i Recive.cs");
                 c = parse.c;
-                if (c != null) Debug.Log("Recive.c = " + c + " i Recive.cs:s WaitForRequest. Den kursen har kurskod:  " + c.getCoursecode() + " Exempel på en fråga är: " + c.GetQuestion(4).question);
+                if (c != null) Debug.Log("Recive.c = " + c + " i Recive.cs:s WaitForRequest. Den kursen har kurskod:  " + c.getCoursecode() + " Exempel på en fråga är: " + c.GetQuestion(4).question + " Den frågan kan tex ha frågeID:t: " + c.GetQuestion(4).questionId);
                 //else Debug.Log(www.text + " blev authotization");
                 /* if (parse.HasNewResult)
                 {
@@ -242,11 +242,10 @@ public class Recive : MonoBehaviour {
         courseList = coruses;
     }
 
-    public void sendResult(string coursecode, string momentcode, string question, string answer, string rightOrWrong)
+    public void sendResult(string questionID, string question, string answer, string rightOrWrong)
     {
         WWWForm form1 = new WWWForm();
-        form1.AddField("coursecode", coursecode);
-        form1.AddField("momentcode", momentcode);
+        form1.AddField("questionid", questionID);
         form1.AddField("question", question);
         form1.AddField("answer", answer);
         form1.AddField("correctness", rightOrWrong);

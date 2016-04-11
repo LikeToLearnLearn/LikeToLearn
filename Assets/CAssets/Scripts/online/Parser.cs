@@ -8,6 +8,7 @@ public class Parser {
     public string momentcode { get; private set; } 
     public string question { get; private set; }
     public string answer { get; private set; }
+    public string questionID { get; private set; }
 
     private bool HasResult; // indicated if the object is carrying an result
     public bool HasNewResult { get; set; } // indicated if the object is carrying a new result
@@ -26,6 +27,7 @@ public class Parser {
         momentcode = string.Empty;
         question = string.Empty;
         answer = string.Empty;
+        questionID = string.Empty;
 
         HasResult = false;
         HasNewResult = false;
@@ -55,6 +57,7 @@ public class Parser {
         string newMomentcode = string.Empty; // most recently read value that may be saved
         string newQuestion = string.Empty; 
         string newAnswer = string.Empty;
+        string newQuestionID = string.Empty;
 
         bool save = false; // indicates if the candidate value should replace the result value
 
@@ -107,9 +110,14 @@ public class Parser {
                                 else answer = newAnswer;
                                 HasNewResult = true;
                             }
+                            if (questionID != newQuestionID && newQuestionID != null)
+                            {
+                                questionID = newQuestionID;
+                                HasNewResult = true;
+                            }
                             if (HasNewResult)
                             { 
-                                Debug.Log("Tillfälligt i Parser: corsecode sparas som: " + coursecode + ", momentcode sparas som: " + momentcode + ", question sparas som: " + question + ", answer sparas som: " + answer);
+                                Debug.Log("Tillfälligt i Parser: corsecode sparas som: " + coursecode + ", momentcode sparas som: " + momentcode + "questionID sparas som: " + questionID + ", question sparas som: " + question + ", answer sparas som: " + answer);
                                 createNewCourse();
                                 HasNewResult = false;
                                 save = false;
@@ -139,8 +147,21 @@ public class Parser {
                         newMomentcode = (data.Substring(i + 1, j - (i + 2 ))); // parse momentcode
                         i = j; // jump to question
                     }
+                    // if data[i...] == "questionID"
+
+                    else if (data[i] == 'q' && data[i + 1] == 'u' && data[i + 2] == 'e' && data[i + 3] == 's' && data[i + 4] == 't' && data[i + 5] == 'i' && data[i + 6] == 'o' && data[i + 7] == 'n' && data[i + 8] == 'i' && data[i + 9] == 'd')
+                    {
+                        i += "questionid\":".Length; // skip forward to the momentcode data
+                        int j = i;
+                        while (data[j] != ',') // find end of momentcode data
+                            j++;
+                        newQuestionID = (data.Substring(i + 1, j - (i + 2))); // parse momentcode
+                        Debug.Log(" newQuestionID i Parser = " + newQuestionID);
+                        i = j; // jump to question
+                    }
                     // if data[i...] == "question"
-                     else if (data[i] == 'q' && data[i + 1] == 'u' && data[i + 2] == 'e' && data[i + 3] == 's' && data[i + 4] == 't' && data[i + 5] == 'i' && data[i + 6] == 'o' && data[i + 7] == 'n')
+
+                    else if (data[i] == 'q' && data[i + 1] == 'u' && data[i + 2] == 'e' && data[i + 3] == 's' && data[i + 4] == 't' && data[i + 5] == 'i' && data[i + 6] == 'o' && data[i + 7] == 'n')
                     {
                         i += "question\":".Length; // skip forward to the question data
                         int j = i;
@@ -235,8 +256,8 @@ public class Parser {
         }
         int level = c.momentcodes[int.Parse(momentcode)]; //int.Parse(newMomentcode);
 
-        Debug.Log(level + question + answer + " was received i createNewMoment i Recive.cs");
-        c.AddQuestion(level, question, answer);
+        Debug.Log(level +", " + questionID + ", " + question + ", " + answer + " was received i createNewMoment i Recive.cs");
+        c.AddQuestion(level, questionID, question, answer);
     }
 
 

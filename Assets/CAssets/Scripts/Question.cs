@@ -15,17 +15,19 @@ public class Question {
     public string momentcode;
 	public string question;
 	public string answer;
-    public string FrågeId;
+    public string questionId;
 	private int index;
     private Connection connection;
 
-	public Question(Course course, int level, string question, string answer)
+	public Question(Course course, int level, string questionID, string question, string answer)
 	{
 		this.course = course;
         coursecode = course.getCoursecode();
         momentcode = "" + level;
 		this.question = question;
 		this.answer = answer;
+        this.questionId = questionID;
+        Debug.Log(" När frågan skapas är questionID = " + questionID);
 		this.index = rnd.Next(1000);
 
         //GameObject conn = GameObject.Find("ConnectionHandler");
@@ -34,6 +36,11 @@ public class Question {
 
         AddAlternative(answer);
 	}
+
+    public string getQuestionID()
+    {
+        return questionId;
+    }
 		
 	public void Answer(string givenAnswer)
 	{
