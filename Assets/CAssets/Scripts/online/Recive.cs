@@ -256,21 +256,21 @@ public class Recive : MonoBehaviour {
          Debug.Log("Nu försöker jag skicka: " + form1 + " till statistics");
          //StartCoroutine(WaitForRequest(www));*/
 
-        /*WWWForm form1 = new WWWForm();
-        form1.AddField("uid", "ben");
+        WWWForm form1 = new WWWForm();
+        form1.AddField("username", "ben");
         form1.AddField("password", "benspassword");
-        string url = string.Format(presentIP + ":8080/login");
+        string url = string.Format(presentIP + ":8080/users/login");
         var www = new WWW(url, form1);
-        StartCoroutine(WaitForRequest(www, null));*/
+        StartCoroutine(WaitForRequest(www, null));
 
-        const string password = "ben";
+        /*const string password = "ben";
         const string username = "benspassword";
         Dictionary<string, string> headers = new Dictionary<string, string>();
         String encoded = System.Convert.ToBase64String(System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes(username + ":" + password));
 
         headers.Add("Authorization", "Basic " + encoded);
         string url = String.Format(presentIP + ":8080/login");
-        var www1 = new WWW(url, null, headers);
+        var www1 = new WWW(url, null, headers);*/
     }
 
 
