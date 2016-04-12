@@ -258,7 +258,7 @@ public class Recive : MonoBehaviour {
         WWWForm form1 = new WWWForm();
         form1.AddField("uid", "ben");
         form1.AddField("password", "benspassword");
-        string url = string.Format(presentIP + ":8080");
+        string url = string.Format(presentIP + ":8080/login");
         var www = new WWW(url, form1);
         StartCoroutine(WaitForRequest(www, null));
 
