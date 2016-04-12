@@ -277,7 +277,7 @@ public class Recive : MonoBehaviour {
 
     public bool Authorization(string username, string password)
     {
-       WWWForm form = new WWWForm();
+      /* WWWForm form = new WWWForm();
 
         form.AddField("password", password);
         form.AddField("userid", username);
@@ -291,7 +291,7 @@ public class Recive : MonoBehaviour {
 
        return parse.authorization; // false; */
 
-        //return true;
+        return true;
 
 
     }
