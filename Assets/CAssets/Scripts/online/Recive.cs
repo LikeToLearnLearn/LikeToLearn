@@ -244,16 +244,25 @@ public class Recive : MonoBehaviour {
 
     public void sendResult(string questionID, string question, string answer, string rightOrWrong)
     {
-        WWWForm form1 = new WWWForm();
-        form1.AddField("questionid", questionID);
-        form1.AddField("question", question);
-        form1.AddField("answer", answer);
-        form1.AddField("correctness", rightOrWrong);
+        /* WWWForm form1 = new WWWForm();
+         form1.AddField("questionid", questionID);
+         form1.AddField("question", question);
+         form1.AddField("answer", answer);
+         form1.AddField("correctness", rightOrWrong);
 
-        string url = string.Format(presentIP + ":8080/statistics");
+         string url = string.Format(presentIP + ":8080/statistics");
+         var www = new WWW(url, form1);
+         Debug.Log("Nu försöker jag skicka: " + form1 + " till statistics");
+         //StartCoroutine(WaitForRequest(www));*/
+
+        WWWForm form1 = new WWWForm();
+        form1.AddField("uid", "ben");
+        form1.AddField("password", "benspassword");
+        string url = string.Format(presentIP + ":8080");
         var www = new WWW(url, form1);
-        Debug.Log("Nu försöker jag skicka: " + form1 + " till statistics");
-        //StartCoroutine(WaitForRequest(www));
+        StartCoroutine(WaitForRequest(www, null));
+
+
 
     }
 
