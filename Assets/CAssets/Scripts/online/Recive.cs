@@ -251,6 +251,7 @@ public class Recive : MonoBehaviour {
 
     public void sendResult(string questionID, string question, string answer, string rightOrWrong)
     {
+        //-----------------------Får inte deletas!!!-------------------------------------------
         /* WWWForm form1 = new WWWForm();
          form1.AddField("questionid", questionID);
          form1.AddField("question", question);
@@ -261,63 +262,32 @@ public class Recive : MonoBehaviour {
          var www = new WWW(url, form1);
          Debug.Log("Nu försöker jag skicka: " + form1 + " till statistics");
          //StartCoroutine(WaitForRequest(www));*/
+        //-----------------------Får inte deletas!!!-------------------------------------------
 
-        /*WWWForm form1 = new WWWForm();
-        form1.AddField("username", "admin");
-        form1.AddField("password", "admin");
-        string url = string.Format(presentIP + ":8080/auth");
-        var www = new WWW(url, form1);
-        StartCoroutine(WaitForRequest(www, null));*/
+        WWWForm form = new WWWForm();
+        //password=password&username=jlong&grant_type=password&scope=write&client_secret=123456&client_id=android-bookmarks"
+        form.AddField("password", "password");
+        form.AddField("username", "jlong");
+        form.AddField("grant_type", "password");
+        /*form.AddField("scope", "write");
+        form.AddField("client_secret", "123456");
+        form.AddField("client_id", "android-bookmarks");*/
+        Dictionary<String, String> headers = new Dictionary<string, string>();
+        byte[] rawData = form.data;
+        string url = string.Format(presentIP + ":8080/oauth/token");
 
+        String encoded = System.Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes("android-bookmarks:123456"));
+        Debug.Log("krypterad grej: " + encoded);
+        headers.Add("Authorization", "Basic " + encoded);
+        // Add a custom header to the request.
+        // In this case a basic authentication to access a password protected resource.
+        //headers["Accept"] = "application/json";
 
-        /*const string username = "admin";
-         const string password = "admin";
-         Dictionary<string, string> headers = new Dictionary<string, string>();
-         // String encoded = System.Convert.ToBase64String(System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes(username + ":" + password));
-         String encoded = username + ":" + password;
-
-         headers.Add("Authorization", "Basic " + encoded);
-         string url = String.Format(presentIP + ":8080/auth");
-         var www1 = new WWW(url, null, headers);
-         StartCoroutine(WaitForRequest(www1, null));*/
-
-        /*WWWForm form = new WWWForm();
-
-        form.AddField("username", "ben");
-        form.AddField("password", "benspassword");
-
-        //
-        // I dont know why, but I have to put the parameters repeated in the url and in the WWWForms
-        // If I put the post argument only in the WWWForm or only in the url the request returns 404
-        //
-        /*string url = presentIP+":8080/auth";
-
-        Dictionary<string,string> header = new Dictionary<string, string>();
-
-        header.Add("Content-Type", "application/x-www-form-urlencoded");
-        
-        WWW www = new WWW(url, form.data, header);
-
-        StartCoroutine(WaitForRequest(www, null));*/
-        string messaggio;
-        messaggio = "Caspita non ci posso credere!!!";
-
-        System.Net.WebRequest request = WebRequest.Create(presentIP +":8080/oauth/token");
-
-        request.ContentType = "application/json";
-        request.Method = "POST";
-        //string authInfo = "usr:pwd";
-        request.Headers["X-Parse-Application-Id"] = "aaaaaaaaaaaaaaa";
-        request.Headers["X-Parse-REST-API-Key"] = "bbbbbbbbbbbbbbb";
-        byte[] buffer = Encoding.GetEncoding("UTF-8").GetBytes("password=password&username=jlong&grant_type=password&scope=write&cilent_secret=123456&clinent_id=android-bookmarks");
-        string result = System.Convert.ToBase64String(buffer);
-        Stream reqstr = request.GetRequestStream();
-        reqstr.Write(buffer, 0, buffer.Length);
-        reqstr.Close();
-
-        WebResponse response = request.GetResponse();
-
-        Debug.Log("I knasig sendResult" + response);
+        // Post a request to an URL with our custom headers
+        WWW www = new WWW(url, rawData, headers);
+        StartCoroutine(WaitForRequest(www, null));
+        //.. process results from WWW request here...
+        Debug.Log("I knasig sendResult. Text: " + www.text);
     }
 
 
