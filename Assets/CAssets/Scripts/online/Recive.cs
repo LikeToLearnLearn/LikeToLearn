@@ -141,9 +141,12 @@ public class Recive : MonoBehaviour {
 
     private IEnumerator WaitForRequest(WWW www, System.Collections.Generic.List<Course> courseList)
     {
+        Debug.Log("Nu är vi i WaitForRequest innan första yield return");
         yield return www;
+        Debug.Log("Nu är vi i WaitForRequest efter yield return");
         if (www.error == null)
         {
+            Debug.Log("Waitforrequest: www.text: " + www.text);
             if (www.text.Length > 0)
             {
                 //var 
@@ -256,21 +259,45 @@ public class Recive : MonoBehaviour {
          Debug.Log("Nu försöker jag skicka: " + form1 + " till statistics");
          //StartCoroutine(WaitForRequest(www));*/
 
-        WWWForm form1 = new WWWForm();
-        form1.AddField("username", "ben");
-        form1.AddField("password", "benspassword");
-        string url = string.Format(presentIP + ":8080/users/login");
+        /*WWWForm form1 = new WWWForm();
+        form1.AddField("username", "admin");
+        form1.AddField("password", "admin");
+        string url = string.Format(presentIP + ":8080/auth");
         var www = new WWW(url, form1);
+        StartCoroutine(WaitForRequest(www, null));*/
+
+
+        /*const string username = "admin";
+         const string password = "admin";
+         Dictionary<string, string> headers = new Dictionary<string, string>();
+         // String encoded = System.Convert.ToBase64String(System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes(username + ":" + password));
+         String encoded = username + ":" + password;
+
+         headers.Add("Authorization", "Basic " + encoded);
+         string url = String.Format(presentIP + ":8080/auth");
+         var www1 = new WWW(url, null, headers);
+         StartCoroutine(WaitForRequest(www1, null));*/
+
+        WWWForm form = new WWWForm();
+
+        form.AddField("username", "ben");
+        form.AddField("password", "benspassword");
+
+        //
+        // I dont know why, but I have to put the parameters repeated in the url and in the WWWForms
+        // If I put the post argument only in the WWWForm or only in the url the request returns 404
+        //
+        string url = presentIP+"/8080";
+
+        Dictionary<string,string> header = new Dictionary<string, string>();
+
+        header.Add("Content-Type", "application/x-www-form-urlencoded");
+        
+        WWW www = new WWW(url, form.data, header);
+
         StartCoroutine(WaitForRequest(www, null));
 
-        /*const string password = "ben";
-        const string username = "benspassword";
-        Dictionary<string, string> headers = new Dictionary<string, string>();
-        String encoded = System.Convert.ToBase64String(System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes(username + ":" + password));
-
-        headers.Add("Authorization", "Basic " + encoded);
-        string url = String.Format(presentIP + ":8080/login");
-        var www1 = new WWW(url, null, headers);*/
+        Debug.Log("I knasig sendResult");
     }
 
 
