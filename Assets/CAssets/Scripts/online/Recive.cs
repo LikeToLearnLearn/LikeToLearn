@@ -251,8 +251,7 @@ public class Recive : MonoBehaviour {
 
     public void sendResult(string questionID, string question, string answer, string rightOrWrong)
     {
-        //-----------------------Får inte deletas!!!-------------------------------------------
-        /* WWWForm form1 = new WWWForm();
+         WWWForm form1 = new WWWForm();
          form1.AddField("questionid", questionID);
          form1.AddField("question", question);
          form1.AddField("answer", answer);
@@ -261,17 +260,19 @@ public class Recive : MonoBehaviour {
          string url = string.Format(presentIP + ":8080/statistics");
          var www = new WWW(url, form1);
          Debug.Log("Nu försöker jag skicka: " + form1 + " till statistics");
-         //StartCoroutine(WaitForRequest(www));*/
-        //-----------------------Får inte deletas!!!-------------------------------------------
+         //StartCoroutine(WaitForRequest(www));
+                 
+    }
 
+    public void authentication(string username, string password)
+    {
+        if (username == "") username = "jlong";
+        if (password == "") password = "password";
         WWWForm form = new WWWForm();
-        //password=password&username=jlong&grant_type=password&scope=write&client_secret=123456&client_id=android-bookmarks"
         form.AddField("password", "password");
         form.AddField("username", "jlong");
         form.AddField("grant_type", "password");
-        /*form.AddField("scope", "write");
-        form.AddField("client_secret", "123456");
-        form.AddField("client_id", "android-bookmarks");*/
+      
         Dictionary<String, String> headers = new Dictionary<string, string>();
         byte[] rawData = form.data;
         string url = string.Format(presentIP + ":8080/oauth/token");
@@ -279,16 +280,17 @@ public class Recive : MonoBehaviour {
         String encoded = System.Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes("android-bookmarks:123456"));
         Debug.Log("krypterad grej: " + encoded);
         headers.Add("Authorization", "Basic " + encoded);
-        // Add a custom header to the request.
-        // In this case a basic authentication to access a password protected resource.
-        //headers["Accept"] = "application/json";
+       
 
         // Post a request to an URL with our custom headers
         WWW www = new WWW(url, rawData, headers);
         StartCoroutine(WaitForRequest(www, null));
-        //.. process results from WWW request here...
-        Debug.Log("I knasig sendResult. Text: " + www.text);
+
+        
+        Debug.Log("I authentication www.tex = " + www.text);
     }
+
+
 
 
     public bool getNewQuestions()
