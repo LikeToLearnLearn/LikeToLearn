@@ -3,6 +3,9 @@ using System.Collections;
 using UnityEngine;
 using System.Collections.Generic;
 using System;
+using System.Net;
+using System.Text;
+using System.IO;
 
 public class Recive : MonoBehaviour {
 
@@ -278,7 +281,7 @@ public class Recive : MonoBehaviour {
          var www1 = new WWW(url, null, headers);
          StartCoroutine(WaitForRequest(www1, null));*/
 
-        WWWForm form = new WWWForm();
+        /*WWWForm form = new WWWForm();
 
         form.AddField("username", "ben");
         form.AddField("password", "benspassword");
@@ -287,7 +290,7 @@ public class Recive : MonoBehaviour {
         // I dont know why, but I have to put the parameters repeated in the url and in the WWWForms
         // If I put the post argument only in the WWWForm or only in the url the request returns 404
         //
-        string url = presentIP+"/8080";
+        /*string url = presentIP+":8080/auth";
 
         Dictionary<string,string> header = new Dictionary<string, string>();
 
@@ -295,9 +298,26 @@ public class Recive : MonoBehaviour {
         
         WWW www = new WWW(url, form.data, header);
 
-        StartCoroutine(WaitForRequest(www, null));
+        StartCoroutine(WaitForRequest(www, null));*/
+        string messaggio;
+        messaggio = "Caspita non ci posso credere!!!";
 
-        Debug.Log("I knasig sendResult");
+        System.Net.WebRequest request = WebRequest.Create(presentIP +":8080/oauth/token");
+
+        request.ContentType = "application/json";
+        request.Method = "POST";
+        //string authInfo = "usr:pwd";
+        request.Headers["X-Parse-Application-Id"] = "aaaaaaaaaaaaaaa";
+        request.Headers["X-Parse-REST-API-Key"] = "bbbbbbbbbbbbbbb";
+        byte[] buffer = Encoding.GetEncoding("UTF-8").GetBytes("password=password&username=jlong&grant_type=password&scope=write&cilent_secret=123456&clinent_id=android-bookmarks");
+        string result = System.Convert.ToBase64String(buffer);
+        Stream reqstr = request.GetRequestStream();
+        reqstr.Write(buffer, 0, buffer.Length);
+        reqstr.Close();
+
+        WebResponse response = request.GetResponse();
+
+        Debug.Log("I knasig sendResult" + response);
     }
 
 
