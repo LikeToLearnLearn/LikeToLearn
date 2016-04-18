@@ -9,9 +9,11 @@ public class Parser {
     public string question { get; private set; }
     public string answer { get; private set; }
     public string questionID { get; private set; }
+    public string access_token { get; private set; }
 
     private bool HasResult; // indicated if the object is carrying an result
     public bool HasNewResult { get; set; } // indicated if the object is carrying a new result
+    public bool HasNewAccess_token { get; set; } // indicated if the object has a new access_token
 
     private enum State { open, array, obj }; // keeps track of the mode the parser has reached 
     public System.Collections.Generic.List<Course> courseList { get; set; }
@@ -58,6 +60,7 @@ public class Parser {
         string newQuestion = string.Empty; 
         string newAnswer = string.Empty;
         string newQuestionID = string.Empty;
+        string newAccess_token = string.Empty;
 
         bool save = false; // indicates if the candidate value should replace the result value
 
@@ -115,6 +118,11 @@ public class Parser {
                                 questionID = newQuestionID;
                                 HasNewResult = true;
                             }
+                            if (access_token != newAccess_token && newAccess_token != null)
+                            {
+                                access_token = newAccess_token;
+                                HasNewAccess_token = true;
+                            }
                             if (HasNewResult)
                             { 
                                 Debug.Log("Tillfälligt i Parser: corsecode sparas som: " + coursecode + ", momentcode sparas som: " + momentcode + "questionID sparas som: " + questionID + ", question sparas som: " + question + ", answer sparas som: " + answer);
@@ -122,11 +130,26 @@ public class Parser {
                                 HasNewResult = false;
                                 save = false;
                             }
+                            if(HasNewAccess_token)
+                            {
+                                Debug.Log(" Det finns ett nytt access_token. Det är: " + access_token);
+                            }
                             
                         }
 
                      }
-                    
+
+                    if (data[i] == 'a' && data[i + 1] == 'c' && data[i + 2] == 'c' && data[i + 3] == 'e' && data[i + 4] == 's' && data[i + 5] == 's' && data[i + 6] == '_' && data[i + 7] == 't' && data[i + 8] == 'o' && data[i + 9] == 'k' && data[i + 10] == 'e' && data[i + 9] == 'n')
+                    {
+                        i += "access_token\":".Length; // skip forward to the access_token data
+                        int j = i;
+                        while (data[j] != ',') // find end of acess_token data
+                            j++;
+                        newAccess_token = (data.Substring(i + 1, j - (i + 2))); // parse coursecode
+
+                        i = j; // jump
+                    }
+
                     if (data[i] == 'c' && data[i + 1] == 'o' && data[i + 2] == 'u' && data[i + 3] == 'r' && data[i + 4] == 's' && data[i + 5] == 'e' && data[i + 6] == 'c' && data[i + 7] == 'o' && data[i + 8] == 'd' && data[i + 9] == 'e')
                     {
                         i += "coursecode\":".Length; // skip forward to the coursecode data

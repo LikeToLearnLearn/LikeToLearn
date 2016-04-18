@@ -251,21 +251,28 @@ public class Recive : MonoBehaviour {
 
     public void sendResult(string questionID, string question, string answer, string rightOrWrong)
     {
-         WWWForm form1 = new WWWForm();
-         form1.AddField("questionid", questionID);
-         form1.AddField("question", question);
-         form1.AddField("answer", answer);
-         form1.AddField("correctness", rightOrWrong);
+        /*WWWForm form1 = new WWWForm();
+        form1.AddField("questionid", questionID);
+        form1.AddField("question", question);
+        form1.AddField("answer", answer);
+        form1.AddField("correctness", rightOrWrong);
 
-         string url = string.Format(presentIP + ":8080/statistics");
-         var www = new WWW(url, form1);
-         Debug.Log("Nu försöker jag skicka: " + form1 + " till statistics");
-         //StartCoroutine(WaitForRequest(www));
+        string url = string.Format(presentIP + ":8080/statistics");
+        var www = new WWW(url, form1);
+        Debug.Log("Nu försöker jag skicka: " + form1 + " till statistics");*/
+
+        //StartCoroutine(WaitForRequest(www));
+
+        authentication("jLong", "password");
                  
     }
 
     public void authentication(string username, string password)
     {
+        //
+        // curl -X POST -vu android-bookmarks:123456 http://localhost:8080/oauth/token -H "Accept: application/json" -d "password=password&username=jlong&grant_type=password&scope=write&client_secret=123456&client_id=android-bookmarks"
+        // curl -v POST http://127.0.0.1:8080/tags --data "tags=cows,dogs"  -H "Authorization: Bearer 66953496-fc5b-44d0-9210-b0521863ffcb"
+
         if (username == "") username = "jlong";
         if (password == "") password = "password";
         WWWForm form = new WWWForm();
@@ -284,7 +291,7 @@ public class Recive : MonoBehaviour {
 
         // Post a request to an URL with our custom headers
         WWW www = new WWW(url, rawData, headers);
-        StartCoroutine(WaitForRequest(www, null));
+        StartCoroutine(WaitForRequest(www, courseList));
 
         
         Debug.Log("I authentication www.tex = " + www.text);
@@ -304,7 +311,10 @@ public class Recive : MonoBehaviour {
 
     public bool Authorization(string username, string password)
     {
-      /* WWWForm form = new WWWForm();
+        
+
+        ///*
+        WWWForm form = new WWWForm();
 
         form.AddField("password", password);
         form.AddField("userid", username);
@@ -316,7 +326,7 @@ public class Recive : MonoBehaviour {
         //while (!parse.HasCheckedLoggin) Debug.Log(" Nu väntar vi på resultat från loggin");
         //Debug.Log("Svaret blev: " + parse.authorization);
 
-       return parse.authorization; // false; */
+       //return parse.authorization; // false; */ Fix me!!!
 
         return true;
 
