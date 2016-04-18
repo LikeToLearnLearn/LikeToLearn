@@ -263,7 +263,7 @@ public class Recive : MonoBehaviour {
 
         //StartCoroutine(WaitForRequest(www));
 
-        authentication("jLong", "password");
+        authentication("jlong", "password");
                  
     }
 
