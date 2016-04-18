@@ -37,8 +37,10 @@ public class Recive : MonoBehaviour {
     private System.Collections.Generic.List<Course> courseList;
     private bool online;
 
-    
-
+    private string access_token;
+    private string token_type;
+    private string refresh_token;
+    private int errorNumber = 0;
 
     // Use this for initialization
     void Start ()
@@ -144,12 +146,12 @@ public class Recive : MonoBehaviour {
 
     private IEnumerator WaitForRequest(WWW www, System.Collections.Generic.List<Course> courseList)
     {
-        Debug.Log("Nu är vi i WaitForRequest innan första yield return");
+        //Debug.Log("Nu är vi i WaitForRequest innan första yield return");
         yield return www;
-        Debug.Log("Nu är vi i WaitForRequest efter yield return");
+        Debug.Log("Nu är vi i WaitForRequest efter yield return. www.text = " + www.text);
         if (www.error == null)
         {
-            Debug.Log("Waitforrequest: www.text: " + www.text);
+            //Debug.Log("Waitforrequest: www.text: " + www.text);
             if (www.text.Length > 0)
             {
                 //var 
@@ -158,6 +160,23 @@ public class Recive : MonoBehaviour {
                 Debug.Log(www.text + " was received i Recive.cs");
                 c = parse.c;
                 if (c != null) Debug.Log("Recive.c = " + c + " i Recive.cs:s WaitForRequest. Den kursen har kurskod:  " + c.getCoursecode() + " Exempel på en fråga är: " + c.GetQuestion(4).question + " Den frågan kan tex ha frågeID:t: " + c.GetQuestion(4).questionId);
+                if (parse.HasNewAccess_token)
+                {
+                    access_token = parse.access_token;
+
+                }
+
+                if (parse.HasNewToken_type)
+                {
+                    token_type = parse.token_type;
+                }
+
+                if (parse.HasNewRefresh_token)
+                {
+                    refresh_token = parse.refresh_token;
+                }
+
+
                 //else Debug.Log(www.text + " blev authotization");
                 /* if (parse.HasNewResult)
                 {
@@ -172,7 +191,7 @@ public class Recive : MonoBehaviour {
                     //createNewCourse();
                     //parse.HasNewResult = false;
                  }*/
-                                                                                                
+
             }
             else
             {
@@ -182,7 +201,8 @@ public class Recive : MonoBehaviour {
         }
         else
         {
-            Debug.LogError("Failed to fetch data in recive.waitforrequest: " + www.error);
+            errorNumber++;
+            Debug.LogError(errorNumber +": Failed to fetch data in recive.waitforrequest: " + www.error);
         }
 
     }
@@ -262,19 +282,15 @@ public class Recive : MonoBehaviour {
         Debug.Log("Nu försöker jag skicka: " + form1 + " till statistics");*/
 
         //StartCoroutine(WaitForRequest(www));
-
-        authentication("jlong", "password");
                  
     }
 
     public void authentication(string username, string password)
     {
-        //
-        // curl -X POST -vu android-bookmarks:123456 http://localhost:8080/oauth/token -H "Accept: application/json" -d "password=password&username=jlong&grant_type=password&scope=write&client_secret=123456&client_id=android-bookmarks"
-        // curl -v POST http://127.0.0.1:8080/tags --data "tags=cows,dogs"  -H "Authorization: Bearer 66953496-fc5b-44d0-9210-b0521863ffcb"
+        // curl -X POST -vu liketolearn-restapi:123456 http://localhost:8080/oauth/token -H "Accept: application/json" -d "password=chalmers2016!&username=jlong&grant_type=password&scope=write&client_secret=123456&client_id=liketolearn-restapi"
 
         if (username == "") username = "jlong";
-        if (password == "") password = "password";
+        if (password == "") password = "chalmers2016!";
         WWWForm form = new WWWForm();
         form.AddField("password", password);
         form.AddField("username", username);
@@ -284,17 +300,16 @@ public class Recive : MonoBehaviour {
         byte[] rawData = form.data;
         string url = string.Format(presentIP + ":8080/oauth/token");
 
-        String encoded = System.Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes("android-bookmarks:123456"));
-        Debug.Log("krypterad grej: " + encoded);
+        String encoded = System.Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes("liketolearn-restapi:123456"));
+        //Debug.Log("krypterad grej: " + encoded);
         headers.Add("Authorization", "Basic " + encoded);
        
 
         // Post a request to an URL with our custom headers
         WWW www = new WWW(url, rawData, headers);
+        //Debug.Log("I authentication");
         StartCoroutine(WaitForRequest(www, courseList));
-
-        
-        Debug.Log("I authentication www.tex = " + www.text);
+        //--------------------------------------------------------------------------------------------
     }
 
 
@@ -302,24 +317,40 @@ public class Recive : MonoBehaviour {
 
     public bool getNewQuestions()
     {
-        string url = string.Format(presentIP + ":8080/questions");
-        var www = new WWW(url);
-        StartCoroutine(WaitForRequest(www, courseList));
-        if (parse == null) return false;
+        /* string url = string.Format(presentIP + ":8080/questions");
+         var www = new WWW(url);
+         StartCoroutine(WaitForRequest(www, courseList));
+         if (parse == null) return false;*/
+
+        //--------------------Över stecket finns den riktiga koden som fungerade innan vi la till login
+
+        WWWForm form1 = new WWWForm();
+        form1.AddField("userid", "student1");
+
+        Dictionary<String, String> headers1 = new Dictionary<string, string>();
+        byte[] rawData1 = form1.data;
+        string url1 = string.Format(presentIP + ":8080/liketolearn/questions");
+        headers1.Add("Authorization", /*token_type /**/"Bearer" + " " + access_token);
+
+
+        // Post a request to an URL with our custom headers
+        WWW www1 = new WWW(url1, rawData1, headers1);
+        Debug.Log("I authentication: access_token = " + access_token + ", token_type = " + token_type + ", refresh_token = " + refresh_token);
+        StartCoroutine(WaitForRequest(www1, courseList));
+        //------------------------------
+
         return true; // parse.HasNewResult; Fix me!!
     }
 
     public bool Authorization(string username, string password)
     {
-        
-
         ///*
         WWWForm form = new WWWForm();
 
         form.AddField("password", password);
         form.AddField("userid", username);
        
-        string url = string.Format(presentIP + ":8080/login");
+        string url = string.Format(presentIP + ":8080/liketolearn/login");
         var www = new WWW(url, form);
         StartCoroutine(WaitForRequest(www, null));
 

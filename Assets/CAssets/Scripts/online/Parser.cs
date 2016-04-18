@@ -10,10 +10,15 @@ public class Parser {
     public string answer { get; private set; }
     public string questionID { get; private set; }
     public string access_token { get; private set; }
+    public string token_type { get; private set; }
+    public string refresh_token { get; private set; }
 
     private bool HasResult; // indicated if the object is carrying an result
     public bool HasNewResult { get; set; } // indicated if the object is carrying a new result
     public bool HasNewAccess_token { get; set; } // indicated if the object has a new access_token
+    public bool HasNewToken_type { get; set; } // indicated if the object has a new token_type
+    public bool HasNewRefresh_token { get; set; } // indicated if the object has a new token_type
+
 
     private enum State { open, array, obj }; // keeps track of the mode the parser has reached 
     public System.Collections.Generic.List<Course> courseList { get; set; }
@@ -33,13 +38,16 @@ public class Parser {
 
         HasResult = false;
         HasNewResult = false;
+        HasNewAccess_token = false;
+        HasNewRefresh_token = false;
         authorization = false;
-        if (data != null && courseList != null) parseJson(data);
-        else if (data != null) Authorization(data);
+        if (data != null) //Fix me!!
+            parseJson(data);
+        //else if (data != null) Authorization(data); // Fix me!!
         HasCheckedLoggin = false;
-        
+
         //else if (data != null) Authorization(data);
-       
+        //Debug.Log("Vi är i parser");
     }
 
     // Use this for initialization
@@ -54,6 +62,7 @@ public class Parser {
 
     public void parseJson(string data)
     {
+        //Debug.Log("Vi är i början av parseJson");
         State st = State.open; // start outside any data structure
         string newCoursecode = string.Empty; // most recently read timestamp that may be saved
         string newMomentcode = string.Empty; // most recently read value that may be saved
@@ -61,20 +70,23 @@ public class Parser {
         string newAnswer = string.Empty;
         string newQuestionID = string.Empty;
         string newAccess_token = string.Empty;
+        string newToken_type = string.Empty;
+        string newRefreshToken = string.Empty;
 
         bool save = false; // indicates if the candidate value should replace the result value
 
          for (int i = 0; i < data.Length; i++) // iterate over the characters
          {
+            //Debug.Log(" data i parser: " + data);
              switch (st)
              {
                  case State.open:
-                     if (data[i] == '[') // look for opening JSON array
+                     if (data[i] == '{') // look for opening JSON array // Fix me!! [
                          st = State.array; // switch to array state
                     
                     break;
                  case State.array:
-                     if (data[i] == '{') // look for opening JSON object
+                     if (data[i] == '"') // look for opening JSON object // Fix me!! {
                          st = State.obj; // switch to object state
                      save = false; // new object; reset save state
                     
@@ -123,9 +135,20 @@ public class Parser {
                                 access_token = newAccess_token;
                                 HasNewAccess_token = true;
                             }
+                            if (token_type!= newToken_type && newToken_type != null)
+                            {
+                                token_type = newToken_type;
+                                HasNewToken_type = true;
+                            }
+                           if (refresh_token != newRefreshToken && newRefreshToken != null)
+                            {                             
+                                refresh_token = newRefreshToken;
+                                HasNewRefresh_token = true;
+                            }
+
                             if (HasNewResult)
                             { 
-                                Debug.Log("Tillfälligt i Parser: corsecode sparas som: " + coursecode + ", momentcode sparas som: " + momentcode + "questionID sparas som: " + questionID + ", question sparas som: " + question + ", answer sparas som: " + answer);
+                                Debug.Log("Tillfälligt i Parser: corsecode sparas som: " + coursecode + ", momentcode sparas som: " + momentcode + " questionID sparas som: " + questionID + ", question sparas som: " + question + ", answer sparas som: " + answer);
                                 createNewCourse();
                                 HasNewResult = false;
                                 save = false;
@@ -134,18 +157,48 @@ public class Parser {
                             {
                                 Debug.Log(" Det finns ett nytt access_token. Det är: " + access_token);
                             }
-                            
+                            if (HasNewToken_type)
+                            {
+                                Debug.Log(" Det finns en ny token_type. Det är: " + token_type);
+                            }
+                            if (HasNewRefresh_token)
+                            {
+                                Debug.Log(" Det finns en ny refresh_token. Det är: " + refresh_token);
+                            }
                         }
 
                      }
-
+                    //Debug.Log("Vi är i parsern men inte i någon if-sats.");
                     if (data[i] == 'a' && data[i + 1] == 'c' && data[i + 2] == 'c' && data[i + 3] == 'e' && data[i + 4] == 's' && data[i + 5] == 's' && data[i + 6] == '_' && data[i + 7] == 't' && data[i + 8] == 'o' && data[i + 9] == 'k' && data[i + 10] == 'e' && data[i + 11] == 'n')
                     {
+                        //Debug.Log(" Vi kom in i access_tokens if-sats.");
                         i += "access_token\":".Length; // skip forward to the access_token data
                         int j = i;
                         while (data[j] != ',') // find end of acess_token data
                             j++;
-                        newAccess_token = (data.Substring(i + 1, j - (i + 2))); // parse coursecode
+                        newAccess_token = (data.Substring(i + 1, j - (i + 2))); // parse access_token
+
+                        i = j; // jump
+                    }
+                    if (data[i] == 't' && data[i + 1] == 'o' && data[i + 2] == 'k' && data[i + 3] == 'e' && data[i + 4] == 'n' && data[i + 5] == '_' && data[i + 6] == 't' && data[i + 7] == 'y' && data[i + 8] == 'p' && data[i + 9] == 'e')
+                    {
+                        //Debug.Log(" Vi kom in i tokens_types if-sats.");
+                        i += "token_type\":".Length; // skip forward to the token_type data
+                        int j = i;
+                        while (data[j] != ',') // find end of token_type data
+                            j++;
+                       newToken_type = (data.Substring(i + 1, j - (i + 2))); // parse token_type
+
+                        i = j; // jump
+                    }
+                    if (data[i] == 'r' && data[i + 1] == 'e' && data[i + 2] == 'f' && data[i + 3] == 'r' && data[i + 4] == 'e' && data[i + 5] == 's' && data[i + 6] == 'h' && data[i + 7] == '_' && data[i + 8] == 't' && data[i + 9] == 'o' && data[i + 10] == 'k' && data[i + 11] == 'e' && data[i + 12] == 'n')
+                    {
+                        //Debug.Log(" Vi kom in i tokens_types if-sats.");
+                        i += "refresh_token\":".Length; // skip forward to the refresh_token data
+                        int j = i;
+                        while (data[j] != ',') // find end of refresh_token data
+                            j++;
+                        newRefreshToken = (data.Substring(i + 1, j - (i + 2))); // parse refresh_token
 
                         i = j; // jump
                     }

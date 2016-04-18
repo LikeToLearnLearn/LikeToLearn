@@ -56,7 +56,7 @@ public class Fish : MonoBehaviour
         answer = q.GetAlternative();
         text.GetComponent<TextMesh>().text = answer;
         text.GetComponent<TextMesh>().color = Color.white;
-        Debug.Log("Generated answer: " + answer);
+        //Debug.Log("Generated answer: " + answer);
     }
 
     void OnMouseDown()

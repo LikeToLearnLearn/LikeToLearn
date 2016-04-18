@@ -217,7 +217,8 @@ public class GameController : MonoBehaviour {
             //GameObject conn = GameObject.Find("ConnectionHandler");
             //recive = conn.GetComponent<Recive>();
             recive.setCourseList(data.coruses);
-            AskForNewQuestions();
+            recive.authentication("", ""); // Fix me!!
+            //AskForNewQuestions();
             // one less variation to test if we save and load every time
             SaveGame();
             LoadGame(name);
@@ -316,7 +317,8 @@ public class GameController : MonoBehaviour {
         Course m = new MultiplicationCourse();
         data.coruses.Add(m);
         recive.setCourseList(data.coruses);
-        AskForNewQuestions();
+        recive.authentication("", ""); // Fix me!!
+        //AskForNewQuestions();
         if (recive.c == null) setCurrentcourse(m);
                 
     }
