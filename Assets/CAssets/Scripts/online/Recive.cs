@@ -285,15 +285,16 @@ public class Recive : MonoBehaviour {
                  
     }
 
-    public void authentication(string username, string password)
+    public void authentication(/*string username, string password*/)
     {
         // curl -X POST -vu liketolearn-restapi:123456 http://localhost:8080/oauth/token -H "Accept: application/json" -d "password=chalmers2016!&username=jlong&grant_type=password&scope=write&client_secret=123456&client_id=liketolearn-restapi"
 
-        if (username == "") username = "jlong";
-        if (password == "") password = "chalmers2016!";
+        //if (username == "") username = "jlong";
+        //if (password == "") password = "chalmers2016!";
         WWWForm form = new WWWForm();
-        form.AddField("password", password);
-        form.AddField("username", username);
+         form.AddField("username", "jlong");
+        form.AddField("password", "chalmers2016!");
+       
         form.AddField("grant_type", "password");
       
         Dictionary<String, String> headers = new Dictionary<string, string>();
@@ -325,12 +326,12 @@ public class Recive : MonoBehaviour {
         //--------------------Över stecket finns den riktiga koden som fungerade innan vi la till login
 
         WWWForm form1 = new WWWForm();
-        form1.AddField("userid", "student1");
+        form1.AddField("userid", "student3");
 
         Dictionary<String, String> headers1 = new Dictionary<string, string>();
         byte[] rawData1 = form1.data;
         string url1 = string.Format(presentIP + ":8080/liketolearn/questions");
-        headers1.Add("Authorization", /*token_type /**/"Bearer" + " " + access_token);
+        headers1.Add("Authorization", token_type /*"Bearer"*/ + " " + access_token);
 
 
         // Post a request to an URL with our custom headers
