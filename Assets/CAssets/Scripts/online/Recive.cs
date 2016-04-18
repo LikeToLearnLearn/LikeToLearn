@@ -276,8 +276,8 @@ public class Recive : MonoBehaviour {
         if (username == "") username = "jlong";
         if (password == "") password = "password";
         WWWForm form = new WWWForm();
-        form.AddField("password", "password");
-        form.AddField("username", "jlong");
+        form.AddField("password", password);
+        form.AddField("username", username);
         form.AddField("grant_type", "password");
       
         Dictionary<String, String> headers = new Dictionary<string, string>();

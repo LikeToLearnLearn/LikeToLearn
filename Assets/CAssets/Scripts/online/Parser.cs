@@ -139,7 +139,7 @@ public class Parser {
 
                      }
 
-                    if (data[i] == 'a' && data[i + 1] == 'c' && data[i + 2] == 'c' && data[i + 3] == 'e' && data[i + 4] == 's' && data[i + 5] == 's' && data[i + 6] == '_' && data[i + 7] == 't' && data[i + 8] == 'o' && data[i + 9] == 'k' && data[i + 10] == 'e' && data[i + 9] == 'n')
+                    if (data[i] == 'a' && data[i + 1] == 'c' && data[i + 2] == 'c' && data[i + 3] == 'e' && data[i + 4] == 's' && data[i + 5] == 's' && data[i + 6] == '_' && data[i + 7] == 't' && data[i + 8] == 'o' && data[i + 9] == 'k' && data[i + 10] == 'e' && data[i + 11] == 'n')
                     {
                         i += "access_token\":".Length; // skip forward to the access_token data
                         int j = i;
