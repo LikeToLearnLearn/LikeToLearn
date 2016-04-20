@@ -150,7 +150,7 @@ public class GameController : MonoBehaviour {
                             foreach (string answ in ans)
                             {
 
-                                recive.sendResult(q.getQuestionID(), key, answ, name);
+                                recive.sendStatistics(q.getQuestionID(), key, answ, name);
                                 Debug.Log("Försöker skicka: frågeid: " + q.getQuestionID()+ ", svar: " + " " + key + ", rätt eller fel: " + answ + ", användarid: " + name);
                                 //data.questions[i].a.Remove(key);
                             }
@@ -203,7 +203,7 @@ public class GameController : MonoBehaviour {
 		name = name.Trim();
 		if (NameTaken(name) || NameInvalid(name)) return;
         //recive.authentication();
-        if (recive.Authorization(name, password))
+        if (recive.Login(name, password))
         {
             this.name = name;
             this.password = password;

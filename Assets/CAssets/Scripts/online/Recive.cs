@@ -269,23 +269,23 @@ public class Recive : MonoBehaviour {
         courseList = coruses;
     }
 
-    public void sendResult(string questionID, string answer, string rightOrWrong, string userid)
+    public void sendStatistics(string questionID, string answer, string trueOrFalse, string userid)
     {
         WWWForm form1 = new WWWForm();
         form1.AddField("questionid", questionID);
         //form1.AddField("question", question);
         form1.AddField("answer", answer);
-        form1.AddField("correctness", rightOrWrong);
+        form1.AddField("correctness", trueOrFalse);
         form1.AddField("userid", userid);
         Dictionary<String, String> headers1 = new Dictionary<string, string>();
         byte[] rawData1 = form1.data;
         string url1 = string.Format(presentIP + ":8080/liketolearn/statistics");
-        headers1.Add("Authorization", token_type /*"Bearer"*/ + " " + access_token);
+        headers1.Add("Authorization", token_type + " " + access_token);
 
         var www = new WWW(url1, rawData1, headers1);
         //Debug.Log("Nu försöker jag skicka: " + form1 + " till statistics");
 
-        //StartCoroutine(WaitForRequest(www, null, 2));
+        StartCoroutine(WaitForRequest(www, null, 2));
                  
     }
 
@@ -343,7 +343,7 @@ public class Recive : MonoBehaviour {
 
         // Post a request to an URL with our custom headers
         WWW www1 = new WWW(url1, rawData1, headers1);
-        Debug.Log("I recive.GetQuestion: access_token = " + access_token + ", token_type = " + token_type + ", refresh_token = " + refresh_token);
+        //Debug.Log("I recive.GetQuestion: access_token = " + access_token + ", token_type = " + token_type + ", refresh_token = " + refresh_token);
         StartCoroutine(WaitForRequest(www1, courseList, 2));
         //------------------------------
 
@@ -351,7 +351,7 @@ public class Recive : MonoBehaviour {
         return parse.HasNewResult;
     }
 
-    public bool Authorization(string username, string password)
+    public bool Login(string username, string password)
     {
            
        Dictionary<String, String> headers1 = new Dictionary<string, string>();
