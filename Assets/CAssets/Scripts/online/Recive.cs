@@ -283,7 +283,7 @@ public class Recive : MonoBehaviour {
         headers1.Add("Authorization", token_type /*"Bearer"*/ + " " + access_token);
 
         var www = new WWW(url1, rawData1, headers1);
-        Debug.Log("Nu försöker jag skicka: " + form1 + " till statistics");
+        //Debug.Log("Nu försöker jag skicka: " + form1 + " till statistics");
 
         //StartCoroutine(WaitForRequest(www, null, 2));
                  

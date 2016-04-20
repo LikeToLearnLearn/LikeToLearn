@@ -139,7 +139,6 @@ public class GameController : MonoBehaviour {
                 for (int i = 0; i < temp.Count; ++i)
                 {
                     q = temp[i];
-                    // Dictionary<string, string> tmp = q.a;
                     Dictionary<string, List<string>> tmp = q.a;
                     if ( tmp.Count > 0)
                     {
@@ -153,8 +152,10 @@ public class GameController : MonoBehaviour {
 
                                 recive.sendResult(q.getQuestionID(), key, answ, name);
                                 Debug.Log("Försöker skicka :" + q.getQuestionID()+ " " + " " + key /*ans.Key*/ + " " + answ /*ans.Value*/+ " " + name);
-                                data.questions[i].a.Remove(key);
+                                //data.questions[i].a.Remove(key);
                             }
+                            data.questions[i].a.Remove(key);
+
                         }
                     }     
                 }
@@ -170,8 +171,8 @@ public class GameController : MonoBehaviour {
             if (recive.Online()) 
             {
                     recive.getNewQuestions(name);
-                
             }
+
         }
 
     }
