@@ -46,6 +46,7 @@ public class Parser {
             Authorization(data);
         if (data != null && function == 2) //Fix me!!
             parseJson(data);
+
         //else if (data != null) Authorization(data); // Fix me!!
         HasCheckedLoggin = false;
 
@@ -159,13 +160,12 @@ public class Parser {
                             if(HasNewAccess_token)
                             {
                                 Debug.Log(" Det finns ett nytt access_token. Det är: " + access_token);
-                                HasNewAccess_token = false;
-
+                                //HasNewAccess_token = false;
                             }
                             if (HasNewToken_type)
                             {
                                 Debug.Log(" Det finns en ny token_type. Det är: " + token_type);
-                                HasNewToken_type = false;
+                                //HasNewRefresh_token = false;
                             }
                             if (HasNewRefresh_token)
                             {
@@ -475,73 +475,5 @@ public class Parser {
         //return true;
     }
 
-
-  /*  void startConnection(string data)
-    {
-
-        State st = State.open; // start outside any data structurestring newAccess_token = string.Empty;
-        string newToken_type = string.Empty;
-        string newRefreshToken = string.Empty;
-
-        bool save = false; // indicates if the candidate value should replace the result value
-
-        for (int i = 0; i < data.Length; i++) // iterate over the characters
-        {
-            //Debug.Log(" data i parser: " + data);
-            switch (st)
-            {
-                case State.open:
-                    if (data[i] == '{') // look for opening JSON array // Fix me!! [
-                        st = State.array; // switch to array state
-
-                    break;
-                case State.array:
-                    if (data[i] == '"') // look for opening JSON object // Fix me!! {
-                        st = State.obj; // switch to object state
-                    save = false; // new object; reset save state
-
-                    break;
-                case State.obj:
-                    if (data[i] == '}') // looking for end of JSON object
-                    {
-                        if (save) // the object read should replace the return values
-                        {
-
-
-                            if (access_token != newAccess_token && newAccess_token != null)
-                            {
-                                access_token = newAccess_token;
-                                HasNewAccess_token = true;
-                            }
-                            if (token_type != newToken_type && newToken_type != null)
-                            {
-                                token_type = newToken_type;
-                                HasNewToken_type = true;
-                            }
-                            if (refresh_token != newRefreshToken && newRefreshToken != null)
-                            {
-                                refresh_token = newRefreshToken;
-                                HasNewRefresh_token = true;
-                            }
-
-
-                            if (HasNewAccess_token)
-                            {
-                                Debug.Log(" Det finns ett nytt access_token. Det är: " + access_token);
-                            }
-                            if (HasNewToken_type)
-                            {
-                                Debug.Log(" Det finns en ny token_type. Det är: " + token_type);
-                            }
-                            if (HasNewRefresh_token)
-                            {
-                                Debug.Log(" Det finns en ny refresh_token. Det är: " + refresh_token);
-                            }
-                        }
-
-                    }
-            }
-        }
-    }*/
+ 
 }
-
