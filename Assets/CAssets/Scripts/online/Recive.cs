@@ -269,14 +269,14 @@ public class Recive : MonoBehaviour {
         courseList = coruses;
     }
 
-    public void sendResult(string questionID, string question, string answer, string rightOrWrong)
+    public void sendResult(string questionID, string answer, string rightOrWrong, string userid)
     {
         WWWForm form1 = new WWWForm();
         form1.AddField("questionid", questionID);
         //form1.AddField("question", question);
         form1.AddField("answer", answer);
         form1.AddField("correctness", rightOrWrong);
-        form1.AddField("userid", "student3");
+        form1.AddField("userid", userid);
         Dictionary<String, String> headers1 = new Dictionary<string, string>();
         byte[] rawData1 = form1.data;
         string url1 = string.Format(presentIP + ":8080/liketolearn/statistics");
@@ -323,7 +323,7 @@ public class Recive : MonoBehaviour {
 
 
 
-    public bool getNewQuestions()
+    public bool getNewQuestions(string userid)
     {
         /* string url = string.Format(presentIP + ":8080/questions");
          var www = new WWW(url);
@@ -333,7 +333,7 @@ public class Recive : MonoBehaviour {
         //--------------------Över stecket finns koden som fungerade innan vi la till login
 
         WWWForm form1 = new WWWForm();
-        form1.AddField("userid", "student3"); // Fix me!!
+        form1.AddField("userid", userid);
 
         Dictionary<String, String> headers1 = new Dictionary<string, string>();
         byte[] rawData1 = form1.data;

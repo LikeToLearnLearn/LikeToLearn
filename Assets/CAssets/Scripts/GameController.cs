@@ -18,6 +18,7 @@ public class GameController : MonoBehaviour {
 	};
 
     private string name;
+    private string password;
     public Recive recive;
 
 	// global configuration data that all instances use
@@ -150,8 +151,8 @@ public class GameController : MonoBehaviour {
                             foreach (string answ in ans)
                             {
 
-                                recive.sendResult(q.getQuestionID(), q.question, key, answ);
-                                Debug.Log("Försöker skicka :" + q.getQuestionID()+ " " + q.question + " " + key /*ans.Key*/ + " " + answ /*ans.Value*/);
+                                recive.sendResult(q.getQuestionID(), key, answ, name);
+                                Debug.Log("Försöker skicka :" + q.getQuestionID()+ " " + " " + key /*ans.Key*/ + " " + answ /*ans.Value*/+ " " + name);
                                 data.questions[i].a.Remove(key);
                             }
                         }
@@ -168,7 +169,7 @@ public class GameController : MonoBehaviour {
             //Debug.Log(" Nu är vi i AskForNewQuestions");
             if (recive.Online()) 
             {
-                    recive.getNewQuestions();
+                    recive.getNewQuestions(name);
                 
             }
         }
@@ -203,6 +204,9 @@ public class GameController : MonoBehaviour {
         //recive.authentication();
         if (recive.Authorization(name, password))
         {
+            this.name = name;
+            this.password = password;
+
             global.currentGame = name;
             data = new GameData();
             global.games[global.currentGame] = global.gameCount++;
