@@ -84,7 +84,9 @@ public class StartMenu : MonoBehaviour {
 	{
 		takenNameText.SetActive(false);
 		invalidNameText.SetActive(false);
-		if (isZoomed) return;
+
+        GameController.control.recive.authentication();
+        if (isZoomed) return;
 		zoom += 240.0f;
 		isZoomed = true;
 		newGame.SetActive(true);

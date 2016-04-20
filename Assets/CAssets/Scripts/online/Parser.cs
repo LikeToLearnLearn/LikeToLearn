@@ -24,10 +24,11 @@ public class Parser {
     public System.Collections.Generic.List<Course> courseList { get; set; }
     public Course c { get; private set; }
     private int defaultAnswer = 0;
-    public bool authorization;
+    public bool authorization{ get; set; }
     public bool HasCheckedLoggin;
+   
 
-    public Parser(string data, System.Collections.Generic.List<Course> courseList)
+    public Parser(string data, System.Collections.Generic.List<Course> courseList, int function)
     {
         this.courseList = courseList;
         coursecode = string.Empty; ;
@@ -41,7 +42,9 @@ public class Parser {
         HasNewAccess_token = false;
         HasNewRefresh_token = false;
         authorization = false;
-        if (data != null) //Fix me!!
+        if (data != null && function == 1) //Fix me!!
+            Authorization(data);
+        if (data != null && function == 2) //Fix me!!
             parseJson(data);
         //else if (data != null) Authorization(data); // Fix me!!
         HasCheckedLoggin = false;
@@ -254,6 +257,34 @@ public class Parser {
                             j++;
                         newAnswer = (data.Substring(i + 1, j - (i + 2))); // parse answer
                     }
+                    if (data[i] == 't' && data[i + 1] == 'r' && data[i + 2] == 'u' && data[i + 3] == 'e')
+                    {
+                        /* i += "coursecode\":".Length; // skip forward to the coursecode data
+                            int j = i;
+                            while (data[j] != ',') // find end of coursecode data
+                                j++;
+                            newCoursecode = (data.Substring(i + 1, j - (i + 2))); // parse coursecode
+
+                            i = j; // jump to momentcode*/
+                        Debug.Log(" true i parser ");    
+                        authorization = true;
+                        HasCheckedLoggin = true;
+                        //return true;
+                    }
+
+                    else if (data[i] == 'f' && data[i + 1] == 'a' && data[i + 2] == 'l' && data[i + 3] == 's' && data[i + 4] == 'e')
+                    {
+                        /*i += "momentcode\":".Length; // skip forward to the momentcode data
+                        int j = i;
+                        while (data[j] != ',') // find end of momentcode data
+                            j++;
+                        newMomentcode = (data.Substring(i + 1, j - (i + 2))); // parse momentcode
+                        i = j; // jump to question*/
+                        authorization = false;
+                        HasCheckedLoggin = true;
+                        //return false;
+                    }
+
 
                     HasResult = true; // we now have a result
 

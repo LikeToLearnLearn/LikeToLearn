@@ -50,7 +50,7 @@ public class Recive : MonoBehaviour {
         HasNewQuestion = false;
         HasNewAnswer = false;
 
-        parse = new Parser(null, null);
+        parse = new Parser(null, null, 0);
         online = false;
         checkOnline();
         c = null; 
@@ -144,7 +144,7 @@ public class Recive : MonoBehaviour {
 
   
 
-    private IEnumerator WaitForRequest(WWW www, System.Collections.Generic.List<Course> courseList)
+    private IEnumerator WaitForRequest(WWW www, System.Collections.Generic.List<Course> courseList, int function)
     {
         //Debug.Log("Nu är vi i WaitForRequest innan första yield return");
         yield return www;
@@ -155,7 +155,7 @@ public class Recive : MonoBehaviour {
             if (www.text.Length > 0)
             {
                 //var 
-                parse = new Parser(www.text, courseList); // fix me: parse = 
+                parse = new Parser(www.text, courseList, function); 
                
                 Debug.Log(www.text + " was received i Recive.cs");
                 c = parse.c;
@@ -271,17 +271,21 @@ public class Recive : MonoBehaviour {
 
     public void sendResult(string questionID, string question, string answer, string rightOrWrong)
     {
-        /*WWWForm form1 = new WWWForm();
+        WWWForm form1 = new WWWForm();
         form1.AddField("questionid", questionID);
-        form1.AddField("question", question);
+        //form1.AddField("question", question);
         form1.AddField("answer", answer);
         form1.AddField("correctness", rightOrWrong);
+        form1.AddField("userid", "student3");
+        Dictionary<String, String> headers1 = new Dictionary<string, string>();
+        byte[] rawData1 = form1.data;
+        string url1 = string.Format(presentIP + ":8080/liketolearn/statistics");
+        headers1.Add("Authorization", token_type /*"Bearer"*/ + " " + access_token);
 
-        string url = string.Format(presentIP + ":8080/statistics");
-        var www = new WWW(url, form1);
-        Debug.Log("Nu försöker jag skicka: " + form1 + " till statistics");*/
+        var www = new WWW(url1, rawData1, headers1);
+        Debug.Log("Nu försöker jag skicka: " + form1 + " till statistics");
 
-        //StartCoroutine(WaitForRequest(www));
+        //StartCoroutine(WaitForRequest(www, null, 2));
                  
     }
 
@@ -291,26 +295,29 @@ public class Recive : MonoBehaviour {
 
         //if (username == "") username = "jlong";
         //if (password == "") password = "chalmers2016!";
-        WWWForm form = new WWWForm();
-         form.AddField("username", "jlong");
-        form.AddField("password", "chalmers2016!");
-       
-        form.AddField("grant_type", "password");
-      
-        Dictionary<String, String> headers = new Dictionary<string, string>();
-        byte[] rawData = form.data;
-        string url = string.Format(presentIP + ":8080/oauth/token");
+        if (online)
+        {
+            WWWForm form = new WWWForm();
+            form.AddField("username", "jlong");
+            form.AddField("password", "chalmers2016!");
 
-        String encoded = System.Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes("liketolearn-restapi:123456"));
-        //Debug.Log("krypterad grej: " + encoded);
-        headers.Add("Authorization", "Basic " + encoded);
-       
+            form.AddField("grant_type", "password");
 
-        // Post a request to an URL with our custom headers
-        WWW www = new WWW(url, rawData, headers);
-        //Debug.Log("I authentication");
-        StartCoroutine(WaitForRequest(www, courseList));
-        //--------------------------------------------------------------------------------------------
+            Dictionary<String, String> headers = new Dictionary<string, string>();
+            byte[] rawData = form.data;
+            string url = string.Format(presentIP + ":8080/oauth/token");
+
+            String encoded = System.Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes("liketolearn-restapi:123456"));
+            //Debug.Log("krypterad grej: " + encoded);
+            headers.Add("Authorization", "Basic " + encoded);
+
+
+            // Post a request to an URL with our custom headers
+            WWW www = new WWW(url, rawData, headers);
+            //Debug.Log("I authentication");
+            StartCoroutine(WaitForRequest(www, courseList, 2));
+        }
+            //--------------------------------------------------------------------------------------------
     }
 
 
@@ -323,10 +330,10 @@ public class Recive : MonoBehaviour {
          StartCoroutine(WaitForRequest(www, courseList));
          if (parse == null) return false;*/
 
-        //--------------------Över stecket finns den riktiga koden som fungerade innan vi la till login
+        //--------------------Över stecket finns koden som fungerade innan vi la till login
 
         WWWForm form1 = new WWWForm();
-        form1.AddField("userid", "student3");
+        form1.AddField("userid", "student3"); // Fix me!!
 
         Dictionary<String, String> headers1 = new Dictionary<string, string>();
         byte[] rawData1 = form1.data;
@@ -336,37 +343,36 @@ public class Recive : MonoBehaviour {
 
         // Post a request to an URL with our custom headers
         WWW www1 = new WWW(url1, rawData1, headers1);
-        Debug.Log("I authentication: access_token = " + access_token + ", token_type = " + token_type + ", refresh_token = " + refresh_token);
-        StartCoroutine(WaitForRequest(www1, courseList));
+        Debug.Log("I recive.GetQuestion: access_token = " + access_token + ", token_type = " + token_type + ", refresh_token = " + refresh_token);
+        StartCoroutine(WaitForRequest(www1, courseList, 2));
         //------------------------------
 
-        return true; // parse.HasNewResult; Fix me!!
+        //return true; // 
+        return parse.HasNewResult;
     }
 
     public bool Authorization(string username, string password)
     {
-        ///*
-        WWWForm form = new WWWForm();
+           
+       Dictionary<String, String> headers1 = new Dictionary<string, string>();
+        headers1.Add("Authorization", token_type /*"Bearer"*/ + " " + access_token);
 
+        WWWForm form = new WWWForm();
         form.AddField("password", password);
         form.AddField("userid", username);
-       
+
+        byte[] rawData1 = form.data;
+
         string url = string.Format(presentIP + ":8080/liketolearn/login");
-        var www = new WWW(url, form);
-        StartCoroutine(WaitForRequest(www, null));
+        WWW www1 = new WWW(url, rawData1, headers1);
+        ////var www = new WWW(url, form);
+        StartCoroutine(WaitForRequest(www1, null, 1));
 
         //while (!parse.HasCheckedLoggin) Debug.Log(" Nu väntar vi på resultat från loggin");
-        //Debug.Log("Svaret blev: " + parse.authorization);
+        Debug.Log("Svaret blev: " + parse.authorization);
 
-       //return parse.authorization; // false; */ Fix me!!!
-
-        return true;
-
-
+       return parse.authorization; 
+        
     }
-
-   
-    
-   
 
 }

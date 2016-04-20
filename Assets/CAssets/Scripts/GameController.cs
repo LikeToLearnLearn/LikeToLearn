@@ -200,6 +200,7 @@ public class GameController : MonoBehaviour {
 	{
 		name = name.Trim();
 		if (NameTaken(name) || NameInvalid(name)) return;
+        //recive.authentication();
         if (recive.Authorization(name, password))
         {
             global.currentGame = name;
@@ -217,7 +218,7 @@ public class GameController : MonoBehaviour {
             //GameObject conn = GameObject.Find("ConnectionHandler");
             //recive = conn.GetComponent<Recive>();
             recive.setCourseList(data.coruses);
-            recive.authentication();
+            
             //AskForNewQuestions();
             // one less variation to test if we save and load every time
             SaveGame();
