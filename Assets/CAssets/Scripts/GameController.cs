@@ -151,7 +151,7 @@ public class GameController : MonoBehaviour {
                             {
 
                                 recive.sendResult(q.getQuestionID(), key, answ, name);
-                                Debug.Log("Försöker skicka :" + q.getQuestionID()+ " " + " " + key /*ans.Key*/ + " " + answ /*ans.Value*/+ " " + name);
+                                Debug.Log("Försöker skicka: frågeid: " + q.getQuestionID()+ ", svar: " + " " + key + ", rätt eller fel: " + answ + ", användarid: " + name);
                                 //data.questions[i].a.Remove(key);
                             }
                             data.questions[i].a.Remove(key);
