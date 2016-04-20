@@ -12,10 +12,10 @@ public class MultiplicationCourse : Course {
 	{
 		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 10; j++) {
-				AddQuestion(i, "MM" + "" +i + "" +j ,""+i+" * "+j, ""+(i*j));
+				AddQuestion(i, "" +i + "" +j ,""+i+" * "+j, ""+(i*j));
                 //levelDictionary.Add(i, "" + i);
 				if (i != j) {
-					AddQuestion(i, "MM" + "" + i + "" + j, "" +j+" * "+i, ""+(j*i));
+					AddQuestion(i, "" + j + "" + i, "" +j+" * "+i, ""+(j*i));
 				}
 			}
 		}
