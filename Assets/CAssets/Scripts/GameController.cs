@@ -224,7 +224,7 @@ public class GameController : MonoBehaviour {
             //recive = conn.GetComponent<Recive>();
             recive.setCourseList(data.coruses);
             
-            //AskForNewQuestions();
+            AskForNewQuestions();
             // one less variation to test if we save and load every time
             SaveGame();
             LoadGame(name);
@@ -324,7 +324,7 @@ public class GameController : MonoBehaviour {
         data.coruses.Add(m);
         recive.setCourseList(data.coruses);
         recive.authentication(); 
-        //AskForNewQuestions();
+        AskForNewQuestions();
         if (recive.c == null) setCurrentcourse(m);
                 
     }

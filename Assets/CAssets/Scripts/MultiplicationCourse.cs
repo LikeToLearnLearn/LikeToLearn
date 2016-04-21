@@ -10,17 +10,19 @@ public class MultiplicationCourse : Course {
     
 	public MultiplicationCourse()
 	{
+        int id = 0;
 		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 10; j++) {
-				AddQuestion(i, "" +i + "" +j ,""+i+" * "+j, ""+(i*j));
+				AddQuestion(i, ""+id ,""+i+" * "+j, ""+(i*j));
+                id++;
                 //levelDictionary.Add(i, "" + i);
-				if (i != j) {
+				/*if (i != j) {
 					AddQuestion(i, "" + j + "" + i, "" +j+" * "+i, ""+(j*i));
-				}
+				}*/
 			}
 		}
 
-        setCoursecode("MM");
+        setCoursecode("StartCourse");
 	}
 
 	public override int CurrentLevel()
