@@ -20,6 +20,7 @@ public class GameController : MonoBehaviour {
     private string name;
     private string password;
     public Recive recive;
+    public bool testmode;
 
 	// global configuration data that all instances use
 	[Serializable]
@@ -85,7 +86,8 @@ public class GameController : MonoBehaviour {
 
         GameObject conn = GameObject.Find("ConnectionHandler");
         recive = conn.GetComponent<Recive>();
-      
+
+        testmode = false;
 
         // auto every fifth secound
         InvokeRepeating("Save", 5, 5);
@@ -110,27 +112,9 @@ public class GameController : MonoBehaviour {
         return recive;
     }
 
-  /*  bool Authorization(string username, string password)
-    {
-        if (recive.Online())
-        {
-
-            bool Accepted = recive.Authorization(username, password);
-
-            Debug.Log("Inloggningen resulterade i = " + Accepted);
-
-            return true;//  Accepted; Fix me!!
-        }
-
-        else return true; // false // Fix me!!
-        
-
-        
-    }*/
-
     void SendResults()
     {
-        if (recive != null && data!= null)
+        if (recive != null && data!= null && !testmode)
         {
             if ( recive.Online()) 
             {
@@ -165,7 +149,7 @@ public class GameController : MonoBehaviour {
 
     public void AskForNewQuestions()
     {
-        if (recive != null)
+        if (recive != null && ! testmode)
         {
             //Debug.Log(" Nu är vi i AskForNewQuestions");
             if (recive.Online()) 
@@ -201,33 +185,40 @@ public class GameController : MonoBehaviour {
 	public void NewGame(string name, string password)
 	{
 		name = name.Trim();
-		if (NameTaken(name) || NameInvalid(name)) return;
+		if ((NameTaken(name) || NameInvalid(name)) && recive.Online()) return;
         //recive.authentication();
-        if (recive.Login(name, password))
+        if (recive.Login(name, password)|| !recive.Online())
         {
             this.name = name;
             this.password = password;
+            if (name == "testmode") testmode = true;
 
             global.currentGame = name;
-            data = new GameData();
-            global.games[global.currentGame] = global.gameCount++;
+            
+            //if (name != "testmode") // fix me for testmode
+            {
+                global.games[global.currentGame] = global.gameCount++;
+                data = new GameData();
 
+            }
             // add player to math course for now
             Course m = new MultiplicationCourse();
-            data.coruses.Add(m);
-            //data.currentCourse = m; 
+            data.coruses.Add(m); 
 
             if (recive.c == null) setCurrentcourse(m);
 
-            //Debug.Log("Nu sätts " + recive.c + " till currentcourse i GameControllers NewGame.");
+            Debug.Log("Nu sätts " + recive.c + " till currentcourse i GameControllers NewGame.");
             //GameObject conn = GameObject.Find("ConnectionHandler");
             //recive = conn.GetComponent<Recive>();
             recive.setCourseList(data.coruses);
             
-            AskForNewQuestions();
+           AskForNewQuestions();
             // one less variation to test if we save and load every time
-            SaveGame();
-            LoadGame(name);
+            //if (name != "testmode")
+            
+                SaveGame();
+                LoadGame(name);
+            
         }
 	}
 

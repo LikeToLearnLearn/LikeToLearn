@@ -11,7 +11,7 @@ public class StartMenu : MonoBehaviour {
 	public GameObject newGame, loadGame, options, credits;
 
 	// new game
-	public GameObject takenNameText, invalidNameText, nameInput, passwordInput, onlinesign;
+	public GameObject takenNameText, invalidNameText, nameInput, passwordInput, onlinesign, testModeSign;
 
 	// load game
 	public GameObject loadPannelButton, nextButton, prevButton, nameText;
@@ -85,11 +85,23 @@ public class StartMenu : MonoBehaviour {
 		takenNameText.SetActive(false);
 		invalidNameText.SetActive(false);
 
-        GameController.control.recive.authentication();
+        
         if (isZoomed) return;
 		zoom += 240.0f;
 		isZoomed = true;
 		newGame.SetActive(true);
+
+        if (!GameController.control.recive.Online())
+        {
+            nameInput.SetActive(false);
+            passwordInput.SetActive(false);
+            testModeSign.SetActive(true);
+
+        }
+        else
+        {
+             GameController.control.recive.authentication();
+        }
 	}
 
     public void LoadGameButtonEvent()
@@ -149,17 +161,28 @@ public class StartMenu : MonoBehaviour {
         string name = input.text;
         string password = passwordinput.text;
 
-		if (GameController.control.NameTaken(name)) {
-			takenNameText.SetActive(true);
-			invalidNameText.SetActive(false);
-		} else if (GameController.control.NameInvalid(name)) {
-			invalidNameText.SetActive(true);
-			takenNameText.SetActive(false);
-		} else {
-			takenNameText.SetActive(false);
-			invalidNameText.SetActive(false);
-			GameController.control.NewGame(name, password);
-		}
+        if (GameController.control.recive.Online())
+        {     
+            if (GameController.control.NameTaken(name))
+            {
+                takenNameText.SetActive(true);
+                invalidNameText.SetActive(false);
+            }
+            else if (GameController.control.NameInvalid(name))
+            {
+                invalidNameText.SetActive(true);
+                takenNameText.SetActive(false);
+            }
+            else {
+                
+            }
+        }
+        else
+        {
+                takenNameText.SetActive(false);
+                invalidNameText.SetActive(false);
+                GameController.control.NewGame("testmode", "");
+        }
 	}
 
 	public void LoadGame()

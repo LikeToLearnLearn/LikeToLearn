@@ -282,11 +282,14 @@ public class Recive : MonoBehaviour {
         string url1 = string.Format(presentIP + ":8080/liketolearn/statistics");
         headers1.Add("Authorization", token_type + " " + access_token);
 
-        var www = new WWW(url1, rawData1, headers1);
+
         //Debug.Log("Nu försöker jag skicka: " + form1 + " till statistics");
 
-        StartCoroutine(WaitForRequest(www, null, 2));
-                 
+        if (online && !GameController.control.testmode)
+        {
+            var www = new WWW(url1, rawData1, headers1);
+            StartCoroutine(WaitForRequest(www, null, 2));
+        }         
     }
 
     public void authentication(/*string username, string password*/)
@@ -313,9 +316,13 @@ public class Recive : MonoBehaviour {
 
 
             // Post a request to an URL with our custom headers
-            WWW www = new WWW(url, rawData, headers);
+
             //Debug.Log("I authentication");
-            StartCoroutine(WaitForRequest(www, courseList, 2));
+            if (online && !GameController.control.testmode)
+            {
+                WWW www = new WWW(url, rawData, headers);
+                StartCoroutine(WaitForRequest(www, courseList, 2));
+            }
         }
             //--------------------------------------------------------------------------------------------
     }
@@ -342,9 +349,13 @@ public class Recive : MonoBehaviour {
 
 
         // Post a request to an URL with our custom headers
-        WWW www1 = new WWW(url1, rawData1, headers1);
+
         //Debug.Log("I recive.GetQuestion: access_token = " + access_token + ", token_type = " + token_type + ", refresh_token = " + refresh_token);
-        StartCoroutine(WaitForRequest(www1, courseList, 2));
+        if (online && !GameController.control.testmode)
+        {
+            WWW www1 = new WWW(url1, rawData1, headers1);
+            StartCoroutine(WaitForRequest(www1, courseList, 2));
+        }
         //------------------------------
 
         //return true; // 
@@ -353,7 +364,6 @@ public class Recive : MonoBehaviour {
 
     public bool Login(string username, string password)
     {
-           
        Dictionary<String, String> headers1 = new Dictionary<string, string>();
         headers1.Add("Authorization", token_type /*"Bearer"*/ + " " + access_token);
 
@@ -364,10 +374,14 @@ public class Recive : MonoBehaviour {
         byte[] rawData1 = form.data;
 
         string url = string.Format(presentIP + ":8080/liketolearn/login");
-        WWW www1 = new WWW(url, rawData1, headers1);
-        ////var www = new WWW(url, form);
-        StartCoroutine(WaitForRequest(www1, null, 1));
 
+        ////var www = new WWW(url, form);
+        if (online && !GameController.control.testmode)
+        {
+            WWW www1 = new WWW(url, rawData1, headers1);
+            StartCoroutine(WaitForRequest(www1, null, 1));
+            
+        }
         //while (!parse.HasCheckedLoggin) Debug.Log(" Nu väntar vi på resultat från loggin");
         Debug.Log("Svaret blev: " + parse.authorization);
 
