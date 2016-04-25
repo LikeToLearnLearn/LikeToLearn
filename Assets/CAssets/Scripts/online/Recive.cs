@@ -10,9 +10,9 @@ using System.IO;
 public class Recive : MonoBehaviour {
 
     private const bool allowCarrierDataNetwork = false;
-    private const string pingAddress = presentIP; 
+    private const string pingAddress = "127.0.0.1";//"8.8.8.8";//  presentIP; Fix me!!!! 
     private const float waitingTime = 2.0f;
-    private const string presentIP = "127.0.0.1"; // "192.168.254.154"; // Kurts ipadress
+    private const string presentIP = "semconliketolearn.cloudapp.net"; //"127.0.0.1"; // "192.168.254.154"; // Kurts ipadress
 
     private Ping ping;
     private float pingStartTime;
@@ -279,7 +279,7 @@ public class Recive : MonoBehaviour {
         form1.AddField("userid", userid);
         Dictionary<String, String> headers1 = new Dictionary<string, string>();
         byte[] rawData1 = form1.data;
-        string url1 = string.Format(presentIP + ":8080/liketolearn/statistics");
+        string url1 = string.Format(presentIP + ":80/liketolearn/statistics");
         headers1.Add("Authorization", token_type + " " + access_token);
 
 
@@ -308,7 +308,7 @@ public class Recive : MonoBehaviour {
 
             Dictionary<String, String> headers = new Dictionary<string, string>();
             byte[] rawData = form.data;
-            string url = string.Format(presentIP + ":8080/oauth/token");
+            string url = string.Format(presentIP + ":80/oauth/token");
 
             String encoded = System.Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes("liketolearn-restapi:123456"));
             //Debug.Log("krypterad grej: " + encoded);
@@ -344,7 +344,7 @@ public class Recive : MonoBehaviour {
 
         Dictionary<String, String> headers1 = new Dictionary<string, string>();
         byte[] rawData1 = form1.data;
-        string url1 = string.Format(presentIP + ":8080/liketolearn/questions");
+        string url1 = string.Format(presentIP + ":80/liketolearn/questions");
         headers1.Add("Authorization", token_type /*"Bearer"*/ + " " + access_token);
 
 
@@ -373,7 +373,7 @@ public class Recive : MonoBehaviour {
 
         byte[] rawData1 = form.data;
 
-        string url = string.Format(presentIP + ":8080/liketolearn/login");
+        string url = string.Format(presentIP + ":80/liketolearn/login");
 
         ////var www = new WWW(url, form);
         if (online && !GameController.control.testmode)
