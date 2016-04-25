@@ -174,7 +174,10 @@ public class StartMenu : MonoBehaviour {
                 takenNameText.SetActive(false);
             }
             else {
-                
+
+                takenNameText.SetActive(false);
+                invalidNameText.SetActive(false);
+                GameController.control.NewGame(name, password);
             }
         }
         else

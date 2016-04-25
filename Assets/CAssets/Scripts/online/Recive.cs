@@ -382,7 +382,7 @@ public class Recive : MonoBehaviour {
             StartCoroutine(WaitForRequest(www1, null, 1));
             
         }
-        //while (!parse.HasCheckedLoggin) Debug.Log(" Nu väntar vi på resultat från loggin");
+        //while (!parse.HasCheckedLoggin) Debug.Log(" Nu väntar vi på resultat från loggin"); // sätta en wait, tills någon väcker upp den... semaforer??? // ha en timeout ca 5 ca
         Debug.Log("Svaret blev: " + parse.authorization);
 
        return parse.authorization; 
