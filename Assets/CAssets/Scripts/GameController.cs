@@ -187,7 +187,7 @@ public class GameController : MonoBehaviour {
 		name = name.Trim();
 		if ((NameTaken(name) || NameInvalid(name)) && recive.Online()) return;
         //recive.authentication();
-        if (recive.Login(name, password)/* || !recive.Online()*/)
+        if (recive.Login(name, password) || !recive.Online())
         {
             this.name = name;
             this.password = password;
