@@ -279,7 +279,7 @@ public class Recive : MonoBehaviour {
         form1.AddField("userid", userid);
         Dictionary<String, String> headers1 = new Dictionary<string, string>();
         byte[] rawData1 = form1.data;
-        string url1 = string.Format(presentIP + ":80/liketolearn/statistics");
+        string url1 = string.Format(presentIP + ":8181/liketolearn/statistics");
         headers1.Add("Authorization", token_type + " " + access_token);
 
 
@@ -301,16 +301,16 @@ public class Recive : MonoBehaviour {
         if (online)
         {
             WWWForm form = new WWWForm();
-            form.AddField("username", "jlong");
-            form.AddField("password", "chalmers2016!");
+            form.AddField("username", "jlong");// Kryptera ??
+            form.AddField("password", "chalmers2016!"); // Kryptera ??
 
             form.AddField("grant_type", "password");
 
             Dictionary<String, String> headers = new Dictionary<string, string>();
             byte[] rawData = form.data;
-            string url = string.Format(presentIP + ":80/oauth/token");
+            string url = string.Format(presentIP + ":8181/oauth/token");
 
-            String encoded = System.Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes("liketolearn-restapi:123456"));
+            String encoded = System.Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes("liketolearn-restapi:123456")); // riktig kryptering???
             //Debug.Log("krypterad grej: " + encoded);
             headers.Add("Authorization", "Basic " + encoded);
 
@@ -344,7 +344,7 @@ public class Recive : MonoBehaviour {
 
         Dictionary<String, String> headers1 = new Dictionary<string, string>();
         byte[] rawData1 = form1.data;
-        string url1 = string.Format(presentIP + ":80/liketolearn/questions");
+        string url1 = string.Format(presentIP + ":8181/liketolearn/questions");
         headers1.Add("Authorization", token_type /*"Bearer"*/ + " " + access_token);
 
 
@@ -373,7 +373,7 @@ public class Recive : MonoBehaviour {
 
         byte[] rawData1 = form.data;
 
-        string url = string.Format(presentIP + ":80/liketolearn/login");
+        string url = string.Format(presentIP + ":8181/liketolearn/login");
 
         ////var www = new WWW(url, form);
         if (online && !GameController.control.testmode)
