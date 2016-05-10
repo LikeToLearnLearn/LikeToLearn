@@ -24,8 +24,11 @@ public abstract class MiniGameAbstract : MonoBehaviour
             AddTime(-Time.deltaTime);
             //print("playing:" + remainingTime + " score: " + currentScore);
 
-            GameController.control.data.currentCourse.takenTime = GameController.control.data.currentCourse.takenTime + Time.deltaTime;
-            //Debug.Log(" takenTime = " + GameController.control.data.currentCourse.takenTime);   
+            if (GameController.control.name != "testmode")
+            {
+                GameController.control.data.currentCourse.takenTime = GameController.control.data.currentCourse.takenTime + Time.deltaTime;
+                Debug.Log(" takenTime = " + GameController.control.data.currentCourse.takenTime);
+            }   
 
             if (GetRemainingTime() < 0)
             {

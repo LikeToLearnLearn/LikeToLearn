@@ -32,7 +32,7 @@ public abstract class Course {
     void update()
     {
         levels = questions.Keys.ToList();
-        if(GameController.control.recive.online && doneMoments.Count > 0)
+        if(GameController.control.recive.online && doneMoments.Count > 0 && GameController.control.name != "testmode")
         {
             List<string> keys = new List<string>(doneMoments.Keys);
             foreach (string key in keys)
@@ -52,7 +52,7 @@ public abstract class Course {
     public void ResetTakenTime()
     {
         takenTime = 0;
-        Debug.Log("Nu börjar nu tidtaging för ett nytt moment");
+        Debug.Log("Nu börjar en ny tidtaging för ett nytt moment. takenTime = " + takenTime);
     }
 
     public string getCoursecode()
@@ -132,16 +132,14 @@ public abstract class Course {
             if (xs.Count <= xs.Count(x => results[x] > 1) && y > result) // byt 1:an till en 3:a.
             {
                 result = y;
-                Debug.Log( GameController.control.name + "har klarat moment " + level + " på tiden");
-                if (GameController.control.recive.online)
+                Debug.Log( "I currenLevel registeras att: " + GameController.control.name + " har klarat moment " + level + " på tiden " + takenTime);
+                if (GameController.control.recive.online && GameController.control.name != "testmode")
                 {
                     GameController.control.recive.DoneMoment(GameController.control.name, levelDictionary[level], takenTime);   
                 }
-                else doneMoments.Add(levelDictionary[y], takenTime);
+                else doneMoments.Add(levelDictionary[level], takenTime);
                     
                 ResetTakenTime();
-
-               
                 
             }
             if (result == levels.Count || result > levels.Count)

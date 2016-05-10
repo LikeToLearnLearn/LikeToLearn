@@ -291,7 +291,7 @@ public class Recive : MonoBehaviour {
         float seconds = minuts - (minuts * 60);
         string s = seconds.ToString("f0");
         string t = h + "h " + min + "min " + s + " seconds";
-        Debug.Log(userid + " har klarat momentet: " + momentcode + ", på tiden " + t);
+        Debug.Log("I DoneMoment registeraras att: " + userid + " har klarat momentet: " + momentcode + ", på tiden " + t);
 
         WWWForm form1 = new WWWForm();
         form1.AddField("userid", userid);
