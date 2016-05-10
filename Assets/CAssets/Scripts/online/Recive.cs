@@ -284,6 +284,7 @@ public class Recive : MonoBehaviour {
 
     public void DoneMoment(string userid, string momentcode, float time)
     {
+        Debug.Log("I DoneMoment är time = "+ time);
         float hour = time / 3600;
         string h = hour.ToString("f0");
         Debug.Log("Det tog " + h + "h att klara det här momentet.");
