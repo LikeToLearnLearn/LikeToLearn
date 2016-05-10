@@ -12,7 +12,7 @@ public class Recive : MonoBehaviour {
     private const bool allowCarrierDataNetwork = false;
     private const string pingAddress = "127.0.0.1";//"8.8.8.8";//  presentIP; Fix me!!!! 
     private const float waitingTime = 2.0f;
-    private const string presentIP = "semconliketolearn.cloudapp.net"; //"127.0.0.1"; // "192.168.254.154"; // Kurts ipadress
+    private const string presentIP = "127.0.0.1"; // "semconliketolearn.cloudapp.net"; //"192.168.254.154"; // Kurts ipadress
 
     private Ping ping;
     private float pingStartTime;
@@ -35,12 +35,15 @@ public class Recive : MonoBehaviour {
     private Parser parse;
     public Course c { get; private set; }
     private System.Collections.Generic.List<Course> courseList;
-    private bool online;
+    public bool online;
 
     private string access_token;
     private string token_type;
     private string refresh_token;
     private int errorNumber = 0;
+    private bool RecentlyBeenOfLine;
+    private bool done;
+
 
     // Use this for initialization
     void Start ()
@@ -49,11 +52,13 @@ public class Recive : MonoBehaviour {
         HasNewMoment = false;
         HasNewQuestion = false;
         HasNewAnswer = false;
+        RecentlyBeenOfLine = false;
 
         parse = new Parser(null, null, 0);
         online = false;
         checkOnline();
-        c = null; 
+        c = null;
+        done = false;
 
     }
 
@@ -109,46 +114,16 @@ public class Recive : MonoBehaviour {
         checkOnline();   
         return online;
     }
-
-  /*  void ConnectToServer()
-    {
-        Network.Connect(presentIP, 8080);
-    }
-
-    public void UploadJSON()
-    {
-        WWWForm form = new WWWForm();
-        form.AddField("name", "data065");
-
-        WWW www = new WWW(presentIP + ":8080/greeting", form);
-        Debug.Log("Nu försöker jag skicka: " + form + " till greeting");
-
-        testJson();
-
-    }*/
-
-  /*  public void testJson()
-    {
-        WWWForm form1 = new WWWForm();
-        form1.AddField("coursecode", "iugu");
-        form1.AddField("momentcode", "9845u");
-        form1.AddField("question", "1 + 2");
-        form1.AddField("answer", "3");
-
-        string url = string.Format(presentIP +":8080/test");
-        var www = new WWW(url, form1);
-        Debug.Log("Nu försöker jag skicka: " + form1 + " till test");
-        StartCoroutine(WaitForRequest(www, courseList));
-
-    }*/
-
   
 
     private IEnumerator WaitForRequest(WWW www, System.Collections.Generic.List<Course> courseList, int function)
     {
+        done = false;
         //Debug.Log("Nu är vi i WaitForRequest innan första yield return");
         yield return www;
+        done = true;
         Debug.Log("Nu är vi i WaitForRequest efter yield return. www.text = " + www.text);
+        
         if (www.error == null)
         {
             //Debug.Log("Waitforrequest: www.text: " + www.text);
@@ -176,22 +151,6 @@ public class Recive : MonoBehaviour {
                     refresh_token = parse.refresh_token;
                 }
 
-
-                //else Debug.Log(www.text + " blev authotization");
-                /* if (parse.HasNewResult)
-                {
-                    newCoursecode = parse.coursecode;
-                    Debug.Log(newCoursecode + " was received i Recive.cs");
-                    newMomentcode = parse.momentcode;
-                    Debug.Log(newCoursecode + " was received i Recive.cs");
-                    newQuestion = parse.question;
-                    Debug.Log(newQuestion + " was received i Recive.cs");
-                    newAnswer = parse.answer;
-                    Debug.Log(newAnswer + " was received i Recive.cs");
-                    //createNewCourse();
-                    //parse.HasNewResult = false;
-                 }*/
-
             }
             else
             {
@@ -206,55 +165,12 @@ public class Recive : MonoBehaviour {
         }
 
     }
-
-  /*  void createNewCourse()
-    {
-        c = new CurrentCourse(newCoursecode);
-        Debug.Log(c + "  c i createNewCourse i Recive.cs");
-        c.setCoursecode(newCoursecode);
-        c.setLevel(int.Parse(newMomentcode));
-                
-        if (newCoursecode!= null && courseList!= null)
-        {
-            bool newCourse = true;
-            foreach (Course co in courseList)
-            {
-                Debug.Log(co + " co in createNewCourse");
-                if (co.getCoursecode().Equals(newCoursecode))
-                {
-                    newCourse = false;
-                    c = co;
-                }
-            }
-
-            if (newCourse)
-            {
-                HasNewCourse = true;
-                courseList.Add(c);
-            }
-            createNewMoment(c);
-        }
-    }*/
-
-   /* void createNewMoment(Course c)
-    {
-        if (!c.momentcodes.ContainsKey(int.Parse(newMomentcode)))
-        {
-            int x = 1;
-            foreach (int y in c.levels) x++;
-            c.momentcodes.Add(int.Parse(newMomentcode), x + 1 );
-            
-        }
-        int level = c.momentcodes[int.Parse(newMomentcode)]; //int.Parse(newMomentcode);
-
-        Debug.Log(level + newQuestion + newAnswer + " was received i createNewMoment i Recive.cs");
-        c.AddQuestion(level, newQuestion, newAnswer);
-    }*/
-      
+          
     private void InternetIsNotAvailable()
     {
         Debug.Log("No Internet :(");
         online = false;
+        RecentlyBeenOfLine = true;
         
     }
 
@@ -262,6 +178,9 @@ public class Recive : MonoBehaviour {
     {
         Debug.Log("Internet is available! ;)");
         online = true;
+        if (RecentlyBeenOfLine) authentication();
+        RecentlyBeenOfLine = false;
+
     }
 
     public void setCourseList(System.Collections.Generic.List<Course> coruses)
@@ -288,7 +207,7 @@ public class Recive : MonoBehaviour {
         if (online && !GameController.control.testmode)
         {
             var www = new WWW(url1, rawData1, headers1);
-            StartCoroutine(WaitForRequest(www, null, 2));
+            //StartCoroutine(WaitForRequest(www, null, 2));
         }         
     }
 
@@ -339,6 +258,7 @@ public class Recive : MonoBehaviour {
 
         //--------------------Över stecket finns koden som fungerade innan vi la till login
 
+        Debug.Log(" Userid i recive är nu = " + userid);
         WWWForm form1 = new WWWForm();
         form1.AddField("userid", userid);
 
@@ -362,6 +282,32 @@ public class Recive : MonoBehaviour {
         return parse.HasNewResult;
     }
 
+    public void DoneMoment(string userid, string momentcode, float time)
+    {
+        float hour = time / 3600;
+        string h = hour.ToString("f0");
+        float minut = (time - (hour * 3600)) / 60;
+        string min = minut.ToString("f0");
+        string t = h + "h " + min + "min";
+        Debug.Log(userid + " har klarat momentet: " + momentcode + ", på tiden " + t);
+
+        WWWForm form1 = new WWWForm();
+        form1.AddField("userid", userid);
+        form1.AddField("momentcode", momentcode);
+        form1.AddField("time", t);
+        Dictionary<String, String> headers1 = new Dictionary<string, string>();
+        byte[] rawData1 = form1.data;
+        string url1 = string.Format(presentIP + ":8181/liketolearn/time");
+        headers1.Add("Authorization", token_type + " " + access_token);
+
+        if (online && !GameController.control.testmode)
+        {
+            var www = new WWW(url1, rawData1, headers1);
+            //StartCoroutine(WaitForRequest(www, null, 2));
+        }
+
+    }
+
     public bool Login(string username, string password)
     {
        Dictionary<String, String> headers1 = new Dictionary<string, string>();
@@ -380,13 +326,68 @@ public class Recive : MonoBehaviour {
         {
             WWW www1 = new WWW(url, rawData1, headers1);
             StartCoroutine(WaitForRequest(www1, null, 1));
-            
-        }
-        //while (!parse.HasCheckedLoggin) Debug.Log(" Nu väntar vi på resultat från loggin"); // sätta en wait, tills någon väcker upp den... semaforer??? // ha en timeout ca 5 ca
-        Debug.Log("Svaret blev: " + parse.authorization);
 
-       return parse.authorization; 
+        }
+        else return true;
+        //Debug.Log(" Nu väntar vi på resultat från loggin"); // sätta en wait, tills någon väcker upp den... semaforer??? // ha en timeout ca 5 ca
+        /* int sc = 0;
+       while (!parse.HasCheckedLoggin && sc < 100)
+        {
+            while (sc < 100 && !parse.HasCheckedLoggin) { System.Threading.Thread.Sleep(10); sc++; }
+        }*/
+        //System.Threading.Thread.Sleep(1000);
+
+        //StartCoroutine(DoLast());
         
+        Debug.Log("Svaret blev: " + parse.Authorization(null));// parse.authorization);
+
+       return parse.Authorization(null); 
+        
+    } 
+
+
+
+
+    public IEnumerator CheckLogin(string username, string password)
+    {
+    
+        Dictionary<String, String> headers1 = new Dictionary<string, string>();
+        headers1.Add("Authorization", token_type /*"Bearer"*/ + " " + access_token);
+
+        WWWForm form = new WWWForm();
+        form.AddField("password", password);
+        form.AddField("userid", username);
+
+        byte[] rawData1 = form.data;
+
+        string url = string.Format(presentIP + ":8181/liketolearn/login");
+
+        ////var www = new WWW(url, form);
+        if (online && !GameController.control.testmode)
+        {
+            WWW www1 = new WWW(url, rawData1, headers1);
+            yield return www1;
+            if(www1.text == "true")
+            {
+                done = true;
+                yield return "success";
+            }
+            else {
+                yield return "fail";
+                done = false;
+            }
+
+        }
     }
 
+
+    public bool Loogin()
+    {
+        Debug.Log(" done = " + done);
+        return done;
+        
+    }
 }
+
+   
+

@@ -14,7 +14,7 @@ public class StartMenu : MonoBehaviour {
 	public GameObject takenNameText, invalidNameText, nameInput, passwordInput, onlinesign, testModeSign;
 
 	// load game
-	public GameObject loadPannelButton, nextButton, prevButton, nameText;
+	public GameObject loadPannelButton, nextButton, prevButton, nameText, passwordInput1;
 
 	// credits
 	public GameObject creditsText;
@@ -111,6 +111,8 @@ public class StartMenu : MonoBehaviour {
 		isZoomed = true;
 		nameToLoad.text = names[nameIndex];
 		loadGame.SetActive(true);
+        GameController.control.recive.authentication();
+        
     }
 
 	public void NextNameButton()
@@ -177,6 +179,7 @@ public class StartMenu : MonoBehaviour {
 
                 takenNameText.SetActive(false);
                 invalidNameText.SetActive(false);
+                GameController.control.recive.Login(name, password);
                 GameController.control.NewGame(name, password);
             }
         }
@@ -190,6 +193,7 @@ public class StartMenu : MonoBehaviour {
 
 	public void LoadGame()
 	{
-		GameController.control.LoadGame(names[nameIndex]);
+        var passwordinput = passwordInput1.GetComponent<InputField>();
+        GameController.control.LoadGame(names[nameIndex], passwordinput.text);
 	}
 }

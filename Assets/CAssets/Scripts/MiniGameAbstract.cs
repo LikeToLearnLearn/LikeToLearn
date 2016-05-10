@@ -8,6 +8,7 @@ public abstract class MiniGameAbstract : MonoBehaviour
 
     private float startTime; // Time since level load when minigame starts
     private float remainingTime; // Time left of current round
+    //private float takenTime = 0;
     private int currentScore; // Score gained so far this round
 
     private Question currentQuestion; // Current question to answer
@@ -21,12 +22,15 @@ public abstract class MiniGameAbstract : MonoBehaviour
         if (GetPlaying())
         {
             AddTime(-Time.deltaTime);
-            //print("playing:" + remainingTime + " score: " + currentScore);    
+            //print("playing:" + remainingTime + " score: " + currentScore);
+
+            GameController.control.data.currentCourse.takenTime = GameController.control.data.currentCourse.takenTime + Time.deltaTime;
+            //Debug.Log(" takenTime = " + GameController.control.data.currentCourse.takenTime);   
 
             if (GetRemainingTime() < 0)
             {
                 StopGame();
-            }
+            }                
         }
     }
     

@@ -16,11 +16,12 @@ public abstract class Course {
 	static System.Random rnd = new System.Random();
     int level = 1;
     public Dictionary<int, int> momentcodes = new Dictionary<int, int>();
-    //public Dictionary<int, string> levelDictionary = new Dictionary<int,string >();
+    public Dictionary<int, string> levelDictionary = new Dictionary<int,string >();
     public List<int> levels;
+    public float takenTime = 0;
 
     private string coursecode = "defaultCourse";
-
+    public Dictionary<string, float> doneMoments = new Dictionary<string, float>();
   
     void start()
     {
@@ -31,9 +32,30 @@ public abstract class Course {
     void update()
     {
         levels = questions.Keys.ToList();
+        if(GameController.control.recive.online && doneMoments.Count > 0)
+        {
+            List<string> keys = new List<string>(doneMoments.Keys);
+            foreach (string key in keys)
+            {
+                GameController.control.recive.DoneMoment(GameController.control.name, key, doneMoments[key]);
+                Debug.Log(" från sparfil skickades att " + GameController.control.name + " har klartat momentet: " + key + ", på tiden: " + doneMoments[key]);
+            }
+
+        }
     }
-    
-   public string getCoursecode()
+
+  /*  public void AddTakenTime(float t)
+    {
+        takenTime = takenTime + t;
+    }*/
+
+    public void ResetTakenTime()
+    {
+        takenTime = 0;
+        Debug.Log("Nu börjar nu tidtaging för ett nytt moment");
+    }
+
+    public string getCoursecode()
     {
         return coursecode;
     }
@@ -104,17 +126,31 @@ public abstract class Course {
 		int result = 0;
         foreach (int level in levels)
         {
+            Debug.Log("Den här kursen har för närvarade " + levels.Count + " moment. Det finns en level som heter " + level);
             var xs = questions[level];
             var y = level + 1;
-            if (xs.Count <= xs.Count(x => results[x] > 3) && y > result)
+            if (xs.Count <= xs.Count(x => results[x] > 1) && y > result) // byt 1:an till en 3:a.
             {
                 result = y;
+                Debug.Log( GameController.control.name + "har klarat moment " + level + " på tiden");
+                if (GameController.control.recive.online)
+                {
+                    GameController.control.recive.DoneMoment(GameController.control.name, levelDictionary[level], takenTime);   
+                }
+                else doneMoments.Add(levelDictionary[y], takenTime);
+                    
+                ResetTakenTime();
+
+               
+                
             }
-            if (result == levels.Count)
+            if (result == levels.Count || result > levels.Count)
             {
-                result = rnd.Next(levels.Count);
+                if (levels.Count == 1) result = 0;
+                else result = rnd.Next(levels.Count);
             }
         }
+        Debug.Log("Den level som returneras är " + result);
 		return result;
 	}
 

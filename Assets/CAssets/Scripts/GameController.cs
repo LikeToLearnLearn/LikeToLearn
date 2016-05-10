@@ -17,7 +17,7 @@ public class GameController : MonoBehaviour {
 		GlassBlock
 	};
 
-    private string name;
+    public string name;
     private string password;
     public Recive recive;
     public bool testmode;
@@ -32,21 +32,22 @@ public class GameController : MonoBehaviour {
 	}
 	// data associated with a given game instance
 	[Serializable]
-	class GameData {
+	public class GameData {
 		public Dictionary<Item, int> inventory = new Dictionary<Item, int>();
 		public string currentScene = "city_centralisland";
 		public List<Course> coruses = new List<Course>();
 		public List<Question> questions = new List<Question>();
 		public Course currentCourse = null;
 		public int experiencePoints = 0;
+        public string password;
+        public float takenTime;
 	}
 
 	public static GameController control;
 
-	GameData data = null;
+	public GameData data = null;
 	GlobalData global = null;
 	SceneHandler sceneHandler;
-    //Recive recive;
 
 	public int unlockedWorldLevel {  // not tested
 		get { return (int) Math.Log10(data.experiencePoints); }
@@ -107,10 +108,12 @@ public class GameController : MonoBehaviour {
         else this.name = name;
     }
 
-    public Recive GetRecive()
+   /* public Recive GetRecive()
     {
         return recive;
-    }
+    }*/
+
+   
 
     void SendResults()
     {
@@ -130,16 +133,13 @@ public class GameController : MonoBehaviour {
                         foreach (string key in keys)
                         {
                             List<string> ans = tmp[key];
-
                             foreach (string answ in ans)
                             {
-
                                 recive.sendStatistics(q.getQuestionID(), key, answ, name);
                                 Debug.Log("Försöker skicka: frågeid: " + q.getQuestionID()+ ", svar: " + " " + key + ", rätt eller fel: " + answ + ", användarid: " + name);
                                 //data.questions[i].a.Remove(key);
                             }
                             data.questions[i].a.Remove(key);
-
                         }
                     }     
                 }
@@ -150,17 +150,13 @@ public class GameController : MonoBehaviour {
     public void AskForNewQuestions()
     {
         if (recive != null && ! testmode)
-        {
-            //Debug.Log(" Nu är vi i AskForNewQuestions");
+        {            //Debug.Log(" Nu är vi i AskForNewQuestions");
             if (recive.Online()) 
             {
-                    recive.getNewQuestions(name);
+                recive.getNewQuestions(name);
             }
-
         }
-
     }
-
 
     void OnEnable()
 	{
@@ -187,19 +183,36 @@ public class GameController : MonoBehaviour {
 		name = name.Trim();
 		if ((NameTaken(name) || NameInvalid(name)) && recive.Online()) return;
         //recive.authentication();
+        //recive.CheckLogin(name, password);
+        //recive.Loogin();
         if (recive.Login(name, password) || !recive.Online())
         {
             this.name = name;
             this.password = password;
-            if (name == "testmode") testmode = true;
-
             global.currentGame = name;
-            
-            //if (name != "testmode") // fix me for testmode
+
+            if (name == "testmode") // fix me for testmode
+            {
+                testmode = true;
+                //var filePath = SaveFileName(name);
+                //if(File.Exists(filePath)) 
+                    
+                //data = File.Exists(filePath) ?
+                //(GameData)ReadFile(filePath) :
+                //new GameData();
+                
+               // if (data == null)
+                {
+                    
+                   // print("Failed to load game save");
+                    //data = new GameData();
+                }
+            }
+            //else
             {
                 global.games[global.currentGame] = global.gameCount++;
                 data = new GameData();
-
+                data.password = password;
             }
             // add player to math course for now
             Course m = new MultiplicationCourse();
@@ -207,7 +220,7 @@ public class GameController : MonoBehaviour {
 
             if (recive.c == null) setCurrentcourse(m);
 
-            Debug.Log("Nu sätts " + recive.c + " till currentcourse i GameControllers NewGame.");
+            //Debug.Log("Nu sätts " + recive.c + " till currentcourse i GameControllers NewGame.");
             //GameObject conn = GameObject.Find("ConnectionHandler");
             //recive = conn.GetComponent<Recive>();
             recive.setCourseList(data.coruses);
@@ -217,7 +230,7 @@ public class GameController : MonoBehaviour {
             //if (name != "testmode")
             
                 SaveGame();
-                LoadGame(name);
+                LoadGame(name, password);
             
         }
 	}
@@ -228,9 +241,9 @@ public class GameController : MonoBehaviour {
         {
              if(!data.coruses.Contains(m))
                 data.coruses.Add(m);
-            Course old = data.currentCourse;
+            //Course old = data.currentCourse;
             data.currentCourse = m;
-            if (old != null) data.coruses.Remove(old);
+            //if (old != null) data.coruses.Remove(old);
         }
     }
 	public Item TranslateItem(string name)
@@ -256,6 +269,7 @@ public class GameController : MonoBehaviour {
 
 	private string SaveFileName(string name)
 	{
+
 		return Application.persistentDataPath
 			+ "/game_" + global.games[name] + ".dat";
 	}
@@ -296,27 +310,37 @@ public class GameController : MonoBehaviour {
 		return o;
 	}
 
-	public void LoadGame(string name)
+	public void LoadGame(string name, string password)
 	{
-		global.currentGame = name;
-		var filePath = SaveFileName(name);
-		var content = File.Exists(filePath) ?
-			(GameData) ReadFile(filePath) :
-			new GameData();
-		if (content == null) {
-			print("Failed to load game save");
-			content = new GameData();
-		}
-		data = content;
-		sceneHandler.ChangeScene("new", data.currentScene);
-        //GameObject conn = GameObject.Find("ConnectionHandler");
-        //recive = conn.GetComponent<Recive>();
-        Course m = new MultiplicationCourse();
-        data.coruses.Add(m);
-        recive.setCourseList(data.coruses);
-        recive.authentication(); 
-        AskForNewQuestions();
-        if (recive.c == null) setCurrentcourse(m);
+            global.currentGame = name;
+            this.name = name.Trim();
+            if (name == "testmode") testmode = true;
+
+            var filePath = SaveFileName(name);
+            var content = File.Exists(filePath) ?
+                (GameData)ReadFile(filePath) :
+                new GameData();
+            if (content == null)
+            {
+                print("Failed to load game save");
+                content = new GameData();
+            }
+            if (content.password != password)
+            {
+            Debug.Log("wrong password");
+                return;
+            }
+
+            data = content;
+            sceneHandler.ChangeScene("new", data.currentScene);
+            //GameObject conn = GameObject.Find("ConnectionHandler");
+            //recive = conn.GetComponent<Recive>();
+            Course m = new MultiplicationCourse();
+            data.coruses.Add(m);
+            recive.setCourseList(data.coruses);
+            //recive.authentication();
+            AskForNewQuestions();
+            if (data.currentCourse == null) setCurrentcourse(m);
                 
     }
 
