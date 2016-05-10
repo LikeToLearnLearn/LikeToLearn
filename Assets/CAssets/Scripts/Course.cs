@@ -38,7 +38,7 @@ public abstract class Course {
             foreach (string key in keys)
             {
                 GameController.control.recive.DoneMoment(GameController.control.name, key, doneMoments[key]);
-                Debug.Log(" från sparfil skickades att " + GameController.control.name + " har klartat momentet: " + key + ", på tiden: " + doneMoments[key]);
+                Debug.Log(" Från sparfilen skickades att " + GameController.control.name + " har klartat momentet: " + key + ", på tiden: " + doneMoments[key]);
             }
 
         }

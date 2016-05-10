@@ -12,7 +12,7 @@ public class Recive : MonoBehaviour {
     private const bool allowCarrierDataNetwork = false;
     private const string pingAddress = "127.0.0.1";//"8.8.8.8";//  presentIP; Fix me!!!! 
     private const float waitingTime = 2.0f;
-    private const string presentIP = "127.0.0.1"; // "semconliketolearn.cloudapp.net"; //"192.168.254.154"; // Kurts ipadress
+    private const string presentIP =  "semconliketolearn.cloudapp.net"; //"127.0.0.1"; //"192.168.254.154"; // Kurts ipadress
 
     private Ping ping;
     private float pingStartTime;
@@ -286,9 +286,11 @@ public class Recive : MonoBehaviour {
     {
         float hour = time / 3600;
         string h = hour.ToString("f0");
-        float minut = (time - (hour * 3600)) / 60;
-        string min = minut.ToString("f0");
-        string t = h + "h " + min + "min";
+        float minuts = (time - (hour * 3600)) / 60;
+        string min = minuts.ToString("f0");
+        float seconds = minuts - (minuts * 60);
+        string s = seconds.ToString("f0");
+        string t = h + "h " + min + "min " + s + " seconds";
         Debug.Log(userid + " har klarat momentet: " + momentcode + ", på tiden " + t);
 
         WWWForm form1 = new WWWForm();
