@@ -286,10 +286,13 @@ public class Recive : MonoBehaviour {
     {
         float hour = time / 3600;
         string h = hour.ToString("f0");
+        Debug.Log("Det tog " + h + "h att klara det här momentet.");
         float minuts = (time - (hour * 3600)) / 60;
         string min = minuts.ToString("f0");
+        Debug.Log("Det tog " + min + " min att klara det här momentet.");
         float seconds = minuts - (minuts * 60);
         string s = seconds.ToString("f0");
+        Debug.Log("Det tog " + s + "s att klara det här momentet.");
         string t = h + "h " + min + "min " + s + " seconds";
         Debug.Log("I DoneMoment registeraras att: " + userid + " har klarat momentet: " + momentcode + ", på tiden " + t);
 
