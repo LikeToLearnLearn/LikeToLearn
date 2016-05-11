@@ -284,18 +284,24 @@ public class Recive : MonoBehaviour {
 
     public void DoneMoment(string userid, string momentcode, float time)
     {
-        Debug.Log("I DoneMoment är time = " + time);
+        //Debug.Log("I DoneMoment är time = " + time);
         float hour = time / 3600;
-        string h = hour.ToString("f0");
-        Debug.Log("Det tog " + h + "h att klara det här momentet.");
-        float minuts = (time - (hour * 3600)) / 60;
-        string min = minuts.ToString("f0");
-        Debug.Log("Det tog " + min + " min att klara det här momentet.");
+        hour = Mathf.Round(hour * 1f) / 1f;
+        //string h = hour.ToString("f0");
+        //Debug.Log("Det tog " + h + "h att klara det här momentet.");
+        float minuts = (time -(hour * 3600))/ 60;
+        minuts = Mathf.Round(minuts * 1f) / 1f;
+        //string min = minuts.ToString("f0");
+        //Debug.Log("Det tog " + min + " min att klara det här momentet.");
         float seconds = time - ((hour * 3600) + (minuts * 60));
-        string s = seconds.ToString("f0");
-        Debug.Log("Det tog " + s + "s att klara det här momentet.");
-        string t = h + "h " + min + "min " + s + "s";
-        Debug.Log("I DoneMoment registeraras att: " + userid + " har klarat momentet: " + momentcode + ", på tiden " + t);
+        //string s = seconds.ToString("f0");
+        seconds = Mathf.Round(seconds * 1f) / 1f;
+        //Debug.Log("Det tog " + s + "s att klara det här momentet.");
+        string t = "";
+        if (hour != 0) t = hour + "h ";
+        if (minuts != 0) t = t + minuts + "min ";
+        t = t + seconds + "s";
+        Debug.Log("I DoneMoment registeraras att " + userid + " har klarat moment " + momentcode + " på tiden " + t);
 
         WWWForm form1 = new WWWForm();
         form1.AddField("userid", userid);
@@ -332,7 +338,6 @@ public class Recive : MonoBehaviour {
         {
             WWW www1 = new WWW(url, rawData1, headers1);
             StartCoroutine(WaitForRequest(www1, null, 1));
-
         }
         else return true;
         //Debug.Log(" Nu väntar vi på resultat från loggin"); // sätta en wait, tills någon väcker upp den... semaforer??? // ha en timeout ca 5 ca

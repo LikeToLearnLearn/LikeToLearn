@@ -126,13 +126,13 @@ public abstract class Course {
 		int result = 0;
         foreach (int level in levels)
         {
-            Debug.Log("Den här kursen har för närvarade " + levels.Count + " moment. Det finns en level som heter " + level);
+            //Debug.Log("Den här kursen har för närvarade " + levels.Count + " moment. Det finns en level som heter " + level);
             var xs = questions[level];
             var y = level + 1;
             if (xs.Count <= xs.Count(x => results[x] > 1) && y > result) // byt 1:an till en 3:a.
             {
                 result = y;
-                Debug.Log( "I currenLevel registeras att: " + GameController.control.name + " har klarat moment " + level + " på tiden " + takenTime);
+                Debug.Log( "I currenLevel registeras att: " + GameController.control.name + " har klarat level " + level + " på tiden " + takenTime);
                 if (GameController.control.recive.online && GameController.control.name != "testmode")
                 {
                     GameController.control.recive.DoneMoment(GameController.control.name, levelDictionary[level], takenTime);   
@@ -148,7 +148,7 @@ public abstract class Course {
                 else result = rnd.Next(levels.Count);
             }
         }
-        Debug.Log("Den level som returneras är " + result);
+        //Debug.Log("Den level som returneras är " + result);
 		return result;
 	}
 

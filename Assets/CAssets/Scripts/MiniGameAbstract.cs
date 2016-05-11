@@ -27,7 +27,7 @@ public abstract class MiniGameAbstract : MonoBehaviour
             if (GameController.control.name != "testmode")
             {
                 GameController.control.data.currentCourse.takenTime = GameController.control.data.currentCourse.takenTime + Time.deltaTime;
-                Debug.Log(" takenTime = " + GameController.control.data.currentCourse.takenTime);
+                //Debug.Log(" takenTime = " + GameController.control.data.currentCourse.takenTime);
             }   
 
             if (GetRemainingTime() < 0)
