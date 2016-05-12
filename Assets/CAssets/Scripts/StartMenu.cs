@@ -195,5 +195,6 @@ public class StartMenu : MonoBehaviour {
 	{
         var passwordinput = passwordInput1.GetComponent<InputField>();
         GameController.control.LoadGame(names[nameIndex], passwordinput.text);
+        Debug.Log("I StartMenu är lösenordet = " + passwordinput.text);
 	}
 }

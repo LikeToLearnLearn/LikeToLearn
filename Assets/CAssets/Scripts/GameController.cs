@@ -213,6 +213,7 @@ public class GameController : MonoBehaviour {
                 global.games[global.currentGame] = global.gameCount++;
                 data = new GameData();
                 data.password = password;
+                Debug.Log("Det lösenord som sparas är: " + data.password);
             }
             // add player to math course for now
             Course m = new MultiplicationCourse();
@@ -312,19 +313,32 @@ public class GameController : MonoBehaviour {
 
 	public void LoadGame(string name, string password)
 	{
+        Debug.Log("I GameControllers LoadGame är password = " + password);  
             global.currentGame = name;
             this.name = name.Trim();
             if (name == "testmode") testmode = true;
 
             var filePath = SaveFileName(name);
-            var content = File.Exists(filePath) ?
-                (GameData)ReadFile(filePath) :
-                new GameData();
-            if (content == null)
+        /*var content = File.Exists(filePath) ?
+            (GameData)ReadFile(filePath) :
+            new GameData();*/
+        GameData content = null;
+        if (File.Exists(filePath))
+        {
+            content = (GameData)ReadFile(filePath);
+            Debug.Log(" Det fanns en sparfil för " + name);
+        }
+        else content = new GameData();
+
+        if (content == null)
             {
                 print("Failed to load game save");
                 content = new GameData();
             }
+
+        Debug.Log(" Det sparade lösenordet är: " + data.password
+                + " Den sparade currencourse är: " + data.currentCourse);
+
             if (content.password != password)
             {
             Debug.Log("wrong password");

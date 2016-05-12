@@ -285,22 +285,35 @@ public class Recive : MonoBehaviour {
     public void DoneMoment(string userid, string momentcode, float time)
     {
         //Debug.Log("I DoneMoment är time = " + time);
-        float hour = time / 3600;
-        hour = Mathf.Round(hour * 1f) / 1f;
+        //float hour = time / 3600;
+        //hour = hour - (time % 3600);//Mathf.Round(hour * 1f) / 1f;
         //string h = hour.ToString("f0");
-        //Debug.Log("Det tog " + h + "h att klara det här momentet.");
-        float minuts = (time -(hour * 3600))/ 60;
-        minuts = Mathf.Round(minuts * 1f) / 1f;
+        //int ho = int.Parse(h);
+        //Debug.Log("Det tog " + ho + "h att klara det här momentet.");
+        //float minuts = (time -(ho * 3600))/ 60;
+        //minuts = minuts - (time- (hour * 3600) % 60); //Mathf.Round(minuts * 1f) / 1f;
         //string min = minuts.ToString("f0");
-        //Debug.Log("Det tog " + min + " min att klara det här momentet.");
-        float seconds = time - ((hour * 3600) + (minuts * 60));
+        //int m = int.Parse(min);
+        //Debug.Log("Det tog " + m + " min att klara det här momentet.");
+        //float seconds = time - ((ho * 3600) + (m * 60));
         //string s = seconds.ToString("f0");
-        seconds = Mathf.Round(seconds * 1f) / 1f;
-        //Debug.Log("Det tog " + s + "s att klara det här momentet.");
+        //seconds = Mathf.Round(seconds * 1f) / 1f;
+        //Debug.Log("Det tog " + seconds + "s att klara det här momentet.");
+        
+        int minutes = 0;
+        int hours = 0;
+        int seconds = 0;
+        int takenSeconds = (int) time;
+
+        hours = takenSeconds / 3600;
+        minutes = (takenSeconds % 3600) / 60;
+        seconds = (takenSeconds % 3600) % 60;
+
         string t = "";
-        if (hour != 0) t = hour + "h ";
-        if (minuts != 0) t = t + minuts + "min ";
+        if (hours != 0) t = hours + "h ";
+        if (minutes != 0) t = t + minutes + "min ";
         t = t + seconds + "s";
+
         Debug.Log("I DoneMoment registeraras att " + userid + " har klarat moment " + momentcode + " på tiden " + t);
 
         WWWForm form1 = new WWWForm();

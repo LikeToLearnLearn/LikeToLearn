@@ -39,6 +39,7 @@ public abstract class Course {
             {
                 GameController.control.recive.DoneMoment(GameController.control.name, key, doneMoments[key]);
                 Debug.Log(" Från sparfilen skickades att " + GameController.control.name + " har klartat momentet: " + key + ", på tiden: " + doneMoments[key]);
+                doneMoments.Remove(key);
             }
 
         }
@@ -129,7 +130,7 @@ public abstract class Course {
             //Debug.Log("Den här kursen har för närvarade " + levels.Count + " moment. Det finns en level som heter " + level);
             var xs = questions[level];
             var y = level + 1;
-            if (xs.Count <= xs.Count(x => results[x] > 1) && y > result) // byt 1:an till en 3:a.
+            if (xs.Count <= xs.Count(x => results[x] > 3) && y > result) // byt 1:an till en 3:a.
             {
                 result = y;
                 Debug.Log( "I currenLevel registeras att: " + GameController.control.name + " har klarat level " + level + " på tiden " + takenTime);
@@ -137,7 +138,7 @@ public abstract class Course {
                 {
                     GameController.control.recive.DoneMoment(GameController.control.name, levelDictionary[level], takenTime);   
                 }
-                else doneMoments.Add(levelDictionary[level], takenTime);
+                else if(GameController.control.name != "testmode") doneMoments.Add(levelDictionary[level], takenTime);
                     
                 ResetTakenTime();
                 
