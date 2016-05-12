@@ -283,28 +283,12 @@ public class Recive : MonoBehaviour {
     }
 
     public void DoneMoment(string userid, string momentcode, float time)
-    {
-        //Debug.Log("I DoneMoment är time = " + time);
-        //float hour = time / 3600;
-        //hour = hour - (time % 3600);//Mathf.Round(hour * 1f) / 1f;
-        //string h = hour.ToString("f0");
-        //int ho = int.Parse(h);
-        //Debug.Log("Det tog " + ho + "h att klara det här momentet.");
-        //float minuts = (time -(ho * 3600))/ 60;
-        //minuts = minuts - (time- (hour * 3600) % 60); //Mathf.Round(minuts * 1f) / 1f;
-        //string min = minuts.ToString("f0");
-        //int m = int.Parse(min);
-        //Debug.Log("Det tog " + m + " min att klara det här momentet.");
-        //float seconds = time - ((ho * 3600) + (m * 60));
-        //string s = seconds.ToString("f0");
-        //seconds = Mathf.Round(seconds * 1f) / 1f;
-        //Debug.Log("Det tog " + seconds + "s att klara det här momentet.");
-        
+    {        
+        int takenSeconds = (int) time;
         int minutes = 0;
         int hours = 0;
         int seconds = 0;
-        int takenSeconds = (int) time;
-
+        
         hours = takenSeconds / 3600;
         minutes = (takenSeconds % 3600) / 60;
         seconds = (takenSeconds % 3600) % 60;
@@ -312,7 +296,7 @@ public class Recive : MonoBehaviour {
         string t = "";
         if (hours != 0) t = hours + "h ";
         if (minutes != 0) t = t + minutes + "min ";
-        t = t + seconds + "s";
+        if(minutes == 0 && hours == 0) t = t + seconds + "s";
 
         Debug.Log("I DoneMoment registeraras att " + userid + " har klarat moment " + momentcode + " på tiden " + t);
 
