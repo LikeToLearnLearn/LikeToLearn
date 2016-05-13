@@ -33,7 +33,7 @@ public class SceneHandler : MonoBehaviour {
         {
             //Do stuff on starting a new game.
             //GameObject.Instantiate("FPSController",new Vector3(0f,0f,0f),Quaternion.identity);
-
+           
 
         }
 

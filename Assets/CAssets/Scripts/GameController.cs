@@ -39,17 +39,39 @@ public class GameController : MonoBehaviour {
 		public List<Question> questions = new List<Question>();
 		public Course currentCourse = null;
 		public int experiencePoints = 0;
-        public string password;
-        public float takenTime;
+        public string password = "buu";
+        //public float takenTime;
 	}
 
 	public static GameController control;
 
-	public GameData data = null;
+	GameData data = null;
 	GlobalData global = null;
 	SceneHandler sceneHandler;
 
-	public int unlockedWorldLevel {  // not tested
+    public void addTakenMomentTime(float time)
+    {
+        if(data != null)
+        {
+            data.currentCourse.takenTime = data.currentCourse.takenTime + time; 
+        }
+    }
+   /* public float getTakenMomentTime()
+    {
+        if(data!= null)
+        {
+            return data.takenTime;
+        }
+        else return 0;
+    }
+
+    public void resetTakenMomentTime()
+    {
+        data.takenTime = 0;
+    }*/
+
+
+    public int unlockedWorldLevel {  // not tested
 		get { return (int) Math.Log10(data.experiencePoints); }
 	}
 
@@ -97,7 +119,8 @@ public class GameController : MonoBehaviour {
 
     void Update()
     {
-       if (recive.c != null) setCurrentcourse(recive.c);     
+       if (recive.c != null) setCurrentcourse(recive.c);
+        //if (data != null && data.password == "") Debug.Log("OBS! Nu är lösenordet = null!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");   
     }
 
     void setName(string name)
@@ -213,7 +236,7 @@ public class GameController : MonoBehaviour {
                 global.games[global.currentGame] = global.gameCount++;
                 data = new GameData();
                 data.password = password;
-                Debug.Log("Det lösenord som sparas är: " + data.password);
+                //Debug.Log("Det lösenord som sparas är: " + data.password);
             }
             // add player to math course for now
             Course m = new MultiplicationCourse();
@@ -230,8 +253,8 @@ public class GameController : MonoBehaviour {
             // one less variation to test if we save and load every time
             //if (name != "testmode")
             
-                SaveGame();
-                LoadGame(name, password);
+            SaveGame();
+            LoadGame(name, password);
             
         }
 	}
@@ -290,6 +313,7 @@ public class GameController : MonoBehaviour {
 			data.currentScene = scene;
 		if (global.currentGame != null)
 			WriteFile(SaveFileName(global.currentGame), data);
+        //Debug.Log("lösenordet sparas som: " + data.password);
 	}
 
 	private void SaveGlobal()
@@ -326,9 +350,13 @@ public class GameController : MonoBehaviour {
         if (File.Exists(filePath))
         {
             content = (GameData)ReadFile(filePath);
-            Debug.Log(" Det fanns en sparfil för " + name);
+            //Debug.Log(" Det fanns en sparfil för " + name + " Lösenordet är: " + content.password);
         }
-        else content = new GameData();
+        else
+        {
+            content = new GameData();
+            //Debug.Log(" Det fanns ingen sparfil för " + name);
+        }
 
         if (content == null)
             {
@@ -336,12 +364,12 @@ public class GameController : MonoBehaviour {
                 content = new GameData();
             }
 
-        Debug.Log(" Det sparade lösenordet är: " + data.password
-                + " Den sparade currencourse är: " + data.currentCourse);
+        //Debug.Log(" Det sparade lösenordet är: " + content.password
+                //+ " Den sparade currencourse är: " + content.currentCourse + "CurrentScene är: " + content.currentScene);
 
             if (content.password != password)
             {
-            Debug.Log("wrong password");
+            Debug.Log("wrong password"+ "! Det rätta lösenordet är: " + content.password);
                 return;
             }
 
@@ -355,7 +383,6 @@ public class GameController : MonoBehaviour {
             //recive.authentication();
             AskForNewQuestions();
             if (data.currentCourse == null) setCurrentcourse(m);
-                
     }
 
 	public void DeleteGame(string name) // not tested

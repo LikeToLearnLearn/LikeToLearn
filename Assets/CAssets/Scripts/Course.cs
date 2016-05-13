@@ -53,7 +53,7 @@ public abstract class Course {
     public void ResetTakenTime()
     {
         takenTime = 0;
-        Debug.Log("Nu börjar en ny tidtaging för ett nytt moment. takenTime = " + takenTime);
+        //Debug.Log("Nu börjar en ny tidtaging för ett nytt moment. takenTime = " + takenTime);
     }
 
     public string getCoursecode()

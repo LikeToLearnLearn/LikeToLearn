@@ -258,7 +258,7 @@ public class Recive : MonoBehaviour {
 
         //--------------------Över stecket finns koden som fungerade innan vi la till login
 
-        Debug.Log(" Userid i recive är nu = " + userid);
+        //Debug.Log(" Userid i recive är nu = " + userid);
         WWWForm form1 = new WWWForm();
         form1.AddField("userid", userid);
 
@@ -296,7 +296,7 @@ public class Recive : MonoBehaviour {
         string t = "";
         if (hours != 0) t = hours + "h ";
         if (minutes != 0) t = t + minutes + "min ";
-        if(minutes == 0 && hours == 0) t = t + seconds + "s";
+        if( hours == 0) t = t + seconds + "s";
 
         Debug.Log("I DoneMoment registeraras att " + userid + " har klarat moment " + momentcode + " på tiden " + t);
 
@@ -352,10 +352,7 @@ public class Recive : MonoBehaviour {
        return parse.Authorization(null); 
         
     } 
-
-
-
-
+    
     public IEnumerator CheckLogin(string username, string password)
     {
     
@@ -384,7 +381,6 @@ public class Recive : MonoBehaviour {
                 yield return "fail";
                 done = false;
             }
-
         }
     }
 
@@ -393,7 +389,6 @@ public class Recive : MonoBehaviour {
     {
         Debug.Log(" done = " + done);
         return done;
-        
     }
 }
 
