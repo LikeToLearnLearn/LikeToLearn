@@ -364,7 +364,7 @@ public class Parser {
             c.momentcodes.Add(int.Parse(momentcode), x);
 
         }
-        int level = c.momentcodes[int.Parse(momentcode)]; //int.Parse(newMomentcode);
+        int level = c.momentcodes[int.Parse(momentcode)]; 
 
         Debug.Log(level +", " + questionID + ", " + question + ", " + answer + " was received i createNewMoment i Recive.cs");
         c.AddQuestion(level, questionID, question, answer);
