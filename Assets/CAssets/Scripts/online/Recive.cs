@@ -10,9 +10,9 @@ using System.IO;
 public class Recive : MonoBehaviour {
 
     private const bool allowCarrierDataNetwork = false;
-    private const string pingAddress = "liketolearn.cloudapp.net"; //"127.0.0.1";//"8.8.8.8";//  presentIP; Fix me!!!! 
+    private const string pingAddress = "127.0.0.1";//"8.8.8.8";//  presentIP; Fix me!!!! 
     private const float waitingTime = 2.0f;
-    private const string presentIP =  "127.0.0.1"; //"semconliketolearn.cloudapp.net"; ////"192.168.254.154"; // Kurts ipadress
+    private const string presentIP = "liketolearn.cloudapp.net";// "127.0.0.1"; //"semconliketolearn.cloudapp.net"; ////"192.168.254.154"; // Kurts ipadress
 
     private Ping ping;
     private float pingStartTime;
