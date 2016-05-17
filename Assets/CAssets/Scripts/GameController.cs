@@ -150,7 +150,7 @@ public class GameController : MonoBehaviour {
                 {
                     q = temp[i];
                     Dictionary<string, List<string>> tmp = q.a;
-                    if ( tmp.Count > 0)
+                    if ( tmp!= null && tmp.Count > 0)
                     {
                         List<string> keys = new List<string>(tmp.Keys);
                         foreach (string key in keys)
@@ -337,7 +337,7 @@ public class GameController : MonoBehaviour {
 
 	public void LoadGame(string name, string password)
 	{
-        Debug.Log("I GameControllers LoadGame är password = " + password);  
+        //Debug.Log("I GameControllers LoadGame är password = " + password);  
             global.currentGame = name;
             this.name = name.Trim();
             if (name == "testmode") testmode = true;

@@ -32,13 +32,17 @@ public abstract class Course {
     void update()
     {
         levels = questions.Keys.ToList();
-        if(GameController.control.recive.online && doneMoments.Count > 0 && GameController.control.name != "testmode")
+        if(GameController.control.recive.online/* && doneMoments.Count > 0*/ && GameController.control.name != "testmode")
         {
             List<string> keys = new List<string>(doneMoments.Keys);
             foreach (string key in keys)
             {
-                if(doneMoments[key] != 0) GameController.control.recive.DoneMoment(GameController.control.name, key, doneMoments[key]);
-                Debug.Log(" Från sparfilen skickades att " + GameController.control.name + " har klartat momentet: " + key + ", på tiden: " + doneMoments[key]);
+                if (doneMoments[key] != 0)
+                {
+                    GameController.control.recive.DoneMoment(GameController.control.name, key, doneMoments[key]);
+                    Debug.Log(" Från sparfilen skickades att " + GameController.control.name + " har klartat momentet: " + key + ", på tiden: " + doneMoments[key]);
+                }
+
                 doneMoments[key] = 0;
             }
 
@@ -53,7 +57,7 @@ public abstract class Course {
     public void ResetTakenTime()
     {
         takenTime = 0;
-        //Debug.Log("Nu börjar en ny tidtaging för ett nytt moment. takenTime = " + takenTime);
+        Debug.Log("Nu börjar en ny tidtaging för ett nytt moment. takenTime = " + takenTime);
     }
 
     public string getCoursecode()
@@ -133,17 +137,15 @@ public abstract class Course {
             if (xs.Count <= xs.Count(x => results[x] > 1) && y > result) // byt 1:an till en 3:a.
             {
                 result = y;
-                
-                if (GameController.control.recive.online && GameController.control.name != "testmode" && !doneMoments.ContainsKey(levelDictionary[level]))
+                if (GameController.control.name != "testmode" && !doneMoments.ContainsKey(levelDictionary[level])) doneMoments.Add(levelDictionary[level], takenTime);
+                if (GameController.control.recive.online && GameController.control.name != "testmode" && doneMoments[levelDictionary[level]] != 0)
                 {
                    Debug.Log( "I currenLevel registeras att: " + GameController.control.name + " har klarat level " + level + " på tiden " + takenTime);
                    GameController.control.recive.DoneMoment(GameController.control.name, levelDictionary[level], takenTime);
-                   doneMoments.Add(levelDictionary[level], 0);
-       
+                    //if(!doneMoments.ContainsKey(levelDictionary[level]))
+                    doneMoments[levelDictionary[level]] = 0;
                 }
 
-                else if(!GameController.control.recive.online && GameController.control.name != "testmode") doneMoments.Add(levelDictionary[level], takenTime);
-                    
                 ResetTakenTime();
                 
             }

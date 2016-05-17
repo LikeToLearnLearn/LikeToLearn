@@ -152,24 +152,24 @@ public class Parser {
 
                             if (HasNewResult)
                             { 
-                                Debug.Log("Tillfälligt i Parser: corsecode sparas som: " + coursecode + ", momentcode sparas som: " + momentcode + " questionID sparas som: " + questionID + ", question sparas som: " + question + ", answer sparas som: " + answer);
+                                //Debug.Log("Tillfälligt i Parser: corsecode sparas som: " + coursecode + ", momentcode sparas som: " + momentcode + " questionID sparas som: " + questionID + ", question sparas som: " + question + ", answer sparas som: " + answer);
                                 createNewCourse();
                                 HasNewResult = false;
                                 save = false;
                             }
                             if(HasNewAccess_token)
                             {
-                                Debug.Log(" Det finns ett nytt access_token. Det är: " + access_token);
+                                //Debug.Log(" Det finns ett nytt access_token. Det är: " + access_token);
                                 //HasNewAccess_token = false;
                             }
                             if (HasNewToken_type)
                             {
-                                Debug.Log(" Det finns en ny token_type. Det är: " + token_type);
+                                //Debug.Log(" Det finns en ny token_type. Det är: " + token_type);
                                 //HasNewRefresh_token = false;
                             }
                             if (HasNewRefresh_token)
                             {
-                                Debug.Log(" Det finns en ny refresh_token. Det är: " + refresh_token);
+                                //Debug.Log(" Det finns en ny refresh_token. Det är: " + refresh_token);
                             }
                         }
 
@@ -238,7 +238,7 @@ public class Parser {
                         while (data[j] != ',') // find end of momentcode data
                             j++;
                         newQuestionID = (data.Substring(i + 1, j - (i + 2))); // parse momentcode
-                        Debug.Log(" newQuestionID i Parser = " + newQuestionID);
+                  //      Debug.Log(" newQuestionID i Parser = " + newQuestionID);
                         i = j; // jump to question
                     }
                     // if data[i...] == "question"
@@ -366,7 +366,7 @@ public class Parser {
         }
         int level = c.momentcodes[int.Parse(momentcode)]; 
 
-        Debug.Log(level +", " + questionID + ", " + question + ", " + answer + " was received i createNewMoment i Recive.cs");
+        //Debug.Log(level +", " + questionID + ", " + question + ", " + answer + " was received i createNewMoment i Recive.cs");
         c.AddQuestion(level, questionID, question, answer);
     }
 
