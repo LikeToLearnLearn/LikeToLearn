@@ -56,7 +56,7 @@ public class StartMenu : MonoBehaviour {
             print(""); // Johans bidrag :)
             onlinesign.GetComponent<Text>().text = "offline";
         }
-        Debug.Log(" Online i StartMeny = " + GameController.control.recive.Online());
+        //Debug.Log(" Online i StartMeny = " + GameController.control.recive.Online());
 
 		if (isZoomed) {
 			if (zoom > 0.0f) {
@@ -195,6 +195,6 @@ public class StartMenu : MonoBehaviour {
 	{
         var passwordinput = passwordInput1.GetComponent<InputField>();
         GameController.control.LoadGame(names[nameIndex], passwordinput.text);
-        Debug.Log("I StartMenu är lösenordet = " + passwordinput.text);
+        //Debug.Log("I StartMenu är lösenordet = " + passwordinput.text);
 	}
 }

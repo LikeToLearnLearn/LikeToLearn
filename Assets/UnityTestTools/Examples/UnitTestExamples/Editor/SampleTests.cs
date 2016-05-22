@@ -7,55 +7,45 @@ using UnityEngine;
 namespace UnityTest
 {
     [TestFixture]
-    //[Category("Sample Tests")]
     internal class SampleTests
     {
-
-   public class Employee
+        public class Employee
         {
             public string access_token { get; set; }
-            //public string LastName { get; set; }
         }
 
         List<Course> courses;
         Parser parser;
-        //Employee employee;
 
         [SetUp]
         public void Setup()
         {
-            courses = new List<Course>();
+            courses = new List<Course>();                   //Före varje test skapas en ny tom lista för kurser. 
         }
 
         [TearDown]
         public void TearDown()
         {
-            courses = null;
-            parser = null;
+            courses = null;                                 // Efter varje test blir både kurslistan och parsern null.
+            parser = null;                                  // Detta för att ingen gammal information ska sparas av misstag.
         }
 
         [Test]
-        public void TestOne()
+        public void TestNumberOfCourses()
         {
-            int a = 200;
-            int b = 200;
-            Assert.AreEqual(a, b);
+            // Ett jsonobjekt skapas på “konstgjord” väg:
+            string jsonString = "[{\"coursecode\":\"ENG\",\"momentcode\":\"260\",\"questionid\":\"262\",\"question\":\"katt\",\"answer\":\" cat \"}]";
+
+            // Ett nytt jsonobjekt med samma kurskod, men inte samma fråga, skapas
+            string jsonString2 = "[{\"coursecode\":\"ENG\",\"momentcode\":\"260\",\"questionid\":\"264\",\"question\":\"hund\",\"answer\":\"dog\"}]";
+
+            parser = new Parser(jsonString, courses, 2);     // Första objektet skickas in för bearbetning    
+            parser = new Parser(jsonString2, courses, 2);    // Andra objektet skickas in på samma sätt
+
+            Assert.AreEqual(courses.Count, 1);               // Förväntat resultat är att kurslistan har en kurs
         }
-
-        [Test]
-        public void TestTwo()
-        {
-            //form.AddField("access_token", "1278a819-72d3-4a1c-a68b-6ecce9684311");
-                   
-            string jsonString = "[{\"coursecode\":\"HEJ\",\"momentcode\":\"260\",\"questionid\":\"262\",\"question\":\"Är solen varm\",\"answer\":\" ? \"},{\"coursecode\":\"HEJ\",\"momentcode\":\"260\",\"questionid\":\"264\",\"question\":\"Glass är gott\",\"answer\":\".\"},{\"coursecode\":\"HEJ\",\"momentcode\":\"260\",\"questionid\":\"267\",\"question\":\"Hjälp mig\",\"answer\":\"!\"}]";
-            jsonString = "[{\"coursecode\":\"HEJ\",\"momentcode\":\"260\",\"questionid\":\"262\",\"question\":\"Är solen varm\",\"answer\":\" ? \"}]"; //"1";
-            //jsonString = "1";
-            parser = new Parser(jsonString, courses, 2);
-            Assert.AreEqual(courses.Count, 1);
-
-        }
-        
-
+    }
+}
         
 
 
@@ -147,5 +137,5 @@ namespace UnityTest
             Assert.That(sqrt >= 0.0);
             Assert.That(sqrt * sqrt, Is.EqualTo(num).Within(0.000001));
         }*/
-    }
-}
+   // }
+//}

@@ -62,7 +62,7 @@ public class Recive : MonoBehaviour {
 
     }
 
-    public /*bool*/ void checkOnline()
+    public void checkOnline()
     {
         bool internetPossiblyAvailable;
         switch (Application.internetReachability)
@@ -211,39 +211,30 @@ public class Recive : MonoBehaviour {
         }         
     }
 
-    public void authentication(/*string username, string password*/)
+    public void authentication()
     {
-        // curl -X POST -vu liketolearn-restapi:123456 http://localhost:8080/oauth/token -H "Accept: application/json" -d "password=chalmers2016!&username=jlong&grant_type=password&scope=write&client_secret=123456&client_id=liketolearn-restapi"
-
-        //if (username == "") username = "jlong";
-        //if (password == "") password = "chalmers2016!";
-        if (online)
+        if (online)                                                         //Kontroller görs att spelet har kontakt med internet
         {
             WWWForm form = new WWWForm();
-            form.AddField("username", "jlong");// Kryptera ??
-            form.AddField("password", "chalmers2016!"); // Kryptera ??
+            form.AddField("username", "jlong");                             // Hårdkodat användarnamn
+            form.AddField("password", "chalmers2016!");                     // Hårdkodat lösenord
+            form.AddField("grant_type", "password");        
+            byte[] rawData = form.data;
 
-            form.AddField("grant_type", "password");
+            string url = string.Format(presentIP + ":8181/oauth/token");    // En url för rätt flik i Rest APIn skapas
+
+                                                                            // Servernamn och serverlösenord kodas:
+            String encoded = System.Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes("liketolearn-restapi:123456"));
 
             Dictionary<String, String> headers = new Dictionary<string, string>();
-            byte[] rawData = form.data;
-            string url = string.Format(presentIP + ":8181/oauth/token");
-
-            String encoded = System.Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes("liketolearn-restapi:123456")); // riktig kryptering???
-            //Debug.Log("krypterad grej: " + encoded);
-            headers.Add("Authorization", "Basic " + encoded);
-
-
-            // Post a request to an URL with our custom headers
-
-            //Debug.Log("I authentication");
-            if (online && !GameController.control.testmode)
+            headers.Add("Authorization", "Basic " + encoded);               // Det kodade serverlösenordet läggs i headers  
+       
+            if (!GameController.control.testmode)                           // Kontroll om spelet befinner sig i testmode
             {
-                WWW www = new WWW(url, rawData, headers);
-                StartCoroutine(WaitForRequest(www, courseList, 2));
+                WWW www = new WWW(url, rawData, headers);                   // Anropet genomförs   
+                StartCoroutine(WaitForRequest(www, courseList, 2));         // Unity börjar vänta på svar
             }
         }
-            //--------------------------------------------------------------------------------------------
     }
 
 
@@ -347,19 +338,19 @@ public class Recive : MonoBehaviour {
 
         //StartCoroutine(DoLast());
         
-        Debug.Log("Svaret blev: " + parse.Authorization(null));// parse.authorization);
+        //Debug.Log("Svaret blev: " + parse.Authorization(null));// parse.authorization);
 
        return parse.Authorization(null); 
         
     } 
     
-    public IEnumerator CheckLogin(string username, string password)
+   /* public IEnumerator CheckLogin(string username, string password)
     {
     
         Dictionary<String, String> headers1 = new Dictionary<string, string>();
-        headers1.Add("Authorization", token_type /*"Bearer"*/ + " " + access_token);
+        headers1.Add("Authorization", token_type /*"Bearer"*/ //+ " " + access_token);
 
-        WWWForm form = new WWWForm();
+       /* WWWForm form = new WWWForm();
         form.AddField("password", password);
         form.AddField("userid", username);
 
@@ -389,7 +380,7 @@ public class Recive : MonoBehaviour {
     {
         Debug.Log(" done = " + done);
         return done;
-    }
+    } */
 }
 
    

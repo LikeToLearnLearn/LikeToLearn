@@ -85,12 +85,12 @@ public class Parser {
              switch (st)
              {
                  case State.open:
-                     if (data[i] == '{') // look for opening JSON array // Fix me!! [
+                     if (data[i] == '{') // 
                          st = State.array; // switch to array state
                     
                     break;
                  case State.array:
-                     if (data[i] == '"') // look for opening JSON object // Fix me!! {
+                     if (data[i] == '"') // 
                          st = State.obj; // switch to object state
                      save = false; // new object; reset save state
                     
@@ -100,25 +100,25 @@ public class Parser {
                      {
                          if (save) // the object read should replace the return values
                          {
-                            if (coursecode != newCoursecode && newCoursecode != null)
+                            if (coursecode != newCoursecode && newCoursecode != "")
                             {
                                 coursecode = newCoursecode;
                                 HasNewResult = true;
                             }
 
-                            if (momentcode != newMomentcode && newMomentcode != null )
+                            if (momentcode != newMomentcode && newMomentcode != "" )
                             {
                                 momentcode = newMomentcode;
                                 HasNewResult = true;
                             }
 
-                            if (question != newQuestion && newQuestion != null)
+                            if (question != newQuestion && newQuestion != "")
                                                 {
                                 question = newQuestion;
                                 HasNewResult = true;
                             }
 
-                            if (answer != newAnswer && newAnswer != null)
+                            if (answer != newAnswer && newAnswer != "")
                             {
                                 
                                 if (newAnswer == "ul")
@@ -129,7 +129,7 @@ public class Parser {
                                 else answer = newAnswer;
                                 HasNewResult = true;
                             }
-                            if (questionID != newQuestionID && newQuestionID != null)
+                            if (questionID != newQuestionID && newQuestionID != "")
                             {
                                 questionID = newQuestionID;
                                 HasNewResult = true;
@@ -269,7 +269,7 @@ public class Parser {
                             newCoursecode = (data.Substring(i + 1, j - (i + 2))); // parse coursecode
 
                             i = j; // jump to momentcode*/
-                        Debug.Log(" true i parser ");    
+                        //Debug.Log(" true i parser ");    
                         authorization = true;
                         HasCheckedLoggin = true;
                         //return true;
@@ -304,29 +304,30 @@ public class Parser {
         c = new CurrentCourse(coursecode);
         //Debug.Log(c + " = c i createNewCourse i Parser.cs");
         c.setCoursecode(coursecode);
-        c.setLevel(int.Parse(momentcode));
+        //c.setLevel(int.Parse(momentcode));
 
         if (coursecode != null && courseList != null)
         {
             bool newCourse = true;
-            foreach (Course co in courseList)
+            foreach (Course course in courseList)
             {
                 //Debug.Log(co + " = co in createNewCourse i Parser:s foreachloop");
 
 
-                if (co == null)
+               /* if (course == null)
                 {
                     //courseList.Remove(co);
                     //Debug.Log(" co = null Vi hoppar över den!!");
                 }
-                else
+                else*/
+                if (course != null)
                 {
-                    //Debug.Log(co.getCoursecode() + " = co:s kurskod in createNewCourse i Parser:s foreachloop");
+                    //Debug.Log(course.getCoursecode() + " = course:s kurskod in createNewCourse i Parser:s foreachloop");
 
-                    if (co.getCoursecode().Equals(coursecode))
+                    if (course.getCoursecode().Equals(coursecode))
                     {
                         newCourse = false;
-                        c = co;
+                        c = course;
                     }
                 }
             }
@@ -341,15 +342,11 @@ public class Parser {
         }
     }
 
-   /* void createNewMoment(Course c)
-    {
-        int level = int.Parse(momentcode); 
-        //Debug.Log(level + question + answer + " was received i createNewMoment i Parser.cs");
-        c.AddQuestion(level, question, answer);
-    }*/
 
     void createNewMoment(Course c)
     {
+        //Debug.Log("Momentkoden " + momentcode + " behandlas.");
+
         if (!c.momentcodes.ContainsKey(int.Parse(momentcode)))
         {
             int x = 0;
@@ -358,15 +355,25 @@ public class Parser {
                 c.levels = c.questions.Keys.ToList();
                 c.levels.Add(x);
                 c.levelDictionary.Add(x, momentcode);
+                //Debug.Log("För momentkoden " + momentcode + " läggs level " + x + " in. gg");
             }
 
-            else foreach (int y in c.levels) x++;
+            else
+            {
+                foreach (int y in c.levels) x++;
+                c.levels.Add(x);// onödig ??
+                c.levelDictionary.Add(x, momentcode);
+            }
+
+            Debug.Log("För momentkoden " + momentcode + " läggs level " + x + " in.");
             c.momentcodes.Add(int.Parse(momentcode), x);
+            
 
         }
+
         int level = c.momentcodes[int.Parse(momentcode)]; 
 
-        //Debug.Log(level +", " + questionID + ", " + question + ", " + answer + " was received i createNewMoment i Recive.cs");
+       //Debug.Log(level +", " + questionID + ", " + question + ", " + answer + " was received in createNewMoment in Recive.cs");
         c.AddQuestion(level, questionID, question, answer);
     }
 
@@ -473,7 +480,7 @@ public class Parser {
             }
         }
         //return false;
-        Debug.Log("Nu är vi i parsers authorization utanför forlopen. Vi håller på att retuernera " + authorization);
+        //Debug.Log("Nu är vi i parsers authorization utanför forlopen. Vi håller på att retuernera " + authorization);
       return authorization;
         //return true;
     }

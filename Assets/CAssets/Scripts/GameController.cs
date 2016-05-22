@@ -38,9 +38,10 @@ public class GameController : MonoBehaviour {
 		public List<Course> coruses = new List<Course>();
 		public List<Question> questions = new List<Question>();
 		public Course currentCourse = null;
-		public int experiencePoints = 0;
+        public Dictionary<string, int> CurrentLevel = new Dictionary<string, int>();
+        public int experiencePoints = 0;
         public string password = "buu";
-        //public float takenTime;
+        public Dictionary<string,float> takenTime= new Dictionary<string, float>();
 	}
 
 	public static GameController control;
@@ -53,9 +54,46 @@ public class GameController : MonoBehaviour {
     {
         if(data != null)
         {
+            if (data.takenTime.ContainsKey(data.currentCourse.getCoursecode())) data.takenTime[data.currentCourse.getCoursecode()] = data.takenTime[data.currentCourse.getCoursecode()] + time;
+            else data.takenTime.Add(data.currentCourse.getCoursecode(), time);
             data.currentCourse.takenTime = data.currentCourse.takenTime + time; 
         }
     }
+
+    public void ResetTakenTime(string courseCode)
+    {
+        if (data != null)
+        {
+            if (data.takenTime.ContainsKey(courseCode)) data.takenTime[courseCode] = 0;
+        }
+    }
+
+
+    public float GetTakenTime(string courseCode)
+    {
+        if (data != null)
+        {
+            if (data.takenTime.ContainsKey(courseCode)) return data.takenTime[courseCode];
+            else return 0;
+        }
+        return 0;
+    }
+
+    public void SetCurrentLevel(string courseCode, int level)
+    {
+        if (data != null)
+        {
+            if (!data.CurrentLevel.ContainsKey(courseCode)) data.CurrentLevel.Add(courseCode, level);
+            else data.CurrentLevel[courseCode] = level;
+        }
+    }
+
+    public int GetCurrentLevel(string courseCode)
+    {
+        if (data.CurrentLevel.ContainsKey(courseCode)) return data.CurrentLevel[courseCode];
+        else return 0;
+    }
+
    /* public float getTakenMomentTime()
     {
         if(data!= null)
@@ -159,7 +197,7 @@ public class GameController : MonoBehaviour {
                             foreach (string answ in ans)
                             {
                                 recive.sendStatistics(q.getQuestionID(), key, answ, name);
-                                Debug.Log("Försöker skicka: frågeid: " + q.getQuestionID()+ ", svar: " + " " + key + ", rätt eller fel: " + answ + ", användarid: " + name);
+                                //sDebug.Log("Skickar: frågeid: " + q.getQuestionID()+ ", svar: " + " " + key + ", rätt eller fel: " + answ + ", användarid: " + name);
                                 //data.questions[i].a.Remove(key);
                             }
                             data.questions[i].a.Remove(key);
@@ -265,9 +303,9 @@ public class GameController : MonoBehaviour {
         {
              if(!data.coruses.Contains(m))
                 data.coruses.Add(m);
-            //Course old = data.currentCourse;
+            Course old = data.currentCourse;
             data.currentCourse = m;
-            //if (old != null) data.coruses.Remove(old);
+            if (old != null) data.coruses.Remove(old);
         }
     }
 	public Item TranslateItem(string name)
@@ -365,24 +403,28 @@ public class GameController : MonoBehaviour {
             }
 
         //Debug.Log(" Det sparade lösenordet är: " + content.password
-                //+ " Den sparade currencourse är: " + content.currentCourse + "CurrentScene är: " + content.currentScene);
-
-            if (content.password != password)
-            {
+        //+ " Den sparade currencourse är: " + content.currentCourse + "CurrentScene är: " + content.currentScene);
+        
+        if (content.password != password)
+        {
             Debug.Log("wrong password"+ "! Det rätta lösenordet är: " + content.password);
                 return;
-            }
+        }
 
-            data = content;
-            sceneHandler.ChangeScene("new", data.currentScene);
+        data = content;
+        sceneHandler.ChangeScene("new", data.currentScene);
             //GameObject conn = GameObject.Find("ConnectionHandler");
             //recive = conn.GetComponent<Recive>();
-            Course m = new MultiplicationCourse();
-            data.coruses.Add(m);
-            recive.setCourseList(data.coruses);
+        Course m = new MultiplicationCourse();
+        data.coruses.Add(m);// To do: sätt en vakt här som kollar att m inte redan finns i coruses
+        recive.setCourseList(data.coruses);
+        Debug.Log(" När detta spelet börjar finns det " + data.coruses.Count + " kurser i sparfilen för " + name);
+        string s = "Det är:";
+        foreach (Course c in data.coruses) s = s + " " + c.getCoursecode();
+        Debug.Log(s);
             //recive.authentication();
-            AskForNewQuestions();
-            if (data.currentCourse == null) setCurrentcourse(m);
+        AskForNewQuestions();
+        if (data.currentCourse == null) setCurrentcourse(m);
     }
 
 	public void DeleteGame(string name) // not tested
