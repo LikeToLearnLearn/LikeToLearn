@@ -235,7 +235,8 @@ public class GameController : MonoBehaviour {
         {            //Debug.Log(" Nu är vi i AskForNewQuestions");
             if (recive.Online()) 
             {
-                recive.getNewQuestions(name);
+                //recive.getNewQuestions(name);
+                recive.checkCourseAndVersion(name);
             }
         }
     }

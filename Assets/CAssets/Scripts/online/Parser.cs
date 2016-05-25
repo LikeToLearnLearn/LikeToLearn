@@ -8,7 +8,7 @@ public class Parser {
     public string momentcode { get; private set; } 
     public string question { get; private set; }
     public string answer { get; private set; }
-    public string version { get; private set; }
+    public string version = "-1";
 
     public string questionID { get; private set; }
     public string access_token { get; private set; }
@@ -162,13 +162,17 @@ public class Parser {
                                 HasNewRefresh_token = true;
                             }
 
-                            if (HasNewResult && HasNewVersion || coursecode!= GameController.control.getCurrentCourseCode())
+                            if (HasNewResult /*&& HasNewVersion || coursecode!= GameController.control.getCurrentCourseCode()*/)
                             { 
-                                //Debug.Log("Tillfälligt i Parser: corsecode sparas som: " + coursecode + ", momentcode sparas som: " + momentcode + " questionID sparas som: " + questionID + ", question sparas som: " + question + ", answer sparas som: " + answer);
+                                Debug.Log("Tar emot coursecode som: " + coursecode + ", momentcode sparas som: " + momentcode + " questionID sparas som: " + questionID + ", question sparas som: " + question + ", answer sparas som: " + answer);
                                 createNewCourse();
                                 HasNewResult = false;
                                 save = false;
-                                GameController.control.setCurrentCourseVersion(coursecode, int.Parse(version));
+                                //GameController.control.setCurrentCourseVersion(coursecode, int.Parse(version));
+                            }
+                            if(HasNewVersion)
+                            {
+                                //GameController.control.setCurrentCourseVersion(coursecode, int.Parse(version));
                             }
                             if(HasNewAccess_token)
                             {

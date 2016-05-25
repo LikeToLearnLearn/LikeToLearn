@@ -45,6 +45,7 @@ public class Recive : MonoBehaviour {
     private bool done;
 
     private int version;
+    int newVersion;
     private string coursecode;
 
 
@@ -113,8 +114,24 @@ public class Recive : MonoBehaviour {
                 ping = null
                 ;
             }
+        int v = int.Parse(parse.version);
 
-        
+        if (parse != null && parse.coursecode == GameController.control.getCurrentCourseCode())
+        {
+
+            if (v != GameController.control.getCurrentCourseVersion(parse.coursecode))
+            {
+                getNewQuestions(GameController.control.name);
+            }
+        }
+
+        if (parse != null && parse.coursecode != GameController.control.getCurrentCourseCode())
+        {
+            getNewQuestions(GameController.control.name);
+        }
+
+
+
     }
 
     public bool Online()
