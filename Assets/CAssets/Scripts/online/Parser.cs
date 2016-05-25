@@ -159,7 +159,7 @@ public class Parser {
                             }
                             if(HasNewAccess_token)
                             {
-                                //Debug.Log(" Det finns ett nytt access_token. Det är: " + access_token);
+                                Debug.Log(" Det finns ett nytt access_token. Det är: " + access_token);
                                 //HasNewAccess_token = false;
                             }
                             if (HasNewToken_type)
@@ -355,7 +355,7 @@ public class Parser {
                 c.levels = c.questions.Keys.ToList();
                 c.levels.Add(x);
                 c.levelDictionary.Add(x, momentcode);
-                //Debug.Log("För momentkoden " + momentcode + " läggs level " + x + " in. gg");
+                //Debug.Log("För momentkoden " + momentcode + " läggs level " + x + " in.");
             }
 
             else
@@ -365,7 +365,7 @@ public class Parser {
                 c.levelDictionary.Add(x, momentcode);
             }
 
-            Debug.Log("För momentkoden " + momentcode + " läggs level " + x + " in.");
+            //Debug.Log("För momentkoden " + momentcode + " läggs level " + x + " in.");
             c.momentcodes.Add(int.Parse(momentcode), x);
             
 

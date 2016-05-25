@@ -34,16 +34,114 @@ namespace UnityTest
         public void TestNumberOfCourses()
         {
             // Ett jsonobjekt skapas på “konstgjord” väg:
-            string jsonString = "[{\"coursecode\":\"ENG\",\"momentcode\":\"260\",\"questionid\":\"262\",\"question\":\"katt\",\"answer\":\" cat \"}]";
+            string jsonString = 
+                "[{\"coursecode\":\"ENG\",\"momentcode\":\"260\",\"questionid\":\"262\",\"question\":\"katt\",\"answer\":\" cat \"}]";
 
             // Ett nytt jsonobjekt med samma kurskod, men inte samma fråga, skapas
-            string jsonString2 = "[{\"coursecode\":\"ENG\",\"momentcode\":\"260\",\"questionid\":\"264\",\"question\":\"hund\",\"answer\":\"dog\"}]";
+            string jsonString2 = 
+                "[{\"coursecode\":\"ENG\",\"momentcode\":\"260\",\"questionid\":\"264\",\"question\":\"hund\",\"answer\":\"dog\"}]";
 
             parser = new Parser(jsonString, courses, 2);     // Första objektet skickas in för bearbetning    
             parser = new Parser(jsonString2, courses, 2);    // Andra objektet skickas in på samma sätt
 
-            Assert.AreEqual(courses.Count, 1);               // Förväntat resultat är att kurslistan har en kurs
+            Assert.AreEqual(courses.Count, 1);               // Förväntat resultat är att kurslistan "courses" har en kurs
         }
+
+        [Test]
+        public void TestTwoCourses()
+        {
+            // Ett jsonobjekt skapas på “konstgjord” väg:
+            string jsonString =
+                "[{\"coursecode\":\"ENG\",\"momentcode\":\"260\",\"questionid\":\"262\",\"question\":\"katt\",\"answer\":\" cat \"}]";
+
+            // Ett nytt jsonobjekt med en annan kurskod skapas
+            string jsonString2 =
+                "[{\"coursecode\":\"EN\",\"momentcode\":\"260\",\"questionid\":\"264\",\"question\":\"hund\",\"answer\":\"dog\"}]";
+
+            parser = new Parser(jsonString, courses, 2);     // Första objektet skickas in för bearbetning    
+            parser = new Parser(jsonString2, courses, 2);    // Andra objektet skickas in på samma sätt
+
+            Assert.AreEqual(courses.Count, 2);               // Förväntat resultat är att kurslistan "courses" har två kurser
+        }
+
+
+        [Test]
+        public void TestOfOneMoment()
+        {
+            // Ett jsonobjekt skapas på “konstgjord” väg:
+            string jsonString =
+                "[{\"coursecode\":\"ENG\",\"momentcode\":\"260\",\"questionid\":\"262\",\"question\":\"katt\",\"answer\":\" cat \"}]";
+
+            // Ett nytt jsonobjekt med samma kurskod och samma momentkod skapas
+            string jsonString2 =
+                "[{\"coursecode\":\"ENG\",\"momentcode\":\"260\",\"questionid\":\"264\",\"question\":\"hund\",\"answer\":\"dog\"}]";
+
+            parser = new Parser(jsonString, courses, 2);     // Första objektet skickas in för bearbetning    
+            parser = new Parser(jsonString2, courses, 2);    // Andra objektet skickas in på samma sätt
+
+            Assert.AreEqual(courses[0].levels.Count, 1);     // Förväntat resultat är att kurslistans första kurs har ett moment
+
+        }
+
+        [Test]
+        public void TestOfTwoMoments()
+        {
+            // Ett jsonobjekt skapas på “konstgjord” väg:
+            string jsonString =
+                "[{\"coursecode\":\"ENG\",\"momentcode\":\"260\",\"questionid\":\"262\",\"question\":\"katt\",\"answer\":\" cat \"}]";
+
+            // Ett nytt jsonobjekt med samma kurskod, men inte samma momentkod, skapas
+            string jsonString2 =
+                "[{\"coursecode\":\"ENG\",\"momentcode\":\"261\",\"questionid\":\"264\",\"question\":\"hund\",\"answer\":\"dog\"}]";
+
+            parser = new Parser(jsonString, courses, 2);     // Första objektet skickas in för bearbetning    
+            parser = new Parser(jsonString2, courses, 2);    // Andra objektet skickas in på samma sätt
+
+            Assert.AreEqual(courses[0].levels.Count, 2);               // Förväntat resultat är att kurslistans första kurs har 2 moment
+
+        }
+        [Test]
+        public void TestOneQuestion()
+        {
+            // Ett jsonobjekt skapas på “konstgjord” väg:
+            string jsonString =
+                "[{\"coursecode\":\"ENG\",\"momentcode\":\"260\",\"questionid\":\"262\",\"question\":\"katt\",\"answer\":\"cat\"}]";
+
+            // Ett nytt jsonobjekt med samma kurskod, samma momentkod och samma fråga skapas(men med olika svar)
+            string jsonString2 =
+                "[{\"coursecode\":\"ENG\",\"momentcode\":\"260\",\"questionid\":\"262\",\"question\":\"katt\",\"answer\":\"dog\"}]";
+
+            parser = new Parser(jsonString, courses, 2);     // Första objektet skickas in för bearbetning    
+            parser = new Parser(jsonString2, courses, 2);    // Andra objektet skickas in på samma sätt
+
+            Assert.AreEqual(courses[0].questions[0].Count, 1);               // Förväntat resultat är att kurslistans frågelista har en fråga 
+                                                                             // för det här momentet
+
+            Assert.AreEqual(courses[0].answers["katt"], "cat");              // Förväntat resultat är att motsvaraden frågas svar är "cat"
+        }
+
+       /* [Test]
+        public void TestAccessToken()
+        {
+            // Ett jsonobjekt inehållande ett access token skapas på “konstgjord” väg:
+            string jsonString =
+                "{\"access_token\":\"caefab42-8113-45d7-9cd9-bc3d0e902754\"}";
+            
+
+            parser = new Parser(jsonString, courses, 2);     // Objektet skickas in för bearbetning    
+            
+
+            Assert.AreEqual(parser.access_token, "caefab42-8113-45d7-9cd9-bc3d0e902754");               // Förväntat resultat är att samma access token som skickades in sparas
+                                                                             
+
+           
+        }*/
+
+
+
+
+
+
     }
 }
         

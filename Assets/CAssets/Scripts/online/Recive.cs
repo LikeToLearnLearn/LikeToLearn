@@ -213,23 +213,24 @@ public class Recive : MonoBehaviour {
 
     public void authentication()
     {
-        if (online)                                                         //Kontroller görs att spelet har kontakt med internet
+        if (online)                                          //Kontroller görs att spelet har kontakt med internet
         {
             WWWForm form = new WWWForm();
-            form.AddField("username", "jlong");                             // Hårdkodat användarnamn
-            form.AddField("password", "chalmers2016!");                     // Hårdkodat lösenord
+            form.AddField("username", "jlong");              // Hårdkodat användarnamn
+            form.AddField("password", "chalmers2016!");      // Hårdkodat lösenord
             form.AddField("grant_type", "password");        
             byte[] rawData = form.data;
+                                                            // En url för rätt flik i REST API:n skapas:
+            string url = string.Format(presentIP + ":8181/oauth/token");    
 
-            string url = string.Format(presentIP + ":8181/oauth/token");    // En url för rätt flik i Rest APIn skapas
-
-                                                                            // Servernamn och serverlösenord kodas:
-            String encoded = System.Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes("liketolearn-restapi:123456"));
+                                                             // Servernamn och serverlösenord kodas:
+            String encoded = System.Convert.ToBase64String
+                (System.Text.Encoding.ASCII.GetBytes("liketolearn-restapi:123456"));
 
             Dictionary<String, String> headers = new Dictionary<string, string>();
-            headers.Add("Authorization", "Basic " + encoded);               // Det kodade serverlösenordet läggs i headers  
+            headers.Add("Authorization", "Basic " + encoded); // Det kodade serverlösenordet läggs i headers  
        
-            if (!GameController.control.testmode)                           // Kontroll om spelet befinner sig i testmode
+            if (!GameController.control.testmode)            // Kontroll om spelet befinner sig i testmode
             {
                 WWW www = new WWW(url, rawData, headers);                   // Anropet genomförs   
                 StartCoroutine(WaitForRequest(www, courseList, 2));         // Unity börjar vänta på svar
@@ -261,7 +262,7 @@ public class Recive : MonoBehaviour {
 
         // Post a request to an URL with our custom headers
 
-        //Debug.Log("I recive.GetQuestion: access_token = " + access_token + ", token_type = " + token_type + ", refresh_token = " + refresh_token);
+        Debug.Log("I recive.GetQuestion: access_token = " + access_token + ", token_type = " + token_type + ", refresh_token = " + refresh_token);
         if (online && !GameController.control.testmode)
         {
             WWW www1 = new WWW(url1, rawData1, headers1);

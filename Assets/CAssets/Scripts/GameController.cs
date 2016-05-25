@@ -197,7 +197,7 @@ public class GameController : MonoBehaviour {
                             foreach (string answ in ans)
                             {
                                 recive.sendStatistics(q.getQuestionID(), key, answ, name);
-                                //sDebug.Log("Skickar: frågeid: " + q.getQuestionID()+ ", svar: " + " " + key + ", rätt eller fel: " + answ + ", användarid: " + name);
+                                Debug.Log("Skickar: frågeid: " + q.getQuestionID()+ ", svar: " + " " + key + ", rätt eller fel: " + answ + ", användarid: " + name);
                                 //data.questions[i].a.Remove(key);
                             }
                             data.questions[i].a.Remove(key);

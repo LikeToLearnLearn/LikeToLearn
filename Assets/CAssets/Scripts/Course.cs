@@ -10,9 +10,9 @@ public abstract class Course {
 	bool testMode = false;
 	int testLevel = 1;
     public Dictionary<int, List<string>> questions = new Dictionary<int, List<string>>();
-    Dictionary<string, string> answers = new Dictionary<string, string>();
-    Dictionary<string, string> questionIDs = new Dictionary<string, string>();
-    Dictionary<string, int> results = new Dictionary<string, int>();
+    public Dictionary<string, string> answers = new Dictionary<string, string>();
+    public Dictionary<string, string> questionIDs = new Dictionary<string, string>();
+    public Dictionary<string, int> results = new Dictionary<string, int>();
 	static System.Random rnd = new System.Random();
     int level = 0;
     public Dictionary<int, int> momentcodes = new Dictionary<int, int>();
@@ -140,8 +140,8 @@ public abstract class Course {
             //Debug.Log("Kursen med kurskoden " + coursecode + " har för närvarade " + levels.Count + " levels. Det finns en level som heter " + level);
             var xs = questions[level];
             var y = GameController.control.GetCurrentLevel(coursecode) + 1;
-            //if (xs.Count <= xs.Count(x => results[x] > 1) && y > result) // byt 1:an till en 3:a????
-            if(tillfällig%5 == 0)
+            if (xs.Count <= xs.Count(x => results[x] > 1) && y > result) // byt 1:an till en 3:a????
+            //if(tillfällig%5 == 0)
             {
                 tillfällig = 1;
                 result = y;
@@ -159,17 +159,17 @@ public abstract class Course {
                 ResetTakenTime();
                 
             }
-           /* if (result == levels.Count || result > levels.Count)
+            if (result == levels.Count || result > levels.Count)
             {
                 if (levels.Count == 1) result = 0;
-                else result = rnd.Next(levels.Count);
-            }*/
+                else result = rnd.Next(levels.Count-1);
+            }
         }
-        List<string> keys = new List<string>(doneMoments.Keys);
-        foreach (string key in keys) Debug.Log(" Finns i questions: " + key + " " + doneMoments[key]);
+        //List<string> keys = new List<string>(doneMoments.Keys);
+        //foreach (string key in keys) Debug.Log(" Finns i questions: " + key + " " + doneMoments[key]);
     
         GameController.control.SetCurrentLevel(coursecode, result);
-        Debug.Log("Den level som returneras är " + result + "i gamecontroller registeras att level är: " + GameController.control.GetCurrentLevel(coursecode));
+        //Debug.Log("Den level som returneras är " + result + ", i gamecontroller registeras att level är: " + GameController.control.GetCurrentLevel(coursecode));
         return result;
 	}
 
