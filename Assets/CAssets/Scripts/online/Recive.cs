@@ -122,6 +122,7 @@ public class Recive : MonoBehaviour {
             if (v != GameController.control.getCurrentCourseVersion(parse.coursecode))
             {
                 getNewQuestions(GameController.control.name);
+                GameController.control.setCurrentCourseVersion(coursecode, v);
 
             }
         }
