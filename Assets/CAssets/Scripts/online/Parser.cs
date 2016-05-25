@@ -18,6 +18,7 @@ public class Parser {
     private bool HasResult; // indicated if the object is carrying an result
     public bool HasNewResult { get; set; } // indicated if the object is carrying a new result
     public bool HasNewVersion { get; set; } // indicated if the object is carrying a new result
+    public bool HasNewCourseCode { get; set; }
     public bool HasNewAccess_token { get; set; } // indicated if the object has a new access_token
     public bool HasNewToken_type { get; set; } // indicated if the object has a new token_type
     public bool HasNewRefresh_token { get; set; } // indicated if the object has a new token_type
@@ -110,7 +111,7 @@ public class Parser {
                             if (coursecode != newCoursecode && newCoursecode != "")
                             {
                                 coursecode = newCoursecode;
-                                HasNewResult = true;
+                                HasNewCourseCode = true;
                             }
 
                             if (momentcode != newMomentcode && newMomentcode != "" )
@@ -162,7 +163,7 @@ public class Parser {
                                 HasNewRefresh_token = true;
                             }
 
-                            if (HasNewResult /*&& HasNewVersion || coursecode!= GameController.control.getCurrentCourseCode()*/)
+                            if (HasNewResult/*&& HasNewVersion || coursecode!= GameController.control.getCurrentCourseCode()*/)
                             { 
                                 Debug.Log("Tar emot coursecode som: " + coursecode + ", momentcode sparas som: " + momentcode + " questionID sparas som: " + questionID + ", question sparas som: " + question + ", answer sparas som: " + answer);
                                 createNewCourse();

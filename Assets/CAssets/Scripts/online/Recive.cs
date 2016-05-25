@@ -58,7 +58,7 @@ public class Recive : MonoBehaviour {
         HasNewAnswer = false;
         RecentlyBeenOfLine = false;
 
-        parse = new Parser(null, null, 0);
+        parse = null;// new Parser(null, null, 0);
         online = false;
         checkOnline();
         c = null;
@@ -122,6 +122,7 @@ public class Recive : MonoBehaviour {
             if (v != GameController.control.getCurrentCourseVersion(parse.coursecode))
             {
                 getNewQuestions(GameController.control.name);
+
             }
         }
 
