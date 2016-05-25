@@ -114,10 +114,10 @@ public class Recive : MonoBehaviour {
                 ping = null
                 ;
             }
-        int v = int.Parse(parse.version);
-
+        
         if (parse != null && parse.coursecode == GameController.control.getCurrentCourseCode())
         {
+            int v = int.Parse(parse.version);
 
             if (v != GameController.control.getCurrentCourseVersion(parse.coursecode))
             {
