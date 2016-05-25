@@ -44,6 +44,9 @@ public class Recive : MonoBehaviour {
     private bool RecentlyBeenOfLine;
     private bool done;
 
+    private int version;
+    private string coursecode;
+
 
     // Use this for initialization
     void Start ()
@@ -59,6 +62,9 @@ public class Recive : MonoBehaviour {
         checkOnline();
         c = null;
         done = false;
+        coursecode = GameController.control.getCurrentCourseCode();
+        if (coursecode != "") version = GameController.control.getCurrentCourseVersion(coursecode);
+        else version = 0;
 
     }
 
@@ -107,6 +113,8 @@ public class Recive : MonoBehaviour {
                 ping = null
                 ;
             }
+
+        
     }
 
     public bool Online()
@@ -238,6 +246,23 @@ public class Recive : MonoBehaviour {
         }
     }
 
+    public void checkCourseAndVersion(string userid)
+    {
+        WWWForm form1 = new WWWForm();
+        form1.AddField("userid", userid);
+        string url1 = string.Format(presentIP + ":8181/liketolearn/version");
+
+        Dictionary<String, String> headers1 = new Dictionary<string, string>();
+        byte[] rawData1 = form1.data;
+        headers1.Add("Authorization", token_type /*"Bearer"*/ + " " + access_token);
+
+        if (online && !GameController.control.testmode)
+        {
+            WWW www1 = new WWW(url1, rawData1, headers1);
+            StartCoroutine(WaitForRequest(www1, courseList, 2));
+        }
+
+    }
 
 
 

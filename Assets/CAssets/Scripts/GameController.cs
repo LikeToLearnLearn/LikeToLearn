@@ -42,6 +42,7 @@ public class GameController : MonoBehaviour {
         public int experiencePoints = 0;
         public string password = "buu";
         public Dictionary<string,float> takenTime= new Dictionary<string, float>();
+        public Dictionary<string, int> CurrentCourseVersion = new Dictionary<string, int>();
 	}
 
 	public static GameController control;
@@ -49,6 +50,26 @@ public class GameController : MonoBehaviour {
 	GameData data = null;
 	GlobalData global = null;
 	SceneHandler sceneHandler;
+
+    public string getCurrentCourseCode()
+    {
+        if (data != null) return data.currentCourse.getCoursecode();
+        else return "";
+    }
+
+    public int getCurrentCourseVersion(string coursecode)
+    {
+        if (data != null && data.CurrentCourseVersion.ContainsKey(coursecode))
+            return data.CurrentCourseVersion[coursecode];
+        return 0;
+    }
+
+    public void setCurrentCourseVersion(string coursecode, int version)
+    {
+        if (data.CurrentCourseVersion.ContainsKey(coursecode))
+            data.CurrentCourseVersion[coursecode] = version;
+        else data.CurrentCourseVersion.Add(coursecode, version);
+    }
 
     public void addTakenMomentTime(float time)
     {

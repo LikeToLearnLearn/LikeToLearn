@@ -4,10 +4,12 @@ using System.Linq;
 
 public class Parser {
 
-    public string coursecode { get; private set; } 
+    public string coursecode; 
     public string momentcode { get; private set; } 
     public string question { get; private set; }
     public string answer { get; private set; }
+    public string version { get; private set; }
+
     public string questionID { get; private set; }
     public string access_token { get; private set; }
     public string token_type { get; private set; }
@@ -15,6 +17,7 @@ public class Parser {
 
     private bool HasResult; // indicated if the object is carrying an result
     public bool HasNewResult { get; set; } // indicated if the object is carrying a new result
+    public bool HasNewVersion { get; set; } // indicated if the object is carrying a new result
     public bool HasNewAccess_token { get; set; } // indicated if the object has a new access_token
     public bool HasNewToken_type { get; set; } // indicated if the object has a new token_type
     public bool HasNewRefresh_token { get; set; } // indicated if the object has a new token_type
@@ -52,6 +55,7 @@ public class Parser {
 
         //else if (data != null) Authorization(data);
         //Debug.Log("Vi är i parser");
+  
     }
 
     // Use this for initialization
@@ -61,6 +65,8 @@ public class Parser {
 	
 	// Update is called once per frame
 	void Update () {
+
+        version = "" +GameController.control.getCurrentCourseVersion(coursecode);
 	
 	}
 
@@ -72,6 +78,7 @@ public class Parser {
         string newMomentcode = string.Empty; // most recently read value that may be saved
         string newQuestion = string.Empty; 
         string newAnswer = string.Empty;
+        string newVersion = string.Empty;
         string newQuestionID = string.Empty;
         string newAccess_token = string.Empty;
         string newToken_type = string.Empty;
@@ -117,6 +124,11 @@ public class Parser {
                                 question = newQuestion;
                                 HasNewResult = true;
                             }
+                            if (version != newVersion && newVersion != "")
+                            {
+                                version = newVersion;
+                                HasNewVersion = true;
+                            }
 
                             if (answer != newAnswer && newAnswer != "")
                             {
@@ -150,12 +162,13 @@ public class Parser {
                                 HasNewRefresh_token = true;
                             }
 
-                            if (HasNewResult)
+                            if (HasNewResult && HasNewVersion || coursecode!= GameController.control.getCurrentCourseCode())
                             { 
                                 //Debug.Log("Tillfälligt i Parser: corsecode sparas som: " + coursecode + ", momentcode sparas som: " + momentcode + " questionID sparas som: " + questionID + ", question sparas som: " + question + ", answer sparas som: " + answer);
                                 createNewCourse();
                                 HasNewResult = false;
                                 save = false;
+                                GameController.control.setCurrentCourseVersion(coursecode, int.Parse(version));
                             }
                             if(HasNewAccess_token)
                             {
@@ -194,6 +207,18 @@ public class Parser {
                         while (data[j] != ',') // find end of token_type data
                             j++;
                        newToken_type = (data.Substring(i + 1, j - (i + 2))); // parse token_type
+
+                        i = j; // jump
+                    }
+
+                    if (data[i] == 'v' && data[i + 1] == 'e' && data[i + 2] == 'r' && data[i + 3] == 's' && data[i + 4] == 'i' && data[i + 5] == 'o' && data[i + 6] == 'n')
+                    {
+                        //Debug.Log(" Vi kom in i tokens_types if-sats.");
+                        i += "version\":".Length; // skip forward to the token_type data
+                        int j = i;
+                        while (data[j] != ',') // find end of token_type data
+                            j++;
+                        newVersion = (data.Substring(i + 1, j - (i + 2))); // parse version
 
                         i = j; // jump
                     }
