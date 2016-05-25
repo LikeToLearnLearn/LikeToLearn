@@ -65,7 +65,7 @@ public class Recive : MonoBehaviour {
         done = false;
         coursecode = GameController.control.getCurrentCourseCode();
         if (coursecode != "") version = GameController.control.getCurrentCourseVersion(coursecode);
-        else version = 0;
+        else version = -10;
 
     }
 
@@ -115,7 +115,7 @@ public class Recive : MonoBehaviour {
                 ;
             }
         
-        if (parse != null && parse.coursecode == GameController.control.getCurrentCourseCode())
+        if (parse != null && parse.HasNewVersion && parse.coursecode == GameController.control.getCurrentCourseCode())
         {
             int v = int.Parse(parse.version);
 
@@ -123,16 +123,16 @@ public class Recive : MonoBehaviour {
             {
                 getNewQuestions(GameController.control.name);
                 GameController.control.setCurrentCourseVersion(coursecode, v);
+                parse.HasNewVersion = false;
 
             }
         }
 
-        if (parse != null && parse.coursecode != GameController.control.getCurrentCourseCode())
+        if (parse != null && parse.HasNewCourseCode && parse.coursecode != GameController.control.getCurrentCourseCode())
         {
             getNewQuestions(GameController.control.name);
+            parse.HasNewCourseCode = false;
         }
-
-
 
     }
 
@@ -305,8 +305,9 @@ public class Recive : MonoBehaviour {
 
 
         // Post a request to an URL with our custom headers
+        Debug.Log("Recives getNewQuestions körs" );
 
-        Debug.Log("I recive.GetQuestion: access_token = " + access_token + ", token_type = " + token_type + ", refresh_token = " + refresh_token);
+        //Debug.Log("I recive.get NewQuestion: access_token = " + access_token + ", token_type = " + token_type + ", refresh_token = " + refresh_token);
         if (online && !GameController.control.testmode)
         {
             WWW www1 = new WWW(url1, rawData1, headers1);
