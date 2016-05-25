@@ -9,6 +9,7 @@ public class Parser {
     public string question { get; private set; }
     public string answer { get; private set; }
     public string version = "-1";
+    
 
     public string questionID { get; private set; }
     public string access_token { get; private set; }
@@ -222,12 +223,25 @@ public class Parser {
                         //Debug.Log(" Vi kom in i tokens_types if-sats.");
                         i += "version\":".Length; // skip forward to the token_type data
                         int j = i;
-                        while (data[j] != ',') // find end of token_type data
-                            j++;
+                        //while (data[j] != ',') // find end of token_type data
+                            //j++;
                         newVersion = (data.Substring(i + 1, j - (i + 2))); // parse version
 
                         i = j; // jump
                     }
+
+                    if (data[i] == 'c' && data[i + 1] == 'u' && data[i + 2] == 'r' && data[i + 3] == 'r' && data[i + 4] == 'e' && data[i + 5] == 'n' && data[i + 6] == 't' && data[i + 7] == 'c' && data[i + 8] == 'o' && data[i + 9] == 'u' && data[i + 10] == 'r' && data[i + 10] == 's' && data[i + 11] == 'e')
+                    {
+                        //Debug.Log(" Vi kom in i tokens_types if-sats.");
+                        i += "currentcourse\":".Length; // skip forward to the token_type data
+                        int j = i;
+                        //while (data[j] != ',') // find end of token_type data
+                        //j++;
+                        newVersion = (data.Substring(i + 1, j - (i + 2))); // parse version
+
+                        i = j; // jump
+                    }
+
                     if (data[i] == 'r' && data[i + 1] == 'e' && data[i + 2] == 'f' && data[i + 3] == 'r' && data[i + 4] == 'e' && data[i + 5] == 's' && data[i + 6] == 'h' && data[i + 7] == '_' && data[i + 8] == 't' && data[i + 9] == 'o' && data[i + 10] == 'k' && data[i + 11] == 'e' && data[i + 12] == 'n')
                     {
                         //Debug.Log(" Vi kom in i tokens_types if-sats.");
