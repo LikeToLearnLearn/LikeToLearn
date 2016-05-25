@@ -223,9 +223,9 @@ public class Parser {
                         //Debug.Log(" Vi kom in i tokens_types if-sats.");
                         i += "version\":".Length; // skip forward to the token_type data
                         int j = i;
-                        while (data[j] != '"') // find end of version
+                        while (data[j] != ',') // find end of version
                             j++;
-                        newVersion = (data.Substring(i + 1, j)); // parse version
+                        newVersion = (data.Substring(i + 1, j-1)); // parse version
 
                         i = j; // jump
                     }
