@@ -128,6 +128,7 @@ public class Parser {
                             if (version != newVersion && newVersion != "")
                             {
                                 version = newVersion;
+                                Debug.Log("Verion: " + version + " tas emot");
                                 HasNewVersion = true;
                             }
 
