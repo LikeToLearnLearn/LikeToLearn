@@ -225,7 +225,7 @@ public class Parser {
                         int j = i;
                         while (data[j] != ',') // find end of version
                             j++;
-                        newVersion = (data.Substring(i + 1, j)); // parse version
+                        newVersion = (data.Substring(i + 1, j-2)); // parse version
 
                         i = j; // jump
                     }
