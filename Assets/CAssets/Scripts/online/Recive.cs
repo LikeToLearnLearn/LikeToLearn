@@ -114,26 +114,30 @@ public class Recive : MonoBehaviour {
                 ping = null
                 ;
             }
-        
+         //Om det kommer en ny version på en gammal kurs
         if (parse != null && parse.HasNewVersion && parse.coursecode == GameController.control.getCurrentCourseCode())
         {
             int v = int.Parse(parse.version);
+            Debug.Log("Den gamla versionen av kurs " + parse.coursecode + " är " + GameController.control.getCurrentCourseCode() + " och den nya verionen är " + v + ".");
 
+           
             if (v != GameController.control.getCurrentCourseVersion(parse.coursecode))
             {
                 getNewQuestions(GameController.control.name);
                 GameController.control.setCurrentCourseVersion(coursecode, v);
+                getCurrentMoment(GameController.control.name);
                 parse.HasNewVersion = false;
-
+                parse.HasNewCourseCode = false;
             }
         }
-
+        // Om det kommer en ny kurs
         if (parse != null && parse.HasNewCourseCode && parse.coursecode != GameController.control.getCurrentCourseCode())
         {
+            Debug.Log("Det kommer en ny kurs med kurskod " + parse.coursecode);
             getNewQuestions(GameController.control.name);
+            getCurrentMoment(GameController.control.name);
             parse.HasNewCourseCode = false;
         }
-
     }
 
     public bool Online()
@@ -287,34 +291,45 @@ public class Recive : MonoBehaviour {
 
     public bool getNewQuestions(string userid)
     {
-        /* string url = string.Format(presentIP + ":8181/questions");
-         var www = new WWW(url);
-         StartCoroutine(WaitForRequest(www, courseList));
-         if (parse == null) return false;*/
-
-        //--------------------Över stecket finns koden som fungerade innan vi la till login
-
-        //Debug.Log(" Userid i recive är nu = " + userid);
         WWWForm form1 = new WWWForm();
         form1.AddField("userid", userid);
 
         Dictionary<String, String> headers1 = new Dictionary<string, string>();
         byte[] rawData1 = form1.data;
         string url1 = string.Format(presentIP + ":8181/liketolearn/questions");
-        headers1.Add("Authorization", token_type /*"Bearer"*/ + " " + access_token);
+        headers1.Add("Authorization", token_type + " " + access_token);
 
-        Debug.Log("Recives getNewQuestions körs" );
+        //Debug.Log("Recives getNewQuestions körs" );
+
+        if (online && !GameController.control.testmode)
+        {
+            WWW www1 = new WWW(url1, rawData1, headers1);
+            StartCoroutine(WaitForRequest(www1, courseList, 2));
+        } 
+        return parse.HasNewResult;
+    }
+
+    public bool getCurrentMoment(string userid)
+    {
+        WWWForm form1 = new WWWForm();
+        form1.AddField("userid", userid);
+
+        Dictionary<String, String> headers1 = new Dictionary<string, string>();
+        byte[] rawData1 = form1.data;
+        string url1 = string.Format(presentIP + ":8181/liketolearn/finishedmoments");
+        headers1.Add("Authorization", token_type /*"Bearer"*/ + " " + access_token);
 
         if (online && !GameController.control.testmode)
         {
             WWW www1 = new WWW(url1, rawData1, headers1);
             StartCoroutine(WaitForRequest(www1, courseList, 2));
         }
-        //------------------------------
-
-        //return true; // 
         return parse.HasNewResult;
     }
+
+
+
+
 
     public void DoneMoment(string userid, string momentcode, float time)
     {        

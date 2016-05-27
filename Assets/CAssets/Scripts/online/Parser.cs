@@ -167,7 +167,7 @@ public class Parser {
 
                             if (HasNewResult/*&& HasNewVersion || coursecode!= GameController.control.getCurrentCourseCode()*/)
                             { 
-                                Debug.Log("Tar emot coursecode som: " + coursecode + ", momentcode sparas som: " + momentcode + " questionID sparas som: " + questionID + ", question sparas som: " + question + ", answer sparas som: " + answer);
+                                //Debug.Log("Tar emot coursecode som: " + coursecode + ", momentcode sparas som: " + momentcode + " questionID sparas som: " + questionID + ", question sparas som: " + question + ", answer sparas som: " + answer);
                                 createNewCourse();
                                 HasNewResult = false;
                                 save = false;
@@ -220,13 +220,13 @@ public class Parser {
 
                     if (data[i] == 'v' && data[i + 1] == 'e' && data[i + 2] == 'r' && data[i + 3] == 's' && data[i + 4] == 'i' && data[i + 5] == 'o' && data[i + 6] == 'n')
                     {
-                        //Debug.Log(" Vi kom in i tokens_types if-sats.");
                         i += "version\":".Length; // skip forward to the token_type data
                         int j = i;
                         while (data[j] != ',') // find end of version
                             j++;
-                        newVersion = (data.Substring(i + 1, j-2)); // parse version
+                        newVersion = (data.Substring(i + 1, j - (i + 1))); // parse version
 
+                        Debug.Log(" Vi kom in i versions if-sats. Den nya versionen är " + newVersion);
                         i = j; // jump
                     }
 
