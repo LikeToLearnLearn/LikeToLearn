@@ -17,7 +17,7 @@ public class Question {
 	public string answer;
     public string questionId;
 	private int index;
-    private Connection connection;
+
 
 	public Question(Course course, int level, string questionID, string question, string answer)
 	{

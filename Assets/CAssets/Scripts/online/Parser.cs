@@ -9,7 +9,8 @@ public class Parser {
     public string question { get; private set; }
     public string answer { get; private set; }
     public string version = "-1";
-    
+    public string momentID;
+
 
     public string questionID { get; private set; }
     public string access_token { get; private set; }
@@ -23,7 +24,7 @@ public class Parser {
     public bool HasNewAccess_token { get; set; } // indicated if the object has a new access_token
     public bool HasNewToken_type { get; set; } // indicated if the object has a new token_type
     public bool HasNewRefresh_token { get; set; } // indicated if the object has a new token_type
-
+    public bool HasNewMomentID { get; set; }
 
     private enum State { open, array, obj }; // keeps track of the mode the parser has reached 
     public System.Collections.Generic.List<Course> courseList { get; set; }
@@ -31,6 +32,8 @@ public class Parser {
     private int defaultAnswer = 0;
     public bool authorization{ get; set; }
     public bool HasCheckedLoggin;
+
+    private int momentnr = 0;
    
 
     public Parser(string data, System.Collections.Generic.List<Course> courseList, int function)
@@ -41,6 +44,7 @@ public class Parser {
         question = string.Empty;
         answer = string.Empty;
         questionID = string.Empty;
+        momentID = string.Empty;
 
         HasResult = false;
         HasNewResult = false;
@@ -55,8 +59,6 @@ public class Parser {
         //else if (data != null) Authorization(data); // Fix me!!
         HasCheckedLoggin = false;
 
-        //else if (data != null) Authorization(data);
-        //Debug.Log("Vi är i parser");
   
     }
 
@@ -74,7 +76,6 @@ public class Parser {
 
     public void parseJson(string data)
     {
-        //Debug.Log("Vi är i början av parseJson");
         State st = State.open; // start outside any data structure
         string newCoursecode = string.Empty; // most recently read timestamp that may be saved
         string newMomentcode = string.Empty; // most recently read value that may be saved
@@ -85,6 +86,7 @@ public class Parser {
         string newAccess_token = string.Empty;
         string newToken_type = string.Empty;
         string newRefreshToken = string.Empty;
+        string newMomentID = string.Empty;
 
         bool save = false; // indicates if the candidate value should replace the result value
 
@@ -129,7 +131,7 @@ public class Parser {
                             if (version != newVersion && newVersion != "")
                             {
                                 version = newVersion;
-                                Debug.Log("Verion: " + version + " tas emot");
+                                //Debug.Log("Verion: " + version + " tas emot");
                                 HasNewVersion = true;
                             }
 
@@ -148,6 +150,14 @@ public class Parser {
                             {
                                 questionID = newQuestionID;
                                 HasNewResult = true;
+                                
+                            }
+
+                            if (momentID != newMomentID && newMomentID != "")
+                            {
+                                momentID = newMomentID;
+                                HasNewMomentID = true;
+                                //Debug.Log("MomentID: " + momentID + " tas emot i parsern");
                             }
                             if (access_token != newAccess_token && newAccess_token != null && newAccess_token != "")
                             {
@@ -218,6 +228,17 @@ public class Parser {
                         i = j; // jump
                     }
 
+                     if (data[i] == 'c' && data[i + 1] == 'o' && data[i + 2] == 'u' && data[i + 3] == 'r' && data[i + 4] == 's' && data[i + 5] == 'e' && data[i + 6] == 'c' && data[i + 7] == 'o' && data[i + 8] == 'd' && data[i + 9] == 'e')
+                        {
+                            i += "coursecode\":".Length; // skip forward to the coursecode data
+                            int j = i;
+                            while (data[j] != ',') // find end of coursecode data
+                                j++;
+                            newCoursecode = (data.Substring(i +1 , j - (i + 2))); // parse coursecode
+                        
+                            i = j; // jump to momentcode
+                        }
+
                     if (data[i] == 'v' && data[i + 1] == 'e' && data[i + 2] == 'r' && data[i + 3] == 's' && data[i + 4] == 'i' && data[i + 5] == 'o' && data[i + 6] == 'n')
                     {
                         i += "version\":".Length; // skip forward to the token_type data
@@ -226,7 +247,21 @@ public class Parser {
                             j++;
                         newVersion = (data.Substring(i + 1, j - (i + 1))); // parse version
 
-                        Debug.Log(" Vi kom in i versions if-sats. Den nya versionen är " + newVersion);
+                        //Debug.Log(" Vi kom in i versions if-sats. Den nya versionen är " + newVersion);
+                        i = j; // jump
+                    }
+
+                    if (data[i] == 'm' && data[i + 1] == 'o' && data[i + 2] == 'm' && data[i + 3] == 'e' && data[i + 4] == 'n' && data[i + 5] == 't' && data[i + 6] == 'i' && data[i + 7] == 'd')
+                    {
+                        i += "momentid\":".Length; // skip forward to the token_type data
+                        int j = i;
+                        while (data[j] != ',') // find end of version
+                            j++;
+                        newMomentID = (data.Substring(i + 1, j - (i + 1))); // parse momentID
+
+                        //Debug.Log(" Vi kom in i moments if-sats i parsern. Det nya momentID: är " + newMomentID);
+                        if (newMomentID != "0") momentnr++;
+                        GameController.control.SetCurrentLevel(newCoursecode, momentnr);
                         i = j; // jump
                     }
 
@@ -242,16 +277,7 @@ public class Parser {
                         i = j; // jump
                     }
 
-                    if (data[i] == 'c' && data[i + 1] == 'o' && data[i + 2] == 'u' && data[i + 3] == 'r' && data[i + 4] == 's' && data[i + 5] == 'e' && data[i + 6] == 'c' && data[i + 7] == 'o' && data[i + 8] == 'd' && data[i + 9] == 'e')
-                    {
-                        i += "coursecode\":".Length; // skip forward to the coursecode data
-                        int j = i;
-                        while (data[j] != ',') // find end of coursecode data
-                            j++;
-                        newCoursecode = (data.Substring(i +1 , j - (i + 2))); // parse coursecode
-                        
-                        i = j; // jump to momentcode
-                    }
+                   
 
                       else if (data[i] == 'm' && data[i + 1] == 'o' && data[i + 2] == 'm' && data[i + 3] == 'e' && data[i + 4] == 'n' && data[i + 5] == 't' && data[i + 6] == 'c' && data[i + 7] == 'o' && data[i + 8] == 'd' && data[i + 9] == 'e')
                     {

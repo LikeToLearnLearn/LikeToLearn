@@ -58,7 +58,7 @@ public abstract class Course {
     {
         takenTime = 0;
         GameController.control.ResetTakenTime(coursecode);
-        Debug.Log("Nu börjar en ny tidtaging för level nr " + level);
+        Debug.Log("Nu börjar en ny tidtaging för ett nytt moment");
     }
 
     public string getCoursecode()
@@ -140,8 +140,8 @@ public abstract class Course {
             //Debug.Log("Kursen med kurskoden " + coursecode + " har för närvarade " + levels.Count + " levels. Det finns en level som heter " + level);
             var xs = questions[level];
             var y = GameController.control.GetCurrentLevel(coursecode) + 1;
-            if (xs.Count <= xs.Count(x => results[x] > 1) && y > result) // byt 1:an till en 3:a????
-            //if(tillfällig%5 == 0)
+            //if (xs.Count <= xs.Count(x => results[x] > 1) && y > result) // byt 1:an till en 3:a????
+            if(tillfällig%5 == 0)
             {
                 tillfällig = 1;
                 result = y;

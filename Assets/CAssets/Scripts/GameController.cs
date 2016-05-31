@@ -69,6 +69,8 @@ public class GameController : MonoBehaviour {
         if (data.CurrentCourseVersion.ContainsKey(coursecode))
             data.CurrentCourseVersion[coursecode] = version;
         else data.CurrentCourseVersion.Add(coursecode, version);
+
+        //Debug.Log("I setCurrentCourseVersion tas " + version + " emot. data.CurrentCourseVersion[" + coursecode + "] blir: " + data.CurrentCourseVersion[coursecode]);
     }
 
     public void addTakenMomentTime(float time)
@@ -106,6 +108,8 @@ public class GameController : MonoBehaviour {
         {
             if (!data.CurrentLevel.ContainsKey(courseCode)) data.CurrentLevel.Add(courseCode, level);
             else data.CurrentLevel[courseCode] = level;
+
+            Debug.Log("I GameControllers SetCurrentLevel sätts data.CurrentLevel[" + courseCode + "] till: " + data.CurrentLevel[courseCode]);
         }
     }
 
@@ -261,6 +265,11 @@ public class GameController : MonoBehaviour {
 		}
 	}
 
+    public void setPassword(string password)
+    {
+        data.password = password;
+    }
+
 	public void NewGame(string name, string password)
 	{
 		name = name.Trim();
@@ -295,7 +304,8 @@ public class GameController : MonoBehaviour {
             {
                 global.games[global.currentGame] = global.gameCount++;
                 data = new GameData();
-                data.password = password;
+                //data.password = password;
+                setPassword(password);
                 //Debug.Log("Det lösenord som sparas är: " + data.password);
             }
             // add player to math course for now
@@ -397,56 +407,61 @@ public class GameController : MonoBehaviour {
 
 	public void LoadGame(string name, string password)
 	{
-        //Debug.Log("I GameControllers LoadGame är password = " + password);  
+        //Debug.Log("I GameControllers LoadGame är password = " + password); 
+        if (recive.Login(name, password) || !recive.Online())
+        {
+            
             global.currentGame = name;
             this.name = name.Trim();
             if (name == "testmode") testmode = true;
 
             var filePath = SaveFileName(name);
-        /*var content = File.Exists(filePath) ?
-            (GameData)ReadFile(filePath) :
-            new GameData();*/
-        GameData content = null;
-        if (File.Exists(filePath))
-        {
-            content = (GameData)ReadFile(filePath);
-            //Debug.Log(" Det fanns en sparfil för " + name + " Lösenordet är: " + content.password);
-        }
-        else
-        {
-            content = new GameData();
-            //Debug.Log(" Det fanns ingen sparfil för " + name);
-        }
+            GameData content = null;
+            if (File.Exists(filePath))
+            {
+                content = (GameData)ReadFile(filePath);
+                //Debug.Log(" Det fanns en sparfil för " + name + " Lösenordet är: " + content.password);
+            }
+            else
+            {
+                content = new GameData();
+                //Debug.Log(" Det fanns ingen sparfil för " + name);
+            }
 
-        if (content == null)
+            if (content == null)
             {
                 print("Failed to load game save");
                 content = new GameData();
             }
 
-        //Debug.Log(" Det sparade lösenordet är: " + content.password
-        //+ " Den sparade currencourse är: " + content.currentCourse + "CurrentScene är: " + content.currentScene);
-        
-        if (content.password != password)
-        {
-            Debug.Log("wrong password"+ "! Det rätta lösenordet är: " + content.password);
-                return;
-        }
+            data = content;
 
-        data = content;
-        sceneHandler.ChangeScene("new", data.currentScene);
+            if (recive.Online()) setPassword(password);
+
+            //Debug.Log(" Det sparade lösenordet är: " + content.password
+            //+ " Den sparade currencourse är: " + content.currentCourse + "CurrentScene är: " + content.currentScene);
+
+           if (data.password != password)
+            {
+                Debug.Log("wrong password" + "! Det rätta lösenordet är: " + content.password);
+                return;
+            }
+
+            
+            sceneHandler.ChangeScene("new", data.currentScene);
             //GameObject conn = GameObject.Find("ConnectionHandler");
             //recive = conn.GetComponent<Recive>();
-        Course m = new MultiplicationCourse();
-        data.coruses.Add(m);// To do: sätt en vakt här som kollar att m inte redan finns i coruses
-        recive.setCourseList(data.coruses);
-        Debug.Log(" När detta spelet börjar finns det " + data.coruses.Count + " kurser i sparfilen för " + name);
-        string s = "Det är:";
-        foreach (Course c in data.coruses) s = s + " " + c.getCoursecode();
-        Debug.Log(s);
+            Course m = new MultiplicationCourse();
+            if(!data.coruses.Contains(m)) data.coruses.Add(m);
+            recive.setCourseList(data.coruses);
+            Debug.Log(" När detta spelet börjar finns det " + data.coruses.Count + " kurser i sparfilen för " + name);
+            string s = "Det är:";
+            foreach (Course c in data.coruses) s = s + " " + c.getCoursecode();
+            Debug.Log(s);
             //recive.authentication();
-        AskForNewQuestions();
-        if (data.currentCourse == null) setCurrentcourse(m);
+            AskForNewQuestions();
+            if (data.currentCourse == null) setCurrentcourse(m);
+        }
     }
 
 	public void DeleteGame(string name) // not tested
