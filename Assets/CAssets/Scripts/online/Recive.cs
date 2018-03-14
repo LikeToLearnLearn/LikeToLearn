@@ -12,7 +12,7 @@ public class Recive : MonoBehaviour {
     private const bool allowCarrierDataNetwork = false;
     private const string pingAddress = "127.0.0.1";//"8.8.8.8";//  presentIP; Fix me!!!! 
     private const float waitingTime = 2.0f;
-    private const string presentIP = "liketolearn.cloudapp.net"; //"semconliketolearn.cloudapp.net"; ////"192.168.254.154"; // Kurts ipadress
+    private const string presentIP = "127.0.0.1";//"liketolearnserver.jsx.se";//, "liketolearn.cloudapp.net";//  //"semconliketolearn.cloudapp.net"; ////"192.168.254.154"; // Kurts ipadress
 
     private Ping ping;
     private float pingStartTime;
@@ -62,7 +62,7 @@ public class Recive : MonoBehaviour {
                 internetPossiblyAvailable = false;
                 break;
         }
-        if (!internetPossiblyAvailable)
+        //if (!internetPossiblyAvailable)
         {
             InternetIsNotAvailable();
             return;
@@ -199,7 +199,7 @@ public class Recive : MonoBehaviour {
             form.AddField("grant_type", "password");        
             byte[] rawData = form.data;
                                                             // En url för rätt flik i REST API:n skapas:
-            string url = string.Format(presentIP + ":8181/oauth/token");    
+            string url = string.Format(presentIP + ":8080/oauth/token");    
 
                                                              // Servernamn och serverlösenord kodas:
             String encoded = System.Convert.ToBase64String
@@ -227,7 +227,7 @@ public class Recive : MonoBehaviour {
 
         byte[] rawData1 = form.data;
 
-        string url = string.Format(presentIP + ":8181/liketolearn/login");
+        string url = string.Format(presentIP + ":8080/liketolearn/login");
         
         if (online && !GameController.control.testmode)
         {
@@ -244,7 +244,7 @@ public class Recive : MonoBehaviour {
     {
         WWWForm form1 = new WWWForm();
         form1.AddField("userid", userid);
-        string url1 = string.Format(presentIP + ":8181/liketolearn/version");
+        string url1 = string.Format(presentIP + ":8080/liketolearn/version");
 
         Dictionary<String, String> headers1 = new Dictionary<string, string>();
         byte[] rawData1 = form1.data;
@@ -264,7 +264,7 @@ public class Recive : MonoBehaviour {
 
         Dictionary<String, String> headers1 = new Dictionary<string, string>();
         byte[] rawData1 = form1.data;
-        string url1 = string.Format(presentIP + ":8181/liketolearn/finishedmoments");
+        string url1 = string.Format(presentIP + ":8080/liketolearn/finishedmoments");
         headers1.Add("Authorization", token_type /*"Bearer"*/ + " " + access_token);
 
         if (online && !GameController.control.testmode)
@@ -283,7 +283,7 @@ public class Recive : MonoBehaviour {
 
         Dictionary<String, String> headers1 = new Dictionary<string, string>();
         byte[] rawData1 = form1.data;
-        string url1 = string.Format(presentIP + ":8181/liketolearn/questions");
+        string url1 = string.Format(presentIP + ":8080/liketolearn/questions");
         headers1.Add("Authorization", token_type + " " + access_token);
 
         //Debug.Log("Recives getNewQuestions körs" );
@@ -305,7 +305,7 @@ public class Recive : MonoBehaviour {
         form1.AddField("userid", userid);
         Dictionary<String, String> headers1 = new Dictionary<string, string>();
         byte[] rawData1 = form1.data;
-        string url1 = string.Format(presentIP + ":8181/liketolearn/statistics");
+        string url1 = string.Format(presentIP + ":8080/liketolearn/statistics");
         headers1.Add("Authorization", token_type + " " + access_token);
 
 
@@ -340,7 +340,7 @@ public class Recive : MonoBehaviour {
         form1.AddField("time", t);
         Dictionary<String, String> headers1 = new Dictionary<string, string>();
         byte[] rawData1 = form1.data;
-        string url1 = string.Format(presentIP + ":8181/liketolearn/time");
+        string url1 = string.Format(presentIP + ":8080/liketolearn/time");
         headers1.Add("Authorization", token_type + " " + access_token);
 
         if (online && !GameController.control.testmode)
