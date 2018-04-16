@@ -4,7 +4,7 @@ using UnityStandardAssets.CrossPlatformInput;
 
 public class BoatController : MonoBehaviour {
 
-	public float turnSpeed = 3f;
+	public float turnSpeed = 5f;
 	public float forwardSpeed = 5f;
     public float maxTurnTorque = 0.5f;
 

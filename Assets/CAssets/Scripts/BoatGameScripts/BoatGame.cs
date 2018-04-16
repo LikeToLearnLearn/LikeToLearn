@@ -1,4 +1,4 @@
-﻿﻿using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 using System;
 
@@ -30,6 +30,7 @@ public class BoatGame : MiniGameAbstract
 
         // Disable player components and camera
         GameObject player = GameObject.FindGameObjectWithTag("Player");
+		GameObject boatExitTrigger = GameObject.FindGameObjectWithTag("BoatExitTrigger");
         Component[] components = player.GetComponents<MonoBehaviour>();
         foreach (MonoBehaviour comp in components)
         {
@@ -45,7 +46,7 @@ public class BoatGame : MiniGameAbstract
         boatrb.constraints = RigidbodyConstraints.FreezePositionY; //| RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
         boatCam.SetActive(true);
         //exitTrigger.StartTimer(); // timer for minimum time before exiting (prevents boat stuck in exit trigger)
-
+		boatExitTrigger.SetActive(true);
         base.StartGame();
     }
 
