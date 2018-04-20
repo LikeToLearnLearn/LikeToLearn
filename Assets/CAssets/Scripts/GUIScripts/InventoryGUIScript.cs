@@ -18,7 +18,8 @@ public class InventoryGUIScript : ItemDisplayAbstract {
         setUpItems (newDictionary);
 	}
 
-	// Update is called once per frame
+	
+    // Update is called once per frame
 	void Update () {
 
 	}
@@ -56,8 +57,8 @@ public class InventoryGUIScript : ItemDisplayAbstract {
 	}
 
 	private void SetMoney(){
-		int money = GameController.control.GetBalance ();
-		transform.FindChild ("Panel").FindChild ("MoneyPanel").FindChild ("MoneyText").GetComponent<Text> ().text = "Money: " + money;
+		int money = GameController.control.GetBalance();
+		transform.FindChild ("Panel").FindChild ("MoneyPanel").FindChild ("MoneyText").GetComponent<Text> ().text = "Money: " + money.ToString();
 	}
 
 

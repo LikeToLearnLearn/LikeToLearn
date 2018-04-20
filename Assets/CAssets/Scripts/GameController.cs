@@ -8,6 +8,7 @@ using System.Runtime.Serialization;
 using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour {
+    public int currencyBalance = 0;
 
 	public enum Language {	English, Swedish };
 	public enum Item {
@@ -549,23 +550,31 @@ public class GameController : MonoBehaviour {
 
 	public int GetBalance()
 	{
-		return GetAmount(Item.OneCoin)
-			+ GetAmount(Item.FiveCoin) * 5
-			+ GetAmount(Item.TenCoin) * 10
-			+ GetAmount(Item.TwentyBill) * 20
-			+ GetAmount(Item.HundredBill) * 100
-			+ GetAmount(Item.ThousandBill) * 1000;
-	}
+        return GetAmount(Item.OneCoin)
+            + GetAmount(Item.FiveCoin) * 5
+            + GetAmount(Item.TenCoin) * 10
+            + GetAmount(Item.TwentyBill) * 20
+            + GetAmount(Item.HundredBill) * 100
+            + GetAmount(Item.ThousandBill) * 1000;
+    }
+    public int newGetBalance()
+    {
+        return currencyBalance;
+    }
 
+    public int newAddBalance(int n)
+    {
+        return currencyBalance += n;
+    }
 	public void AddBalance(int n)
 	{
-		AddItems(Item.ThousandBill, n / 1000);
-		AddItems(Item.HundredBill, (n % 1000) / 100);
-		AddItems(Item.TwentyBill, (n % 100) / 20);
-		AddItems(Item.TenCoin, (n % 20) / 10);
-		AddItems(Item.FiveCoin, (n % 10) / 5);
-		AddItems(Item.OneCoin, n % 5);
-	}
+        AddItems(Item.ThousandBill, n / 1000);
+        AddItems(Item.HundredBill, (n % 1000) / 100);
+        AddItems(Item.TwentyBill, (n % 100) / 20);
+        AddItems(Item.TenCoin, (n % 20) / 10);
+        AddItems(Item.FiveCoin, (n % 10) / 5);
+        AddItems(Item.OneCoin, n % 5);
+    }
 
 	public Question GetQuestion(int alternatives)
 	{

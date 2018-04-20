@@ -11,7 +11,19 @@ public class PayScript : MonoBehaviour {
 	int itemAmount;
 	string item;
 
-	public static Dictionary<string, string> CoinValues = new Dictionary<string, string>() {
+    [System.Serializable]
+    public class ValueTexts
+    {
+        public Text coin1;
+        public Text coin5;
+        public Text coin10;
+        public Text coin20;
+        public Text coin100;
+    }
+
+    public ValueTexts moneyText;
+   
+    public static Dictionary<string, string> CoinValues = new Dictionary<string, string>() {
 		{ "1", "OneCoin" },
 		{ "5", "FiveCoin" },
 		{ "10", "TenCoin" },
